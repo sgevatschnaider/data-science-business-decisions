@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cuestionario interactivo del módulo Calidad de datos y valores faltantes.">
+  <meta name="author" content="Sergio Gevatschnaider">
+  <meta name="theme-color" content="#082f49">
+  <title>Cuestionario: Calidad y faltantes | Datos y Decisiones</title>
+  <link rel="stylesheet" href="../../assets/css/course.css">
+</head>
+        <body class="quiz-page" data-module-id="02" data-page-kind="cuestionario">
+          <a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+      <span class="brand-mark" aria-hidden="true">DD</span>
+      <span>
+        <strong>Datos y Decisiones</strong>
+        <small>Ciencia de datos aplicada</small>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false"
+            aria-controls="site-navigation">Menú</button>
+    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../proyecto-integrador.html">Proyecto</a>
+      <a href="../../profundizaciones.html">Profundizaciones</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
+      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
+        Tema
+      </button>
+    </nav>
+  </div>
+</header>
+          <main id="contenido">
+            <section class="page-hero compact">
+          <div class="container narrow">
+            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 02</a> / Cuestionario</p>
+            <p class="eyebrow">Autoevaluación · Módulo 02</p>
+            <h1>Cuestionario: Calidad y faltantes</h1>
+            <p class="hero-lead">Seis preguntas con corrección inmediata, explicación y segundo intento.</p>
+          </div>
+        </section>
+        <section class="container quiz-section">
+          <form class="quiz-form" data-quiz novalidate>
+            <fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="Repetir un mismo valor concentra la distribución y distorsiona relaciones.">
+                  <legend><span>01</span>¿Por qué imputar con la media puede ser problemático?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-1" value="0">
+  <span><b>A</b>Aumenta siempre la varianza</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="1">
+  <span><b>B</b>Puede reducir artificialmente la variabilidad</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="2">
+  <span><b>C</b>Elimina todas las filas</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="3">
+  <span><b>D</b>Convierte números en texto</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="La ausencia podría explicarse por una variable observada.">
+                  <legend><span>02</span>Si los ingresos faltan más entre independientes y la ocupación está observada, ¿qué mecanismo es plausible?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-2" value="0">
+  <span><b>A</b>MCAR necesariamente</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="1">
+  <span><b>B</b>MAR como hipótesis</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="2">
+  <span><b>C</b>No hay faltantes</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="3">
+  <span><b>D</b>Duplicación</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="Ajustarlo con test filtraría información hacia el entrenamiento.">
+                  <legend><span>03</span>¿Dónde debe ajustarse un imputador en un flujo predictivo?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-3" value="0">
+  <span><b>A</b>Con todo el dataset antes de dividir</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="1">
+  <span><b>B</b>Solo con entrenamiento</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="2">
+  <span><b>C</b>Solo con test</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="3">
+  <span><b>D</b>Después de publicar el modelo</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
+                          data-explanation="La validez puede formalizarse con límites permitidos.">
+                  <legend><span>04</span>¿Qué prueba detecta mejor una edad imposible?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-4" value="0">
+  <span><b>A</b>Regla de rango</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="1">
+  <span><b>B</b>Conteo de columnas</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="2">
+  <span><b>C</b>Cambio de color</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="3">
+  <span><b>D</b>Orden alfabético</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="La duplicación depende de la entidad y evento representados.">
+                  <legend><span>05</span>¿Cuándo son duplicados dos registros?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-5" value="0">
+  <span><b>A</b>Cuando tienen el mismo color</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="1">
+  <span><b>B</b>Según una clave y criterio de negocio</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="2">
+  <span><b>C</b>Cuando están consecutivos</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="3">
+  <span><b>D</b>Siempre que comparten un valor</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="El hecho de faltar puede contener información útil y auditable.">
+                  <legend><span>06</span>¿Qué aporta un indicador de ausencia?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-6" value="0">
+  <span><b>A</b>Recupera el valor real</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="1">
+  <span><b>B</b>Conserva una posible señal del proceso de captura</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="2">
+  <span><b>C</b>Evita validar</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="3">
+  <span><b>D</b>Garantiza causalidad</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset>
+            <div class="quiz-actions">
+              <button class="button primary" type="submit">Corregir respuestas</button>
+              <button class="button secondary" type="reset">Reiniciar</button>
+            </div>
+          </form>
+          <div class="quiz-result" data-quiz-result hidden tabindex="-1">
+            <span>Resultado</span>
+            <strong data-quiz-score>0 / 6</strong>
+            <p data-quiz-message></p>
+            <a class="button primary" href="glosario.html">Revisar glosario</a>
+          </div>
+          <div class="button-row centered">
+            <a class="button secondary" href="simulacion.html">Volver a la simulación</a>
+            <a class="button tertiary" href="index.html">Índice del módulo</a>
+          </div>
+        </section>
+          </main>
+          <footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
+    </div>
+    <div>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../accesibilidad.html">Accesibilidad</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+    </div>
+  </div>
+</footer>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/site.js"></script>
+          <script src="../../assets/js/module.js"></script>
+        </body>
+        </html>

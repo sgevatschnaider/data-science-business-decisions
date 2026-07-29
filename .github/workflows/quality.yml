@@ -1,0 +1,30 @@
+name: Calidad
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Preparar Python
+        uses: actions/setup-python@v7.0.0
+        with:
+          python-version: "3.13"
+
+      - name: Comprobar archivos generados
+        run: python scripts/build_course.py --check
+
+      - name: Validar curso
+        run: python scripts/validate_repo.py

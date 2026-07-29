@@ -1,0 +1,25 @@
+{
+  "course": "Ciencia de Datos para Decisiones de Negocio",
+  "modules": 15,
+  "simulations": 15,
+  "questions": 90,
+  "glossary_terms": 150,
+  "notebooks": 15,
+  "module_slugs": [
+    "00-orientacion-python",
+    "01-eda-negocio",
+    "02-calidad-datos",
+    "03-outliers",
+    "04-transformacion-pipelines",
+    "05-regresion-lineal",
+    "06-validacion-modelos",
+    "07-series-tiempo",
+    "08-regresion-logistica",
+    "09-arboles-ensembles",
+    "10-clustering",
+    "11-redes-neuronales",
+    "12-optimizacion",
+    "13-ia-responsable",
+    "14-proyecto-integrador"
+  ]
+}

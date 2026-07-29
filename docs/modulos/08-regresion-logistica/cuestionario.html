@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cuestionario interactivo del módulo Regresión logística y decisiones de clasificación.">
+  <meta name="author" content="Sergio Gevatschnaider">
+  <meta name="theme-color" content="#082f49">
+  <title>Cuestionario: Regresión logística | Datos y Decisiones</title>
+  <link rel="stylesheet" href="../../assets/css/course.css">
+</head>
+        <body class="quiz-page" data-module-id="08" data-page-kind="cuestionario">
+          <a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+      <span class="brand-mark" aria-hidden="true">DD</span>
+      <span>
+        <strong>Datos y Decisiones</strong>
+        <small>Ciencia de datos aplicada</small>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false"
+            aria-controls="site-navigation">Menú</button>
+    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../proyecto-integrador.html">Proyecto</a>
+      <a href="../../profundizaciones.html">Profundizaciones</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
+      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
+        Tema
+      </button>
+    </nav>
+  </div>
+</header>
+          <main id="contenido">
+            <section class="page-hero compact">
+          <div class="container narrow">
+            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 08</a> / Cuestionario</p>
+            <p class="eyebrow">Autoevaluación · Módulo 08</p>
+            <h1>Cuestionario: Regresión logística</h1>
+            <p class="hero-lead">Seis preguntas con corrección inmediata, explicación y segundo intento.</p>
+          </div>
+        </section>
+        <section class="container quiz-section">
+          <form class="quiz-form" data-quiz novalidate>
+            <fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="El mismo puntaje produce decisiones distintas según el corte.">
+                  <legend><span>01</span>Cambiar el umbral modifica:</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-1" value="0">
+  <span><b>A</b>Los coeficientes ya ajustados</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="1">
+  <span><b>B</b>La matriz de confusión</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="2">
+  <span><b>C</b>La variable objetivo histórica</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-1" value="3">
+  <span><b>D</b>El número de columnas</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
+                          data-explanation="Recall mide la cobertura de positivos reales.">
+                  <legend><span>02</span>Si es muy costoso omitir un positivo, conviene priorizar:</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-2" value="0">
+  <span><b>A</b>Recall</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="1">
+  <span><b>B</b>Solo especificidad</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="2">
+  <span><b>C</b>R cuadrado</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-2" value="3">
+  <span><b>D</b>Silhouette</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
+                          data-explanation="La calibración es una propiedad frecuentista de grupos de predicciones.">
+                  <legend><span>03</span>Una probabilidad bien calibrada de 0,7 implica:</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-3" value="0">
+  <span><b>A</b>Certeza individual</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="1">
+  <span><b>B</b>Aproximadamente 70 por ciento de eventos en grupos comparables</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="2">
+  <span><b>C</b>70 variables</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-3" value="3">
+  <span><b>D</b>Un umbral obligatorio</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
+                          data-explanation="Precision-recall enfoca el rendimiento sobre la clase positiva.">
+                  <legend><span>04</span>Con una clase positiva muy escasa suele ser útil mirar:</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-4" value="0">
+  <span><b>A</b>PR-AUC</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="1">
+  <span><b>B</b>Solo accuracy</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="2">
+  <span><b>C</b>Rango</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-4" value="3">
+  <span><b>D</b>MSE del predictor</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
+                          data-explanation="La decisión óptima depende de consecuencias y restricciones.">
+                  <legend><span>05</span>¿Por qué 0,5 no es un umbral universal?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-5" value="0">
+  <span><b>A</b>Porque costos y capacidad cambian</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="1">
+  <span><b>B</b>Porque no está entre cero y uno</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="2">
+  <span><b>C</b>Porque elimina probabilidades</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-5" value="3">
+  <span><b>D</b>Porque solo sirve para regresión lineal</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
+                          data-explanation="Un modelo puede ordenar bien y producir probabilidades sesgadas.">
+                  <legend><span>06</span>¿Qué distingue discriminación de calibración?</legend>
+                  <div class="quiz-options"><label class="quiz-option">
+  <input type="radio" name="question-6" value="0">
+  <span><b>A</b>Ordenar casos frente a acertar frecuencias</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="1">
+  <span><b>B</b>No hay diferencia</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="2">
+  <span><b>C</b>Una usa texto y otra números</span>
+</label><label class="quiz-option">
+  <input type="radio" name="question-6" value="3">
+  <span><b>D</b>La cantidad de filas</span>
+</label></div>
+                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
+                </fieldset>
+            <div class="quiz-actions">
+              <button class="button primary" type="submit">Corregir respuestas</button>
+              <button class="button secondary" type="reset">Reiniciar</button>
+            </div>
+          </form>
+          <div class="quiz-result" data-quiz-result hidden tabindex="-1">
+            <span>Resultado</span>
+            <strong data-quiz-score>0 / 6</strong>
+            <p data-quiz-message></p>
+            <a class="button primary" href="glosario.html">Revisar glosario</a>
+          </div>
+          <div class="button-row centered">
+            <a class="button secondary" href="simulacion.html">Volver a la simulación</a>
+            <a class="button tertiary" href="index.html">Índice del módulo</a>
+          </div>
+        </section>
+          </main>
+          <footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
+    </div>
+    <div>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../accesibilidad.html">Accesibilidad</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+    </div>
+  </div>
+</footer>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/site.js"></script>
+          <script src="../../assets/js/module.js"></script>
+        </body>
+        </html>

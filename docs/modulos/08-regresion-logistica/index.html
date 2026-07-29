@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimar probabilidades, evaluar ranking y calibración, y elegir umbrales según costos, capacidad y valor.">
+  <meta name="author" content="Sergio Gevatschnaider">
+  <meta name="theme-color" content="#082f49">
+  <title>Regresión logística y decisiones de clasificación | Datos y Decisiones</title>
+  <link rel="stylesheet" href="../../assets/css/course.css">
+</head>
+        <body class="module-page" data-module-id="08" data-page-kind="index">
+          <a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+      <span class="brand-mark" aria-hidden="true">DD</span>
+      <span>
+        <strong>Datos y Decisiones</strong>
+        <small>Ciencia de datos aplicada</small>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false"
+            aria-controls="site-navigation">Menú</button>
+    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../proyecto-integrador.html">Proyecto</a>
+      <a href="../../profundizaciones.html">Profundizaciones</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
+      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
+        Tema
+      </button>
+    </nav>
+  </div>
+</header>
+          <main id="contenido">
+            <section class="module-hero">
+          <div class="container">
+            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="../../programa.html">Programa</a> / Módulo 08</p>
+            <div class="module-hero-grid">
+              <div>
+                <p class="eyebrow">Módulo 08 · Unidad II</p>
+                <h1>Regresión logística y decisiones de clasificación</h1>
+                <p class="hero-lead">Estimar probabilidades, evaluar ranking y calibración, y elegir umbrales según costos, capacidad y valor.</p>
+                <div class="module-facts">
+                  <span><strong>Dedicación</strong>2 encuentros</span>
+                  <span><strong>Requisitos</strong>Módulos 04 a 06</span>
+                </div>
+              </div>
+              <aside class="question-card">
+                <span>Pregunta de decisión</span>
+                <p>¿A quién conviene asignar una acción cuando los errores tienen costos distintos y la capacidad es limitada?</p>
+              </aside>
+            </div>
+          </div>
+        </section>
+        <div class="container module-layout">
+          <aside class="module-sidebar">
+            <div class="sidebar-block">
+              <strong>Progreso del módulo</strong>
+              <div class="mini-progress"><span data-module-progress-bar></span></div>
+              <p><span data-module-progress>0</span> de 5 recursos</p>
+            </div>
+            <nav aria-label="Secciones del módulo">
+              <a href="#indice">Índice interactivo</a>
+              <a href="#resultados">Resultados</a>
+              <a href="#conceptos">Conceptos</a>
+              <a href="#caso">Caso de negocio</a>
+              <a href="#laboratorio">Laboratorio</a>
+              <a href="#entregable">Entregable</a>
+            </nav>
+          </aside>
+          <div class="module-content">
+            <section id="indice" class="content-section first">
+              <div class="section-heading">
+                <p class="eyebrow">Centro del módulo</p>
+                <h2>Índice interactivo</h2>
+                <p>Abrí cada recurso y marcá el avance. El estado se conserva en tu navegador.</p>
+              </div>
+              <div class="table-wrap">
+          <table class="resource-table">
+            <caption>Índice interactivo del módulo</caption>
+            <thead><tr><th>Recurso</th><th>Acceso</th></tr></thead>
+            <tbody><tr><th scope="row">Guía del módulo</th><td><a class="table-link" href="index.html">Abrir recurso</a></td></tr>
+<tr><th scope="row">Simulación interactiva</th><td><a class="table-link" href="simulacion.html">Abrir recurso</a></td></tr>
+<tr><th scope="row">Cuestionario</th><td><a class="table-link" href="cuestionario.html">Abrir recurso</a></td></tr>
+<tr><th scope="row">Glosario</th><td><a class="table-link" href="glosario.html">Abrir recurso</a></td></tr>
+<tr><th scope="row">Notebook en Colab</th><td><a class="table-link" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/08-regresion-logistica.ipynb">Abrir recurso</a></td></tr></tbody>
+          </table>
+        </div>
+              <div class="progress-checklist"><label class="progress-item">
+  <input type="checkbox" data-progress-item="08:guia">
+  <span><strong>Guía conceptual</strong><small>Comprender propósito y conceptos</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="08:simulacion">
+  <span><strong>Simulación</strong><small>Explorar parámetros y resultados</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="08:notebook">
+  <span><strong>Notebook</strong><small>Aplicar con Python</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="08:cuestionario">
+  <span><strong>Cuestionario</strong><small>Comprobar comprensión</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="08:glosario">
+  <span><strong>Glosario</strong><small>Consolidar vocabulario</small></span>
+</label></div>
+            </section>
+            <section id="resultados" class="content-section">
+              <p class="eyebrow">Al completar el módulo</p>
+              <h2>Resultados de aprendizaje</h2>
+              <ul class="check-list"><li>Interpretar probabilidad, logit y odds.</li>
+<li>Leer matrices de confusión y métricas por clase.</li>
+<li>Distinguir discriminación, calibración y decisión.</li>
+<li>Elegir umbrales con costos y restricciones de capacidad.</li></ul>
+            </section>
+            <section id="conceptos" class="content-section">
+              <p class="eyebrow">Marco conceptual</p>
+              <h2>Ideas que organizan la práctica</h2>
+              <div class="theory-list"><article class="theory-card">
+  <span>01</span>
+  <div><h3>De puntaje a probabilidad</h3><p>La función logística transforma cualquier combinación lineal en un valor entre cero y uno. Los coeficientes son aditivos en log-odds y multiplicativos en odds.</p></div>
+</article>
+<article class="theory-card">
+  <span>02</span>
+  <div><h3>Métricas de clasificación</h3><p>Precision responde cuántos positivos señalados eran correctos; recall, cuántos positivos reales fueron encontrados. La clase y el costo determinan cuál importa.</p></div>
+</article>
+<article class="theory-card">
+  <span>03</span>
+  <div><h3>Ranking y calibración</h3><p>ROC-AUC evalúa ordenamiento global; PR-AUC es informativa con eventos escasos. Una probabilidad calibrada significa que grupos con puntaje similar exhiben frecuencias similares.</p></div>
+</article>
+<article class="theory-card">
+  <span>04</span>
+  <div><h3>Umbral como política</h3><p>El valor por defecto rara vez representa la decisión. Costos de falsos positivos y negativos, capacidad y beneficio esperado definen la política de acción.</p></div>
+</article></div>
+            </section>
+            <section id="caso" class="content-section">
+              <div class="case-panel">
+                <p class="eyebrow">Caso de negocio</p>
+                <h2>Decidir con contexto</h2>
+                <p>Una campaña de retención solo puede contactar al 15 por ciento de la cartera; el equipo debe ordenar riesgo y estimar valor neto por contacto.</p>
+                <a class="text-link" href="simulacion.html">Explorar en la simulación <span aria-hidden="true">-&gt;</span></a>
+              </div>
+            </section>
+            <section id="laboratorio" class="content-section">
+              <p class="eyebrow">Práctica guiada</p>
+              <h2>Secuencia de laboratorio</h2>
+              <ol class="step-list"><li><span>01</span>Definir clase positiva y consecuencias de error.</li>
+<li><span>02</span>Construir un baseline de prevalencia.</li>
+<li><span>03</span>Evaluar ranking, calibración y métricas a varios umbrales.</li>
+<li><span>04</span>Elegir una política compatible con capacidad y valor.</li></ol>
+              <div class="button-row">
+                <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/08-regresion-logistica.ipynb">Abrir notebook en Colab</a>
+                <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>
+              </div>
+            </section>
+            <section id="entregable" class="content-section">
+              <div class="deliverable-panel">
+                <span>Producto del módulo</span>
+                <h2>Entregable esperado</h2>
+                <p>Modelo probabilístico con curva de calibración, matriz de confusión, selección de umbral y matriz de costos.</p>
+              </div>
+            </section>
+            <nav class="module-pagination" aria-label="Navegación entre módulos">
+              <a class="module-nav-link previous" href="../07-series-tiempo/index.html"><small>Módulo anterior</small><strong>Series de tiempo</strong></a><a class="module-nav-link next" href="../09-arboles-ensembles/index.html"><small>Módulo siguiente</small><strong>Árboles y ensembles</strong></a>
+            </nav>
+          </div>
+        </div>
+          </main>
+          <footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
+    </div>
+    <div>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../accesibilidad.html">Accesibilidad</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+    </div>
+  </div>
+</footer>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/site.js"></script>
+          <script src="../../assets/js/module.js"></script>
+        </body>
+        </html>
