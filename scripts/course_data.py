@@ -1498,6 +1498,12 @@ MODULES = [
         ),
         "duration": "3 encuentros más TensorFlow Playground",
         "prerequisites": "Módulos 04 a 06",
+        "external_resources": [
+            {
+                "label": "TensorFlow Playground",
+                "url": "https://playground.tensorflow.org/",
+            },
+        ],
         "objectives": [
             "Explicar neurona, capa, activación, pérdida y gradiente.",
             "Relacionar capacidad, sobreajuste y regularización.",

@@ -1,43 +1,43 @@
 # Módulo 12: Programación lineal y analítica prescriptiva
 
-        Convertir pronósticos y costos en decisiones óptimas bajo restricciones de capacidad, presupuesto y operación.
+Convertir pronósticos y costos en decisiones óptimas bajo restricciones de capacidad, presupuesto y operación.
 
-        ## Pregunta de decisión
+## Pregunta de decisión
 
-        ¿Qué combinación de acciones maximiza valor respetando recursos, reglas y compromisos del sistema?
+¿Qué combinación de acciones maximiza valor respetando recursos, reglas y compromisos del sistema?
 
-        ## Índice interactivo
+## Índice interactivo
 
-        | Recurso | Acceso |
-        |---|---|
-        | Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/index.html) |
+| Recurso | Acceso |
+|---|---|
+| Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/index.html) |
 | Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/simulacion.html) |
 | Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/cuestionario.html) |
 | Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/glosario.html) |
 | Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/12-optimizacion.ipynb) |
 
-        ## Resultados de aprendizaje
+## Resultados de aprendizaje
 
-        - Definir variables de decisión, objetivo y restricciones.
+- Definir variables de decisión, objetivo y restricciones.
 - Interpretar región factible, solución óptima y holguras.
 - Distinguir modelos lineales continuos y enteros.
 - Integrar predicción, escenarios y optimización.
 
-        ## Caso de negocio
+## Caso de negocio
 
-        Una fábrica elige cantidades de dos productos con horas de máquina y materia prima limitadas, demanda máxima y márgenes diferentes.
+Una fábrica elige cantidades de dos productos con horas de máquina y materia prima limitadas, demanda máxima y márgenes diferentes.
 
-        ## Secuencia de práctica
+## Secuencia de práctica
 
-        1. Identificar decisiones, unidades y parámetros.
+1. Identificar decisiones, unidades y parámetros.
 2. Escribir objetivo y restricciones antes de programar.
 3. Resolver y validar factibilidad de la solución.
 4. Variar márgenes o capacidades y explicar el cambio.
 
-        ## Entregable
+## Entregable
 
-        Modelo matemático, solución reproducible, análisis de holguras y dos escenarios de sensibilidad.
+Modelo matemático, solución reproducible, análisis de holguras y dos escenarios de sensibilidad.
 
-        ## Autoría
+## Autoría
 
-        Material elaborado por el profesor Sergio Gevatschnaider.
+Material elaborado por el profesor Sergio Gevatschnaider.

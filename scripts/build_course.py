@@ -166,6 +166,8 @@ def resource_table(module: dict, relative: bool = True) -> str:
             "Glosario": module_url(module, "glosario.html"),
             "Notebook en Colab": notebook_url(module),
         }
+    for resource in module.get("external_resources", []):
+        links[resource["label"]] = resource["url"]
     rows = "\n".join(
         (
             f"<tr><th scope=\"row\">{esc(label)}</th>"
@@ -567,6 +569,13 @@ def module_index(module: dict) -> str:
         f"<li><span>{index:02d}</span>{esc(item)}</li>"
         for index, item in enumerate(module["lab_steps"], start=1)
     )
+    external_buttons = "".join(
+        (
+            f'\n                <a class="button tertiary" href="{esc(resource["url"])}">'
+            f'{esc(resource["label"])}</a>'
+        )
+        for resource in module.get("external_resources", [])
+    )
     current_index = MODULES.index(module)
     previous_link = (
         f'<a class="module-nav-link previous" href="../{MODULES[current_index - 1]["slug"]}/index.html">'
@@ -580,6 +589,23 @@ def module_index(module: dict) -> str:
         if current_index < len(MODULES) - 1
         else '<a class="module-nav-link next" href="../../proyecto-integrador.html"><small>Cierre</small><strong>Proyecto integrador</strong></a>'
     )
+    progress_resources = [
+        ("guia", "Guía conceptual", "Comprender propósito y conceptos"),
+        ("simulacion", "Simulación", "Explorar parámetros y resultados"),
+        ("notebook", "Notebook", "Aplicar con Python"),
+        ("cuestionario", "Cuestionario", "Comprobar comprensión"),
+        ("glosario", "Glosario", "Consolidar vocabulario"),
+    ]
+    progress_resources.extend(
+        (
+            f"externo-{index}",
+            resource["label"],
+            "Completar laboratorio complementario",
+        )
+        for index, resource in enumerate(
+            module.get("external_resources", []), start=1
+        )
+    )
     checklist = "\n".join(
         dedent(
             f"""
@@ -589,13 +615,7 @@ def module_index(module: dict) -> str:
             </label>
             """
         ).strip()
-        for key, label, detail in [
-            ("guia", "Guía conceptual", "Comprender propósito y conceptos"),
-            ("simulacion", "Simulación", "Explorar parámetros y resultados"),
-            ("notebook", "Notebook", "Aplicar con Python"),
-            ("cuestionario", "Cuestionario", "Comprobar comprensión"),
-            ("glosario", "Glosario", "Consolidar vocabulario"),
-        ]
+        for key, label, detail in progress_resources
     )
     body = dedent(
         f"""
@@ -624,7 +644,7 @@ def module_index(module: dict) -> str:
             <div class="sidebar-block">
               <strong>Progreso del módulo</strong>
               <div class="mini-progress"><span data-module-progress-bar></span></div>
-              <p><span data-module-progress>0</span> de 5 recursos</p>
+              <p><span data-module-progress>0</span> de {len(progress_resources)} recursos</p>
             </div>
             <nav aria-label="Secciones del módulo">
               <a href="#indice">Índice interactivo</a>
@@ -669,7 +689,7 @@ def module_index(module: dict) -> str:
               <ol class="step-list">{lab_steps}</ol>
               <div class="button-row">
                 <a class="button primary" href="{notebook_url(module)}">Abrir notebook en Colab</a>
-                <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>
+                <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>{external_buttons}
               </div>
             </section>
             <section id="entregable" class="content-section">
@@ -855,8 +875,8 @@ def quiz_page(module: dict) -> str:
 
 
 def module_readme(module: dict) -> str:
-    objective_lines = "\n".join(f"- {item}" for item in module["objectives"])
-    steps = "\n".join(
+    objective_lines = "\n        ".join(f"- {item}" for item in module["objectives"])
+    steps = "\n        ".join(
         f"{index}. {item}" for index, item in enumerate(module["lab_steps"], start=1)
     )
     resources = [
@@ -866,7 +886,13 @@ def module_readme(module: dict) -> str:
         ("Glosario", module_url(module, "glosario.html")),
         ("Notebook en Colab", notebook_url(module)),
     ]
-    rows = "\n".join(f"| {label} | [Abrir]({url}) |" for label, url in resources)
+    resources.extend(
+        (resource["label"], resource["url"])
+        for resource in module.get("external_resources", [])
+    )
+    rows = "\n        ".join(
+        f"| {label} | [Abrir]({url}) |" for label, url in resources
+    )
     return dedent(
         f"""
         # Módulo {module['id']}: {module['title']}
@@ -1179,6 +1205,23 @@ def notebook(module: dict) -> dict:
     colab_badge = (
         f"[Abrir en Colab]({notebook_url(module)})"
     )
+    objectives_source = [
+        "## Objetivos\n",
+        "\n",
+        *[f"- {item}\n" for item in module["objectives"]],
+    ]
+    if module.get("external_resources"):
+        objectives_source.extend(
+            [
+                "\n",
+                "## Laboratorio complementario\n",
+                "\n",
+                *[
+                    f"- [{resource['label']}]({resource['url']})\n"
+                    for resource in module["external_resources"]
+                ],
+            ]
+        )
     cells = [
         {
             "cell_type": "markdown",
@@ -1196,11 +1239,7 @@ def notebook(module: dict) -> dict:
         {
             "cell_type": "markdown",
             "metadata": {},
-            "source": [
-                "## Objetivos\n",
-                "\n",
-                *[f"- {item}\n" for item in module["objectives"]],
-            ],
+            "source": objectives_source,
         },
         {
             "cell_type": "code",

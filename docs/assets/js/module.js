@@ -25,14 +25,22 @@
 
   function updateModuleProgress() {
     if (!progress || !moduleId) return;
-    var completed = progress.resources.filter(function (resource) {
-      return progress.isComplete(progressKey(resource));
+    var resourceKeys = Array.from(
+      document.querySelectorAll("[data-progress-item]")
+    ).map(function (checkbox) {
+      return checkbox.dataset.progressItem;
+    });
+    if (!resourceKeys.length) {
+      resourceKeys = progress.resources.map(progressKey);
+    }
+    var completed = resourceKeys.filter(function (resourceKey) {
+      return progress.isComplete(resourceKey);
     }).length;
     document.querySelectorAll("[data-module-progress]").forEach(function (element) {
       element.textContent = String(completed);
     });
     document.querySelectorAll("[data-module-progress-bar]").forEach(function (element) {
-      element.style.width = Math.round((completed / progress.resources.length) * 100) + "%";
+      element.style.width = Math.round((completed / resourceKeys.length) * 100) + "%";
     });
   }
 

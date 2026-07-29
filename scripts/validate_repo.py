@@ -171,6 +171,26 @@ def validate_notebooks() -> None:
                 error(f"Python inválido en {path.name}, celda {index}: {exc}")
 
 
+def validate_module_markdown() -> None:
+    for module in MODULES:
+        path = ROOT / "modules" / module["slug"] / "README.md"
+        if not path.is_file():
+            continue
+        fenced = False
+        for line_number, line in enumerate(
+            path.read_text(encoding="utf-8").splitlines(), start=1
+        ):
+            if line.lstrip().startswith("```"):
+                fenced = not fenced
+                continue
+            if not fenced and line.startswith("    ") and line.strip():
+                error(
+                    f"Sangría Markdown no intencional en "
+                    f"{path.relative_to(ROOT)}:{line_number}"
+                )
+                break
+
+
 def validate_javascript() -> None:
     node = shutil.which("node")
     scripts = sorted((DOCS / "assets" / "js").glob("*.js"))
@@ -221,6 +241,36 @@ def validate_content_counts() -> None:
             error(f"Módulo {module['id']}: objetivos insuficientes")
         if len(module["theory"]) < 4:
             error(f"Módulo {module['id']}: desarrollo conceptual insuficiente")
+        external_resources = module.get("external_resources", [])
+        index = DOCS / "modulos" / module["slug"] / "index.html"
+        index_text = index.read_text(encoding="utf-8") if index.is_file() else ""
+        expected_progress_count = 5 + len(external_resources)
+        if f"de {expected_progress_count} recursos" not in index_text:
+            error(
+                f"Módulo {module['id']}: total de recursos inconsistente "
+                f"en {index.relative_to(ROOT)}"
+            )
+        for resource_index, resource in enumerate(external_resources, start=1):
+            if not resource.get("label") or not resource.get("url"):
+                error(f"Módulo {module['id']}: recurso externo incompleto")
+                continue
+            readme = ROOT / "modules" / module["slug"] / "README.md"
+            for path in (readme, index):
+                if path.is_file() and resource["url"] not in path.read_text(
+                    encoding="utf-8"
+                ):
+                    error(
+                        f"Módulo {module['id']}: recurso externo ausente en "
+                        f"{path.relative_to(ROOT)}"
+                    )
+            progress_marker = (
+                f'data-progress-item="{module["id"]}:externo-{resource_index}"'
+            )
+            if progress_marker not in index_text:
+                error(
+                    f"Módulo {module['id']}: recurso externo sin seguimiento "
+                    f"de progreso"
+                )
     simulations = (DOCS / "assets" / "js" / "simulations.js").read_text(encoding="utf-8")
     for module in MODULES:
         marker = f'"{module["id"]}": simulation{module["id"]}'
@@ -233,6 +283,7 @@ def main() -> int:
     validate_module_structure()
     validate_html()
     validate_notebooks()
+    validate_module_markdown()
     validate_javascript()
     validate_visible_content()
     validate_content_counts()
