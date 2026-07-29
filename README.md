@@ -1,28 +1,28 @@
 # Ciencia de Datos para Decisiones de Negocio
 
-        Curso abierto de ciencia de datos, machine learning e inteligencia artificial orientado a decisiones de negocio.
+Curso abierto de ciencia de datos, machine learning e inteligencia artificial orientado a decisiones de negocio.
 
-        [![Abrir curso](https://img.shields.io/badge/Abrir%20curso-GitHub%20Pages-0f766e?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/)
-        [![Calidad](https://img.shields.io/github/actions/workflow/status/sgevatschnaider/data-science-business-decisions/quality.yml?branch=main&label=Calidad&style=for-the-badge)](https://github.com/sgevatschnaider/data-science-business-decisions/actions/workflows/quality.yml)
-        [![Licencia de contenidos](https://img.shields.io/badge/Contenido-CC%20BY--NC%204.0-1d4ed8?style=for-the-badge)](LICENSE.md)
+[![Abrir curso](https://img.shields.io/badge/Abrir%20curso-GitHub%20Pages-0f766e?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/)
+[![Calidad](https://img.shields.io/github/actions/workflow/status/sgevatschnaider/data-science-business-decisions/quality.yml?branch=main&label=Calidad&style=for-the-badge)](https://github.com/sgevatschnaider/data-science-business-decisions/actions/workflows/quality.yml)
+[![Licencia de contenidos](https://img.shields.io/badge/Contenido-CC%20BY--NC%204.0-1d4ed8?style=for-the-badge)](LICENSE.md)
 
-        ## Propósito
+## Propósito
 
-        El recorrido conecta cinco preguntas:
+El recorrido conecta cinco preguntas:
 
-        1. ¿Qué decisión debe mejorar?
-        2. ¿Los datos representan el proceso con calidad suficiente?
-        3. ¿El modelo generaliza y supera una referencia útil?
-        4. ¿Qué acción crea valor bajo costos y restricciones?
-        5. ¿Cómo se explica, controla y monitorea su impacto?
+1. ¿Qué decisión debe mejorar?
+2. ¿Los datos representan el proceso con calidad suficiente?
+3. ¿El modelo generaliza y supera una referencia útil?
+4. ¿Qué acción crea valor bajo costos y restricciones?
+5. ¿Cómo se explica, controla y monitorea su impacto?
 
-        ## Acceso directo
+## Acceso directo
 
-        Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
+Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
 
-        | Módulo | Contenido | Recursos |
-        |---:|---|---|
-        | 00 | Orientación, Python y flujo de trabajo | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/00-orientacion-python.ipynb) |
+| Módulo | Contenido | Recursos |
+|---:|---|---|
+| 00 | Orientación, Python y flujo de trabajo | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/00-orientacion-python.ipynb) |
 | 01 | Problema de negocio, EDA y visualización | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/01-eda-negocio.ipynb) |
 | 02 | Calidad de datos y valores faltantes | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
 | 03 | Outliers, robustez e influencia | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/03-outliers.ipynb) |
@@ -38,54 +38,54 @@
 | 13 | Interpretabilidad, equidad y ciclo de vida | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/13-ia-responsable.ipynb) |
 | 14 | Proyecto integrador de decisión | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/14-proyecto-integrador.ipynb) |
 
-        ## Organización del repositorio
+## Organización del repositorio
 
-        ```text
-        .
-        ├── docs/                 Sitio publicado en GitHub Pages
-        │   ├── modulos/          Guías, simulaciones, cuestionarios y glosarios
-        │   └── assets/           Diseño y lógica compartida
-        ├── modules/              Índices académicos por módulo
-        ├── notebooks/            Laboratorios canónicos para Colab o Jupyter
-        ├── datasets/             Datos didácticos y diccionarios
-        ├── projects/capstone/    Consigna, rúbrica y plantillas
-        ├── assessments/          Criterios de evaluación
-        ├── references/           Guías rápidas
-        └── scripts/              Generación y validación
-        ```
+```text
+.
+├── docs/                 Sitio publicado en GitHub Pages
+│   ├── modulos/          Guías, simulaciones, cuestionarios y glosarios
+│   └── assets/           Diseño y lógica compartida
+├── modules/              Índices académicos por módulo
+├── notebooks/            Laboratorios canónicos para Colab o Jupyter
+├── datasets/             Datos didácticos y diccionarios
+├── projects/capstone/    Consigna, rúbrica y plantillas
+├── assessments/          Criterios de evaluación
+├── references/           Guías rápidas
+└── scripts/              Generación y validación
+```
 
-        ## Uso local
+## Uso local
 
-        El sitio no necesita compilación:
+El sitio no necesita compilación:
 
-        ```bash
-        python -m http.server 8000 --directory docs
-        ```
+```bash
+python -m http.server 8000 --directory docs
+```
 
-        Luego abrí `http://localhost:8000`.
+Luego abrí `http://localhost:8000`.
 
-        Para los notebooks:
+Para los notebooks:
 
-        ```bash
-        python -m venv .venv
-        source .venv/bin/activate
-        pip install -r requirements.txt
-        jupyter lab
-        ```
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter lab
+```
 
-        ## Calidad
+## Calidad
 
-        ```bash
-        python scripts/build_course.py --check
-        python scripts/validate_repo.py
-        ```
+```bash
+python scripts/build_course.py --check
+python scripts/validate_repo.py
+```
 
-        La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, notebooks, cobertura de recursos y consistencia de contenidos.
+La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, notebooks, cobertura de recursos y consistencia de contenidos.
 
-        ## Autoría
+## Autoría
 
-        Material elaborado por el profesor Sergio Gevatschnaider.
+Material elaborado por el profesor Sergio Gevatschnaider.
 
-        ## Licencias
+## Licencias
 
-        Los materiales educativos se distribuyen bajo Creative Commons Attribution-NonCommercial 4.0 International. El código fuente se distribuye bajo licencia MIT. Consultá [LICENSE.md](LICENSE.md).
+Los materiales educativos se distribuyen bajo Creative Commons Attribution-NonCommercial 4.0 International. El código fuente se distribuye bajo licencia MIT. Consultá [LICENSE.md](LICENSE.md).

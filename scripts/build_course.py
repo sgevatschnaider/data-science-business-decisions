@@ -1266,7 +1266,7 @@ def notebook(module: dict) -> dict:
 
 
 def root_readme() -> str:
-    module_rows = "\n".join(
+    module_rows = "\n        ".join(
         (
             f"| {module['id']} | {module['title']} | "
             f"[Guía]({module_url(module)}) · "
