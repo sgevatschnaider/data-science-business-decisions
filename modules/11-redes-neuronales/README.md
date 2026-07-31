@@ -1,45 +1,45 @@
 # Módulo 11: Redes neuronales y arquitecturas modernas
 
-Comprender neuronas, memoria recurrente, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.
+Ruta integrada para comprender representación, memoria recurrente, procesamiento del lenguaje natural y atención Transformer mediante teoría, experimentación y visualizaciones dinámicas.
 
 ## Pregunta de decisión
 
-¿Cuándo la capacidad de aprender representaciones y contexto temporal justifica mayor complejidad, datos y costo computacional?
+¿Cuándo conviene usar una arquitectura recurrente y cuándo la atención de un Transformer aporta una representación más útil del contexto?
 
-## Índice interactivo
+## Organización del módulo
+
+1. **Fundamentos neuronales:** neurona, activación, pérdida, gradiente y regularización.
+2. **Secuencias y memoria:** RNN, estado oculto, estabilidad y motivación de LSTM/GRU.
+3. **Procesamiento del lenguaje natural:** tokenización, representación, embeddings, tareas y evaluación.
+4. **Atención y Transformers:** posiciones, Q/K/V, self-attention, multi-head attention, encoder, decoder, generación y límites.
+
+## Recursos
 
 | Recurso | Acceso |
 |---|---|
 | Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/index.html) |
 | Simulación RNN paso a paso | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
-| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) |
-| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) |
+| Laboratorio NLP | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/nlp-lab.html) |
+| Laboratorio Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-lab.html) |
+| Preguntas Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-preguntas.html) |
+| Glosario Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-glosario.html) |
+| Cuestionario general | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) |
+| Glosario general | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) |
 | Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb) |
 | TensorFlow Playground | [Abrir](https://playground.tensorflow.org/) |
 
 ## Resultados de aprendizaje
 
-- Explicar neurona, capa, activación, pérdida y gradiente.
-- Desplegar una RNN en el tiempo y explicar cómo actualiza su estado oculto.
-- Relacionar recurrencia, saturación, vanishing gradient y exploding gradient.
-- Relacionar capacidad, sobreajuste y regularización.
-- Distinguir CNN, RNN/LSTM/GRU, Transformers y autoencoders.
-
-## Caso de negocio
-
-Un centro de atención quiere clasificar secuencias de mensajes y detectar si la urgencia aumenta. El orden de los eventos importa: una palabra o una señal debe interpretarse según lo ocurrido antes.
-
-## Secuencia de práctica
-
-1. Recorrer una secuencia y calcular el estado oculto paso a paso.
-2. Separar la contribución de la entrada actual y la memoria recurrente.
-3. Comparar tanh, sigmoide y ReLU bajo distintos pesos.
-4. Diagnosticar memoria corta, persistencia, oscilación y saturación.
-5. Relacionar los límites de la RNN simple con la motivación de LSTM y GRU.
+- Explicar neurona, activación, pérdida, gradiente y regularización.
+- Desplegar una RNN en el tiempo e interpretar su estado oculto.
+- Relacionar recurrencia, saturación y dependencias largas.
+- Describir un pipeline de NLP desde texto crudo hasta una tarea evaluable.
+- Explicar self-attention mediante Query, Key, Value y softmax.
+- Comparar RNN, LSTM, GRU y Transformers según datos, costo y objetivo.
 
 ## Entregable
 
-Experimento controlado que documente una secuencia, parámetros recurrentes, evolución del estado oculto, diagnóstico de estabilidad, comparación con un baseline y límites del modelo.
+Informe comparativo con una tarea secuencial o de lenguaje, baseline, arquitectura propuesta, flujo de información, métricas, costo, riesgos y justificación de la arquitectura seleccionada.
 
 ## Autoría
 
