@@ -3,195 +3,176 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Comprender neuronas, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.">
+  <meta name="description" content="Comprender neuronas, redes recurrentes, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.">
   <meta name="author" content="Sergio Gevatschnaider">
   <meta name="theme-color" content="#082f49">
   <title>Redes neuronales y arquitecturas modernas | Datos y Decisiones</title>
   <link rel="stylesheet" href="../../assets/css/course.css">
 </head>
-        <body class="module-page" data-module-id="11" data-page-kind="index">
-          <a class="skip-link" href="#contenido">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
-      <span class="brand-mark" aria-hidden="true">DD</span>
-      <span>
-        <strong>Datos y Decisiones</strong>
-        <small>Ciencia de datos aplicada</small>
-      </span>
-    </a>
-    <button class="nav-toggle" type="button" aria-expanded="false"
-            aria-controls="site-navigation">Menú</button>
-    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
-      <a href="../../index.html">Inicio</a>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../proyecto-integrador.html">Proyecto</a>
-      <a href="../../profundizaciones.html">Profundizaciones</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
-      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
-        Tema
-      </button>
-    </nav>
-  </div>
-</header>
-          <main id="contenido">
-            <section class="module-hero">
-          <div class="container">
-            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="../../programa.html">Programa</a> / Módulo 11</p>
-            <div class="module-hero-grid">
-              <div>
-                <p class="eyebrow">Módulo 11 · Unidad III</p>
-                <h1>Redes neuronales y arquitecturas modernas</h1>
-                <p class="hero-lead">Comprender neuronas, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.</p>
-                <div class="module-facts">
-                  <span><strong>Dedicación</strong>3 encuentros más TensorFlow Playground</span>
-                  <span><strong>Requisitos</strong>Módulos 04 a 06</span>
-                </div>
-              </div>
-              <aside class="question-card">
-                <span>Pregunta de decisión</span>
-                <p>¿Cuándo la capacidad de aprender representaciones justifica mayor complejidad, datos y costo computacional?</p>
-              </aside>
+<body class="module-page" data-module-id="11" data-page-kind="index">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+        <span class="brand-mark" aria-hidden="true">DD</span>
+        <span><strong>Datos y Decisiones</strong><small>Ciencia de datos aplicada</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menú</button>
+      <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+        <a href="../../index.html">Inicio</a>
+        <a href="../../programa.html">Programa</a>
+        <a href="../../proyecto-integrador.html">Proyecto</a>
+        <a href="../../profundizaciones.html">Profundizaciones</a>
+        <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
+        <button class="theme-toggle" type="button" aria-label="Cambiar tema">Tema</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="module-hero">
+      <div class="container">
+        <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="../../programa.html">Programa</a> / Módulo 11</p>
+        <div class="module-hero-grid">
+          <div>
+            <p class="eyebrow">Módulo 11 · Unidad III</p>
+            <h1>Redes neuronales y arquitecturas modernas</h1>
+            <p class="hero-lead">Comprender neuronas, memoria recurrente, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.</p>
+            <div class="module-facts">
+              <span><strong>Dedicación</strong>3 encuentros más TensorFlow Playground</span>
+              <span><strong>Requisitos</strong>Módulos 04 a 06</span>
             </div>
+          </div>
+          <aside class="question-card">
+            <span>Pregunta de decisión</span>
+            <p>¿Cuándo la capacidad de aprender representaciones y contexto temporal justifica mayor complejidad, datos y costo computacional?</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <div class="container module-layout">
+      <aside class="module-sidebar">
+        <div class="sidebar-block">
+          <strong>Progreso del módulo</strong>
+          <div class="mini-progress"><span data-module-progress-bar></span></div>
+          <p><span data-module-progress>0</span> de 6 recursos</p>
+        </div>
+        <nav aria-label="Secciones del módulo">
+          <a href="#indice">Índice interactivo</a>
+          <a href="#resultados">Resultados</a>
+          <a href="#conceptos">Conceptos</a>
+          <a href="#caso">Caso de negocio</a>
+          <a href="#laboratorio">Laboratorio</a>
+          <a href="#entregable">Entregable</a>
+        </nav>
+      </aside>
+
+      <div class="module-content">
+        <section id="indice" class="content-section first">
+          <div class="section-heading">
+            <p class="eyebrow">Centro del módulo</p>
+            <h2>Índice interactivo</h2>
+            <p>Abrí cada recurso y marcá el avance. El estado se conserva en tu navegador.</p>
+          </div>
+          <div class="table-wrap">
+            <table class="resource-table">
+              <caption>Índice interactivo del módulo</caption>
+              <thead><tr><th>Recurso</th><th>Acceso</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Guía del módulo</th><td><a class="table-link" href="index.html">Abrir recurso</a></td></tr>
+                <tr><th scope="row">Simulación RNN paso a paso</th><td><a class="table-link" href="simulacion.html">Abrir recurso</a></td></tr>
+                <tr><th scope="row">Cuestionario</th><td><a class="table-link" href="cuestionario.html">Abrir recurso</a></td></tr>
+                <tr><th scope="row">Glosario</th><td><a class="table-link" href="glosario.html">Abrir recurso</a></td></tr>
+                <tr><th scope="row">Notebook en Colab</th><td><a class="table-link" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb">Abrir recurso</a></td></tr>
+                <tr><th scope="row">TensorFlow Playground</th><td><a class="table-link" href="https://playground.tensorflow.org/">Abrir recurso</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="progress-checklist">
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:guia"><span><strong>Guía conceptual</strong><small>Comprender propósito y conceptos</small></span></label>
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:simulacion"><span><strong>RNN paso a paso</strong><small>Explorar secuencia, memoria y parámetros</small></span></label>
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:notebook"><span><strong>Notebook</strong><small>Aplicar con Python</small></span></label>
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:cuestionario"><span><strong>Cuestionario</strong><small>Comprobar comprensión</small></span></label>
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:glosario"><span><strong>Glosario</strong><small>Consolidar vocabulario</small></span></label>
+            <label class="progress-item"><input type="checkbox" data-progress-item="11:externo-1"><span><strong>TensorFlow Playground</strong><small>Completar laboratorio complementario</small></span></label>
           </div>
         </section>
-        <div class="container module-layout">
-          <aside class="module-sidebar">
-            <div class="sidebar-block">
-              <strong>Progreso del módulo</strong>
-              <div class="mini-progress"><span data-module-progress-bar></span></div>
-              <p><span data-module-progress>0</span> de 6 recursos</p>
-            </div>
-            <nav aria-label="Secciones del módulo">
-              <a href="#indice">Índice interactivo</a>
-              <a href="#resultados">Resultados</a>
-              <a href="#conceptos">Conceptos</a>
-              <a href="#caso">Caso de negocio</a>
-              <a href="#laboratorio">Laboratorio</a>
-              <a href="#entregable">Entregable</a>
-            </nav>
-          </aside>
-          <div class="module-content">
-            <section id="indice" class="content-section first">
-              <div class="section-heading">
-                <p class="eyebrow">Centro del módulo</p>
-                <h2>Índice interactivo</h2>
-                <p>Abrí cada recurso y marcá el avance. El estado se conserva en tu navegador.</p>
-              </div>
-              <div class="table-wrap">
-          <table class="resource-table">
-            <caption>Índice interactivo del módulo</caption>
-            <thead><tr><th>Recurso</th><th>Acceso</th></tr></thead>
-            <tbody><tr><th scope="row">Guía del módulo</th><td><a class="table-link" href="index.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Simulación interactiva</th><td><a class="table-link" href="simulacion.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Cuestionario</th><td><a class="table-link" href="cuestionario.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Glosario</th><td><a class="table-link" href="glosario.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Notebook en Colab</th><td><a class="table-link" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb">Abrir recurso</a></td></tr>
-<tr><th scope="row">TensorFlow Playground</th><td><a class="table-link" href="https://playground.tensorflow.org/">Abrir recurso</a></td></tr></tbody>
-          </table>
-        </div>
-              <div class="progress-checklist"><label class="progress-item">
-  <input type="checkbox" data-progress-item="11:guia">
-  <span><strong>Guía conceptual</strong><small>Comprender propósito y conceptos</small></span>
-</label>
-<label class="progress-item">
-  <input type="checkbox" data-progress-item="11:simulacion">
-  <span><strong>Simulación</strong><small>Explorar parámetros y resultados</small></span>
-</label>
-<label class="progress-item">
-  <input type="checkbox" data-progress-item="11:notebook">
-  <span><strong>Notebook</strong><small>Aplicar con Python</small></span>
-</label>
-<label class="progress-item">
-  <input type="checkbox" data-progress-item="11:cuestionario">
-  <span><strong>Cuestionario</strong><small>Comprobar comprensión</small></span>
-</label>
-<label class="progress-item">
-  <input type="checkbox" data-progress-item="11:glosario">
-  <span><strong>Glosario</strong><small>Consolidar vocabulario</small></span>
-</label>
-<label class="progress-item">
-  <input type="checkbox" data-progress-item="11:externo-1">
-  <span><strong>TensorFlow Playground</strong><small>Completar laboratorio complementario</small></span>
-</label></div>
-            </section>
-            <section id="resultados" class="content-section">
-              <p class="eyebrow">Al completar el módulo</p>
-              <h2>Resultados de aprendizaje</h2>
-              <ul class="check-list"><li>Explicar neurona, capa, activación, pérdida y gradiente.</li>
-<li>Relacionar capacidad, sobreajuste y regularización.</li>
-<li>Experimentar con fronteras no lineales en TensorFlow Playground.</li>
-<li>Distinguir CNN, RNN/LSTM/GRU, Transformers y autoencoders.</li></ul>
-            </section>
-            <section id="conceptos" class="content-section">
-              <p class="eyebrow">Marco conceptual</p>
-              <h2>Ideas que organizan la práctica</h2>
-              <div class="theory-list"><article class="theory-card">
-  <span>01</span>
-  <div><h3>Composición de funciones</h3><p>Cada neurona combina entradas, pesos y sesgo, y aplica una activación. Capas sucesivas forman representaciones que pueden aproximar relaciones no lineales complejas.</p></div>
-</article>
-<article class="theory-card">
-  <span>02</span>
-  <div><h3>Aprendizaje por gradiente</h3><p>Backpropagation calcula cómo cambia la pérdida respecto de cada parámetro. El optimizador actualiza pesos con una tasa de aprendizaje.</p></div>
-</article>
-<article class="theory-card">
-  <span>03</span>
-  <div><h3>Generalización</h3><p>Arquitectura, regularización L1/L2, dropout, early stopping, normalización y datos determinan el equilibrio entre sesgo y varianza.</p></div>
-</article>
-<article class="theory-card">
-  <span>04</span>
-  <div><h3>Mapa de arquitecturas</h3><p>CNN explotan estructura espacial; RNN, LSTM y GRU procesan secuencias; Transformers usan atención; autoencoders comprimen representaciones. Los modelos generativos requieren evaluación específica de veracidad, seguridad y costo.</p></div>
-</article></div>
-            </section>
-            <section id="caso" class="content-section">
-              <div class="case-panel">
-                <p class="eyebrow">Caso de negocio</p>
-                <h2>Decidir con contexto</h2>
-                <p>Un centro de atención quiere clasificar mensajes y resumir motivos. Debe comparar una referencia simple con modelos complejos y evaluar errores.</p>
-                <a class="text-link" href="simulacion.html">Explorar en la simulación <span aria-hidden="true">-&gt;</span></a>
-              </div>
-            </section>
-            <section id="laboratorio" class="content-section">
-              <p class="eyebrow">Práctica guiada</p>
-              <h2>Secuencia de laboratorio</h2>
-              <ol class="step-list"><li><span>01</span>Construir una neurona y observar su frontera.</li>
-<li><span>02</span>Comparar activaciones y cantidad de capas.</li>
-<li><span>03</span>Registrar pérdida de entrenamiento y validación.</li>
-<li><span>04</span>Documentar por qué una arquitectura es adecuada al tipo de dato.</li></ol>
-              <div class="button-row">
-                <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb">Abrir notebook en Colab</a>
-                <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>
-                <a class="button tertiary" href="https://playground.tensorflow.org/">TensorFlow Playground</a>
-              </div>
-            </section>
-            <section id="entregable" class="content-section">
-              <div class="deliverable-panel">
-                <span>Producto del módulo</span>
-                <h2>Entregable esperado</h2>
-                <p>Experimento controlado de arquitectura y regularización, comparación con baseline, curva de aprendizaje y ficha de riesgos.</p>
-              </div>
-            </section>
-            <nav class="module-pagination" aria-label="Navegación entre módulos">
-              <a class="module-nav-link previous" href="../10-clustering/index.html"><small>Módulo anterior</small><strong>Clustering</strong></a><a class="module-nav-link next" href="../12-optimizacion/index.html"><small>Módulo siguiente</small><strong>Optimización</strong></a>
-            </nav>
+
+        <section id="resultados" class="content-section">
+          <p class="eyebrow">Al completar el módulo</p>
+          <h2>Resultados de aprendizaje</h2>
+          <ul class="check-list">
+            <li>Explicar neurona, capa, activación, pérdida y gradiente.</li>
+            <li>Desplegar una RNN en el tiempo y explicar cómo actualiza su estado oculto.</li>
+            <li>Relacionar recurrencia, saturación, gradientes y dificultad para aprender dependencias largas.</li>
+            <li>Relacionar capacidad, sobreajuste y regularización.</li>
+            <li>Distinguir CNN, RNN/LSTM/GRU, Transformers y autoencoders.</li>
+          </ul>
+        </section>
+
+        <section id="conceptos" class="content-section">
+          <p class="eyebrow">Marco conceptual</p>
+          <h2>Ideas que organizan la práctica</h2>
+          <div class="theory-list">
+            <article class="theory-card"><span>01</span><div><h3>Composición de funciones</h3><p>Cada neurona combina entradas, pesos y sesgo, y aplica una activación. Capas sucesivas forman representaciones no lineales.</p></div></article>
+            <article class="theory-card"><span>02</span><div><h3>Recurrencia y memoria</h3><p>Una RNN reutiliza los mismos parámetros en cada instante y combina la entrada actual con el estado oculto anterior.</p></div></article>
+            <article class="theory-card"><span>03</span><div><h3>Aprendizaje por gradiente</h3><p>Backpropagation Through Time despliega la red temporalmente para calcular cómo cada paso contribuye a la pérdida.</p></div></article>
+            <article class="theory-card"><span>04</span><div><h3>Estabilidad y generalización</h3><p>Saturación, vanishing gradient, exploding gradient, regularización y validación determinan si el modelo aprende una dinámica útil.</p></div></article>
+            <article class="theory-card"><span>05</span><div><h3>Mapa de arquitecturas</h3><p>CNN explotan estructura espacial; RNN, LSTM y GRU procesan secuencias; Transformers conectan posiciones mediante atención.</p></div></article>
           </div>
-        </div>
-          </main>
-          <footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
-      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
+        </section>
+
+        <section id="caso" class="content-section">
+          <div class="case-panel">
+            <p class="eyebrow">Caso de negocio</p>
+            <h2>Decidir con contexto</h2>
+            <p>Un centro de atención quiere clasificar secuencias de mensajes y detectar si la urgencia aumenta. El orden de los eventos importa: una palabra o una señal debe interpretarse según lo ocurrido antes.</p>
+            <a class="text-link" href="simulacion.html">Explorar la memoria recurrente <span aria-hidden="true">-&gt;</span></a>
+          </div>
+        </section>
+
+        <section id="laboratorio" class="content-section">
+          <p class="eyebrow">Práctica guiada</p>
+          <h2>Secuencia de laboratorio</h2>
+          <ol class="step-list">
+            <li><span>01</span>Recorrer una secuencia y calcular h<sub>t</sub> paso a paso.</li>
+            <li><span>02</span>Separar la contribución de la entrada y la memoria recurrente.</li>
+            <li><span>03</span>Comparar tanh, sigmoide y ReLU bajo distintos pesos.</li>
+            <li><span>04</span>Diagnosticar memoria corta, persistencia, oscilación y saturación.</li>
+            <li><span>05</span>Relacionar la simulación con vanishing gradient y la motivación de LSTM/GRU.</li>
+          </ol>
+          <div class="button-row">
+            <a class="button primary" href="simulacion.html">Abrir simulación RNN</a>
+            <a class="button secondary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb">Abrir notebook en Colab</a>
+            <a class="button tertiary" href="https://playground.tensorflow.org/">TensorFlow Playground</a>
+          </div>
+        </section>
+
+        <section id="entregable" class="content-section">
+          <div class="deliverable-panel">
+            <span>Producto del módulo</span>
+            <h2>Entregable esperado</h2>
+            <p>Experimento controlado que documente una secuencia, parámetros recurrentes, evolución del estado oculto, diagnóstico de estabilidad, comparación con un baseline y límites del modelo.</p>
+          </div>
+        </section>
+
+        <nav class="module-pagination" aria-label="Navegación entre módulos">
+          <a class="module-nav-link previous" href="../10-clustering/index.html"><small>Módulo anterior</small><strong>Clustering</strong></a>
+          <a class="module-nav-link next" href="../12-optimizacion/index.html"><small>Módulo siguiente</small><strong>Optimización</strong></a>
+        </nav>
+      </div>
     </div>
-    <div>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../accesibilidad.html">Accesibilidad</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><strong>Ciencia de Datos para Decisiones de Negocio</strong><p>Material elaborado por el profesor Sergio Gevatschnaider.</p></div>
+      <div><a href="../../programa.html">Programa</a><a href="../../accesibilidad.html">Accesibilidad</a><a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a></div>
     </div>
-  </div>
-</footer>
-<script src="../../assets/js/course-data.js"></script>
-<script src="../../assets/js/site.js"></script>
-          <script src="../../assets/js/module.js"></script>
-        </body>
-        </html>
+  </footer>
+  <script src="../../assets/js/course-data.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/module.js"></script>
+</body>
+</html>
