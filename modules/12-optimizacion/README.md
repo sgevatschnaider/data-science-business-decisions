@@ -27,6 +27,22 @@ Convertir pronósticos y costos en decisiones óptimas bajo restricciones de cap
 
 Una fábrica elige cantidades de dos productos con horas de máquina y materia prima limitadas, demanda máxima y márgenes diferentes.
 
+## Profundización aplicada
+
+- Programación entera, asignación, cobertura y restricciones lógicas.
+- Optimización robusta y estocástica bajo escenarios de demanda.
+- Simulación Monte Carlo y análisis de sensibilidad del valor de la solución.
+
+## Errores frecuentes
+
+- Optimizar un parámetro predicho como si fuera conocido con certeza.
+- Aceptar una solución matemáticamente factible pero inviable en operación.
+- Omitir integridad, reglas lógicas o costos de transición.
+
+## Desafío de transferencia
+
+Elegí una cartera de acciones que maximice valor sin violar presupuesto, capacidad, equidad ni riesgo.
+
 ## Secuencia de práctica
 
 1. Identificar decisiones, unidades y parámetros.

@@ -1991,4 +1991,306 @@ MODULES = [
 ]
 
 
+ENRICHMENTS = {
+    "00": {
+        "advanced_topics": [
+            "Contratos de datos y pruebas ejecutables para entradas, tipos y rangos.",
+            "Entornos reproducibles, semillas, configuración y trazabilidad de artefactos.",
+            "Git como registro de decisiones: ramas, revisiones y cambios pequeños verificables.",
+        ],
+        "common_failures": [
+            "Confundir una pregunta amplia con una decisión operable.",
+            "Depender del orden manual de celdas o de archivos locales no documentados.",
+            "Publicar resultados sin registrar versiones, supuestos ni responsables.",
+        ],
+        "decision_challenge": "Convertí una solicitud ambigua de dirección en un contrato analítico que otra persona pueda ejecutar y auditar.",
+        "scenario_quiz": q(
+            "Un notebook solo funciona después de ejecutar manualmente la celda 14 y corregir una ruta local. ¿Cuál es el primer criterio que falla?",
+            ["Reproducibilidad", "Precisión estadística", "Calibración", "Potencia causal"],
+            0,
+            "El resultado depende de estado oculto y de una ruta no declarada; antes de evaluar el modelo debe poder ejecutarse desde cero.",
+        ),
+    },
+    "01": {
+        "advanced_topics": [
+            "Small multiples, intervalos y anotaciones que muestran magnitud e incertidumbre.",
+            "Percepción visual: posición y longitud antes que área, volumen o color decorativo.",
+            "EDA por segmentos, tiempo y cohortes para evitar promedios que ocultan heterogeneidad.",
+        ],
+        "common_failures": [
+            "Construir una galería de gráficos sin pregunta ni conclusión.",
+            "Usar ejes truncados, escalas incompatibles o demasiados colores.",
+            "Presentar una asociación exploratoria como explicación causal.",
+        ],
+        "decision_challenge": "Diseñá una página ejecutiva con tres visualizaciones que expliquen qué cambió, dónde y cuánto importa.",
+        "scenario_quiz": q(
+            "Dos regiones tienen medias similares, pero una muestra mucha dispersión y cola extrema. ¿Qué comunicación es más honesta?",
+            ["Mostrar solo las medias", "Mostrar distribución, mediana e intervalo por región", "Eliminar la región variable", "Usar un gráfico de torta"],
+            1,
+            "La decisión necesita observar centro, dispersión y extremos; una media aislada oculta el riesgo operativo.",
+        ),
+    },
+    "02": {
+        "advanced_topics": [
+            "Pruebas de esquema, unicidad, frescura y consistencia entre fuentes.",
+            "Análisis de sensibilidad para mecanismos MCAR, MAR y MNAR.",
+            "Calidad como producto: responsables, alertas, severidad y acuerdos de servicio.",
+        ],
+        "common_failures": [
+            "Imputar antes de separar entrenamiento y evaluación.",
+            "Tratar todos los faltantes como un mismo fenómeno.",
+            "Corregir datos sin conservar la evidencia original ni la regla aplicada.",
+        ],
+        "decision_challenge": "Definí qué defectos bloquean una decisión, cuáles admiten corrección y cuáles exigen recolectar datos nuevamente.",
+        "scenario_quiz": q(
+            "La ausencia de ingreso aumenta justo después de un cambio de formulario. ¿Qué acción aporta más evidencia?",
+            ["Imputar la media y cerrar", "Comparar períodos y versiones del formulario", "Eliminar todos los registros", "Normalizar la variable objetivo"],
+            1,
+            "La coincidencia temporal sugiere un cambio del proceso de captura que debe investigarse antes de elegir una imputación.",
+        ),
+    },
+    "03": {
+        "advanced_topics": [
+            "Distancias robustas, leverage, Cook y sensibilidad de parámetros.",
+            "Detección contextual: un valor puede ser normal para un segmento y extremo para otro.",
+            "Eventos raros como fuente de aprendizaje, fraude o cambio de régimen.",
+        ],
+        "common_failures": [
+            "Eliminar automáticamente todo punto marcado por una regla estadística.",
+            "Usar puntuación z en distribuciones muy asimétricas sin contraste robusto.",
+            "Evaluar influencia sin comparar conclusiones con y sin el caso.",
+        ],
+        "decision_challenge": "Prepará una bitácora que separe error, evento raro válido, segmento especial y observación influyente.",
+        "scenario_quiz": q(
+            "Una venta excepcional es válida y cambia fuertemente la pendiente del modelo. ¿Qué corresponde?",
+            ["Borrarla sin registrar", "Conservarla y reportar sensibilidad o modelar el segmento", "Duplicarla", "Reemplazarla siempre por la media"],
+            1,
+            "La observación contiene información real; la respuesta adecuada es transparentar su influencia y revisar el modelo o la segmentación.",
+        ),
+    },
+    "04": {
+        "advanced_topics": [
+            "Disponibilidad temporal y point-in-time correctness en ingeniería de variables.",
+            "Transformaciones supervisadas dentro de validación anidada.",
+            "Características categóricas de alta cardinalidad, frecuencia y target encoding seguro.",
+        ],
+        "common_failures": [
+            "Calcular estadísticas de transformación con todo el dataset.",
+            "Crear variables con datos posteriores al momento de decisión.",
+            "Aplicar una transformación porque mejora una métrica sin revisar estabilidad.",
+        ],
+        "decision_challenge": "Construí una tabla de disponibilidad que demuestre qué variable existe realmente en el instante de predicción.",
+        "scenario_quiz": q(
+            "El promedio de compras de 90 días incluye una compra ocurrida dos días después del scoring. ¿Cómo se clasifica?",
+            ["Variable robusta", "Leakage temporal", "Regularización", "Calibración"],
+            1,
+            "La característica utiliza información que no estaba disponible al decidir y produce una evaluación optimista.",
+        ),
+    },
+    "05": {
+        "advanced_topics": [
+            "Intervalos de confianza y predicción, bootstrap y propagación de incertidumbre.",
+            "Regularización Ridge/Lasso y estabilidad ante colinealidad.",
+            "Modelos con interacciones, no linealidad y errores robustos.",
+        ],
+        "common_failures": [
+            "Interpretar coeficientes como efectos causales sin diseño de identificación.",
+            "Reportar R² sin error fuera de muestra ni unidades de negocio.",
+            "Extrapolar fuera del rango observado sin análisis de sensibilidad.",
+        ],
+        "decision_challenge": "Traducí error e intervalo predictivo a una política de inventario con costo por exceso y faltante.",
+        "scenario_quiz": q(
+            "Dos modelos tienen MAE similar; uno comete pocos errores extremos y el otro varios muy costosos. ¿Qué falta evaluar?",
+            ["Solo R²", "Distribución y costo asimétrico del error", "Cantidad de imports", "Orden de columnas"],
+            1,
+            "La media del error no representa por sí sola la cola ni la función de costo de la decisión.",
+        ),
+    },
+    "06": {
+        "advanced_topics": [
+            "Validación anidada para separar selección de hiperparámetros y estimación final.",
+            "Intervalos por bootstrap, curvas de aprendizaje y pruebas de estabilidad.",
+            "Particiones por grupo, entidad, geografía y tiempo que imitan el despliegue.",
+        ],
+        "common_failures": [
+            "Elegir el modelo y reportar el mismo cross-validation como estimación imparcial.",
+            "Ignorar dependencia entre filas del mismo cliente o período.",
+            "Optimizar una métrica promedio sin revisar dispersión ni segmentos.",
+        ],
+        "decision_challenge": "Diseñá una validación que replique quién, cuándo y dónde recibirá predicciones en producción.",
+        "scenario_quiz": q(
+            "Se probaron 80 configuraciones y se informa la mejor media del mismo CV. ¿Qué mejora la honestidad de la estimación?",
+            ["Más colores", "Validación anidada o test final reservado", "Eliminar el baseline", "Mezclar todos los datos"],
+            1,
+            "La selección explota variación aleatoria; una capa externa o test reservado estima el desempeño después de elegir.",
+        ),
+    },
+    "07": {
+        "advanced_topics": [
+            "Pronósticos probabilísticos, cuantiles y cobertura de intervalos.",
+            "Demanda intermitente, jerarquías y reconciliación entre niveles.",
+            "Forecast Value Added para medir si cada etapa mejora un baseline.",
+        ],
+        "common_failures": [
+            "Mezclar pasado y futuro o usar ventanas centradas.",
+            "Elegir un único horizonte y ocultar degradación a largo plazo.",
+            "Comparar contra un baseline demasiado débil.",
+        ],
+        "decision_challenge": "Definí cuantiles de demanda que minimicen el costo conjunto de stock, urgencias y pérdida de ventas.",
+        "scenario_quiz": q(
+            "El costo de quedarse sin stock es cuatro veces el costo de excedente. ¿Qué salida es más útil que un único promedio?",
+            ["Un cluster", "Un cuantil predictivo coherente con esos costos", "La correlación", "Accuracy"],
+            1,
+            "Una decisión con costos asimétricos requiere una distribución o cuantiles, no solo una predicción puntual.",
+        ),
+    },
+    "08": {
+        "advanced_topics": [
+            "Calibración fuera de muestra, Brier score y diagramas de confiabilidad.",
+            "Curvas de ganancia, lift, capacidad y valor neto por política.",
+            "Tuning del umbral separado del entrenamiento y análisis por segmentos.",
+        ],
+        "common_failures": [
+            "Evaluar probabilidades sobre los mismos casos usados para ajustar.",
+            "Elegir 0,5 por costumbre o maximizar F1 sin función de valor.",
+            "Confundir buen ranking con probabilidades confiables.",
+        ],
+        "decision_challenge": "Elegí una política de contacto con capacidad limitada y costos distintos por falso positivo y falso negativo.",
+        "scenario_quiz": q(
+            "Contactar cuesta 4, un éxito produce 30 y la capacidad es 10 %. ¿Cómo debe elegirse el corte?",
+            ["Siempre 0,5", "Con valor esperado y la restricción de capacidad sobre datos de validación", "Con accuracy de entrenamiento", "Con el promedio de columnas"],
+            1,
+            "El umbral es una política: debe optimizar valor fuera de muestra respetando la capacidad operativa.",
+        ),
+    },
+    "09": {
+        "advanced_topics": [
+            "Gradient boosting moderno, early stopping y regularización.",
+            "Importancia por permutación, PDP/ICE y límites con variables correlacionadas.",
+            "Optimización de hiperparámetros con presupuesto y validación anidada.",
+        ],
+        "common_failures": [
+            "Comparar modelos sin el mismo protocolo de validación.",
+            "Interpretar importancia interna como causalidad.",
+            "Aumentar profundidad y árboles sin medir latencia ni estabilidad.",
+        ],
+        "decision_challenge": "Compará árbol, bosque y boosting por valor, estabilidad, latencia y capacidad de explicación.",
+        "scenario_quiz": q(
+            "Un boosting mejora AUC 0,004 pero multiplica por ocho la latencia. ¿Cuál es la respuesta correcta?",
+            ["Adoptarlo automáticamente", "Evaluar si la mejora cambia valor y cumple el SLA", "Eliminar el baseline", "Aumentar aún más la profundidad"],
+            1,
+            "Una mejora estadística pequeña no justifica por sí sola el costo operativo ni garantiza impacto en la decisión.",
+        ),
+    },
+    "10": {
+        "advanced_topics": [
+            "Estabilidad por remuestreo y consenso entre soluciones.",
+            "UMAP/HDBSCAN como profundización, con control de parámetros y ruido.",
+            "Validación operativa: tamaño, alcanzabilidad, diferenciación y respuesta al tratamiento.",
+        ],
+        "common_failures": [
+            "Elegir K solo por inercia o por una figura atractiva.",
+            "Describir clusters sin verificar estabilidad ni acción posible.",
+            "Usar PCA como prueba de que existen segmentos reales.",
+        ],
+        "decision_challenge": "Defendé una segmentación que pueda ser encontrada en producción y reciba acciones distintas.",
+        "scenario_quiz": q(
+            "Los clusters cambian por completo al quitar 5 % de las filas. ¿Qué conclusión corresponde?",
+            ["La segmentación es robusta", "La solución es inestable y no debe operarse aún", "PCA garantiza validez", "Hay causalidad"],
+            1,
+            "La sensibilidad al remuestreo indica que los grupos no son una base confiable para asignar acciones.",
+        ),
+    },
+    "11": {
+        "advanced_topics": [
+            "Embeddings, recuperación aumentada, evaluación de RAG y trazabilidad de fuentes.",
+            "Structured outputs, herramientas y agentes con límites, permisos y observabilidad.",
+            "Evaluación de IA generativa: veracidad, utilidad, seguridad, costo y latencia.",
+        ],
+        "common_failures": [
+            "Elegir una red profunda sin superar un baseline simple.",
+            "Evaluar texto generado solo con ejemplos favorables o impresión subjetiva.",
+            "Confundir atención con explicación causal o razonamiento humano.",
+        ],
+        "decision_challenge": "Diseñá un asistente documental que cite evidencia, se abstenga cuando corresponda y sea evaluable antes de publicarse.",
+        "local_resources": [
+            {"label": "Laboratorio RNN", "url": "simulacion.html"},
+            {"label": "Laboratorio NLP", "url": "nlp-lab.html"},
+            {"label": "Laboratorio Transformer", "url": "transformer-lab.html"},
+            {"label": "Preguntas Transformer", "url": "transformer-preguntas.html"},
+            {"label": "Glosario Transformer", "url": "transformer-glosario.html"},
+        ],
+        "scenario_quiz": q(
+            "Un sistema RAG responde con fluidez pero no cita el documento correcto. ¿Qué evaluación priorizar?",
+            ["Solo longitud de respuesta", "Calidad de recuperación, atribución y fidelidad a la fuente", "Cantidad de parámetros", "Número de colores"],
+            1,
+            "En RAG debe separarse si falló la recuperación, la atribución o la generación de una respuesta fiel al contexto.",
+        ),
+    },
+    "12": {
+        "advanced_topics": [
+            "Programación entera, asignación, cobertura y restricciones lógicas.",
+            "Optimización robusta y estocástica bajo escenarios de demanda.",
+            "Simulación Monte Carlo y análisis de sensibilidad del valor de la solución.",
+        ],
+        "common_failures": [
+            "Optimizar un parámetro predicho como si fuera conocido con certeza.",
+            "Aceptar una solución matemáticamente factible pero inviable en operación.",
+            "Omitir integridad, reglas lógicas o costos de transición.",
+        ],
+        "decision_challenge": "Elegí una cartera de acciones que maximice valor sin violar presupuesto, capacidad, equidad ni riesgo.",
+        "scenario_quiz": q(
+            "La demanda usada por el optimizador tiene alta incertidumbre. ¿Qué práctica es más defendible?",
+            ["Usar solo el promedio", "Resolver escenarios y revisar robustez de la decisión", "Eliminar restricciones", "Redondear sin verificar"],
+            1,
+            "Los escenarios muestran si una solución sigue siendo factible y valiosa cuando cambian parámetros inciertos.",
+        ),
+    },
+    "13": {
+        "advanced_topics": [
+            "NIST AI RMF, model/system cards, registros de riesgo e incidentes.",
+            "Gobernanza de IA generativa: procedencia, evaluación previa, seguridad y supervisión.",
+            "MLOps/LLMOps: drift, calidad, valor, daño, alertas y planes de respuesta.",
+        ],
+        "common_failures": [
+            "Reducir responsabilidad a una única métrica de equidad.",
+            "Monitorear datos sin observar valor, daño ni cambios de proceso.",
+            "Declarar supervisión humana sin autoridad ni tiempo real para intervenir.",
+        ],
+        "decision_challenge": "Construí un registro de riesgos con dueño, indicador, umbral, respuesta y evidencia de cierre.",
+        "scenario_quiz": q(
+            "El desempeño global permanece estable, pero crecen los falsos negativos en un grupo. ¿Qué debe ocurrir?",
+            ["Ignorar porque el promedio no cambió", "Activar investigación y respuesta por segmento", "Eliminar el monitoreo", "Subir el umbral para todos sin análisis"],
+            1,
+            "Los promedios pueden ocultar daño concentrado; el protocolo debe detectar, escalar y corregir por grupo relevante.",
+        ),
+    },
+    "14": {
+        "advanced_topics": [
+            "Decision memo ejecutivo, registro de supuestos y arquitectura reproducible.",
+            "Evaluación técnica, económica, responsable y operacional en una misma matriz.",
+            "Plan de experimento, despliegue gradual, monitoreo y criterio de retiro.",
+        ],
+        "common_failures": [
+            "Comenzar por el algoritmo y buscar después una decisión.",
+            "Entregar métricas sin recomendación, valor ni propietario de la acción.",
+            "Cerrar el proyecto sin plan de prueba, monitoreo o reversión.",
+        ],
+        "decision_challenge": "Defendé una recomendación ante una audiencia que cuestiona datos, valor, riesgo y posibilidad de implementación.",
+        "scenario_quiz": q(
+            "El modelo supera al baseline, pero nadie definió quién actuará ni cómo medir impacto. ¿Cuál es el estado del proyecto?",
+            ["Listo para producción", "Incompleto: falta diseño de decisión y operación", "Causalmente validado", "Terminado por tener buena métrica"],
+            1,
+            "Un modelo útil necesita una acción, un responsable, una métrica de impacto y un ciclo de seguimiento.",
+        ),
+    },
+}
+
+
+for module in MODULES:
+    enrichment = ENRICHMENTS[module["id"]]
+    module.update(enrichment)
+    module["quiz"].append(enrichment["scenario_quiz"])
+
+
 MODULES_BY_ID = {module["id"]: module for module in MODULES}

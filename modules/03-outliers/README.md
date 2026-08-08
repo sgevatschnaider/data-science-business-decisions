@@ -27,6 +27,22 @@ Separar errores, rarezas válidas y observaciones influyentes con criterios esta
 
 Una venta corporativa multiplica por veinte el ticket habitual. Borrarla mejora un promedio, pero elimina el segmento de mayor valor.
 
+## Profundización aplicada
+
+- Distancias robustas, leverage, Cook y sensibilidad de parámetros.
+- Detección contextual: un valor puede ser normal para un segmento y extremo para otro.
+- Eventos raros como fuente de aprendizaje, fraude o cambio de régimen.
+
+## Errores frecuentes
+
+- Eliminar automáticamente todo punto marcado por una regla estadística.
+- Usar puntuación z en distribuciones muy asimétricas sin contraste robusto.
+- Evaluar influencia sin comparar conclusiones con y sin el caso.
+
+## Desafío de transferencia
+
+Prepará una bitácora que separe error, evento raro válido, segmento especial y observación influyente.
+
 ## Secuencia de práctica
 
 1. Verificar unidades, reglas y procedencia de extremos.

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Si utilizás este material, citá al profesor Sergio Gevatschnaider y este repositorio."
+title: "Ciencia de Datos para Decisiones de Negocio"
+type: software
+authors:
+  - family-names: Gevatschnaider
+    given-names: Sergio
+repository-code: "https://github.com/sgevatschnaider/data-science-business-decisions"
+url: "https://sgevatschnaider.github.io/data-science-business-decisions/"
+license: CC-BY-NC-4.0
+date-released: 2026-08-08
+keywords:
+  - ciencia de datos
+  - decisiones de negocio
+  - machine learning
+  - inteligencia artificial
+  - educación abierta

@@ -27,6 +27,22 @@ Cuantificar relaciones, diagnosticar supuestos y evaluar errores con una interpr
 
 Una empresa estima ventas en función de inversión, precio y estacionalidad para definir presupuesto y rango de incertidumbre.
 
+## Profundización aplicada
+
+- Intervalos de confianza y predicción, bootstrap y propagación de incertidumbre.
+- Regularización Ridge/Lasso y estabilidad ante colinealidad.
+- Modelos con interacciones, no linealidad y errores robustos.
+
+## Errores frecuentes
+
+- Interpretar coeficientes como efectos causales sin diseño de identificación.
+- Reportar R² sin error fuera de muestra ni unidades de negocio.
+- Extrapolar fuera del rango observado sin análisis de sensibilidad.
+
+## Desafío de transferencia
+
+Traducí error e intervalo predictivo a una política de inventario con costo por exceso y faltante.
+
 ## Secuencia de práctica
 
 1. Explorar relaciones y posibles grupos.

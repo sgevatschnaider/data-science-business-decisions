@@ -27,6 +27,22 @@ Diagnosticar completitud, validez, consistencia, duplicados y mecanismos de ause
 
 En una solicitud de crédito faltan ingresos con mayor frecuencia en trabajadores independientes. Imputar sin segmentar puede ocultar una diferencia estructural.
 
+## Profundización aplicada
+
+- Pruebas de esquema, unicidad, frescura y consistencia entre fuentes.
+- Análisis de sensibilidad para mecanismos MCAR, MAR y MNAR.
+- Calidad como producto: responsables, alertas, severidad y acuerdos de servicio.
+
+## Errores frecuentes
+
+- Imputar antes de separar entrenamiento y evaluación.
+- Tratar todos los faltantes como un mismo fenómeno.
+- Corregir datos sin conservar la evidencia original ni la regla aplicada.
+
+## Desafío de transferencia
+
+Definí qué defectos bloquean una decisión, cuáles admiten corrección y cuáles exigen recolectar datos nuevamente.
+
 ## Secuencia de práctica
 
 1. Definir clave, rangos y reglas de consistencia.

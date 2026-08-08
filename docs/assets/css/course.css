@@ -2330,3 +2330,218 @@ td {
     color: #000;
   }
 }
+
+/* Profundización aplicada y bitácoras de decisión */
+.section-intro {
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+.advanced-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1.4rem;
+}
+
+.advanced-card {
+  background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--surface) 86%, var(--blue) 14%));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  min-height: 9rem;
+  padding: 1.2rem;
+}
+
+.advanced-card > span {
+  color: var(--teal);
+  display: block;
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  margin-bottom: .8rem;
+}
+
+.advanced-card p {
+  font-weight: 700;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.failure-panel,
+.challenge-panel,
+.decision-lab {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.failure-panel {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(12rem, .7fr) minmax(18rem, 1.3fr);
+  margin-top: 1.25rem;
+  padding: 1.4rem;
+}
+
+.failure-panel h3,
+.challenge-panel h2,
+.decision-lab h2 {
+  margin: .25rem 0 .7rem;
+}
+
+.failure-panel ul,
+.challenge-panel ol {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.failure-panel li,
+.challenge-panel li {
+  margin: .55rem 0;
+}
+
+.challenge-panel {
+  border-left: .35rem solid var(--amber);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.challenge-panel > span {
+  color: var(--amber-strong);
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.simulation-author {
+  color: var(--muted);
+  font-size: .88rem;
+  margin: 1rem auto 0;
+  text-align: center;
+}
+
+.decision-lab {
+  margin-top: 1.5rem;
+  padding: clamp(1.1rem, 3vw, 1.8rem);
+}
+
+.decision-lab-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 1.2rem;
+  justify-content: space-between;
+}
+
+.decision-lab-heading p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 68ch;
+}
+
+.scenario-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: .65rem;
+}
+
+.scenario-comparison {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.scenario-comparison > p {
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
+}
+
+.scenario-table {
+  border-collapse: collapse;
+  min-width: 36rem;
+  width: 100%;
+}
+
+.scenario-table caption {
+  font-weight: 850;
+  margin-bottom: .75rem;
+  text-align: left;
+}
+
+.scenario-table th,
+.scenario-table td {
+  border-bottom: 1px solid var(--line);
+  padding: .65rem .7rem;
+  text-align: left;
+}
+
+.scenario-table thead th {
+  color: var(--muted);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.decision-notes-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.decision-notes-grid label {
+  display: grid;
+  font-weight: 800;
+  gap: .5rem;
+}
+
+.decision-notes-grid textarea {
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.5;
+  min-height: 7rem;
+  padding: .8rem;
+  resize: vertical;
+}
+
+.decision-notes-grid textarea:focus-visible {
+  border-color: var(--teal);
+  outline: 3px solid color-mix(in srgb, var(--teal) 28%, transparent);
+}
+
+.decision-lab-footer {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.decision-lab-footer [role="status"] {
+  color: var(--muted);
+  margin: 0;
+}
+
+@media (max-width: 56rem) {
+  .advanced-grid,
+  .decision-notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .failure-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-lab-heading,
+  .decision-lab-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

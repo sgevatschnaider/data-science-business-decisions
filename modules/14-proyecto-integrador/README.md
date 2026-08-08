@@ -27,6 +27,22 @@ Integrar problema, datos, modelado, evaluación, decisión, comunicación y repr
 
 Cada equipo selecciona un problema de regresión, clasificación, series, segmentación u optimización con una decisión real y una audiencia definida.
 
+## Profundización aplicada
+
+- Decision memo ejecutivo, registro de supuestos y arquitectura reproducible.
+- Evaluación técnica, económica, responsable y operacional en una misma matriz.
+- Plan de experimento, despliegue gradual, monitoreo y criterio de retiro.
+
+## Errores frecuentes
+
+- Comenzar por el algoritmo y buscar después una decisión.
+- Entregar métricas sin recomendación, valor ni propietario de la acción.
+- Cerrar el proyecto sin plan de prueba, monitoreo o reversión.
+
+## Desafío de transferencia
+
+Defendé una recomendación ante una audiencia que cuestiona datos, valor, riesgo y posibilidad de implementación.
+
 ## Secuencia de práctica
 
 1. Completar canvas de decisión y contrato de datos.

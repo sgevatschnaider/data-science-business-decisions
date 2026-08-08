@@ -27,6 +27,22 @@ Transformar, escalar, codificar y construir variables sin filtrar información n
 
 Un modelo de demanda combina precios, categorías y recencia. Calcular promedios usando meses futuros produce métricas excelentes e inútiles.
 
+## Profundización aplicada
+
+- Disponibilidad temporal y point-in-time correctness en ingeniería de variables.
+- Transformaciones supervisadas dentro de validación anidada.
+- Características categóricas de alta cardinalidad, frecuencia y target encoding seguro.
+
+## Errores frecuentes
+
+- Calcular estadísticas de transformación con todo el dataset.
+- Crear variables con datos posteriores al momento de decisión.
+- Aplicar una transformación porque mejora una métrica sin revisar estabilidad.
+
+## Desafío de transferencia
+
+Construí una tabla de disponibilidad que demuestre qué variable existe realmente en el instante de predicción.
+
 ## Secuencia de práctica
 
 1. Clasificar variables por tipo y tratamiento.

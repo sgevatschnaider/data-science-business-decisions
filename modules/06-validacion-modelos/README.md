@@ -27,6 +27,22 @@ Diseñar particiones, baselines y validación cruzada que estimen el desempeño 
 
 Un scoring entrenado con operaciones de los mismos clientes en train y test parece excelente, pero falla con clientes nuevos.
 
+## Profundización aplicada
+
+- Validación anidada para separar selección de hiperparámetros y estimación final.
+- Intervalos por bootstrap, curvas de aprendizaje y pruebas de estabilidad.
+- Particiones por grupo, entidad, geografía y tiempo que imitan el despliegue.
+
+## Errores frecuentes
+
+- Elegir el modelo y reportar el mismo cross-validation como estimación imparcial.
+- Ignorar dependencia entre filas del mismo cliente o período.
+- Optimizar una métrica promedio sin revisar dispersión ni segmentos.
+
+## Desafío de transferencia
+
+Diseñá una validación que replique quién, cuándo y dónde recibirá predicciones en producción.
+
 ## Secuencia de práctica
 
 1. Identificar dependencias temporales o por entidad.

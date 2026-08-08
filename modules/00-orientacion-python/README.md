@@ -27,6 +27,22 @@ Del problema ambiguo al experimento reproducible: entorno, notebooks, datos, có
 
 Una gerencia solicita identificar clientes con riesgo de abandono. Antes de modelar, el equipo debe fijar qué significa abandonar, cuál es la ventana de observación y qué acción se tomará con el resultado.
 
+## Profundización aplicada
+
+- Contratos de datos y pruebas ejecutables para entradas, tipos y rangos.
+- Entornos reproducibles, semillas, configuración y trazabilidad de artefactos.
+- Git como registro de decisiones: ramas, revisiones y cambios pequeños verificables.
+
+## Errores frecuentes
+
+- Confundir una pregunta amplia con una decisión operable.
+- Depender del orden manual de celdas o de archivos locales no documentados.
+- Publicar resultados sin registrar versiones, supuestos ni responsables.
+
+## Desafío de transferencia
+
+Convertí una solicitud ambigua de dirección en un contrato analítico que otra persona pueda ejecutar y auditar.
+
 ## Secuencia de práctica
 
 1. Abrir el notebook en Colab o Jupyter y ejecutar todo desde cero.

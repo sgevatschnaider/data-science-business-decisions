@@ -1158,8 +1158,179 @@
     "14": simulation14
   };
 
+  function enhanceDecisionLab() {
+    var storageKey = "datos-decisiones-lab-" + moduleId;
+    var scenarios = { A: null, B: null };
+    var panel = document.createElement("section");
+    panel.className = "decision-lab";
+    panel.setAttribute("aria-labelledby", "decision-lab-title");
+    panel.innerHTML =
+      '<div class="decision-lab-heading">' +
+        '<div><span class="sim-badge">Bitácora de decisión</span>' +
+        '<h2 id="decision-lab-title">Comparar antes de recomendar</h2>' +
+        '<p data-lab-challenge></p></div>' +
+        '<div class="scenario-actions">' +
+          '<button class="button secondary" type="button" data-save-scenario="A">Guardar escenario A</button>' +
+          '<button class="button secondary" type="button" data-save-scenario="B">Guardar escenario B</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="scenario-comparison" data-scenario-comparison>' +
+        '<p>Guardá dos configuraciones para comparar controles y resultados.</p>' +
+      '</div>' +
+      '<div class="decision-notes-grid">' +
+        '<label><span>Hipótesis previa</span><textarea rows="3" data-note="hypothesis" placeholder="Si cambio…, entonces espero… porque…"></textarea></label>' +
+        '<label><span>Evidencia observada</span><textarea rows="3" data-note="evidence" placeholder="Qué cambió, cuánto y en qué dirección"></textarea></label>' +
+        '<label><span>Recomendación y límite</span><textarea rows="3" data-note="recommendation" placeholder="Acción, población, condición y principal límite"></textarea></label>' +
+      '</div>' +
+      '<div class="decision-lab-footer">' +
+        '<div class="button-row">' +
+          '<button class="button primary" type="button" data-save-lab>Guardar bitácora</button>' +
+          '<button class="button tertiary" type="button" data-export-lab>Exportar evidencia</button>' +
+          '<button class="button tertiary" type="button" data-reset-lab>Reiniciar</button>' +
+        '</div>' +
+        '<p role="status" aria-live="polite" data-lab-status></p>' +
+      '</div>';
+    panel.querySelector("[data-lab-challenge]").textContent = root.dataset.challenge ||
+      "Compará alternativas y registrá qué evidencia sostiene la decisión.";
+    root.insertAdjacentElement("afterend", panel);
+
+    function controlsSnapshot() {
+      return Array.from(root.querySelectorAll("input, select")).reduce(function (acc, control) {
+        var label = root.querySelector('label[for="' + control.id + '"] span') ||
+          root.querySelector('label[for="' + control.id + '"]');
+        var key = label ? label.textContent.trim() : control.id;
+        acc[key] = control.type === "checkbox" ? (control.checked ? "Sí" : "No") :
+          control.value + (control.dataset.suffix || "");
+        return acc;
+      }, {});
+    }
+
+    function metricsSnapshot() {
+      return Array.from(root.querySelectorAll(".metric-card")).reduce(function (acc, card) {
+        var label = card.querySelector("span");
+        var value = card.querySelector("strong");
+        if (label && value) acc[label.textContent.trim()] = value.textContent.trim();
+        return acc;
+      }, {});
+    }
+
+    function snapshot() {
+      return {
+        capturedAt: new Date().toISOString(),
+        controls: controlsSnapshot(),
+        metrics: metricsSnapshot()
+      };
+    }
+
+    function renderComparison() {
+      var target = panel.querySelector("[data-scenario-comparison]");
+      target.innerHTML = "";
+      if (!scenarios.A && !scenarios.B) {
+        target.innerHTML = "<p>Guardá dos configuraciones para comparar controles y resultados.</p>";
+        return;
+      }
+      var keys = [];
+      ["controls", "metrics"].forEach(function (group) {
+        ["A", "B"].forEach(function (name) {
+          if (!scenarios[name]) return;
+          Object.keys(scenarios[name][group]).forEach(function (key) {
+            var composite = group + "::" + key;
+            if (keys.indexOf(composite) === -1) keys.push(composite);
+          });
+        });
+      });
+      var table = document.createElement("table");
+      table.className = "scenario-table";
+      table.innerHTML = "<caption>Comparación de escenarios guardados</caption><thead><tr><th>Indicador</th><th>Escenario A</th><th>Escenario B</th></tr></thead>";
+      var body = document.createElement("tbody");
+      keys.forEach(function (composite) {
+        var parts = composite.split("::");
+        var group = parts[0];
+        var key = parts.slice(1).join("::");
+        var row = document.createElement("tr");
+        [key, scenarios.A && scenarios.A[group][key] || "—", scenarios.B && scenarios.B[group][key] || "—"].forEach(function (value, index) {
+          var cell = document.createElement(index === 0 ? "th" : "td");
+          if (index === 0) cell.setAttribute("scope", "row");
+          cell.textContent = value;
+          row.appendChild(cell);
+        });
+        body.appendChild(row);
+      });
+      table.appendChild(body);
+      target.appendChild(table);
+    }
+
+    function notesSnapshot() {
+      return Array.from(panel.querySelectorAll("[data-note]")).reduce(function (acc, field) {
+        acc[field.dataset.note] = field.value.trim();
+        return acc;
+      }, {});
+    }
+
+    function record() {
+      return {
+        module: moduleId,
+        challenge: root.dataset.challenge,
+        notes: notesSnapshot(),
+        scenarios: scenarios
+      };
+    }
+
+    function setStatus(message) {
+      panel.querySelector("[data-lab-status]").textContent = message;
+    }
+
+    try {
+      var saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (saved) {
+        scenarios = saved.scenarios || scenarios;
+        Object.keys(saved.notes || {}).forEach(function (key) {
+          var field = panel.querySelector('[data-note="' + key + '"]');
+          if (field) field.value = saved.notes[key];
+        });
+        renderComparison();
+      }
+    } catch (error) {
+      setStatus("La bitácora local no estaba disponible; podés trabajar sin guardado persistente.");
+    }
+
+    panel.querySelectorAll("[data-save-scenario]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        scenarios[button.dataset.saveScenario] = snapshot();
+        renderComparison();
+        setStatus("Escenario " + button.dataset.saveScenario + " guardado.");
+      });
+    });
+    panel.querySelector("[data-save-lab]").addEventListener("click", function () {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(record()));
+        setStatus("Bitácora guardada en este navegador.");
+      } catch (error) {
+        setStatus("No fue posible guardar localmente; exportá la evidencia.");
+      }
+    });
+    panel.querySelector("[data-export-lab]").addEventListener("click", function () {
+      var blob = new Blob([JSON.stringify(record(), null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = "modulo-" + moduleId + "-evidencia.json";
+      link.click();
+      URL.revokeObjectURL(url);
+      setStatus("Evidencia exportada.");
+    });
+    panel.querySelector("[data-reset-lab]").addEventListener("click", function () {
+      scenarios = { A: null, B: null };
+      panel.querySelectorAll("[data-note]").forEach(function (field) { field.value = ""; });
+      try { localStorage.removeItem(storageKey); } catch (error) { /* sin persistencia */ }
+      renderComparison();
+      setStatus("Bitácora reiniciada.");
+    });
+  }
+
   if (simulations[moduleId]) {
     simulations[moduleId]();
+    enhanceDecisionLab();
   } else {
     root.innerHTML = '<p class="alert">No se encontró la simulación solicitada.</p>';
   }

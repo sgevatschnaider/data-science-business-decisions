@@ -1,0 +1,48 @@
+name: Error técnico
+description: Reportá una página, simulación, notebook o automatización que no funciona.
+title: "[Error] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Gracias por ayudar a mantener el curso reproducible y accesible.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área afectada
+      options:
+        - Sitio o navegación
+        - Simulación interactiva
+        - Cuestionario o glosario
+        - Notebook
+        - Datos
+        - Automatización de GitHub
+    validations:
+      required: true
+  - type: input
+    id: resource
+    attributes:
+      label: Recurso
+      description: Indicá el módulo, archivo o URL exacta.
+      placeholder: Módulo 08 / simulacion.html
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Pasos para reproducir
+      description: Explicá qué hiciste, qué ocurrió y qué esperabas.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Entorno
+      placeholder: Windows 11, Chrome 128, Python 3.13
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Privacidad
+      options:
+        - label: Confirmo que el reporte no incluye credenciales ni datos personales.
+          required: true

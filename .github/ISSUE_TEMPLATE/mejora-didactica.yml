@@ -1,0 +1,40 @@
+name: Mejora didáctica
+description: Proponé una actualización conceptual, actividad, caso o visualización.
+title: "[Contenido] "
+labels: ["enhancement", "documentation"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Módulo o recorrido
+      placeholder: Módulo 11 / arquitecturas modernas
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: Necesidad de aprendizaje
+      description: ¿Qué concepto, decisión o dificultad no está suficientemente cubierto?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Describí la mejora y la evidencia observable que debería producir el estudiante.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Fuentes primarias sugeridas
+      description: Incluí documentación oficial, estándares o trabajos académicos cuando corresponda.
+  - type: checkboxes
+    id: criteria
+    attributes:
+      label: Criterios
+      options:
+        - label: La propuesta se conecta con una decisión o capacidad verificable.
+          required: true
+        - label: La propuesta declara supuestos, límites y riesgos relevantes.
+          required: true

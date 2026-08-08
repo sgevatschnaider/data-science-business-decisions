@@ -3,135 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Laboratorio interactivo para comprender cómo una red neuronal recurrente transforma una secuencia en memoria, paso a paso.">
+  <meta name="description" content="Ajustá pesos, sesgo y activación; observá salidas y frontera de decisión antes de explorar redes multicapa.">
   <meta name="author" content="Sergio Gevatschnaider">
   <meta name="theme-color" content="#082f49">
-  <title>RNN paso a paso: secuencia y memoria | Datos y Decisiones</title>
+  <title>Laboratorio de neuronas y activaciones | Datos y Decisiones</title>
   <link rel="stylesheet" href="../../assets/css/course.css">
-  <link rel="stylesheet" href="../../assets/css/rnn-simulation.css">
 </head>
-<body class="simulation-page" data-module-id="11" data-page-kind="simulacion">
-  <a class="skip-link" href="#contenido">Saltar al contenido</a>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="../../index.html" aria-label="Inicio del curso">
-        <span class="brand-mark" aria-hidden="true">DD</span>
-        <span>
-          <strong>Datos y Decisiones</strong>
-          <small>Ciencia de datos aplicada</small>
-        </span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menú</button>
-      <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
-        <a href="../../index.html">Inicio</a>
-        <a href="../../programa.html">Programa</a>
-        <a href="../../proyecto-integrador.html">Proyecto</a>
-        <a href="../../profundizaciones.html">Profundizaciones</a>
-        <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
-        <button class="theme-toggle" type="button" aria-label="Cambiar tema">Tema</button>
-      </nav>
+        <body class="simulation-page" data-module-id="11" data-page-kind="simulacion">
+          <a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+      <span class="brand-mark" aria-hidden="true">DD</span>
+      <span>
+        <strong>Datos y Decisiones</strong>
+        <small>Ciencia de datos aplicada</small>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false"
+            aria-controls="site-navigation">Menú</button>
+    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+      <a href="../../index.html">Inicio</a>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../proyecto-integrador.html">Proyecto</a>
+      <a href="../../profundizaciones.html">Profundizaciones</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
+      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
+        Tema
+      </button>
+    </nav>
+  </div>
+</header>
+          <main id="contenido">
+            <section class="page-hero simulation-hero compact">
+  <div class="container narrow">
+    <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 11</a> / Simulación</p>
+    <p class="eyebrow">Laboratorio interactivo · Módulo 11</p>
+    <h1>Laboratorio de neuronas y activaciones</h1>
+    <p class="hero-lead">Ajustá pesos, sesgo y activación; observá salidas y frontera de decisión antes de explorar redes multicapa.</p>
+  </div>
+</section>
+<section class="container simulation-section">
+  <noscript><p class="alert">Esta simulación necesita JavaScript habilitado.</p></noscript>
+  <div id="simulation-root" class="simulation-root" data-simulation="11"
+       data-challenge="Diseñá un asistente documental que cite evidencia, se abstenga cuando corresponda y sea evaluable antes de publicarse." aria-live="polite"></div>
+  <div class="reflection-panel">
+    <p class="eyebrow">Método de trabajo</p>
+    <h2>Lectura de resultados</h2>
+    <ol>
+      <li>Formulá una hipótesis antes de mover un control.</li>
+      <li>Guardá un escenario A y un escenario B para comparar evidencia.</li>
+      <li>Interpretá la métrica en costo, capacidad, riesgo o valor.</li>
+      <li>Registrá una recomendación, una limitación y el próximo dato necesario.</li>
+    </ol>
+  </div>
+  <p class="simulation-author">Material elaborado por el profesor Sergio Gevatschnaider.</p>
+  <div class="button-row centered">
+    <a class="button secondary" href="index.html">Volver a la guía</a>
+    <a class="button primary" href="cuestionario.html">Continuar al cuestionario</a>
+  </div>
+</section>
+          </main>
+          <footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
+      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
     </div>
-  </header>
-
-  <main id="contenido">
-    <section class="page-hero simulation-hero compact rnn-page-hero">
-      <div class="container narrow">
-        <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 11</a> / Simulación RNN</p>
-        <p class="eyebrow">Laboratorio interactivo · Modelos secuenciales</p>
-        <h1>RNN paso a paso: cómo una secuencia se convierte en memoria</h1>
-        <p class="hero-lead">Recorré cada instante, observá la actualización del estado oculto y comprobá cómo los pesos determinan cuánto importa la entrada actual y cuánto permanece del pasado.</p>
-        <div class="rnn-hero-tags" aria-label="Conceptos principales">
-          <span>Secuencia temporal</span>
-          <span>Estado oculto</span>
-          <span>Recurrencia</span>
-          <span>Activación</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="container rnn-concept-section" aria-labelledby="modelo-rnn">
-      <div class="rnn-section-heading">
-        <p class="eyebrow">Modelo mínimo</p>
-        <h2 id="modelo-rnn">Una misma transformación repetida en el tiempo</h2>
-        <p>La RNN procesa una observación por vez. En cada paso combina el dato presente con una memoria resumida del paso anterior.</p>
-      </div>
-      <div class="rnn-equation-banner" aria-label="Ecuación del estado oculto de una RNN">
-        <span class="rnn-equation-label">Actualización recurrente</span>
-        <strong>h<sub>t</sub> = φ(W<sub>x</sub>x<sub>t</sub> + W<sub>h</sub>h<sub>t−1</sub> + b)</strong>
-        <small>La función φ puede ser tanh, sigmoide o ReLU.</small>
-      </div>
-      <div class="rnn-theory-strip">
-        <article class="rnn-theory-card input-card">
-          <span class="rnn-theory-icon" aria-hidden="true">x<sub>t</sub></span>
-          <div><h3>Entrada actual</h3><p>Representa el dato que llega en el instante t: una venta, una palabra, una señal o un evento.</p></div>
-        </article>
-        <article class="rnn-theory-card memory-card">
-          <span class="rnn-theory-icon" aria-hidden="true">h<sub>t−1</sub></span>
-          <div><h3>Memoria previa</h3><p>Resume el contexto acumulado. No almacena literalmente toda la secuencia: conserva una representación comprimida.</p></div>
-        </article>
-        <article class="rnn-theory-card state-card">
-          <span class="rnn-theory-icon" aria-hidden="true">h<sub>t</sub></span>
-          <div><h3>Nuevo estado</h3><p>Integra presente y pasado. Se convierte en la memoria que recibirá el siguiente paso temporal.</p></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="container simulation-section rnn-simulation-section">
-      <noscript><p class="alert">Esta simulación necesita JavaScript habilitado.</p></noscript>
-      <div id="rnn-simulation-root" class="rnn-simulation-root" data-rnn-simulation aria-live="polite"></div>
-
-      <div class="rnn-reading-grid" aria-labelledby="lectura-rnn">
-        <article>
-          <span>01</span>
-          <h3 id="lectura-rnn">Leé la secuencia</h3>
-          <p>Elegí un caso y avanzá paso a paso. El elemento activo es la observación que la red está procesando.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Separá las contribuciones</h3>
-          <p>Compará W<sub>x</sub>x<sub>t</sub> con W<sub>h</sub>h<sub>t−1</sub>. Así distinguís cuánto proviene del presente y cuánto de la memoria.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Diagnosticá la dinámica</h3>
-          <p>Probá memoria corta, equilibrada, persistente y saturada. Observá cuándo la señal se pierde, oscila o deja de responder.</p>
-        </article>
-      </div>
-
-      <div class="reflection-panel rnn-reflection">
-        <h2>Preguntas para interpretar, no solo mirar</h2>
-        <ol>
-          <li>¿Qué cambia cuando W<sub>h</sub> se acerca a cero?</li>
-          <li>¿Puede una entrada nueva corregir una memoria previa intensa?</li>
-          <li>¿Qué diferencia observás entre tanh, sigmoide y ReLU?</li>
-          <li>¿Por qué una RNN simple puede tener dificultades para conservar dependencias lejanas?</li>
-        </ol>
-      </div>
-
-      <div class="button-row centered">
-        <a class="button secondary" href="index.html">Volver a la guía</a>
-        <a class="button primary" href="cuestionario.html">Continuar al cuestionario</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>Ciencia de Datos para Decisiones de Negocio</strong>
-        <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
-      </div>
-      <div>
-        <a href="../../programa.html">Programa</a>
-        <a href="../../accesibilidad.html">Accesibilidad</a>
-        <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
-      </div>
+    <div>
+      <a href="../../programa.html">Programa</a>
+      <a href="../../accesibilidad.html">Accesibilidad</a>
+      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
     </div>
-  </footer>
-
-  <script src="../../assets/js/course-data.js"></script>
-  <script src="../../assets/js/site.js"></script>
-  <script src="../../assets/js/rnn-simulation.js"></script>
-  <script src="../../assets/js/module.js"></script>
-</body>
-</html>
+  </div>
+</footer>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/site.js"></script>
+          <script src="../../assets/js/simulations.js"></script>
+<script src="../../assets/js/module.js"></script>
+        </body>
+        </html>

@@ -27,6 +27,22 @@ Descubrir estructuras no supervisadas con escala, distancia, estabilidad e inter
 
 Marketing busca segmentos de clientes para diseñar propuestas distintas. Un grupo estadístico solo es útil si puede describirse, alcanzarse y tratarse.
 
+## Profundización aplicada
+
+- Estabilidad por remuestreo y consenso entre soluciones.
+- UMAP/HDBSCAN como profundización, con control de parámetros y ruido.
+- Validación operativa: tamaño, alcanzabilidad, diferenciación y respuesta al tratamiento.
+
+## Errores frecuentes
+
+- Elegir K solo por inercia o por una figura atractiva.
+- Describir clusters sin verificar estabilidad ni acción posible.
+- Usar PCA como prueba de que existen segmentos reales.
+
+## Desafío de transferencia
+
+Defendé una segmentación que pueda ser encontrada en producción y reciba acciones distintas.
+
 ## Secuencia de práctica
 
 1. Seleccionar variables alineadas con el uso del segmento.

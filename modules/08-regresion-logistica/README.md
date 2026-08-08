@@ -27,6 +27,22 @@ Estimar probabilidades, evaluar ranking y calibración, y elegir umbrales según
 
 Una campaña de retención solo puede contactar al 15 por ciento de la cartera; el equipo debe ordenar riesgo y estimar valor neto por contacto.
 
+## Profundización aplicada
+
+- Calibración fuera de muestra, Brier score y diagramas de confiabilidad.
+- Curvas de ganancia, lift, capacidad y valor neto por política.
+- Tuning del umbral separado del entrenamiento y análisis por segmentos.
+
+## Errores frecuentes
+
+- Evaluar probabilidades sobre los mismos casos usados para ajustar.
+- Elegir 0,5 por costumbre o maximizar F1 sin función de valor.
+- Confundir buen ranking con probabilidades confiables.
+
+## Desafío de transferencia
+
+Elegí una política de contacto con capacidad limitada y costos distintos por falso positivo y falso negativo.
+
 ## Secuencia de práctica
 
 1. Definir clase positiva y consecuencias de error.

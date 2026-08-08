@@ -20,6 +20,14 @@ El recorrido conecta cinco preguntas:
 
 Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
 
+## Experiencia de aprendizaje
+
+- **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
+- **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
+- **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
+- **Notebooks verificables:** los 15 laboratorios registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable.
+- **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
+
 | Módulo | Contenido | Recursos |
 |---:|---|---|
 | 00 | Orientación, Python y flujo de trabajo | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/00-orientacion-python.ipynb) |
@@ -78,13 +86,16 @@ jupyter lab
 ```bash
 python scripts/build_course.py --check
 python scripts/validate_repo.py
+python scripts/execute_notebooks.py
 ```
 
-La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, notebooks, cobertura de recursos y consistencia de contenidos.
+La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, cobertura de recursos, consistencia de contenidos y ejecución real de los 15 notebooks.
 
 ## Autoría
 
 Material elaborado por el profesor Sergio Gevatschnaider.
+
+Para uso académico, consultá los metadatos de [CITATION.cff](CITATION.cff).
 
 ## Licencias
 
