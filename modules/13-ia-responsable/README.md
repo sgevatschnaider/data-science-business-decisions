@@ -27,6 +27,22 @@ Evaluar explicaciones, equidad, privacidad, causalidad, monitoreo y gobernanza d
 
 Un modelo prioriza solicitudes para revisión. La organización debe medir errores por grupo, explicar casos, registrar cambios y definir apelación.
 
+## Profundización aplicada
+
+- NIST AI RMF, model/system cards, registros de riesgo e incidentes.
+- Gobernanza de IA generativa: procedencia, evaluación previa, seguridad y supervisión.
+- MLOps/LLMOps: drift, calidad, valor, daño, alertas y planes de respuesta.
+
+## Errores frecuentes
+
+- Reducir responsabilidad a una única métrica de equidad.
+- Monitorear datos sin observar valor, daño ni cambios de proceso.
+- Declarar supervisión humana sin autoridad ni tiempo real para intervenir.
+
+## Desafío de transferencia
+
+Construí un registro de riesgos con dueño, indicador, umbral, respuesta y evidencia de cierre.
+
 ## Secuencia de práctica
 
 1. Identificar partes afectadas y daños plausibles.

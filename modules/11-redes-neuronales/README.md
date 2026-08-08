@@ -1,45 +1,64 @@
 # Módulo 11: Redes neuronales y arquitecturas modernas
 
-Ruta integrada para comprender representación, memoria recurrente, procesamiento del lenguaje natural y atención Transformer mediante teoría, experimentación y visualizaciones dinámicas.
+Comprender neuronas, activaciones, backpropagation y regularización, con un mapa responsable de arquitecturas actuales.
 
 ## Pregunta de decisión
 
-¿Cuándo conviene usar una arquitectura recurrente y cuándo la atención de un Transformer aporta una representación más útil del contexto?
+¿Cuándo la capacidad de aprender representaciones justifica mayor complejidad, datos y costo computacional?
 
-## Organización del módulo
-
-1. **Fundamentos neuronales:** neurona, activación, pérdida, gradiente y regularización.
-2. **Secuencias y memoria:** RNN, estado oculto, estabilidad y motivación de LSTM/GRU.
-3. **Procesamiento del lenguaje natural:** tokenización, representación, embeddings, tareas y evaluación.
-4. **Atención y Transformers:** posiciones, Q/K/V, self-attention, multi-head attention, encoder, decoder, generación y límites.
-
-## Recursos
+## Índice interactivo
 
 | Recurso | Acceso |
 |---|---|
 | Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/index.html) |
-| Simulación RNN paso a paso | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
+| Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
+| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) |
+| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) |
+| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb) |
+| TensorFlow Playground | [Abrir](https://playground.tensorflow.org/) |
+| Laboratorio RNN | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
 | Laboratorio NLP | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/nlp-lab.html) |
 | Laboratorio Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-lab.html) |
 | Preguntas Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-preguntas.html) |
 | Glosario Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-glosario.html) |
-| Cuestionario general | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) |
-| Glosario general | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) |
-| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb) |
-| TensorFlow Playground | [Abrir](https://playground.tensorflow.org/) |
 
 ## Resultados de aprendizaje
 
-- Explicar neurona, activación, pérdida, gradiente y regularización.
-- Desplegar una RNN en el tiempo e interpretar su estado oculto.
-- Relacionar recurrencia, saturación y dependencias largas.
-- Describir un pipeline de NLP desde texto crudo hasta una tarea evaluable.
-- Explicar self-attention mediante Query, Key, Value y softmax.
-- Comparar RNN, LSTM, GRU y Transformers según datos, costo y objetivo.
+- Explicar neurona, capa, activación, pérdida y gradiente.
+- Relacionar capacidad, sobreajuste y regularización.
+- Experimentar con fronteras no lineales en TensorFlow Playground.
+- Distinguir CNN, RNN/LSTM/GRU, Transformers y autoencoders.
+
+## Caso de negocio
+
+Un centro de atención quiere clasificar mensajes y resumir motivos. Debe comparar una referencia simple con modelos complejos y evaluar errores.
+
+## Profundización aplicada
+
+- Embeddings, recuperación aumentada, evaluación de RAG y trazabilidad de fuentes.
+- Structured outputs, herramientas y agentes con límites, permisos y observabilidad.
+- Evaluación de IA generativa: veracidad, utilidad, seguridad, costo y latencia.
+
+## Errores frecuentes
+
+- Elegir una red profunda sin superar un baseline simple.
+- Evaluar texto generado solo con ejemplos favorables o impresión subjetiva.
+- Confundir atención con explicación causal o razonamiento humano.
+
+## Desafío de transferencia
+
+Diseñá un asistente documental que cite evidencia, se abstenga cuando corresponda y sea evaluable antes de publicarse.
+
+## Secuencia de práctica
+
+1. Construir una neurona y observar su frontera.
+2. Comparar activaciones y cantidad de capas.
+3. Registrar pérdida de entrenamiento y validación.
+4. Documentar por qué una arquitectura es adecuada al tipo de dato.
 
 ## Entregable
 
-Informe comparativo con una tarea secuencial o de lenguaje, baseline, arquitectura propuesta, flujo de información, métricas, costo, riesgos y justificación de la arquitectura seleccionada.
+Experimento controlado de arquitectura y regularización, comparación con baseline, curva de aprendizaje y ficha de riesgos.
 
 ## Autoría
 

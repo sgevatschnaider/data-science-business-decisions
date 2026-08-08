@@ -27,6 +27,22 @@ Explorar con propósito: estructura, distribuciones, relaciones, segmentos y vis
 
 Una cadena minorista analiza ticket, frecuencia, canal y región para decidir dónde concentrar una campaña de fidelización.
 
+## Profundización aplicada
+
+- Small multiples, intervalos y anotaciones que muestran magnitud e incertidumbre.
+- Percepción visual: posición y longitud antes que área, volumen o color decorativo.
+- EDA por segmentos, tiempo y cohortes para evitar promedios que ocultan heterogeneidad.
+
+## Errores frecuentes
+
+- Construir una galería de gráficos sin pregunta ni conclusión.
+- Usar ejes truncados, escalas incompatibles o demasiados colores.
+- Presentar una asociación exploratoria como explicación causal.
+
+## Desafío de transferencia
+
+Diseñá una página ejecutiva con tres visualizaciones que expliquen qué cambió, dónde y cuánto importa.
+
 ## Secuencia de práctica
 
 1. Auditar dimensiones, tipos, claves y cardinalidades.

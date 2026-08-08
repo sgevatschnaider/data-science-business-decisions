@@ -27,6 +27,22 @@ Modelar tendencia, estacionalidad y dependencia temporal con baselines honestos 
 
 Un comercio pronostica demanda semanal para decidir inventario. Los errores por defecto generan quiebres; por exceso, capital inmovilizado.
 
+## Profundización aplicada
+
+- Pronósticos probabilísticos, cuantiles y cobertura de intervalos.
+- Demanda intermitente, jerarquías y reconciliación entre niveles.
+- Forecast Value Added para medir si cada etapa mejora un baseline.
+
+## Errores frecuentes
+
+- Mezclar pasado y futuro o usar ventanas centradas.
+- Elegir un único horizonte y ocultar degradación a largo plazo.
+- Comparar contra un baseline demasiado débil.
+
+## Desafío de transferencia
+
+Definí cuantiles de demanda que minimicen el costo conjunto de stock, urgencias y pérdida de ventas.
+
 ## Secuencia de práctica
 
 1. Ordenar frecuencia, huecos y duplicados temporales.

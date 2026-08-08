@@ -69,11 +69,11 @@ def validate_manifest() -> None:
         return
     data = json.loads(path.read_text(encoding="utf-8"))
     expected = {
-        "modules": 15,
-        "simulations": 15,
-        "questions": 90,
-        "glossary_terms": 150,
-        "notebooks": 15,
+        "modules": len(MODULES),
+        "simulations": len(MODULES),
+        "questions": sum(len(module["quiz"]) for module in MODULES),
+        "glossary_terms": sum(len(module["glossary"]) for module in MODULES),
+        "notebooks": len(MODULES),
     }
     for key, value in expected.items():
         if data.get(key) != value:
@@ -109,8 +109,12 @@ def local_target(page: Path, raw_link: str) -> Path | None:
 
 def validate_html() -> None:
     pages = sorted(DOCS.rglob("*.html"))
-    if len(pages) != 65:
-        error(f"Se esperaban 65 páginas HTML y se encontraron {len(pages)}")
+    minimum_pages = 5 + (len(MODULES) * 4)
+    if len(pages) < minimum_pages:
+        error(
+            f"Se esperaban al menos {minimum_pages} páginas HTML y se encontraron "
+            f"{len(pages)}"
+        )
     for page in pages:
         parser = DocumentParser()
         text = page.read_text(encoding="utf-8")
@@ -159,8 +163,15 @@ def validate_notebooks() -> None:
         if notebook.get("nbformat") != 4:
             error(f"Formato inesperado en {path.name}")
         cells = notebook.get("cells", [])
-        if len(cells) < 5:
+        if len(cells) < 12:
             error(f"Notebook incompleto {path.name}: {len(cells)} celdas")
+        code_cells = [cell for cell in cells if cell.get("cell_type") == "code"]
+        if len(code_cells) < 4:
+            error(f"Notebook sin experimentación suficiente {path.name}")
+        if not any("Criterio de éxito" in "".join(cell.get("source", [])) for cell in cells):
+            error(f"Notebook sin criterio de éxito explícito {path.name}")
+        if not any("Registro de decisión" in "".join(cell.get("source", [])) for cell in cells):
+            error(f"Notebook sin registro de decisión {path.name}")
         for index, cell in enumerate(cells):
             if cell.get("cell_type") != "code":
                 continue
@@ -199,9 +210,11 @@ def validate_javascript() -> None:
         return
     for script in scripts:
         result = subprocess.run(
-            [node, "--check", str(script)],
+            [node, "--check", "-"],
+            input=script.read_text(encoding="utf-8"),
             capture_output=True,
             text=True,
+            encoding="utf-8",
             check=False,
         )
         if result.returncode:
@@ -235,16 +248,17 @@ def validate_content_counts() -> None:
     for module in MODULES:
         if len(module["glossary"]) != 10:
             error(f"Módulo {module['id']}: glosario con {len(module['glossary'])} términos")
-        if len(module["quiz"]) != 6:
+        if len(module["quiz"]) < 7:
             error(f"Módulo {module['id']}: cuestionario con {len(module['quiz'])} preguntas")
         if len(module["objectives"]) < 4:
             error(f"Módulo {module['id']}: objetivos insuficientes")
         if len(module["theory"]) < 4:
             error(f"Módulo {module['id']}: desarrollo conceptual insuficiente")
         external_resources = module.get("external_resources", [])
+        local_resources = module.get("local_resources", [])
         index = DOCS / "modulos" / module["slug"] / "index.html"
         index_text = index.read_text(encoding="utf-8") if index.is_file() else ""
-        expected_progress_count = 5 + len(external_resources)
+        expected_progress_count = 5 + len(external_resources) + len(local_resources)
         if f"de {expected_progress_count} recursos" not in index_text:
             error(
                 f"Módulo {module['id']}: total de recursos inconsistente "
@@ -271,11 +285,39 @@ def validate_content_counts() -> None:
                     f"Módulo {module['id']}: recurso externo sin seguimiento "
                     f"de progreso"
                 )
+        for resource_index, resource in enumerate(local_resources, start=1):
+            if not resource.get("label") or not resource.get("url"):
+                error(f"Módulo {module['id']}: recurso local incompleto")
+                continue
+            target = index.parent / resource["url"]
+            if not target.is_file():
+                error(
+                    f"Módulo {module['id']}: recurso local inexistente "
+                    f"{target.relative_to(ROOT)}"
+                )
+            readme = ROOT / "modules" / module["slug"] / "README.md"
+            for path in (readme, index):
+                if path.is_file() and resource["url"] not in path.read_text(encoding="utf-8"):
+                    error(
+                        f"Módulo {module['id']}: recurso local ausente en "
+                        f"{path.relative_to(ROOT)}"
+                    )
+            progress_marker = f'data-progress-item="{module["id"]}:local-{resource_index}"'
+            if progress_marker not in index_text:
+                error(
+                    f"Módulo {module['id']}: recurso local sin seguimiento de progreso"
+                )
     simulations = (DOCS / "assets" / "js" / "simulations.js").read_text(encoding="utf-8")
     for module in MODULES:
         marker = f'"{module["id"]}": simulation{module["id"]}'
         if marker not in simulations:
             error(f"Falta registro de simulación para el módulo {module['id']}")
+        simulation_page = DOCS / "modulos" / module["slug"] / "simulacion.html"
+        if simulation_page.is_file() and (
+            "Material elaborado por el profesor Sergio Gevatschnaider"
+            not in simulation_page.read_text(encoding="utf-8")
+        ):
+            error(f"Falta atribución docente en la simulación del módulo {module['id']}")
 
 
 def main() -> int:
@@ -297,12 +339,12 @@ def main() -> int:
             print(f"  - {message}")
         return 1
     print("Validación completa")
-    print("  15 módulos")
-    print("  65 páginas HTML")
-    print("  15 simulaciones")
-    print("  90 preguntas")
-    print("  150 términos de glosario")
-    print("  15 notebooks con sintaxis válida")
+    print(f"  {len(MODULES)} módulos")
+    print(f"  {len(list(DOCS.rglob('*.html')))} páginas HTML")
+    print(f"  {len(MODULES)} simulaciones")
+    print(f"  {sum(len(module['quiz']) for module in MODULES)} preguntas")
+    print(f"  {sum(len(module['glossary']) for module in MODULES)} términos de glosario")
+    print(f"  {len(MODULES)} notebooks con sintaxis válida")
     print("  Enlaces internos verificados")
     return 0
 

@@ -168,6 +168,10 @@ def resource_table(module: dict, relative: bool = True) -> str:
         }
     for resource in module.get("external_resources", []):
         links[resource["label"]] = resource["url"]
+    for resource in module.get("local_resources", []):
+        links[resource["label"]] = (
+            resource["url"] if relative else module_url(module, resource["url"])
+        )
     rows = "\n".join(
         (
             f"<tr><th scope=\"row\">{esc(label)}</th>"
@@ -260,7 +264,7 @@ def home_page() -> str:
           <div class="container stats-grid">
             <div><strong>15</strong><span>módulos</span></div>
             <div><strong>15</strong><span>simulaciones</span></div>
-            <div><strong>90</strong><span>preguntas</span></div>
+            <div><strong>{sum(len(module['quiz']) for module in MODULES)}</strong><span>preguntas</span></div>
             <div><strong>150</strong><span>términos</span></div>
             <div><strong>15</strong><span>notebooks</span></div>
           </div>
@@ -569,6 +573,20 @@ def module_index(module: dict) -> str:
         f"<li><span>{index:02d}</span>{esc(item)}</li>"
         for index, item in enumerate(module["lab_steps"], start=1)
     )
+    advanced_cards = "\n".join(
+        dedent(
+            f"""
+            <article class="advanced-card">
+              <span>{index:02d}</span>
+              <p>{esc(topic)}</p>
+            </article>
+            """
+        ).strip()
+        for index, topic in enumerate(module["advanced_topics"], start=1)
+    )
+    failure_items = "\n".join(
+        f"<li>{esc(item)}</li>" for item in module["common_failures"]
+    )
     external_buttons = "".join(
         (
             f'\n                <a class="button tertiary" href="{esc(resource["url"])}">'
@@ -604,6 +622,16 @@ def module_index(module: dict) -> str:
         )
         for index, resource in enumerate(
             module.get("external_resources", []), start=1
+        )
+    )
+    progress_resources.extend(
+        (
+            f"local-{index}",
+            resource["label"],
+            "Completar profundización interactiva",
+        )
+        for index, resource in enumerate(
+            module.get("local_resources", []), start=1
         )
     )
     checklist = "\n".join(
@@ -650,8 +678,10 @@ def module_index(module: dict) -> str:
               <a href="#indice">Índice interactivo</a>
               <a href="#resultados">Resultados</a>
               <a href="#conceptos">Conceptos</a>
+              <a href="#profundizacion">Profundización</a>
               <a href="#caso">Caso de negocio</a>
               <a href="#laboratorio">Laboratorio</a>
+              <a href="#desafio">Desafío</a>
               <a href="#entregable">Entregable</a>
             </nav>
           </aside>
@@ -675,6 +705,19 @@ def module_index(module: dict) -> str:
               <h2>Ideas que organizan la práctica</h2>
               <div class="theory-list">{theory_cards}</div>
             </section>
+            <section id="profundizacion" class="content-section">
+              <p class="eyebrow">Nivel profesional</p>
+              <h2>Profundización aplicada</h2>
+              <p class="section-intro">Estos temas conectan el fundamento con decisiones modernas, evaluación rigurosa y operación real.</p>
+              <div class="advanced-grid">{advanced_cards}</div>
+              <div class="failure-panel">
+                <div>
+                  <p class="eyebrow">Control de calidad</p>
+                  <h3>Errores frecuentes que invalidan la conclusión</h3>
+                </div>
+                <ul>{failure_items}</ul>
+              </div>
+            </section>
             <section id="caso" class="content-section">
               <div class="case-panel">
                 <p class="eyebrow">Caso de negocio</p>
@@ -690,6 +733,19 @@ def module_index(module: dict) -> str:
               <div class="button-row">
                 <a class="button primary" href="{notebook_url(module)}">Abrir notebook en Colab</a>
                 <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>{external_buttons}
+              </div>
+            </section>
+            <section id="desafio" class="content-section">
+              <div class="challenge-panel">
+                <span>Desafío de transferencia</span>
+                <h2>Tomar una decisión defendible</h2>
+                <p>{esc(module['decision_challenge'])}</p>
+                <ol>
+                  <li>Escribí una hipótesis antes de calcular.</li>
+                  <li>Definí la evidencia que podría refutarla.</li>
+                  <li>Compará al menos dos escenarios.</li>
+                  <li>Terminá con acción, límite y responsable.</li>
+                </ol>
               </div>
             </section>
             <section id="entregable" class="content-section">
@@ -730,15 +786,19 @@ def simulation_page(module: dict) -> str:
         </section>
         <section class="container simulation-section">
           <noscript><p class="alert">Esta simulación necesita JavaScript habilitado.</p></noscript>
-          <div id="simulation-root" class="simulation-root" data-simulation="{module['id']}" aria-live="polite"></div>
+          <div id="simulation-root" class="simulation-root" data-simulation="{module['id']}"
+               data-challenge="{esc(module['decision_challenge'])}" aria-live="polite"></div>
           <div class="reflection-panel">
+            <p class="eyebrow">Método de trabajo</p>
             <h2>Lectura de resultados</h2>
             <ol>
-              <li>Cambiá un solo control y anticipá el efecto antes de observarlo.</li>
-              <li>Compará la métrica con la consecuencia para el caso de negocio.</li>
-              <li>Registrá un supuesto, un hallazgo y una limitación.</li>
+              <li>Formulá una hipótesis antes de mover un control.</li>
+              <li>Guardá un escenario A y un escenario B para comparar evidencia.</li>
+              <li>Interpretá la métrica en costo, capacidad, riesgo o valor.</li>
+              <li>Registrá una recomendación, una limitación y el próximo dato necesario.</li>
             </ol>
           </div>
+          <p class="simulation-author">Material elaborado por el profesor {esc(COURSE['author'])}.</p>
           <div class="button-row centered">
             <a class="button secondary" href="index.html">Volver a la guía</a>
             <a class="button primary" href="cuestionario.html">Continuar al cuestionario</a>
@@ -839,7 +899,7 @@ def quiz_page(module: dict) -> str:
             <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo {module['id']}</a> / Cuestionario</p>
             <p class="eyebrow">Autoevaluación · Módulo {module['id']}</p>
             <h1>Cuestionario: {esc(module['short_title'])}</h1>
-            <p class="hero-lead">Seis preguntas con corrección inmediata, explicación y segundo intento.</p>
+            <p class="hero-lead">{len(module['quiz'])} preguntas conceptuales y situacionales con corrección inmediata, explicación y segundo intento.</p>
           </div>
         </section>
         <section class="container quiz-section">
@@ -852,7 +912,7 @@ def quiz_page(module: dict) -> str:
           </form>
           <div class="quiz-result" data-quiz-result hidden tabindex="-1">
             <span>Resultado</span>
-            <strong data-quiz-score>0 / 6</strong>
+            <strong data-quiz-score>0 / {len(module['quiz'])}</strong>
             <p data-quiz-message></p>
             <a class="button primary" href="glosario.html">Revisar glosario</a>
           </div>
@@ -876,6 +936,12 @@ def quiz_page(module: dict) -> str:
 
 def module_readme(module: dict) -> str:
     objective_lines = "\n        ".join(f"- {item}" for item in module["objectives"])
+    advanced_lines = "\n        ".join(
+        f"- {item}" for item in module["advanced_topics"]
+    )
+    failure_lines = "\n        ".join(
+        f"- {item}" for item in module["common_failures"]
+    )
     steps = "\n        ".join(
         f"{index}. {item}" for index, item in enumerate(module["lab_steps"], start=1)
     )
@@ -889,6 +955,10 @@ def module_readme(module: dict) -> str:
     resources.extend(
         (resource["label"], resource["url"])
         for resource in module.get("external_resources", [])
+    )
+    resources.extend(
+        (resource["label"], module_url(module, resource["url"]))
+        for resource in module.get("local_resources", [])
     )
     rows = "\n        ".join(
         f"| {label} | [Abrir]({url}) |" for label, url in resources
@@ -916,6 +986,18 @@ def module_readme(module: dict) -> str:
         ## Caso de negocio
 
         {module['case']}
+
+        ## Profundización aplicada
+
+        {advanced_lines}
+
+        ## Errores frecuentes
+
+        {failure_lines}
+
+        ## Desafío de transferencia
+
+        {module['decision_challenge']}
 
         ## Secuencia de práctica
 
@@ -1019,18 +1101,22 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 
 rng = np.random.default_rng(42)
 x = rng.uniform(0, 20, 120)
 y = 35 + 4.2 * x + rng.normal(0, 10, 120)
-model = LinearRegression().fit(x.reshape(-1, 1), y)
-pred = model.predict(x.reshape(-1, 1))
+X_train, X_test, y_train, y_test = train_test_split(
+    x.reshape(-1, 1), y, test_size=0.25, random_state=42
+)
+model = LinearRegression().fit(X_train, y_train)
+pred = model.predict(X_test)
 pd.Series({
     "intercepto": model.intercept_,
     "pendiente": model.coef_[0],
-    "MAE": mean_absolute_error(y, pred),
-    "RMSE": mean_squared_error(y, pred) ** 0.5,
-    "R2": r2_score(y, pred),
+    "MAE_test": mean_absolute_error(y_test, pred),
+    "RMSE_test": mean_squared_error(y_test, pred) ** 0.5,
+    "R2_test": r2_score(y_test, pred),
 })
 """,
     "06": """
@@ -1067,21 +1153,26 @@ import numpy as np
 import pandas as pd
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import brier_score_loss, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import train_test_split
 
 X, y = make_classification(n_samples=600, weights=[0.8, 0.2], random_state=42)
-model = LogisticRegression(max_iter=1000).fit(X, y)
-prob = model.predict_proba(X)[:, 1]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.30, stratify=y, random_state=42
+)
+model = LogisticRegression(max_iter=1000).fit(X_train, y_train)
+prob = model.predict_proba(X_test)[:, 1]
 rows = []
 for threshold in [0.2, 0.4, 0.6, 0.8]:
     pred = (prob >= threshold).astype(int)
     rows.append({
         "umbral": threshold,
-        "precision": precision_score(y, pred, zero_division=0),
-        "recall": recall_score(y, pred),
+        "precision": precision_score(y_test, pred, zero_division=0),
+        "recall": recall_score(y_test, pred),
         "positivos_seleccionados": pred.sum(),
     })
-pd.DataFrame(rows)
+display(pd.DataFrame(rows))
+print({"ROC_AUC_test": roc_auc_score(y_test, prob), "Brier_test": brier_score_loss(y_test, prob)})
 """,
     "09": """
 import pandas as pd
@@ -1102,6 +1193,202 @@ pd.DataFrame({
     for name, model in models.items()
 }).agg(["mean", "std"])
 """,
+}
+
+
+NOTEBOOK_VISUALIZATION = {
+    "00": """
+import matplotlib.pyplot as plt
+
+ax = clientes.set_index("cliente_id")["compras_90d"].plot.bar(
+    figsize=(8, 3), color="#0f766e", title="Compras por cliente"
+)
+ax.set(xlabel="Cliente", ylabel="Compras en 90 días")
+plt.tight_layout()
+""",
+    "01": """
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 3.5))
+ventas["ticket"].plot.hist(bins=24, ax=axes[0], color="#0f766e", edgecolor="white")
+axes[0].axvline(ventas["ticket"].median(), color="#b45309", label="Mediana")
+axes[0].set(title="Distribución de ticket", xlabel="Ticket", ylabel="Frecuencia")
+axes[0].legend()
+ventas.boxplot(column="ticket", by="canal", ax=axes[1], grid=False)
+axes[1].set(title="Ticket por canal", xlabel="Canal", ylabel="Ticket")
+fig.suptitle("")
+plt.tight_layout()
+""",
+    "02": """
+import matplotlib.pyplot as plt
+
+faltantes = datos.groupby("ocupacion")["ingreso_faltante"].mean().sort_values()
+ax = faltantes.mul(100).plot.barh(figsize=(7, 3), color="#b45309")
+ax.set(xlabel="Ingreso faltante (%)", ylabel="Ocupación", title="Ausencia condicionada por ocupación")
+plt.tight_layout()
+""",
+    "03": """
+import matplotlib.pyplot as plt
+
+colors = diagnostico["outlier_iqr"].map({True: "#be123c", False: "#0f766e"})
+fig, ax = plt.subplots(figsize=(8, 3))
+ax.scatter(diagnostico.index, diagnostico["ticket"], c=colors, s=70)
+ax.axhline(limite_superior, color="#b45309", linestyle="--", label="Límite IQR")
+ax.set(xlabel="Observación", ylabel="Ticket", title="Extremos con contexto")
+ax.legend()
+plt.tight_layout()
+""",
+    "04": """
+import matplotlib.pyplot as plt
+
+demo = pd.DataFrame({
+    "antiguedad": [3, 12, np.nan, 42],
+    "ingreso": [450, 820, 610, 1300],
+    "canal": ["Web", "Tienda", "Web", "Marketplace"],
+})
+matrix = preprocess.fit_transform(demo)
+matrix = matrix.toarray() if hasattr(matrix, "toarray") else matrix
+fig, ax = plt.subplots(figsize=(8, 3))
+image = ax.imshow(matrix, aspect="auto", cmap="viridis")
+ax.set(xlabel="Características transformadas", ylabel="Filas", title="Salida del pipeline")
+fig.colorbar(image, ax=ax, shrink=.75)
+plt.tight_layout()
+""",
+    "05": """
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 3.5))
+axes[0].scatter(y_test, pred, color="#0f766e")
+limits = [min(y_test.min(), pred.min()), max(y_test.max(), pred.max())]
+axes[0].plot(limits, limits, "--", color="#b45309")
+axes[0].set(xlabel="Real", ylabel="Predicción", title="Generalización fuera de muestra")
+residuos = y_test - pred
+axes[1].scatter(pred, residuos, color="#1d4ed8")
+axes[1].axhline(0, color="#b45309", linestyle="--")
+axes[1].set(xlabel="Predicción", ylabel="Residuo", title="Diagnóstico de residuos")
+plt.tight_layout()
+""",
+    "06": """
+import matplotlib.pyplot as plt
+
+scores = cross_validate(Ridge(alpha=1), X, y, cv=cv, scoring="neg_mean_absolute_error")
+mae_folds = -scores["test_score"]
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.bar(range(1, len(mae_folds) + 1), mae_folds, color="#0f766e")
+ax.axhline(mae_folds.mean(), color="#b45309", linestyle="--", label="Media")
+ax.set(xlabel="Fold", ylabel="MAE", title="Variabilidad de la evaluación")
+ax.legend()
+plt.tight_layout()
+""",
+    "07": """
+import matplotlib.pyplot as plt
+
+ax = tabla[["real", "naive", "estacional"]].tail(30).plot(figsize=(10, 4))
+ax.set(xlabel="Mes", ylabel="Ventas", title="Pronóstico contra baselines")
+plt.tight_layout()
+""",
+    "08": """
+import matplotlib.pyplot as plt
+from sklearn.calibration import CalibrationDisplay
+from sklearn.metrics import PrecisionRecallDisplay
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+CalibrationDisplay.from_predictions(y_test, prob, n_bins=8, ax=axes[0])
+axes[0].set_title("Confiabilidad de probabilidades")
+PrecisionRecallDisplay.from_predictions(y_test, prob, ax=axes[1])
+axes[1].set_title("Ranking con clase minoritaria")
+plt.tight_layout()
+""",
+    "09": """
+import matplotlib.pyplot as plt
+
+cv_scores = pd.DataFrame({
+    name: cross_validate(model, X, y, cv=cv, scoring="roc_auc")["test_score"]
+    for name, model in models.items()
+})
+ax = cv_scores.plot.box(figsize=(8, 3.5), color={"boxes": "#0f766e", "medians": "#b45309"})
+ax.set(ylabel="ROC-AUC", title="Desempeño y estabilidad por modelo")
+plt.tight_layout()
+""",
+    "10": """
+import matplotlib.pyplot as plt
+
+score_table = pd.DataFrame(rows)
+labels_4 = KMeans(n_clusters=4, n_init=20, random_state=42).fit_predict(X_scaled)
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+axes[0].plot(score_table["k"], score_table["silhouette"], marker="o", color="#0f766e")
+axes[0].set(xlabel="K", ylabel="Silhouette", title="Selección de K")
+axes[1].scatter(X_scaled[:, 0], X_scaled[:, 1], c=labels_4, cmap="viridis", s=16)
+axes[1].set(title="Solución K=4", xlabel="Variable escalada 1", ylabel="Variable escalada 2")
+plt.tight_layout()
+""",
+    "11": """
+import matplotlib.pyplot as plt
+
+z = np.linspace(-7, 7, 300)
+fig, ax = plt.subplots(figsize=(8, 3))
+ax.plot(z, sigmoid(z), color="#0f766e", linewidth=3)
+ax.axhline(.5, color="#b45309", linestyle="--")
+ax.set(xlabel="Entrada ponderada", ylabel="Activación", title="Función sigmoide")
+plt.tight_layout()
+""",
+    "12": """
+import matplotlib.pyplot as plt
+
+a = np.linspace(0, 60, 250)
+b1 = 100 - 2 * a
+b2 = (80 - a) / 2
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.fill_between(a, 0, np.maximum(0, np.minimum(b1, b2)), color="#0f766e", alpha=.25)
+ax.plot(a, b1, label="2A + B ≤ 100")
+ax.plot(a, b2, label="A + 2B ≤ 80")
+ax.scatter(resultado.x[0], resultado.x[1], color="#be123c", s=80, label="Óptimo")
+ax.set(xlabel="Producto A", ylabel="Producto B", title="Región factible y solución")
+ax.set_ylim(0, 60)
+ax.legend()
+plt.tight_layout()
+""",
+    "13": """
+import matplotlib.pyplot as plt
+
+group_metrics = pd.DataFrame([metricas("A"), metricas("B")]).set_index("grupo")
+ax = group_metrics[["fpr", "fnr"]].plot.bar(figsize=(8, 3.5), color=["#1d4ed8", "#be123c"])
+ax.set(ylabel="Tasa", title="Errores por grupo")
+ax.set_ylim(0, 1)
+plt.tight_layout()
+""",
+    "14": """
+import matplotlib.pyplot as plt
+import pandas as pd
+
+scorecard = pd.Series({"Valor": 4, "Evidencia": 3, "Riesgo controlado": 2, "Factibilidad": 4})
+ax = scorecard.sort_values().plot.barh(figsize=(8, 3), color="#0f766e")
+ax.set(xlabel="Nivel (1-5)", title="Scorecard de preparación de la decisión", xlim=(0, 5))
+plt.tight_layout()
+""",
+}
+
+
+NOTEBOOK_DECISION = {
+    "00": "pd.DataFrame({'control': ['pregunta', 'datos', 'dependencias', 'semilla', 'ejecución limpia'], 'estado': ['definido', 'validado', 'declarado', 'fijada', 'pendiente']})",
+    "01": "ventas.groupby('canal').agg(ticket_mediano=('ticket', 'median'), frecuencia_media=('frecuencia', 'mean')).assign(prioridad=lambda x: x['ticket_mediano'] * x['frecuencia_media']).sort_values('prioridad', ascending=False)",
+    "02": "pd.DataFrame({'estrategia': ['eliminar', 'mediana global', 'mediana por ocupación'], 'riesgo': ['sesgo por selección', 'oculta heterogeneidad', 'requiere validar estabilidad'], 'uso': ['solo baja ausencia', 'baseline', 'comparación recomendada']})",
+    "03": "pd.DataFrame({'escenario': ['todos', 'sin extremo'], 'media': [ventas.mean(), ventas[~diagnostico['outlier_iqr']].mean()], 'mediana': [ventas.median(), ventas[~diagnostico['outlier_iqr']].median()]})",
+    "04": "pd.DataFrame({'variable': ['antiguedad', 'ingreso', 'canal'], 'disponible_al_decidir': [True, True, True], 'transformación_aprendida_solo_en_train': [True, True, True]})",
+    "05": "pd.DataFrame({'escenario': ['error medio', 'error adverso'], 'unidades_error': [np.abs(residuos).mean(), np.quantile(np.abs(residuos), .9)], 'costo_por_unidad': [8, 8]}).assign(costo=lambda x: x.unidades_error * x.costo_por_unidad)",
+    "06": "pd.DataFrame({'criterio': ['MAE medio', 'desvío entre folds', 'latencia', 'valor'], 'ridge': [mae_folds.mean(), mae_folds.std(), 1, 4], 'baseline': [float(np.std(y)), 0, 1, 1]})",
+    "07": "tabla[['error_naive', 'error_estacional']].tail(24).agg(['mean', lambda s: s.quantile(.9)]).rename(index={'<lambda>': 'p90'})",
+    "08": "pd.DataFrame(rows).assign(valor_estimado=lambda d: d.recall * 30 - (1 - d.precision.fillna(0)) * 4).sort_values('valor_estimado', ascending=False)",
+    "09": "pd.DataFrame({'modelo': ['árbol', 'bosque', 'boosting'], 'auc_media': cv_scores.mean().values, 'latencia_relativa': [1, 4, 6], 'explicabilidad': [5, 3, 3]}).sort_values('auc_media', ascending=False)",
+    "10": "pd.DataFrame({'criterio': ['silhouette', 'estabilidad', 'alcanzabilidad', 'acción diferenciada'], 'evidencia_requerida': ['fuera de muestra', 'remuestreo', 'reglas de asignación', 'prueba de tratamiento']})",
+    "11": "pd.DataFrame({'arquitectura': ['baseline lineal', 'RNN/GRU', 'Transformer/RAG'], 'calidad': [2, 3, 4], 'latencia': [5, 3, 2], 'trazabilidad': [5, 3, 4], 'costo': [5, 3, 2]})",
+    "12": "pd.DataFrame([{'capacidad_A': cap, 'producto_A': linprog(c=[-40, -30], A_ub=[[2, 1], [1, 2]], b_ub=[cap, 80], bounds=[(0, None), (0, None)], method='highs').x[0]} for cap in [90, 100, 110]])",
+    "13": "pd.concat([pd.DataFrame([metricas('A', u), metricas('B', u)]).assign(umbral=u) for u in [.4, .5, .6]], ignore_index=True)",
+    "14": "pd.DataFrame({'dimensión': ['decisión', 'evidencia', 'valor', 'riesgo', 'operación'], 'pregunta_de_control': ['¿qué acción cambia?', '¿generaliza?', '¿supera la política actual?', '¿qué daño puede causar?', '¿quién responde?']})",
+}
+
+
+NOTEBOOK_CODE.update({
     "10": """
 import pandas as pd
 from sklearn.cluster import AgglomerativeClustering, KMeans
@@ -1198,7 +1485,7 @@ canvas = CanvasDecision(
 )
 canvas
 """,
-}
+})
 
 
 def notebook(module: dict) -> dict:
@@ -1222,6 +1509,41 @@ def notebook(module: dict) -> dict:
                 ],
             ]
         )
+    setup_source = dedent(
+        """
+        import platform
+        import sys
+
+        import matplotlib
+        import numpy as np
+        import pandas as pd
+        import sklearn
+
+        SEED = 42
+        np.random.seed(SEED)
+        print({
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+            "scikit_learn": sklearn.__version__,
+            "matplotlib": matplotlib.__version__,
+            "seed": SEED,
+        })
+        """
+    ).strip().splitlines(True)
+    decision_record_source = dedent(
+        f"""
+        decision_record = {{
+            "pregunta": {module['business_question']!r},
+            "hipotesis": "Completar antes del análisis",
+            "evidencia": "Registrar la tabla o visualización que cambia la decisión",
+            "recomendacion": "Expresar acción, población y horizonte",
+            "limitacion": "Indicar qué podría invalidar la conclusión",
+            "responsable": "Asignar dueño y fecha de revisión",
+        }}
+        pd.Series(decision_record, name="registro_de_decision")
+        """
+    ).strip().splitlines(True)
     cells = [
         {
             "cell_type": "markdown",
@@ -1239,7 +1561,36 @@ def notebook(module: dict) -> dict:
         {
             "cell_type": "markdown",
             "metadata": {},
-            "source": objectives_source,
+            "source": objectives_source
+            + [
+                "\n",
+                "**Criterio de éxito:** el resultado debe cambiar o sostener una acción concreta, superar una referencia y declarar límites.\n",
+            ],
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 1. Entorno reproducible\n",
+                "\n",
+                "Registramos versiones y semilla antes de producir evidencia. Ejecutá siempre **Runtime → Run all** en Colab.\n",
+            ],
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": setup_source,
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 2. Experimento base\n",
+                "\n",
+                "El bloque siguiente construye una referencia mínima y verificable. No representa todavía la recomendación final.\n",
+            ],
         },
         {
             "cell_type": "code",
@@ -1252,39 +1603,78 @@ def notebook(module: dict) -> dict:
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "## Lectura de negocio\n",
+                "## 3. Evidencia visual\n",
                 "\n",
-                f"{module['case']}\n",
-                "\n",
-                "Interpretá el resultado en unidades del problema. Indicá qué acción "
-                "cambiaría, qué supuesto sostiene la conclusión y qué dato adicional "
-                "reduciría más incertidumbre.\n",
+                "Una visualización útil permite comparar, muestra unidades y deja visible la incertidumbre o variación relevante.\n",
             ],
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": dedent(NOTEBOOK_VISUALIZATION[module["id"]]).strip().splitlines(True),
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "## Práctica\n",
+                "## 4. Comparación para decidir\n",
+                "\n",
+                f"{module['case']}\n",
+                "\n",
+                "La tabla fuerza una comparación entre alternativas, costos o criterios. Adaptala a las unidades del caso.\n",
+            ],
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": dedent(NOTEBOOK_DECISION[module["id"]]).strip().splitlines(True),
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 5. Desafío de transferencia\n",
+                "\n",
+                f"**{module['decision_challenge']}**\n",
                 "\n",
                 *[
                     f"{index}. {item}\n"
                     for index, item in enumerate(module["lab_steps"], start=1)
                 ],
+                "\n",
+                "Antes de continuar, escribí una hipótesis, una condición que la refutaría y el costo de una decisión equivocada.\n",
+                "\n",
+                "### Registro de decisión\n",
+                "\n",
+                "Completá la celda siguiente como evidencia de cierre del laboratorio.\n",
             ],
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": decision_record_source,
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "## Cierre verificable\n",
+                "## 6. Cierre verificable\n",
                 "\n",
                 f"**Entregable:** {module['deliverable']}\n",
                 "\n",
                 "- Hallazgo principal:\n",
                 "- Evidencia que lo respalda:\n",
+                "- Comparación contra baseline o escenario alternativo:\n",
                 "- Limitación:\n",
-                "- Próxima decisión:\n",
+                "- Acción, responsable y fecha de revisión:\n",
+                "\n",
+                f"Material elaborado por el profesor {COURSE['author']}.\n",
             ],
         },
     ]
@@ -1340,6 +1730,14 @@ def root_readme() -> str:
 
         Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
 
+        ## Experiencia de aprendizaje
+
+        - **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
+        - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
+        - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
+        - **Notebooks verificables:** los 15 laboratorios registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable.
+        - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
+
         | Módulo | Contenido | Recursos |
         |---:|---|---|
         {module_rows}
@@ -1384,13 +1782,16 @@ def root_readme() -> str:
         ```bash
         python scripts/build_course.py --check
         python scripts/validate_repo.py
+        python scripts/execute_notebooks.py
         ```
 
-        La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, notebooks, cobertura de recursos y consistencia de contenidos.
+        La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, cobertura de recursos, consistencia de contenidos y ejecución real de los 15 notebooks.
 
         ## Autoría
 
         Material elaborado por el profesor {COURSE['author']}.
+
+        Para uso académico, consultá los metadatos de [CITATION.cff](CITATION.cff).
 
         ## Licencias
 
@@ -1406,6 +1807,8 @@ def supporting_files() -> None:
             """
             jupyterlab>=4.4,<5
             matplotlib>=3.10,<4
+            nbclient>=0.10,<1
+            nbformat>=5.10,<6
             numpy>=2.1,<3
             pandas>=2.3,<4
             scikit-learn>=1.7,<2
@@ -1727,48 +2130,109 @@ def datasets() -> None:
         [
             "cliente_id",
             "segmento",
+            "zona_operativa",
+            "canal_preferido",
             "antiguedad_meses",
             "compras_90d",
             "ticket_promedio",
             "reclamos_180d",
+            "costo_contacto",
+            "valor_cliente_12m",
             "abandono_30d",
         ]
     )
-    for client_id in range(1, 181):
+    for client_id in range(1, 1201):
         segment = rng.choice(["Inicial", "Frecuente", "Premium"])
+        zone = rng.choice(["Centro", "Norte", "Sur", "Remota"])
+        channel = rng.choices(
+            ["Digital", "Sucursal", "Telefónico"], weights=[0.55, 0.27, 0.18]
+        )[0]
         tenure = rng.randint(1, 84)
         purchases = max(0, int(rng.gauss({"Inicial": 2, "Frecuente": 6, "Premium": 9}[segment], 2)))
         ticket = max(8, rng.gauss({"Inicial": 45, "Frecuente": 72, "Premium": 135}[segment], 24))
         complaints = max(0, int(rng.gauss(0.7 if segment != "Premium" else 0.4, 0.8)))
-        logit = -1.7 - 0.035 * tenure - 0.18 * purchases + 0.75 * complaints
+        contact_cost = {"Digital": 1.8, "Sucursal": 8.5, "Telefónico": 4.2}[channel]
+        customer_value = max(20, purchases * ticket * rng.uniform(2.2, 4.8))
+        logit = (
+            -1.7
+            - 0.035 * tenure
+            - 0.18 * purchases
+            + 0.75 * complaints
+            + (0.25 if zone == "Remota" else 0)
+            + (0.18 if channel == "Telefónico" else 0)
+        )
         probability = 1 / (1 + math.exp(-logit))
         churn = int(rng.random() < probability)
-        writer.writerow([client_id, segment, tenure, purchases, f"{ticket:.2f}", complaints, churn])
+        ticket_value = "" if rng.random() < 0.035 else f"{ticket:.2f}"
+        writer.writerow(
+            [
+                client_id,
+                segment,
+                zone,
+                channel,
+                tenure,
+                purchases,
+                ticket_value,
+                complaints,
+                f"{contact_cost:.2f}",
+                f"{customer_value:.2f}",
+                churn,
+            ]
+        )
     write("datasets/clientes.csv", output.getvalue())
 
     output = io.StringIO()
     writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(["fecha", "ventas", "promocion", "feriado"])
-    for month in range(72):
-        year = 2020 + month // 12
+    writer.writerow(["fecha", "ventas", "promocion", "feriado", "inversion_marketing", "indice_precio"])
+    for month in range(96):
+        year = 2018 + month // 12
         month_number = month % 12 + 1
         seasonal = 22 * math.sin(2 * math.pi * month / 12)
         promo = int(month_number in (5, 11))
         holiday = int(month_number == 12)
-        sales = 120 + 1.4 * month + seasonal + 18 * promo + 28 * holiday + rng.gauss(0, 7)
-        writer.writerow([f"{year:04d}-{month_number:02d}-01", f"{sales:.1f}", promo, holiday])
+        marketing = 18 + 5 * promo + rng.uniform(-2.5, 2.5)
+        price_index = 100 + 0.45 * month + rng.gauss(0, 1.2)
+        sales = 120 + 1.4 * month + seasonal + 18 * promo + 28 * holiday + 0.8 * marketing + rng.gauss(0, 7)
+        writer.writerow(
+            [
+                f"{year:04d}-{month_number:02d}-01",
+                f"{sales:.1f}",
+                promo,
+                holiday,
+                f"{marketing:.2f}",
+                f"{price_index:.2f}",
+            ]
+        )
     write("datasets/ventas-mensuales.csv", output.getvalue())
 
     output = io.StringIO()
     writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(["orden_id", "producto", "horas_maquina", "materia_prima", "margen"])
-    for order_id in range(1, 121):
+    writer.writerow(["orden_id", "producto", "turno", "horas_maquina", "materia_prima", "margen", "demanda", "retraso_horas"])
+    for order_id in range(1, 601):
         product = rng.choice(["A", "B", "C"])
+        shift = rng.choice(["Mañana", "Tarde", "Noche"])
         hours = {"A": 2.0, "B": 1.2, "C": 2.8}[product] + rng.uniform(-0.15, 0.15)
         material = {"A": 1.0, "B": 2.0, "C": 1.6}[product] + rng.uniform(-0.1, 0.1)
         margin = {"A": 40, "B": 30, "C": 52}[product] + rng.uniform(-3, 3)
-        writer.writerow([order_id, product, f"{hours:.2f}", f"{material:.2f}", f"{margin:.2f}"])
+        demand = max(1, int(rng.gauss({"A": 34, "B": 48, "C": 25}[product], 8)))
+        delay = max(0, rng.gauss(1.0 if shift != "Noche" else 2.1, 1.5))
+        writer.writerow([order_id, product, shift, f"{hours:.2f}", f"{material:.2f}", f"{margin:.2f}", demand, f"{delay:.2f}"])
     write("datasets/operaciones.csv", output.getvalue())
+
+    output = io.StringIO()
+    writer = csv.writer(output, lineterminator="\n")
+    writer.writerow(["observacion_id", "variante", "segmento", "conversion", "margen", "tiempo_respuesta_ms"])
+    for observation_id in range(1, 2401):
+        variant = "B" if rng.random() < 0.5 else "A"
+        segment = rng.choice(["Nuevo", "Recurrente", "Alto valor"])
+        baseline = {"Nuevo": 0.10, "Recurrente": 0.17, "Alto valor": 0.23}[segment]
+        treatment_effect = {"Nuevo": 0.035, "Recurrente": 0.012, "Alto valor": -0.008}[segment]
+        probability = baseline + (treatment_effect if variant == "B" else 0)
+        conversion = int(rng.random() < probability)
+        margin = conversion * max(5, rng.gauss({"Nuevo": 28, "Recurrente": 46, "Alto valor": 82}[segment], 12))
+        latency = max(120, rng.gauss(430 + (65 if variant == "B" else 0), 75))
+        writer.writerow([observation_id, variant, segment, conversion, f"{margin:.2f}", f"{latency:.0f}"])
+    write("datasets/experimentos.csv", output.getvalue())
 
     write(
         "datasets/README.md",
@@ -1783,6 +2247,7 @@ def datasets() -> None:
             | `clientes.csv` | Cliente al cierre de período | EDA, faltantes, regresión, clasificación, árboles, clustering |
             | `ventas-mensuales.csv` | Mes | Series de tiempo y backtesting |
             | `operaciones.csv` | Orden | EDA, regresión y optimización |
+            | `experimentos.csv` | Exposición a una variante | Experimentación, heterogeneidad y decisión causal |
 
             ## Reglas
 
@@ -1804,10 +2269,14 @@ def datasets() -> None:
             |---|---|---|
             | cliente_id | entero | Identificador sintético único |
             | segmento | categoría | Perfil comercial inicial |
+            | zona_operativa | categoría | Zona sintética para análisis de segmentos y cobertura |
+            | canal_preferido | categoría | Canal principal de interacción |
             | antiguedad_meses | entero | Meses desde el alta |
             | compras_90d | entero | Compras en los últimos noventa días |
-            | ticket_promedio | decimal | Importe medio por compra |
+            | ticket_promedio | decimal anulable | Importe medio por compra; incluye faltantes didácticos |
             | reclamos_180d | entero | Reclamos en los últimos ciento ochenta días |
+            | costo_contacto | decimal | Costo sintético de intervenir por el canal elegido |
+            | valor_cliente_12m | decimal | Valor sintético observado en doce meses |
             | abandono_30d | binaria | Evento sintético en los treinta días siguientes |
 
             ## ventas-mensuales.csv
@@ -1818,6 +2287,8 @@ def datasets() -> None:
             | ventas | decimal | Nivel sintético mensual |
             | promocion | binaria | Mes con promoción planificada |
             | feriado | binaria | Indicador de período festivo |
+            | inversion_marketing | decimal | Inversión sintética mensual |
+            | indice_precio | decimal | Índice sintético de precio |
 
             ## operaciones.csv
 
@@ -1825,9 +2296,23 @@ def datasets() -> None:
             |---|---|---|
             | orden_id | entero | Identificador sintético |
             | producto | categoría | Familia A, B o C |
+            | turno | categoría | Franja operativa sintética |
             | horas_maquina | decimal | Consumo estimado de capacidad |
             | materia_prima | decimal | Consumo estimado de insumo |
             | margen | decimal | Contribución sintética |
+            | demanda | entero | Unidades solicitadas en la orden |
+            | retraso_horas | decimal | Demora operativa sintética |
+
+            ## experimentos.csv
+
+            | Variable | Tipo | Descripción |
+            |---|---|---|
+            | observacion_id | entero | Identificador sintético de exposición |
+            | variante | categoría | Asignación aleatoria A o B |
+            | segmento | categoría | Segmento previo al tratamiento |
+            | conversion | binaria | Resultado principal observado |
+            | margen | decimal | Contribución observada después de la exposición |
+            | tiempo_respuesta_ms | decimal | Latencia del flujo asignado |
             """
         ),
     )

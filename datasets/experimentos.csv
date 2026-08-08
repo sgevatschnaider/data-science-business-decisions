@@ -1,0 +1,2401 @@
+observacion_id,variante,segmento,conversion,margen,tiempo_respuesta_ms
+1,A,Recurrente,1,64.18,293
+2,B,Alto valor,0,0.00,633
+3,B,Recurrente,0,0.00,465
+4,B,Recurrente,0,0.00,434
+5,B,Nuevo,0,0.00,468
+6,A,Alto valor,0,0.00,494
+7,A,Alto valor,0,0.00,456
+8,A,Alto valor,0,0.00,399
+9,B,Recurrente,0,0.00,568
+10,B,Recurrente,0,0.00,540
+11,A,Nuevo,0,0.00,452
+12,A,Nuevo,0,0.00,451
+13,B,Alto valor,0,0.00,400
+14,A,Nuevo,0,0.00,398
+15,A,Nuevo,0,0.00,309
+16,B,Alto valor,0,0.00,456
+17,A,Recurrente,1,40.36,472
+18,A,Alto valor,0,0.00,466
+19,B,Recurrente,0,0.00,428
+20,B,Recurrente,0,0.00,456
+21,A,Alto valor,0,0.00,473
+22,B,Recurrente,0,0.00,478
+23,B,Alto valor,0,0.00,393
+24,A,Recurrente,0,0.00,378
+25,A,Recurrente,0,0.00,325
+26,A,Recurrente,0,0.00,458
+27,B,Nuevo,1,31.69,426
+28,B,Alto valor,0,0.00,519
+29,A,Nuevo,0,0.00,409
+30,B,Recurrente,0,0.00,481
+31,B,Alto valor,1,90.24,533
+32,A,Alto valor,0,0.00,499
+33,A,Nuevo,0,0.00,245
+34,B,Recurrente,0,0.00,379
+35,B,Recurrente,1,57.45,498
+36,A,Alto valor,0,0.00,400
+37,A,Nuevo,0,0.00,387
+38,A,Nuevo,0,0.00,455
+39,B,Nuevo,0,0.00,412
+40,A,Nuevo,0,0.00,432
+41,B,Recurrente,0,0.00,586
+42,B,Alto valor,1,67.72,511
+43,B,Recurrente,1,50.70,558
+44,B,Recurrente,0,0.00,575
+45,B,Recurrente,1,43.21,487
+46,B,Nuevo,0,0.00,385
+47,B,Alto valor,0,0.00,421
+48,A,Nuevo,0,0.00,403
+49,B,Recurrente,0,0.00,620
+50,A,Alto valor,0,0.00,391
+51,A,Recurrente,0,0.00,585
+52,A,Nuevo,0,0.00,303
+53,A,Recurrente,0,0.00,375
+54,B,Alto valor,1,90.48,455
+55,B,Nuevo,0,0.00,421
+56,B,Recurrente,0,0.00,579
+57,B,Alto valor,0,0.00,629
+58,B,Nuevo,0,0.00,552
+59,A,Recurrente,0,0.00,383
+60,B,Alto valor,0,0.00,538
+61,B,Nuevo,0,0.00,408
+62,A,Recurrente,0,0.00,545
+63,A,Nuevo,0,0.00,370
+64,B,Nuevo,1,13.46,316
+65,B,Recurrente,0,0.00,350
+66,A,Nuevo,1,47.52,465
+67,B,Alto valor,0,0.00,485
+68,A,Recurrente,0,0.00,318
+69,A,Alto valor,0,0.00,528
+70,B,Nuevo,0,0.00,433
+71,A,Nuevo,0,0.00,493
+72,A,Alto valor,1,62.85,371
+73,B,Recurrente,1,49.65,457
+74,B,Alto valor,0,0.00,481
+75,A,Alto valor,0,0.00,311
+76,A,Recurrente,0,0.00,457
+77,B,Alto valor,0,0.00,544
+78,A,Alto valor,0,0.00,440
+79,A,Nuevo,0,0.00,480
+80,A,Alto valor,1,83.60,466
+81,A,Alto valor,0,0.00,497
+82,B,Nuevo,0,0.00,463
+83,B,Recurrente,1,49.00,484
+84,A,Nuevo,0,0.00,321
+85,A,Recurrente,0,0.00,529
+86,A,Nuevo,0,0.00,499
+87,B,Nuevo,0,0.00,538
+88,A,Alto valor,1,82.88,369
+89,B,Recurrente,1,34.77,468
+90,A,Recurrente,0,0.00,399
+91,B,Alto valor,0,0.00,599
+92,A,Alto valor,0,0.00,428
+93,B,Nuevo,0,0.00,491
+94,A,Alto valor,0,0.00,408
+95,A,Recurrente,0,0.00,377
+96,B,Nuevo,0,0.00,528
+97,B,Recurrente,0,0.00,455
+98,A,Recurrente,0,0.00,346
+99,B,Recurrente,0,0.00,528
+100,B,Nuevo,0,0.00,540
+101,A,Recurrente,0,0.00,412
+102,A,Nuevo,0,0.00,538
+103,A,Nuevo,0,0.00,579
+104,A,Alto valor,0,0.00,436
+105,A,Nuevo,0,0.00,503
+106,A,Recurrente,0,0.00,379
+107,B,Recurrente,0,0.00,521
+108,B,Alto valor,0,0.00,545
+109,A,Nuevo,0,0.00,396
+110,A,Recurrente,0,0.00,491
+111,A,Alto valor,1,87.77,561
+112,A,Recurrente,0,0.00,475
+113,A,Nuevo,0,0.00,440
+114,B,Nuevo,0,0.00,423
+115,B,Nuevo,0,0.00,538
+116,B,Nuevo,0,0.00,517
+117,B,Recurrente,0,0.00,667
+118,A,Recurrente,0,0.00,418
+119,B,Recurrente,1,45.23,479
+120,A,Nuevo,0,0.00,343
+121,B,Alto valor,0,0.00,513
+122,B,Nuevo,0,0.00,495
+123,A,Alto valor,0,0.00,279
+124,B,Recurrente,0,0.00,444
+125,B,Recurrente,0,0.00,473
+126,A,Recurrente,1,54.83,451
+127,B,Nuevo,0,0.00,583
+128,A,Nuevo,1,12.90,371
+129,B,Recurrente,1,45.94,436
+130,B,Alto valor,1,77.58,372
+131,A,Alto valor,0,0.00,401
+132,A,Alto valor,1,82.76,408
+133,A,Alto valor,1,67.37,372
+134,A,Recurrente,0,0.00,493
+135,A,Alto valor,1,94.28,463
+136,B,Nuevo,0,0.00,559
+137,B,Recurrente,0,0.00,483
+138,B,Nuevo,0,0.00,471
+139,A,Recurrente,0,0.00,541
+140,A,Alto valor,0,0.00,348
+141,A,Recurrente,0,0.00,487
+142,B,Recurrente,0,0.00,484
+143,B,Nuevo,0,0.00,410
+144,B,Nuevo,0,0.00,402
+145,A,Alto valor,0,0.00,406
+146,A,Alto valor,0,0.00,378
+147,A,Alto valor,0,0.00,342
+148,A,Recurrente,0,0.00,411
+149,B,Nuevo,0,0.00,470
+150,A,Alto valor,0,0.00,296
+151,A,Recurrente,0,0.00,469
+152,A,Recurrente,0,0.00,369
+153,A,Nuevo,0,0.00,463
+154,B,Nuevo,0,0.00,501
+155,A,Recurrente,0,0.00,436
+156,A,Nuevo,0,0.00,481
+157,B,Alto valor,0,0.00,459
+158,B,Alto valor,0,0.00,591
+159,A,Alto valor,1,80.22,356
+160,A,Alto valor,0,0.00,445
+161,B,Alto valor,0,0.00,439
+162,A,Alto valor,0,0.00,448
+163,A,Alto valor,0,0.00,439
+164,A,Alto valor,0,0.00,493
+165,B,Recurrente,0,0.00,410
+166,A,Nuevo,0,0.00,459
+167,B,Alto valor,0,0.00,448
+168,B,Recurrente,0,0.00,520
+169,A,Nuevo,1,43.35,437
+170,B,Nuevo,0,0.00,455
+171,B,Alto valor,0,0.00,485
+172,A,Alto valor,0,0.00,372
+173,B,Alto valor,0,0.00,393
+174,B,Recurrente,0,0.00,676
+175,A,Alto valor,0,0.00,478
+176,B,Recurrente,1,51.87,495
+177,A,Alto valor,0,0.00,242
+178,A,Nuevo,0,0.00,345
+179,B,Nuevo,0,0.00,496
+180,B,Nuevo,1,27.57,591
+181,B,Recurrente,0,0.00,338
+182,B,Recurrente,0,0.00,497
+183,A,Recurrente,0,0.00,440
+184,B,Nuevo,0,0.00,568
+185,B,Alto valor,0,0.00,429
+186,A,Nuevo,0,0.00,375
+187,A,Nuevo,0,0.00,397
+188,A,Recurrente,0,0.00,477
+189,B,Recurrente,0,0.00,491
+190,A,Alto valor,1,72.80,475
+191,B,Recurrente,0,0.00,463
+192,B,Alto valor,0,0.00,440
+193,A,Recurrente,0,0.00,290
+194,B,Alto valor,0,0.00,596
+195,B,Alto valor,1,75.85,467
+196,A,Recurrente,0,0.00,602
+197,A,Nuevo,0,0.00,443
+198,A,Nuevo,0,0.00,359
+199,A,Recurrente,0,0.00,501
+200,A,Nuevo,0,0.00,398
+201,A,Recurrente,0,0.00,461
+202,A,Recurrente,0,0.00,621
+203,B,Nuevo,0,0.00,546
+204,A,Alto valor,0,0.00,378
+205,B,Recurrente,0,0.00,508
+206,A,Recurrente,0,0.00,365
+207,B,Alto valor,0,0.00,438
+208,B,Recurrente,0,0.00,578
+209,A,Recurrente,1,53.18,374
+210,A,Recurrente,0,0.00,392
+211,B,Alto valor,0,0.00,562
+212,A,Recurrente,0,0.00,468
+213,A,Nuevo,0,0.00,459
+214,B,Recurrente,0,0.00,417
+215,B,Recurrente,1,44.19,521
+216,B,Nuevo,0,0.00,462
+217,B,Alto valor,0,0.00,629
+218,A,Nuevo,1,40.28,377
+219,B,Alto valor,0,0.00,567
+220,A,Nuevo,0,0.00,477
+221,A,Recurrente,0,0.00,418
+222,A,Recurrente,1,41.79,300
+223,A,Alto valor,0,0.00,486
+224,A,Nuevo,0,0.00,552
+225,A,Recurrente,0,0.00,512
+226,B,Alto valor,1,51.48,428
+227,A,Recurrente,0,0.00,415
+228,B,Alto valor,0,0.00,406
+229,A,Recurrente,0,0.00,423
+230,B,Recurrente,0,0.00,445
+231,B,Alto valor,1,90.11,641
+232,B,Nuevo,0,0.00,416
+233,A,Alto valor,0,0.00,343
+234,A,Alto valor,0,0.00,471
+235,A,Nuevo,0,0.00,533
+236,A,Recurrente,1,54.14,562
+237,A,Alto valor,1,94.22,468
+238,A,Alto valor,0,0.00,403
+239,A,Nuevo,0,0.00,549
+240,B,Recurrente,0,0.00,443
+241,A,Alto valor,0,0.00,588
+242,B,Nuevo,0,0.00,506
+243,A,Alto valor,0,0.00,419
+244,B,Recurrente,0,0.00,493
+245,B,Nuevo,0,0.00,607
+246,B,Recurrente,0,0.00,449
+247,A,Recurrente,0,0.00,446
+248,B,Alto valor,1,71.05,410
+249,A,Alto valor,0,0.00,531
+250,B,Recurrente,0,0.00,490
+251,A,Recurrente,0,0.00,397
+252,A,Alto valor,0,0.00,346
+253,A,Recurrente,0,0.00,521
+254,B,Recurrente,1,55.70,399
+255,B,Nuevo,1,44.40,560
+256,A,Alto valor,0,0.00,385
+257,B,Nuevo,0,0.00,414
+258,B,Nuevo,0,0.00,454
+259,B,Alto valor,0,0.00,495
+260,A,Alto valor,1,93.29,563
+261,A,Alto valor,0,0.00,409
+262,B,Nuevo,1,31.15,651
+263,B,Alto valor,0,0.00,513
+264,B,Nuevo,0,0.00,413
+265,A,Alto valor,0,0.00,437
+266,B,Recurrente,0,0.00,517
+267,B,Alto valor,0,0.00,439
+268,A,Alto valor,0,0.00,363
+269,A,Recurrente,0,0.00,282
+270,A,Nuevo,0,0.00,546
+271,B,Alto valor,0,0.00,506
+272,A,Nuevo,0,0.00,263
+273,B,Recurrente,0,0.00,466
+274,B,Nuevo,0,0.00,482
+275,B,Alto valor,0,0.00,524
+276,A,Recurrente,0,0.00,460
+277,B,Nuevo,0,0.00,496
+278,B,Recurrente,0,0.00,448
+279,A,Recurrente,1,37.40,382
+280,A,Nuevo,0,0.00,411
+281,B,Alto valor,0,0.00,465
+282,B,Recurrente,0,0.00,479
+283,A,Alto valor,0,0.00,396
+284,A,Alto valor,0,0.00,401
+285,B,Alto valor,0,0.00,605
+286,A,Recurrente,1,40.83,408
+287,A,Nuevo,0,0.00,217
+288,B,Alto valor,0,0.00,440
+289,B,Recurrente,0,0.00,492
+290,A,Alto valor,0,0.00,452
+291,B,Recurrente,0,0.00,488
+292,B,Recurrente,0,0.00,459
+293,B,Alto valor,1,95.37,537
+294,A,Alto valor,0,0.00,531
+295,A,Nuevo,0,0.00,467
+296,A,Recurrente,0,0.00,441
+297,A,Recurrente,0,0.00,554
+298,B,Alto valor,0,0.00,578
+299,A,Recurrente,0,0.00,430
+300,A,Nuevo,0,0.00,535
+301,A,Nuevo,0,0.00,463
+302,B,Alto valor,0,0.00,594
+303,B,Nuevo,0,0.00,643
+304,A,Alto valor,1,72.05,405
+305,A,Recurrente,1,58.33,478
+306,A,Alto valor,1,74.85,320
+307,B,Nuevo,0,0.00,574
+308,A,Recurrente,1,65.30,483
+309,A,Alto valor,0,0.00,420
+310,A,Nuevo,0,0.00,300
+311,B,Alto valor,1,83.93,523
+312,A,Alto valor,0,0.00,381
+313,B,Alto valor,1,94.86,518
+314,A,Alto valor,0,0.00,447
+315,B,Alto valor,0,0.00,369
+316,A,Recurrente,0,0.00,485
+317,A,Nuevo,0,0.00,419
+318,A,Nuevo,0,0.00,451
+319,B,Recurrente,0,0.00,558
+320,A,Alto valor,0,0.00,496
+321,A,Alto valor,1,97.73,360
+322,B,Recurrente,0,0.00,602
+323,A,Recurrente,0,0.00,507
+324,B,Alto valor,0,0.00,622
+325,A,Recurrente,0,0.00,505
+326,B,Recurrente,0,0.00,544
+327,B,Alto valor,0,0.00,479
+328,A,Alto valor,0,0.00,373
+329,B,Nuevo,0,0.00,476
+330,A,Recurrente,0,0.00,448
+331,B,Recurrente,0,0.00,443
+332,B,Recurrente,0,0.00,552
+333,B,Nuevo,0,0.00,485
+334,B,Recurrente,0,0.00,515
+335,A,Recurrente,0,0.00,342
+336,A,Nuevo,0,0.00,428
+337,A,Recurrente,1,48.35,429
+338,B,Recurrente,0,0.00,520
+339,A,Nuevo,0,0.00,448
+340,B,Nuevo,0,0.00,466
+341,A,Alto valor,1,86.99,430
+342,B,Recurrente,0,0.00,338
+343,B,Nuevo,1,40.91,397
+344,A,Nuevo,1,34.39,463
+345,A,Nuevo,0,0.00,540
+346,A,Alto valor,0,0.00,353
+347,B,Recurrente,1,48.80,465
+348,B,Nuevo,0,0.00,516
+349,A,Alto valor,0,0.00,334
+350,A,Alto valor,0,0.00,434
+351,B,Alto valor,0,0.00,471
+352,B,Alto valor,0,0.00,536
+353,B,Nuevo,0,0.00,534
+354,A,Recurrente,1,29.75,402
+355,A,Nuevo,0,0.00,519
+356,A,Alto valor,0,0.00,374
+357,B,Alto valor,0,0.00,516
+358,B,Recurrente,0,0.00,453
+359,A,Recurrente,0,0.00,372
+360,A,Nuevo,0,0.00,346
+361,B,Alto valor,0,0.00,493
+362,A,Nuevo,0,0.00,400
+363,A,Recurrente,0,0.00,221
+364,A,Nuevo,1,16.35,434
+365,A,Nuevo,0,0.00,432
+366,B,Nuevo,1,30.74,566
+367,B,Recurrente,0,0.00,552
+368,B,Nuevo,0,0.00,412
+369,A,Nuevo,0,0.00,568
+370,B,Alto valor,0,0.00,448
+371,A,Alto valor,1,82.61,537
+372,A,Alto valor,0,0.00,426
+373,B,Nuevo,1,21.40,528
+374,B,Nuevo,0,0.00,325
+375,A,Recurrente,0,0.00,362
+376,A,Alto valor,0,0.00,314
+377,B,Alto valor,0,0.00,431
+378,B,Nuevo,0,0.00,607
+379,A,Nuevo,0,0.00,486
+380,A,Nuevo,0,0.00,414
+381,A,Nuevo,1,23.07,441
+382,B,Nuevo,0,0.00,487
+383,B,Alto valor,0,0.00,573
+384,A,Nuevo,1,40.20,380
+385,B,Alto valor,0,0.00,382
+386,A,Recurrente,1,55.80,482
+387,A,Recurrente,0,0.00,479
+388,B,Alto valor,0,0.00,487
+389,A,Recurrente,0,0.00,437
+390,A,Recurrente,0,0.00,447
+391,A,Nuevo,1,44.30,417
+392,B,Alto valor,0,0.00,574
+393,B,Recurrente,0,0.00,289
+394,B,Alto valor,0,0.00,516
+395,A,Alto valor,0,0.00,553
+396,A,Nuevo,0,0.00,477
+397,B,Recurrente,0,0.00,395
+398,A,Alto valor,0,0.00,512
+399,A,Alto valor,0,0.00,440
+400,B,Alto valor,0,0.00,571
+401,A,Recurrente,0,0.00,380
+402,B,Alto valor,0,0.00,629
+403,A,Nuevo,0,0.00,409
+404,A,Nuevo,0,0.00,507
+405,B,Recurrente,0,0.00,368
+406,B,Alto valor,0,0.00,422
+407,B,Alto valor,1,75.79,486
+408,B,Nuevo,0,0.00,493
+409,A,Alto valor,0,0.00,458
+410,A,Nuevo,0,0.00,535
+411,A,Nuevo,0,0.00,440
+412,A,Alto valor,0,0.00,460
+413,B,Alto valor,1,101.24,365
+414,B,Nuevo,0,0.00,566
+415,B,Recurrente,0,0.00,449
+416,A,Nuevo,0,0.00,265
+417,B,Alto valor,0,0.00,515
+418,A,Recurrente,0,0.00,474
+419,B,Nuevo,0,0.00,465
+420,B,Recurrente,0,0.00,592
+421,B,Nuevo,1,31.15,530
+422,A,Nuevo,1,37.04,419
+423,A,Alto valor,1,87.23,369
+424,A,Alto valor,0,0.00,399
+425,A,Alto valor,0,0.00,404
+426,B,Alto valor,0,0.00,412
+427,A,Nuevo,0,0.00,268
+428,A,Alto valor,0,0.00,376
+429,B,Recurrente,0,0.00,417
+430,A,Recurrente,0,0.00,422
+431,B,Nuevo,0,0.00,551
+432,A,Nuevo,0,0.00,460
+433,A,Alto valor,0,0.00,471
+434,A,Recurrente,0,0.00,357
+435,A,Alto valor,0,0.00,502
+436,A,Alto valor,0,0.00,558
+437,A,Alto valor,0,0.00,616
+438,B,Alto valor,0,0.00,436
+439,A,Alto valor,0,0.00,522
+440,B,Recurrente,1,50.35,550
+441,B,Alto valor,0,0.00,420
+442,A,Recurrente,0,0.00,386
+443,B,Nuevo,0,0.00,459
+444,B,Recurrente,1,51.37,451
+445,B,Recurrente,1,33.12,583
+446,A,Recurrente,0,0.00,526
+447,B,Alto valor,0,0.00,414
+448,B,Nuevo,0,0.00,437
+449,B,Recurrente,0,0.00,418
+450,B,Alto valor,0,0.00,684
+451,A,Nuevo,1,16.14,334
+452,B,Alto valor,0,0.00,475
+453,B,Recurrente,0,0.00,550
+454,A,Recurrente,1,25.38,580
+455,B,Nuevo,0,0.00,420
+456,B,Alto valor,0,0.00,474
+457,B,Alto valor,0,0.00,367
+458,A,Alto valor,0,0.00,283
+459,A,Nuevo,0,0.00,439
+460,B,Alto valor,0,0.00,573
+461,B,Nuevo,0,0.00,532
+462,A,Nuevo,0,0.00,419
+463,A,Recurrente,0,0.00,404
+464,B,Nuevo,0,0.00,384
+465,B,Nuevo,0,0.00,341
+466,B,Nuevo,0,0.00,592
+467,A,Nuevo,0,0.00,411
+468,B,Nuevo,0,0.00,542
+469,A,Recurrente,0,0.00,422
+470,A,Nuevo,0,0.00,541
+471,A,Nuevo,0,0.00,238
+472,B,Alto valor,0,0.00,472
+473,B,Alto valor,0,0.00,536
+474,B,Alto valor,0,0.00,550
+475,A,Alto valor,0,0.00,343
+476,A,Nuevo,0,0.00,445
+477,B,Nuevo,0,0.00,508
+478,A,Nuevo,0,0.00,486
+479,A,Alto valor,0,0.00,386
+480,B,Nuevo,0,0.00,524
+481,A,Alto valor,1,99.57,404
+482,A,Nuevo,0,0.00,410
+483,A,Alto valor,0,0.00,374
+484,A,Recurrente,0,0.00,542
+485,B,Nuevo,0,0.00,447
+486,A,Nuevo,0,0.00,387
+487,A,Alto valor,0,0.00,429
+488,A,Alto valor,0,0.00,321
+489,A,Nuevo,0,0.00,410
+490,B,Alto valor,0,0.00,557
+491,B,Recurrente,0,0.00,415
+492,B,Nuevo,1,19.15,421
+493,B,Alto valor,0,0.00,634
+494,B,Alto valor,0,0.00,351
+495,A,Alto valor,0,0.00,556
+496,B,Recurrente,1,38.42,419
+497,B,Recurrente,0,0.00,420
+498,B,Nuevo,0,0.00,579
+499,B,Recurrente,0,0.00,327
+500,A,Recurrente,1,55.38,422
+501,B,Alto valor,0,0.00,501
+502,A,Nuevo,0,0.00,582
+503,A,Recurrente,0,0.00,467
+504,B,Nuevo,0,0.00,500
+505,A,Alto valor,1,69.50,354
+506,B,Alto valor,0,0.00,519
+507,B,Nuevo,0,0.00,572
+508,B,Alto valor,0,0.00,501
+509,A,Recurrente,0,0.00,505
+510,B,Nuevo,0,0.00,491
+511,B,Recurrente,0,0.00,529
+512,A,Alto valor,0,0.00,445
+513,B,Alto valor,0,0.00,454
+514,A,Alto valor,0,0.00,527
+515,A,Recurrente,0,0.00,602
+516,A,Alto valor,0,0.00,465
+517,B,Nuevo,0,0.00,508
+518,B,Recurrente,0,0.00,600
+519,A,Recurrente,0,0.00,426
+520,B,Alto valor,0,0.00,583
+521,A,Recurrente,0,0.00,386
+522,A,Nuevo,0,0.00,580
+523,B,Nuevo,0,0.00,509
+524,B,Recurrente,0,0.00,499
+525,A,Recurrente,0,0.00,301
+526,B,Nuevo,0,0.00,467
+527,A,Recurrente,0,0.00,541
+528,A,Alto valor,1,78.09,457
+529,A,Recurrente,0,0.00,491
+530,A,Recurrente,0,0.00,377
+531,A,Alto valor,0,0.00,385
+532,B,Alto valor,0,0.00,559
+533,B,Recurrente,0,0.00,549
+534,B,Recurrente,0,0.00,600
+535,A,Alto valor,0,0.00,288
+536,B,Recurrente,0,0.00,468
+537,B,Nuevo,0,0.00,397
+538,A,Nuevo,0,0.00,381
+539,B,Alto valor,0,0.00,406
+540,A,Alto valor,0,0.00,363
+541,A,Nuevo,0,0.00,436
+542,A,Alto valor,0,0.00,447
+543,A,Nuevo,0,0.00,569
+544,B,Recurrente,0,0.00,425
+545,B,Alto valor,1,82.57,475
+546,B,Recurrente,0,0.00,521
+547,A,Nuevo,0,0.00,455
+548,B,Alto valor,0,0.00,576
+549,B,Recurrente,0,0.00,539
+550,A,Recurrente,0,0.00,378
+551,A,Nuevo,0,0.00,488
+552,A,Alto valor,1,99.05,479
+553,A,Nuevo,0,0.00,496
+554,B,Nuevo,0,0.00,488
+555,B,Nuevo,0,0.00,591
+556,A,Nuevo,0,0.00,508
+557,B,Recurrente,0,0.00,535
+558,A,Alto valor,0,0.00,427
+559,A,Recurrente,0,0.00,426
+560,A,Alto valor,0,0.00,390
+561,A,Recurrente,0,0.00,419
+562,A,Nuevo,0,0.00,416
+563,B,Recurrente,0,0.00,492
+564,A,Nuevo,0,0.00,400
+565,B,Nuevo,0,0.00,401
+566,B,Recurrente,0,0.00,517
+567,A,Nuevo,0,0.00,608
+568,A,Nuevo,1,38.69,437
+569,A,Nuevo,0,0.00,392
+570,B,Recurrente,0,0.00,539
+571,B,Recurrente,0,0.00,598
+572,B,Recurrente,1,29.68,509
+573,A,Recurrente,0,0.00,384
+574,A,Nuevo,1,34.90,413
+575,B,Alto valor,0,0.00,582
+576,B,Nuevo,0,0.00,429
+577,B,Alto valor,0,0.00,578
+578,A,Alto valor,0,0.00,423
+579,B,Nuevo,0,0.00,461
+580,B,Recurrente,1,53.55,385
+581,A,Recurrente,0,0.00,395
+582,A,Recurrente,0,0.00,368
+583,B,Nuevo,0,0.00,342
+584,B,Recurrente,1,36.46,567
+585,A,Recurrente,1,38.58,335
+586,B,Nuevo,0,0.00,515
+587,A,Alto valor,0,0.00,487
+588,A,Alto valor,0,0.00,475
+589,B,Nuevo,0,0.00,465
+590,B,Nuevo,1,34.00,490
+591,B,Alto valor,1,70.82,293
+592,A,Alto valor,0,0.00,292
+593,A,Recurrente,0,0.00,364
+594,A,Alto valor,0,0.00,390
+595,A,Alto valor,0,0.00,386
+596,B,Nuevo,0,0.00,532
+597,B,Recurrente,0,0.00,591
+598,B,Nuevo,0,0.00,536
+599,B,Recurrente,0,0.00,441
+600,A,Recurrente,0,0.00,476
+601,A,Alto valor,0,0.00,623
+602,B,Recurrente,0,0.00,440
+603,A,Recurrente,0,0.00,398
+604,B,Nuevo,0,0.00,500
+605,A,Alto valor,0,0.00,485
+606,B,Alto valor,0,0.00,612
+607,B,Recurrente,0,0.00,671
+608,A,Recurrente,0,0.00,512
+609,B,Recurrente,0,0.00,555
+610,B,Recurrente,1,33.89,550
+611,B,Alto valor,1,73.13,414
+612,A,Nuevo,0,0.00,474
+613,A,Recurrente,0,0.00,483
+614,A,Alto valor,0,0.00,486
+615,A,Nuevo,0,0.00,522
+616,B,Nuevo,1,20.24,542
+617,B,Alto valor,1,76.66,435
+618,B,Alto valor,1,70.57,390
+619,B,Recurrente,0,0.00,452
+620,A,Nuevo,0,0.00,503
+621,B,Nuevo,0,0.00,540
+622,A,Nuevo,0,0.00,394
+623,A,Alto valor,0,0.00,522
+624,B,Alto valor,1,74.91,580
+625,B,Recurrente,0,0.00,352
+626,A,Nuevo,0,0.00,585
+627,A,Recurrente,0,0.00,421
+628,B,Recurrente,0,0.00,468
+629,B,Recurrente,0,0.00,458
+630,B,Nuevo,0,0.00,464
+631,B,Recurrente,0,0.00,539
+632,B,Alto valor,1,78.47,596
+633,A,Nuevo,0,0.00,438
+634,A,Alto valor,0,0.00,510
+635,B,Recurrente,0,0.00,437
+636,A,Alto valor,1,91.87,528
+637,B,Alto valor,1,84.44,573
+638,B,Alto valor,0,0.00,499
+639,B,Nuevo,0,0.00,483
+640,B,Nuevo,1,20.78,446
+641,B,Nuevo,0,0.00,439
+642,B,Recurrente,0,0.00,561
+643,A,Nuevo,0,0.00,389
+644,B,Recurrente,0,0.00,553
+645,A,Nuevo,0,0.00,516
+646,A,Alto valor,0,0.00,517
+647,A,Nuevo,0,0.00,498
+648,A,Alto valor,1,71.81,361
+649,A,Recurrente,0,0.00,446
+650,A,Nuevo,1,34.22,450
+651,A,Nuevo,0,0.00,532
+652,B,Alto valor,0,0.00,442
+653,A,Recurrente,0,0.00,403
+654,B,Alto valor,0,0.00,379
+655,B,Recurrente,0,0.00,508
+656,A,Alto valor,0,0.00,426
+657,A,Alto valor,0,0.00,322
+658,B,Nuevo,0,0.00,512
+659,B,Recurrente,0,0.00,429
+660,A,Alto valor,0,0.00,357
+661,B,Alto valor,0,0.00,481
+662,A,Alto valor,1,73.10,476
+663,A,Recurrente,0,0.00,327
+664,B,Nuevo,0,0.00,516
+665,A,Alto valor,0,0.00,487
+666,A,Alto valor,0,0.00,334
+667,A,Nuevo,0,0.00,379
+668,A,Nuevo,0,0.00,483
+669,A,Nuevo,0,0.00,396
+670,B,Nuevo,0,0.00,459
+671,A,Recurrente,0,0.00,296
+672,B,Recurrente,1,24.41,487
+673,A,Recurrente,1,36.37,445
+674,B,Alto valor,0,0.00,554
+675,A,Nuevo,0,0.00,526
+676,B,Recurrente,0,0.00,451
+677,A,Recurrente,0,0.00,471
+678,A,Nuevo,0,0.00,494
+679,B,Recurrente,0,0.00,487
+680,A,Recurrente,0,0.00,521
+681,A,Nuevo,0,0.00,406
+682,A,Nuevo,0,0.00,560
+683,A,Alto valor,0,0.00,453
+684,A,Nuevo,0,0.00,506
+685,B,Recurrente,0,0.00,483
+686,B,Alto valor,0,0.00,567
+687,B,Alto valor,0,0.00,653
+688,A,Recurrente,0,0.00,384
+689,B,Recurrente,0,0.00,357
+690,B,Recurrente,0,0.00,494
+691,A,Nuevo,0,0.00,421
+692,A,Nuevo,1,22.49,393
+693,B,Alto valor,1,85.22,662
+694,B,Recurrente,1,43.05,482
+695,B,Alto valor,0,0.00,571
+696,B,Recurrente,1,56.87,468
+697,A,Nuevo,0,0.00,375
+698,B,Recurrente,1,64.70,442
+699,B,Nuevo,1,36.79,498
+700,A,Alto valor,0,0.00,437
+701,B,Recurrente,0,0.00,553
+702,A,Recurrente,0,0.00,391
+703,B,Nuevo,0,0.00,575
+704,B,Nuevo,0,0.00,443
+705,B,Alto valor,1,81.32,420
+706,A,Nuevo,0,0.00,479
+707,B,Alto valor,1,95.77,479
+708,B,Recurrente,0,0.00,479
+709,B,Recurrente,0,0.00,555
+710,B,Alto valor,0,0.00,432
+711,A,Recurrente,1,56.60,489
+712,B,Alto valor,1,91.92,523
+713,B,Alto valor,1,80.10,526
+714,B,Recurrente,0,0.00,566
+715,B,Nuevo,0,0.00,408
+716,A,Recurrente,1,49.28,349
+717,B,Recurrente,0,0.00,485
+718,B,Alto valor,1,75.05,570
+719,A,Nuevo,0,0.00,415
+720,A,Nuevo,0,0.00,538
+721,A,Nuevo,0,0.00,450
+722,A,Nuevo,0,0.00,406
+723,B,Alto valor,0,0.00,504
+724,B,Recurrente,0,0.00,530
+725,A,Recurrente,0,0.00,285
+726,A,Recurrente,0,0.00,407
+727,A,Nuevo,0,0.00,386
+728,B,Recurrente,0,0.00,414
+729,B,Nuevo,0,0.00,599
+730,A,Nuevo,0,0.00,491
+731,A,Recurrente,0,0.00,515
+732,B,Alto valor,0,0.00,486
+733,B,Nuevo,0,0.00,466
+734,A,Alto valor,0,0.00,331
+735,B,Nuevo,0,0.00,476
+736,A,Recurrente,0,0.00,488
+737,A,Alto valor,0,0.00,269
+738,A,Alto valor,0,0.00,463
+739,A,Recurrente,0,0.00,387
+740,A,Recurrente,0,0.00,495
+741,B,Alto valor,1,90.03,558
+742,A,Alto valor,0,0.00,337
+743,A,Nuevo,0,0.00,519
+744,A,Recurrente,0,0.00,470
+745,A,Alto valor,0,0.00,393
+746,A,Recurrente,0,0.00,515
+747,A,Alto valor,0,0.00,426
+748,B,Nuevo,0,0.00,581
+749,A,Alto valor,1,89.85,458
+750,A,Recurrente,0,0.00,517
+751,B,Nuevo,0,0.00,514
+752,A,Alto valor,0,0.00,313
+753,B,Alto valor,1,75.84,583
+754,B,Recurrente,0,0.00,625
+755,B,Alto valor,0,0.00,491
+756,A,Recurrente,0,0.00,441
+757,B,Nuevo,0,0.00,511
+758,B,Nuevo,0,0.00,522
+759,A,Nuevo,0,0.00,424
+760,A,Recurrente,0,0.00,509
+761,A,Alto valor,0,0.00,311
+762,A,Alto valor,1,81.11,456
+763,B,Nuevo,0,0.00,522
+764,B,Alto valor,0,0.00,485
+765,A,Nuevo,0,0.00,485
+766,A,Alto valor,0,0.00,500
+767,A,Nuevo,0,0.00,363
+768,A,Recurrente,1,39.31,384
+769,A,Nuevo,0,0.00,323
+770,B,Recurrente,0,0.00,599
+771,B,Recurrente,0,0.00,565
+772,B,Nuevo,0,0.00,450
+773,B,Nuevo,0,0.00,473
+774,A,Recurrente,0,0.00,477
+775,B,Nuevo,0,0.00,523
+776,A,Recurrente,1,59.14,365
+777,A,Recurrente,0,0.00,519
+778,A,Recurrente,0,0.00,633
+779,A,Nuevo,0,0.00,429
+780,B,Nuevo,1,35.81,556
+781,B,Alto valor,0,0.00,553
+782,B,Nuevo,0,0.00,447
+783,A,Nuevo,0,0.00,420
+784,B,Recurrente,0,0.00,410
+785,A,Alto valor,0,0.00,410
+786,A,Recurrente,0,0.00,423
+787,A,Recurrente,1,39.95,294
+788,A,Alto valor,0,0.00,472
+789,B,Recurrente,0,0.00,521
+790,A,Alto valor,0,0.00,307
+791,A,Recurrente,0,0.00,410
+792,B,Nuevo,0,0.00,334
+793,A,Nuevo,0,0.00,473
+794,A,Nuevo,0,0.00,490
+795,B,Nuevo,0,0.00,562
+796,A,Alto valor,0,0.00,405
+797,A,Alto valor,0,0.00,421
+798,B,Nuevo,0,0.00,302
+799,A,Nuevo,0,0.00,563
+800,A,Alto valor,1,74.44,363
+801,B,Recurrente,0,0.00,505
+802,A,Alto valor,0,0.00,397
+803,B,Recurrente,0,0.00,354
+804,A,Nuevo,0,0.00,367
+805,A,Nuevo,0,0.00,612
+806,B,Alto valor,0,0.00,515
+807,A,Alto valor,0,0.00,496
+808,A,Recurrente,0,0.00,442
+809,A,Alto valor,0,0.00,506
+810,B,Alto valor,1,86.17,564
+811,B,Alto valor,0,0.00,499
+812,A,Recurrente,0,0.00,583
+813,B,Nuevo,1,17.14,609
+814,B,Recurrente,0,0.00,525
+815,B,Alto valor,0,0.00,500
+816,A,Nuevo,1,21.50,431
+817,A,Alto valor,0,0.00,444
+818,A,Nuevo,0,0.00,322
+819,B,Nuevo,1,16.63,477
+820,B,Alto valor,0,0.00,529
+821,B,Nuevo,1,32.67,436
+822,A,Recurrente,0,0.00,165
+823,B,Nuevo,0,0.00,494
+824,A,Recurrente,0,0.00,455
+825,A,Nuevo,0,0.00,557
+826,A,Nuevo,0,0.00,472
+827,B,Nuevo,0,0.00,429
+828,B,Alto valor,0,0.00,483
+829,B,Alto valor,0,0.00,414
+830,B,Alto valor,1,76.27,425
+831,A,Recurrente,1,57.97,391
+832,B,Recurrente,0,0.00,586
+833,A,Alto valor,1,103.30,385
+834,B,Alto valor,0,0.00,522
+835,B,Alto valor,1,96.30,469
+836,A,Nuevo,0,0.00,496
+837,A,Alto valor,0,0.00,372
+838,B,Recurrente,0,0.00,337
+839,A,Recurrente,1,5.00,494
+840,A,Alto valor,0,0.00,484
+841,A,Nuevo,0,0.00,258
+842,A,Nuevo,0,0.00,436
+843,A,Nuevo,0,0.00,451
+844,A,Alto valor,0,0.00,252
+845,B,Alto valor,0,0.00,394
+846,A,Nuevo,0,0.00,510
+847,B,Nuevo,0,0.00,561
+848,A,Recurrente,0,0.00,540
+849,B,Nuevo,0,0.00,610
+850,A,Alto valor,1,107.79,445
+851,B,Nuevo,0,0.00,495
+852,A,Recurrente,0,0.00,545
+853,B,Nuevo,0,0.00,491
+854,A,Alto valor,0,0.00,456
+855,A,Nuevo,0,0.00,404
+856,A,Alto valor,0,0.00,393
+857,B,Recurrente,0,0.00,449
+858,A,Alto valor,0,0.00,408
+859,B,Alto valor,0,0.00,456
+860,B,Alto valor,0,0.00,495
+861,B,Nuevo,0,0.00,311
+862,A,Alto valor,1,58.87,493
+863,A,Nuevo,0,0.00,447
+864,A,Recurrente,1,32.28,364
+865,A,Recurrente,0,0.00,238
+866,B,Nuevo,0,0.00,640
+867,B,Recurrente,0,0.00,435
+868,B,Recurrente,0,0.00,459
+869,B,Alto valor,0,0.00,571
+870,B,Alto valor,1,88.10,510
+871,A,Alto valor,1,95.19,529
+872,A,Alto valor,0,0.00,378
+873,A,Alto valor,0,0.00,433
+874,A,Recurrente,1,32.12,413
+875,B,Recurrente,0,0.00,448
+876,A,Recurrente,0,0.00,491
+877,A,Nuevo,0,0.00,433
+878,B,Alto valor,1,85.98,313
+879,A,Recurrente,1,55.31,482
+880,B,Nuevo,0,0.00,484
+881,B,Alto valor,0,0.00,588
+882,B,Alto valor,1,93.90,522
+883,B,Nuevo,1,28.32,537
+884,B,Nuevo,0,0.00,448
+885,A,Nuevo,0,0.00,424
+886,B,Nuevo,1,22.71,446
+887,A,Recurrente,1,44.83,350
+888,B,Alto valor,0,0.00,430
+889,A,Recurrente,0,0.00,301
+890,B,Nuevo,0,0.00,628
+891,B,Alto valor,1,82.96,566
+892,A,Alto valor,0,0.00,416
+893,A,Recurrente,0,0.00,402
+894,B,Recurrente,0,0.00,551
+895,B,Alto valor,1,53.34,542
+896,B,Nuevo,0,0.00,399
+897,B,Recurrente,0,0.00,314
+898,A,Recurrente,0,0.00,402
+899,B,Recurrente,0,0.00,548
+900,B,Alto valor,0,0.00,501
+901,B,Nuevo,0,0.00,511
+902,A,Nuevo,0,0.00,521
+903,A,Nuevo,0,0.00,485
+904,B,Nuevo,0,0.00,555
+905,B,Nuevo,0,0.00,550
+906,A,Recurrente,0,0.00,385
+907,B,Nuevo,1,13.14,563
+908,A,Alto valor,0,0.00,396
+909,A,Recurrente,0,0.00,421
+910,B,Nuevo,1,23.72,447
+911,B,Alto valor,0,0.00,644
+912,A,Nuevo,0,0.00,419
+913,A,Alto valor,1,74.30,463
+914,A,Recurrente,0,0.00,214
+915,B,Nuevo,0,0.00,531
+916,A,Nuevo,0,0.00,568
+917,B,Recurrente,1,23.44,376
+918,B,Nuevo,0,0.00,567
+919,A,Recurrente,1,52.68,446
+920,A,Nuevo,0,0.00,476
+921,A,Nuevo,1,29.09,412
+922,B,Recurrente,0,0.00,501
+923,B,Alto valor,0,0.00,576
+924,A,Alto valor,0,0.00,395
+925,A,Recurrente,0,0.00,614
+926,B,Alto valor,0,0.00,471
+927,A,Nuevo,0,0.00,632
+928,B,Alto valor,0,0.00,503
+929,B,Nuevo,0,0.00,552
+930,B,Nuevo,1,41.56,450
+931,A,Recurrente,0,0.00,431
+932,B,Nuevo,0,0.00,531
+933,B,Nuevo,0,0.00,485
+934,B,Nuevo,1,32.72,592
+935,A,Alto valor,0,0.00,517
+936,B,Nuevo,0,0.00,477
+937,A,Alto valor,0,0.00,425
+938,A,Alto valor,1,79.42,337
+939,A,Recurrente,0,0.00,430
+940,A,Alto valor,0,0.00,550
+941,B,Recurrente,0,0.00,614
+942,B,Nuevo,0,0.00,569
+943,B,Recurrente,0,0.00,606
+944,B,Recurrente,0,0.00,558
+945,A,Nuevo,0,0.00,411
+946,A,Nuevo,1,33.59,443
+947,B,Recurrente,0,0.00,500
+948,A,Nuevo,0,0.00,481
+949,A,Alto valor,0,0.00,403
+950,A,Alto valor,0,0.00,491
+951,B,Nuevo,0,0.00,425
+952,B,Nuevo,0,0.00,544
+953,A,Nuevo,0,0.00,479
+954,B,Recurrente,0,0.00,578
+955,A,Alto valor,0,0.00,470
+956,A,Nuevo,0,0.00,354
+957,B,Recurrente,0,0.00,532
+958,A,Recurrente,0,0.00,491
+959,B,Alto valor,0,0.00,455
+960,A,Recurrente,0,0.00,409
+961,A,Nuevo,0,0.00,268
+962,A,Recurrente,0,0.00,505
+963,A,Recurrente,0,0.00,479
+964,B,Alto valor,1,74.32,406
+965,B,Alto valor,0,0.00,603
+966,B,Alto valor,0,0.00,539
+967,A,Recurrente,1,37.86,493
+968,B,Nuevo,1,21.87,495
+969,B,Recurrente,0,0.00,525
+970,A,Recurrente,0,0.00,443
+971,B,Nuevo,0,0.00,340
+972,B,Nuevo,0,0.00,494
+973,B,Nuevo,0,0.00,534
+974,B,Recurrente,0,0.00,519
+975,B,Alto valor,0,0.00,517
+976,B,Recurrente,1,22.14,548
+977,A,Nuevo,0,0.00,489
+978,B,Recurrente,0,0.00,444
+979,B,Alto valor,1,75.31,463
+980,A,Alto valor,0,0.00,434
+981,A,Alto valor,1,79.77,597
+982,A,Recurrente,0,0.00,456
+983,B,Recurrente,0,0.00,564
+984,B,Alto valor,0,0.00,470
+985,B,Recurrente,0,0.00,477
+986,A,Recurrente,0,0.00,366
+987,A,Alto valor,0,0.00,468
+988,A,Recurrente,0,0.00,479
+989,B,Nuevo,0,0.00,453
+990,A,Recurrente,1,49.47,477
+991,B,Nuevo,0,0.00,520
+992,B,Alto valor,1,98.19,572
+993,A,Recurrente,0,0.00,436
+994,A,Nuevo,0,0.00,452
+995,A,Alto valor,0,0.00,569
+996,B,Alto valor,0,0.00,621
+997,A,Alto valor,1,63.25,361
+998,B,Nuevo,0,0.00,488
+999,A,Nuevo,1,37.36,422
+1000,A,Recurrente,0,0.00,467
+1001,B,Nuevo,0,0.00,410
+1002,A,Nuevo,0,0.00,577
+1003,B,Recurrente,0,0.00,473
+1004,B,Nuevo,0,0.00,510
+1005,B,Alto valor,0,0.00,584
+1006,B,Recurrente,0,0.00,518
+1007,A,Alto valor,1,63.78,383
+1008,A,Recurrente,0,0.00,488
+1009,A,Alto valor,0,0.00,380
+1010,A,Nuevo,0,0.00,536
+1011,B,Nuevo,0,0.00,434
+1012,B,Alto valor,1,97.25,480
+1013,B,Nuevo,0,0.00,414
+1014,A,Nuevo,0,0.00,523
+1015,B,Nuevo,0,0.00,619
+1016,A,Nuevo,0,0.00,431
+1017,B,Nuevo,0,0.00,497
+1018,B,Nuevo,0,0.00,464
+1019,A,Alto valor,0,0.00,346
+1020,B,Nuevo,0,0.00,317
+1021,A,Nuevo,0,0.00,522
+1022,A,Alto valor,1,90.94,389
+1023,B,Nuevo,0,0.00,480
+1024,B,Nuevo,0,0.00,419
+1025,B,Nuevo,1,34.44,459
+1026,B,Recurrente,0,0.00,477
+1027,A,Alto valor,0,0.00,398
+1028,A,Nuevo,0,0.00,374
+1029,A,Recurrente,0,0.00,458
+1030,B,Nuevo,0,0.00,511
+1031,A,Alto valor,0,0.00,569
+1032,B,Recurrente,1,49.01,477
+1033,A,Alto valor,0,0.00,373
+1034,A,Nuevo,0,0.00,518
+1035,B,Recurrente,0,0.00,463
+1036,B,Nuevo,0,0.00,410
+1037,A,Alto valor,1,66.14,463
+1038,A,Alto valor,1,78.22,448
+1039,B,Recurrente,0,0.00,456
+1040,B,Recurrente,0,0.00,614
+1041,A,Recurrente,0,0.00,528
+1042,A,Alto valor,0,0.00,471
+1043,B,Alto valor,0,0.00,365
+1044,A,Recurrente,0,0.00,478
+1045,A,Nuevo,0,0.00,497
+1046,B,Nuevo,0,0.00,455
+1047,A,Nuevo,0,0.00,409
+1048,A,Recurrente,0,0.00,440
+1049,B,Nuevo,0,0.00,347
+1050,B,Nuevo,0,0.00,633
+1051,A,Alto valor,0,0.00,375
+1052,A,Alto valor,0,0.00,436
+1053,B,Nuevo,0,0.00,390
+1054,B,Nuevo,0,0.00,395
+1055,A,Recurrente,0,0.00,511
+1056,B,Recurrente,0,0.00,478
+1057,B,Nuevo,0,0.00,572
+1058,A,Alto valor,0,0.00,545
+1059,B,Recurrente,0,0.00,412
+1060,B,Nuevo,1,15.93,491
+1061,B,Alto valor,0,0.00,625
+1062,A,Alto valor,0,0.00,399
+1063,A,Nuevo,0,0.00,564
+1064,B,Nuevo,0,0.00,602
+1065,A,Recurrente,1,53.51,388
+1066,B,Recurrente,0,0.00,341
+1067,A,Nuevo,0,0.00,469
+1068,A,Nuevo,0,0.00,385
+1069,A,Alto valor,0,0.00,453
+1070,A,Nuevo,0,0.00,465
+1071,A,Recurrente,0,0.00,462
+1072,B,Nuevo,1,36.90,402
+1073,B,Nuevo,0,0.00,534
+1074,A,Nuevo,0,0.00,529
+1075,B,Recurrente,0,0.00,597
+1076,B,Nuevo,0,0.00,503
+1077,A,Recurrente,0,0.00,448
+1078,B,Alto valor,0,0.00,473
+1079,A,Nuevo,0,0.00,520
+1080,A,Nuevo,1,21.88,504
+1081,B,Recurrente,1,54.11,397
+1082,A,Alto valor,1,106.87,413
+1083,A,Nuevo,1,43.34,390
+1084,B,Nuevo,0,0.00,664
+1085,A,Recurrente,0,0.00,394
+1086,A,Nuevo,0,0.00,455
+1087,B,Recurrente,0,0.00,576
+1088,B,Alto valor,1,81.94,557
+1089,A,Nuevo,0,0.00,337
+1090,B,Recurrente,1,43.72,490
+1091,B,Recurrente,0,0.00,477
+1092,A,Nuevo,0,0.00,481
+1093,B,Recurrente,1,37.56,496
+1094,B,Recurrente,0,0.00,495
+1095,B,Alto valor,0,0.00,500
+1096,B,Alto valor,0,0.00,637
+1097,B,Alto valor,0,0.00,578
+1098,B,Recurrente,0,0.00,604
+1099,A,Nuevo,0,0.00,581
+1100,A,Recurrente,0,0.00,414
+1101,B,Recurrente,0,0.00,395
+1102,A,Nuevo,0,0.00,521
+1103,B,Recurrente,1,28.71,503
+1104,B,Nuevo,0,0.00,547
+1105,A,Recurrente,0,0.00,468
+1106,B,Recurrente,0,0.00,479
+1107,B,Recurrente,0,0.00,608
+1108,A,Recurrente,0,0.00,249
+1109,B,Alto valor,0,0.00,410
+1110,A,Alto valor,0,0.00,436
+1111,B,Alto valor,1,82.99,486
+1112,A,Recurrente,1,23.91,471
+1113,A,Nuevo,0,0.00,507
+1114,A,Nuevo,0,0.00,457
+1115,B,Recurrente,0,0.00,513
+1116,B,Recurrente,0,0.00,506
+1117,A,Nuevo,0,0.00,522
+1118,B,Recurrente,0,0.00,394
+1119,A,Alto valor,0,0.00,366
+1120,B,Recurrente,0,0.00,473
+1121,B,Nuevo,0,0.00,604
+1122,B,Alto valor,0,0.00,430
+1123,B,Recurrente,1,57.95,383
+1124,A,Nuevo,0,0.00,356
+1125,B,Nuevo,0,0.00,534
+1126,A,Alto valor,0,0.00,409
+1127,A,Nuevo,0,0.00,568
+1128,A,Recurrente,0,0.00,340
+1129,A,Nuevo,0,0.00,396
+1130,B,Alto valor,0,0.00,613
+1131,A,Nuevo,0,0.00,400
+1132,B,Nuevo,0,0.00,527
+1133,A,Nuevo,0,0.00,372
+1134,B,Recurrente,0,0.00,538
+1135,A,Alto valor,0,0.00,257
+1136,B,Nuevo,0,0.00,709
+1137,A,Nuevo,0,0.00,505
+1138,A,Recurrente,1,40.48,462
+1139,A,Alto valor,0,0.00,431
+1140,A,Nuevo,0,0.00,525
+1141,A,Recurrente,0,0.00,455
+1142,B,Alto valor,0,0.00,411
+1143,A,Recurrente,0,0.00,424
+1144,A,Alto valor,0,0.00,466
+1145,A,Alto valor,0,0.00,268
+1146,B,Recurrente,0,0.00,624
+1147,A,Alto valor,1,90.43,357
+1148,B,Nuevo,0,0.00,458
+1149,B,Alto valor,0,0.00,528
+1150,B,Nuevo,0,0.00,487
+1151,A,Nuevo,0,0.00,483
+1152,A,Recurrente,0,0.00,325
+1153,A,Alto valor,0,0.00,394
+1154,B,Nuevo,0,0.00,331
+1155,A,Nuevo,0,0.00,442
+1156,B,Alto valor,1,98.84,451
+1157,A,Recurrente,0,0.00,505
+1158,B,Nuevo,0,0.00,468
+1159,B,Nuevo,0,0.00,393
+1160,A,Recurrente,0,0.00,396
+1161,B,Recurrente,0,0.00,569
+1162,A,Recurrente,0,0.00,291
+1163,A,Nuevo,0,0.00,368
+1164,A,Alto valor,1,94.86,561
+1165,B,Alto valor,1,105.12,587
+1166,A,Recurrente,0,0.00,435
+1167,B,Recurrente,0,0.00,388
+1168,B,Recurrente,0,0.00,508
+1169,A,Nuevo,0,0.00,525
+1170,A,Nuevo,0,0.00,556
+1171,B,Nuevo,0,0.00,373
+1172,A,Recurrente,0,0.00,402
+1173,A,Recurrente,0,0.00,374
+1174,B,Alto valor,0,0.00,494
+1175,B,Alto valor,0,0.00,536
+1176,B,Recurrente,1,35.01,543
+1177,A,Alto valor,0,0.00,410
+1178,A,Alto valor,0,0.00,400
+1179,A,Nuevo,0,0.00,448
+1180,A,Recurrente,0,0.00,407
+1181,B,Recurrente,0,0.00,531
+1182,A,Alto valor,0,0.00,494
+1183,A,Alto valor,0,0.00,395
+1184,B,Alto valor,0,0.00,467
+1185,B,Alto valor,0,0.00,438
+1186,A,Alto valor,0,0.00,384
+1187,A,Nuevo,0,0.00,522
+1188,B,Recurrente,0,0.00,464
+1189,B,Alto valor,0,0.00,480
+1190,B,Nuevo,0,0.00,524
+1191,B,Nuevo,0,0.00,425
+1192,B,Alto valor,0,0.00,430
+1193,B,Alto valor,0,0.00,374
+1194,A,Alto valor,1,81.31,443
+1195,A,Alto valor,0,0.00,517
+1196,A,Nuevo,1,18.27,378
+1197,B,Alto valor,0,0.00,606
+1198,A,Nuevo,0,0.00,437
+1199,A,Nuevo,1,32.47,492
+1200,B,Alto valor,0,0.00,492
+1201,A,Nuevo,0,0.00,593
+1202,B,Alto valor,0,0.00,412
+1203,A,Nuevo,0,0.00,371
+1204,B,Nuevo,1,23.11,448
+1205,A,Recurrente,0,0.00,525
+1206,B,Recurrente,0,0.00,600
+1207,A,Alto valor,0,0.00,571
+1208,B,Recurrente,0,0.00,526
+1209,B,Nuevo,0,0.00,507
+1210,A,Nuevo,1,13.96,432
+1211,A,Nuevo,0,0.00,425
+1212,B,Alto valor,0,0.00,516
+1213,A,Alto valor,0,0.00,370
+1214,A,Alto valor,0,0.00,451
+1215,B,Nuevo,0,0.00,443
+1216,A,Recurrente,0,0.00,430
+1217,B,Recurrente,0,0.00,463
+1218,A,Recurrente,0,0.00,357
+1219,A,Recurrente,0,0.00,488
+1220,B,Recurrente,0,0.00,479
+1221,A,Recurrente,1,35.66,250
+1222,B,Alto valor,0,0.00,528
+1223,B,Recurrente,1,52.00,407
+1224,B,Nuevo,0,0.00,487
+1225,A,Nuevo,0,0.00,380
+1226,A,Alto valor,0,0.00,506
+1227,B,Recurrente,1,32.44,499
+1228,B,Nuevo,0,0.00,411
+1229,A,Recurrente,0,0.00,471
+1230,B,Nuevo,0,0.00,403
+1231,B,Alto valor,1,85.00,566
+1232,A,Alto valor,0,0.00,502
+1233,A,Alto valor,0,0.00,396
+1234,A,Nuevo,0,0.00,427
+1235,B,Nuevo,0,0.00,665
+1236,B,Alto valor,0,0.00,406
+1237,A,Recurrente,0,0.00,449
+1238,B,Recurrente,0,0.00,423
+1239,A,Nuevo,0,0.00,357
+1240,A,Alto valor,0,0.00,429
+1241,B,Alto valor,0,0.00,434
+1242,A,Alto valor,0,0.00,279
+1243,A,Nuevo,1,16.89,281
+1244,A,Recurrente,1,41.08,482
+1245,B,Nuevo,0,0.00,442
+1246,A,Nuevo,0,0.00,466
+1247,B,Alto valor,0,0.00,507
+1248,B,Recurrente,0,0.00,523
+1249,B,Recurrente,0,0.00,308
+1250,B,Alto valor,0,0.00,458
+1251,A,Nuevo,1,28.04,368
+1252,A,Alto valor,0,0.00,333
+1253,B,Recurrente,0,0.00,494
+1254,B,Nuevo,0,0.00,422
+1255,B,Nuevo,0,0.00,551
+1256,A,Recurrente,1,30.56,528
+1257,A,Nuevo,0,0.00,479
+1258,B,Nuevo,0,0.00,514
+1259,B,Nuevo,0,0.00,562
+1260,A,Alto valor,0,0.00,439
+1261,A,Nuevo,1,28.75,452
+1262,B,Nuevo,1,27.01,388
+1263,B,Nuevo,1,27.46,539
+1264,B,Recurrente,0,0.00,447
+1265,B,Nuevo,0,0.00,318
+1266,B,Alto valor,0,0.00,512
+1267,A,Recurrente,0,0.00,373
+1268,A,Recurrente,0,0.00,418
+1269,B,Recurrente,0,0.00,459
+1270,A,Recurrente,0,0.00,482
+1271,A,Nuevo,0,0.00,391
+1272,B,Nuevo,0,0.00,443
+1273,B,Recurrente,1,56.53,611
+1274,B,Nuevo,0,0.00,497
+1275,B,Nuevo,0,0.00,463
+1276,B,Nuevo,0,0.00,533
+1277,B,Alto valor,1,58.15,575
+1278,B,Nuevo,0,0.00,492
+1279,B,Nuevo,0,0.00,502
+1280,B,Alto valor,0,0.00,471
+1281,A,Recurrente,0,0.00,496
+1282,B,Nuevo,0,0.00,544
+1283,A,Recurrente,0,0.00,547
+1284,A,Alto valor,0,0.00,540
+1285,B,Recurrente,0,0.00,571
+1286,A,Alto valor,1,72.88,358
+1287,A,Recurrente,0,0.00,367
+1288,A,Alto valor,1,69.96,567
+1289,A,Nuevo,0,0.00,345
+1290,A,Alto valor,0,0.00,427
+1291,A,Nuevo,0,0.00,386
+1292,A,Recurrente,0,0.00,461
+1293,A,Alto valor,1,83.07,446
+1294,B,Recurrente,0,0.00,623
+1295,A,Alto valor,0,0.00,541
+1296,B,Recurrente,0,0.00,533
+1297,A,Recurrente,0,0.00,494
+1298,A,Recurrente,0,0.00,346
+1299,B,Recurrente,0,0.00,669
+1300,B,Alto valor,0,0.00,530
+1301,B,Alto valor,1,73.87,469
+1302,A,Nuevo,0,0.00,548
+1303,B,Recurrente,0,0.00,556
+1304,A,Alto valor,0,0.00,513
+1305,A,Recurrente,0,0.00,458
+1306,A,Alto valor,0,0.00,414
+1307,A,Recurrente,0,0.00,333
+1308,B,Nuevo,1,50.67,498
+1309,A,Nuevo,0,0.00,537
+1310,B,Alto valor,0,0.00,527
+1311,B,Recurrente,0,0.00,466
+1312,A,Alto valor,0,0.00,409
+1313,B,Recurrente,1,46.32,489
+1314,A,Nuevo,0,0.00,365
+1315,B,Alto valor,0,0.00,595
+1316,B,Nuevo,0,0.00,434
+1317,B,Recurrente,0,0.00,360
+1318,B,Recurrente,0,0.00,529
+1319,B,Nuevo,0,0.00,514
+1320,A,Nuevo,0,0.00,513
+1321,A,Alto valor,0,0.00,359
+1322,A,Recurrente,0,0.00,369
+1323,B,Recurrente,0,0.00,454
+1324,A,Nuevo,0,0.00,337
+1325,B,Alto valor,0,0.00,356
+1326,A,Nuevo,0,0.00,384
+1327,B,Alto valor,0,0.00,555
+1328,A,Alto valor,0,0.00,395
+1329,B,Recurrente,0,0.00,584
+1330,A,Recurrente,0,0.00,451
+1331,A,Alto valor,0,0.00,337
+1332,B,Nuevo,0,0.00,664
+1333,B,Nuevo,1,44.34,546
+1334,B,Alto valor,0,0.00,466
+1335,B,Alto valor,0,0.00,434
+1336,B,Nuevo,0,0.00,476
+1337,B,Recurrente,0,0.00,469
+1338,A,Alto valor,0,0.00,409
+1339,B,Alto valor,0,0.00,502
+1340,A,Recurrente,1,34.29,420
+1341,B,Alto valor,1,79.38,398
+1342,B,Recurrente,0,0.00,482
+1343,A,Recurrente,0,0.00,364
+1344,B,Recurrente,0,0.00,440
+1345,B,Alto valor,0,0.00,468
+1346,A,Recurrente,1,41.22,453
+1347,A,Nuevo,0,0.00,454
+1348,B,Nuevo,1,16.63,640
+1349,A,Alto valor,0,0.00,410
+1350,A,Alto valor,0,0.00,542
+1351,B,Recurrente,0,0.00,492
+1352,B,Recurrente,1,59.83,524
+1353,B,Recurrente,0,0.00,446
+1354,B,Nuevo,0,0.00,548
+1355,B,Recurrente,0,0.00,623
+1356,A,Recurrente,0,0.00,434
+1357,A,Nuevo,0,0.00,291
+1358,B,Nuevo,0,0.00,359
+1359,A,Recurrente,1,46.24,479
+1360,A,Recurrente,0,0.00,596
+1361,A,Recurrente,1,63.72,462
+1362,A,Alto valor,0,0.00,426
+1363,A,Recurrente,0,0.00,538
+1364,B,Recurrente,0,0.00,419
+1365,B,Alto valor,0,0.00,540
+1366,A,Alto valor,0,0.00,502
+1367,B,Nuevo,0,0.00,452
+1368,B,Recurrente,0,0.00,506
+1369,A,Nuevo,0,0.00,431
+1370,B,Recurrente,0,0.00,431
+1371,A,Alto valor,1,75.01,363
+1372,B,Alto valor,0,0.00,616
+1373,A,Nuevo,0,0.00,503
+1374,A,Nuevo,0,0.00,571
+1375,B,Nuevo,0,0.00,539
+1376,A,Recurrente,0,0.00,447
+1377,B,Alto valor,0,0.00,460
+1378,B,Recurrente,0,0.00,490
+1379,A,Nuevo,1,8.93,413
+1380,A,Recurrente,0,0.00,421
+1381,A,Recurrente,1,38.11,457
+1382,A,Nuevo,0,0.00,483
+1383,B,Alto valor,0,0.00,453
+1384,B,Recurrente,0,0.00,491
+1385,A,Nuevo,0,0.00,462
+1386,A,Alto valor,0,0.00,414
+1387,B,Alto valor,0,0.00,464
+1388,A,Nuevo,0,0.00,489
+1389,B,Recurrente,0,0.00,544
+1390,A,Recurrente,0,0.00,513
+1391,B,Alto valor,0,0.00,522
+1392,A,Nuevo,0,0.00,542
+1393,A,Nuevo,0,0.00,231
+1394,B,Recurrente,0,0.00,392
+1395,B,Alto valor,0,0.00,577
+1396,B,Recurrente,0,0.00,552
+1397,B,Recurrente,0,0.00,478
+1398,A,Alto valor,0,0.00,297
+1399,A,Recurrente,0,0.00,452
+1400,B,Nuevo,0,0.00,580
+1401,A,Alto valor,0,0.00,552
+1402,B,Recurrente,0,0.00,513
+1403,B,Nuevo,0,0.00,426
+1404,B,Alto valor,0,0.00,518
+1405,A,Alto valor,0,0.00,380
+1406,B,Alto valor,1,97.60,448
+1407,A,Alto valor,0,0.00,325
+1408,A,Nuevo,0,0.00,453
+1409,B,Recurrente,0,0.00,301
+1410,B,Nuevo,1,20.76,468
+1411,A,Alto valor,0,0.00,496
+1412,B,Recurrente,0,0.00,483
+1413,B,Recurrente,0,0.00,502
+1414,A,Nuevo,0,0.00,509
+1415,B,Alto valor,0,0.00,306
+1416,B,Recurrente,0,0.00,502
+1417,B,Nuevo,0,0.00,402
+1418,A,Nuevo,0,0.00,449
+1419,A,Recurrente,0,0.00,390
+1420,A,Alto valor,0,0.00,337
+1421,B,Recurrente,0,0.00,517
+1422,B,Alto valor,0,0.00,513
+1423,B,Recurrente,0,0.00,400
+1424,A,Nuevo,0,0.00,289
+1425,B,Alto valor,0,0.00,564
+1426,B,Alto valor,0,0.00,396
+1427,B,Recurrente,0,0.00,459
+1428,B,Alto valor,0,0.00,396
+1429,B,Alto valor,0,0.00,540
+1430,A,Nuevo,0,0.00,421
+1431,B,Recurrente,0,0.00,469
+1432,B,Nuevo,0,0.00,511
+1433,A,Nuevo,0,0.00,573
+1434,B,Alto valor,0,0.00,425
+1435,B,Recurrente,0,0.00,484
+1436,A,Nuevo,0,0.00,537
+1437,B,Recurrente,0,0.00,403
+1438,A,Nuevo,0,0.00,499
+1439,A,Recurrente,1,34.75,531
+1440,A,Alto valor,0,0.00,547
+1441,A,Recurrente,0,0.00,486
+1442,B,Nuevo,0,0.00,583
+1443,B,Recurrente,0,0.00,454
+1444,A,Alto valor,1,82.85,432
+1445,B,Nuevo,0,0.00,547
+1446,B,Alto valor,1,86.97,442
+1447,A,Nuevo,0,0.00,487
+1448,B,Alto valor,0,0.00,440
+1449,A,Alto valor,0,0.00,435
+1450,A,Alto valor,0,0.00,358
+1451,B,Alto valor,0,0.00,472
+1452,B,Nuevo,0,0.00,440
+1453,A,Nuevo,0,0.00,371
+1454,A,Nuevo,0,0.00,498
+1455,B,Alto valor,0,0.00,490
+1456,A,Nuevo,0,0.00,499
+1457,B,Nuevo,0,0.00,476
+1458,A,Nuevo,0,0.00,380
+1459,A,Alto valor,1,88.63,400
+1460,B,Recurrente,0,0.00,440
+1461,A,Nuevo,1,38.89,352
+1462,B,Alto valor,0,0.00,460
+1463,B,Alto valor,1,82.70,643
+1464,B,Recurrente,0,0.00,451
+1465,B,Recurrente,0,0.00,542
+1466,B,Nuevo,0,0.00,535
+1467,A,Alto valor,0,0.00,500
+1468,B,Alto valor,0,0.00,429
+1469,B,Recurrente,0,0.00,517
+1470,B,Alto valor,0,0.00,474
+1471,B,Nuevo,0,0.00,476
+1472,A,Recurrente,0,0.00,404
+1473,A,Recurrente,1,31.46,411
+1474,A,Recurrente,0,0.00,485
+1475,B,Recurrente,0,0.00,380
+1476,B,Recurrente,0,0.00,458
+1477,B,Recurrente,0,0.00,447
+1478,B,Recurrente,0,0.00,580
+1479,B,Alto valor,0,0.00,583
+1480,B,Nuevo,0,0.00,524
+1481,B,Nuevo,1,25.50,403
+1482,A,Nuevo,0,0.00,397
+1483,A,Recurrente,0,0.00,439
+1484,A,Nuevo,0,0.00,402
+1485,B,Alto valor,0,0.00,447
+1486,B,Recurrente,0,0.00,430
+1487,A,Nuevo,0,0.00,473
+1488,B,Alto valor,1,89.05,478
+1489,A,Nuevo,0,0.00,446
+1490,B,Alto valor,0,0.00,588
+1491,A,Alto valor,1,71.55,555
+1492,B,Alto valor,1,80.31,537
+1493,B,Recurrente,1,42.33,548
+1494,A,Alto valor,1,101.64,514
+1495,B,Nuevo,0,0.00,454
+1496,B,Nuevo,0,0.00,508
+1497,A,Alto valor,1,80.10,410
+1498,B,Alto valor,1,101.08,465
+1499,A,Nuevo,0,0.00,519
+1500,B,Alto valor,1,83.03,541
+1501,B,Recurrente,0,0.00,530
+1502,B,Alto valor,0,0.00,428
+1503,B,Nuevo,0,0.00,565
+1504,A,Recurrente,0,0.00,433
+1505,B,Alto valor,0,0.00,538
+1506,B,Alto valor,0,0.00,620
+1507,A,Recurrente,0,0.00,389
+1508,A,Alto valor,0,0.00,510
+1509,A,Recurrente,0,0.00,363
+1510,B,Recurrente,0,0.00,573
+1511,A,Nuevo,0,0.00,356
+1512,B,Nuevo,0,0.00,488
+1513,B,Recurrente,1,8.95,535
+1514,B,Recurrente,0,0.00,453
+1515,A,Recurrente,0,0.00,504
+1516,A,Recurrente,0,0.00,374
+1517,A,Nuevo,0,0.00,363
+1518,A,Alto valor,0,0.00,579
+1519,A,Recurrente,0,0.00,395
+1520,B,Nuevo,0,0.00,523
+1521,A,Nuevo,0,0.00,414
+1522,B,Alto valor,0,0.00,468
+1523,B,Alto valor,0,0.00,513
+1524,A,Nuevo,0,0.00,450
+1525,A,Alto valor,0,0.00,446
+1526,A,Alto valor,0,0.00,467
+1527,A,Alto valor,1,79.16,434
+1528,B,Nuevo,0,0.00,553
+1529,B,Nuevo,0,0.00,597
+1530,A,Alto valor,0,0.00,449
+1531,B,Recurrente,0,0.00,636
+1532,A,Recurrente,0,0.00,395
+1533,A,Recurrente,0,0.00,318
+1534,A,Alto valor,1,87.52,377
+1535,A,Nuevo,0,0.00,464
+1536,B,Alto valor,0,0.00,410
+1537,B,Recurrente,0,0.00,640
+1538,B,Alto valor,1,70.27,404
+1539,B,Recurrente,0,0.00,536
+1540,A,Nuevo,0,0.00,396
+1541,B,Alto valor,1,91.43,541
+1542,B,Alto valor,1,66.45,564
+1543,A,Recurrente,0,0.00,457
+1544,B,Nuevo,0,0.00,579
+1545,A,Recurrente,0,0.00,540
+1546,A,Nuevo,0,0.00,346
+1547,A,Nuevo,0,0.00,388
+1548,B,Nuevo,1,54.24,489
+1549,B,Recurrente,1,42.41,602
+1550,A,Alto valor,1,105.02,453
+1551,A,Nuevo,0,0.00,452
+1552,A,Recurrente,0,0.00,396
+1553,A,Nuevo,0,0.00,476
+1554,B,Recurrente,1,65.74,459
+1555,B,Alto valor,0,0.00,550
+1556,B,Nuevo,0,0.00,570
+1557,A,Alto valor,0,0.00,511
+1558,A,Nuevo,0,0.00,423
+1559,B,Recurrente,1,44.48,465
+1560,B,Nuevo,0,0.00,462
+1561,A,Nuevo,0,0.00,509
+1562,A,Nuevo,0,0.00,412
+1563,B,Nuevo,1,35.16,425
+1564,A,Recurrente,1,27.54,441
+1565,A,Alto valor,1,60.51,487
+1566,B,Recurrente,0,0.00,539
+1567,B,Nuevo,1,21.38,447
+1568,A,Alto valor,0,0.00,498
+1569,B,Nuevo,0,0.00,537
+1570,B,Alto valor,0,0.00,470
+1571,B,Alto valor,0,0.00,485
+1572,B,Alto valor,0,0.00,533
+1573,B,Alto valor,0,0.00,522
+1574,B,Recurrente,0,0.00,468
+1575,A,Alto valor,0,0.00,372
+1576,A,Recurrente,0,0.00,376
+1577,A,Alto valor,1,92.75,456
+1578,A,Alto valor,0,0.00,499
+1579,A,Recurrente,0,0.00,497
+1580,A,Nuevo,0,0.00,348
+1581,B,Nuevo,0,0.00,550
+1582,B,Nuevo,0,0.00,468
+1583,A,Alto valor,0,0.00,464
+1584,A,Recurrente,0,0.00,408
+1585,B,Nuevo,0,0.00,485
+1586,B,Nuevo,1,13.81,390
+1587,B,Alto valor,1,77.59,694
+1588,A,Recurrente,1,54.59,496
+1589,B,Alto valor,0,0.00,600
+1590,A,Nuevo,0,0.00,415
+1591,A,Recurrente,1,44.15,496
+1592,B,Nuevo,0,0.00,433
+1593,B,Recurrente,1,43.74,401
+1594,B,Nuevo,0,0.00,473
+1595,B,Nuevo,0,0.00,522
+1596,A,Nuevo,0,0.00,350
+1597,B,Alto valor,0,0.00,598
+1598,A,Recurrente,0,0.00,295
+1599,B,Recurrente,0,0.00,527
+1600,A,Nuevo,0,0.00,393
+1601,B,Recurrente,1,40.35,641
+1602,A,Nuevo,0,0.00,331
+1603,B,Alto valor,0,0.00,557
+1604,B,Alto valor,0,0.00,530
+1605,A,Alto valor,1,94.34,476
+1606,A,Alto valor,1,66.84,513
+1607,B,Alto valor,0,0.00,473
+1608,B,Alto valor,0,0.00,523
+1609,B,Alto valor,0,0.00,449
+1610,A,Nuevo,0,0.00,486
+1611,B,Recurrente,0,0.00,451
+1612,A,Alto valor,0,0.00,415
+1613,A,Nuevo,0,0.00,288
+1614,A,Recurrente,0,0.00,449
+1615,A,Alto valor,0,0.00,427
+1616,B,Nuevo,0,0.00,522
+1617,B,Recurrente,0,0.00,476
+1618,B,Recurrente,0,0.00,460
+1619,A,Recurrente,0,0.00,417
+1620,B,Nuevo,0,0.00,608
+1621,A,Nuevo,0,0.00,379
+1622,B,Recurrente,0,0.00,617
+1623,A,Alto valor,0,0.00,543
+1624,A,Nuevo,0,0.00,420
+1625,B,Recurrente,0,0.00,607
+1626,B,Recurrente,0,0.00,555
+1627,B,Alto valor,0,0.00,590
+1628,A,Recurrente,1,44.02,501
+1629,B,Nuevo,0,0.00,600
+1630,A,Recurrente,0,0.00,369
+1631,B,Alto valor,0,0.00,552
+1632,B,Nuevo,0,0.00,557
+1633,B,Alto valor,0,0.00,519
+1634,B,Nuevo,0,0.00,480
+1635,B,Recurrente,0,0.00,333
+1636,B,Nuevo,0,0.00,452
+1637,B,Nuevo,0,0.00,483
+1638,A,Nuevo,0,0.00,473
+1639,B,Alto valor,0,0.00,487
+1640,B,Recurrente,1,41.11,477
+1641,B,Nuevo,0,0.00,436
+1642,B,Alto valor,1,84.35,501
+1643,A,Alto valor,0,0.00,455
+1644,A,Recurrente,0,0.00,326
+1645,B,Alto valor,0,0.00,483
+1646,A,Alto valor,0,0.00,391
+1647,B,Recurrente,0,0.00,489
+1648,B,Recurrente,0,0.00,528
+1649,A,Nuevo,0,0.00,487
+1650,B,Nuevo,0,0.00,458
+1651,B,Recurrente,0,0.00,386
+1652,A,Alto valor,0,0.00,431
+1653,A,Recurrente,1,52.01,506
+1654,A,Recurrente,1,61.49,446
+1655,A,Alto valor,0,0.00,434
+1656,A,Alto valor,0,0.00,477
+1657,A,Recurrente,0,0.00,380
+1658,B,Alto valor,0,0.00,457
+1659,B,Nuevo,0,0.00,503
+1660,A,Nuevo,0,0.00,504
+1661,A,Alto valor,0,0.00,515
+1662,B,Recurrente,0,0.00,465
+1663,B,Alto valor,0,0.00,382
+1664,B,Alto valor,0,0.00,351
+1665,A,Nuevo,0,0.00,499
+1666,A,Alto valor,0,0.00,465
+1667,A,Alto valor,0,0.00,496
+1668,B,Alto valor,0,0.00,519
+1669,A,Nuevo,0,0.00,456
+1670,A,Alto valor,0,0.00,306
+1671,B,Recurrente,0,0.00,569
+1672,A,Nuevo,0,0.00,530
+1673,B,Recurrente,0,0.00,654
+1674,A,Recurrente,0,0.00,486
+1675,A,Recurrente,0,0.00,422
+1676,B,Recurrente,0,0.00,546
+1677,A,Recurrente,0,0.00,416
+1678,B,Nuevo,0,0.00,470
+1679,A,Recurrente,0,0.00,416
+1680,B,Alto valor,1,76.50,513
+1681,B,Recurrente,0,0.00,658
+1682,A,Alto valor,1,62.61,477
+1683,B,Recurrente,0,0.00,538
+1684,B,Alto valor,0,0.00,496
+1685,B,Recurrente,0,0.00,483
+1686,A,Alto valor,0,0.00,436
+1687,A,Alto valor,0,0.00,398
+1688,B,Alto valor,0,0.00,426
+1689,B,Alto valor,0,0.00,542
+1690,A,Nuevo,0,0.00,531
+1691,A,Alto valor,1,64.95,382
+1692,B,Alto valor,0,0.00,504
+1693,B,Recurrente,0,0.00,413
+1694,A,Alto valor,0,0.00,431
+1695,B,Nuevo,1,31.61,488
+1696,A,Alto valor,0,0.00,429
+1697,B,Recurrente,0,0.00,458
+1698,A,Nuevo,0,0.00,460
+1699,B,Alto valor,1,96.81,482
+1700,B,Alto valor,0,0.00,521
+1701,B,Recurrente,0,0.00,662
+1702,A,Alto valor,1,71.33,402
+1703,B,Alto valor,0,0.00,543
+1704,B,Alto valor,0,0.00,374
+1705,A,Recurrente,1,31.58,301
+1706,B,Nuevo,0,0.00,530
+1707,B,Alto valor,0,0.00,429
+1708,A,Nuevo,0,0.00,417
+1709,A,Alto valor,0,0.00,534
+1710,B,Nuevo,0,0.00,525
+1711,A,Recurrente,1,48.44,495
+1712,A,Alto valor,1,73.64,425
+1713,B,Recurrente,0,0.00,502
+1714,A,Nuevo,0,0.00,423
+1715,B,Nuevo,0,0.00,408
+1716,B,Alto valor,1,98.22,410
+1717,A,Recurrente,0,0.00,414
+1718,A,Recurrente,0,0.00,444
+1719,A,Recurrente,0,0.00,233
+1720,B,Alto valor,0,0.00,429
+1721,B,Alto valor,0,0.00,543
+1722,B,Recurrente,0,0.00,348
+1723,B,Alto valor,1,86.18,560
+1724,A,Alto valor,0,0.00,534
+1725,A,Nuevo,0,0.00,486
+1726,A,Alto valor,1,88.55,494
+1727,B,Recurrente,0,0.00,430
+1728,B,Alto valor,0,0.00,336
+1729,B,Recurrente,0,0.00,628
+1730,A,Nuevo,0,0.00,425
+1731,A,Recurrente,0,0.00,351
+1732,A,Alto valor,1,75.04,528
+1733,A,Alto valor,1,71.59,568
+1734,B,Recurrente,0,0.00,494
+1735,A,Nuevo,0,0.00,438
+1736,A,Nuevo,0,0.00,340
+1737,A,Nuevo,0,0.00,386
+1738,B,Recurrente,0,0.00,406
+1739,B,Alto valor,0,0.00,600
+1740,B,Alto valor,0,0.00,619
+1741,B,Recurrente,0,0.00,514
+1742,B,Recurrente,1,43.22,555
+1743,B,Alto valor,0,0.00,584
+1744,A,Alto valor,0,0.00,427
+1745,A,Alto valor,0,0.00,385
+1746,A,Recurrente,1,35.13,507
+1747,B,Recurrente,0,0.00,512
+1748,A,Alto valor,0,0.00,422
+1749,B,Recurrente,1,37.40,448
+1750,B,Recurrente,0,0.00,489
+1751,A,Nuevo,0,0.00,298
+1752,B,Nuevo,0,0.00,439
+1753,A,Nuevo,0,0.00,477
+1754,A,Recurrente,1,56.55,487
+1755,A,Nuevo,1,31.10,423
+1756,A,Nuevo,1,21.27,271
+1757,B,Nuevo,0,0.00,547
+1758,A,Nuevo,0,0.00,294
+1759,A,Alto valor,0,0.00,493
+1760,A,Alto valor,1,76.82,432
+1761,B,Recurrente,0,0.00,501
+1762,B,Nuevo,0,0.00,330
+1763,A,Recurrente,0,0.00,380
+1764,B,Nuevo,1,42.02,492
+1765,B,Alto valor,0,0.00,593
+1766,B,Recurrente,0,0.00,652
+1767,A,Alto valor,0,0.00,434
+1768,A,Alto valor,0,0.00,393
+1769,A,Alto valor,1,75.36,547
+1770,A,Recurrente,1,66.21,449
+1771,B,Nuevo,0,0.00,618
+1772,B,Nuevo,0,0.00,448
+1773,B,Recurrente,0,0.00,455
+1774,A,Nuevo,0,0.00,444
+1775,A,Alto valor,1,88.88,340
+1776,B,Recurrente,0,0.00,360
+1777,B,Alto valor,0,0.00,591
+1778,A,Recurrente,0,0.00,497
+1779,A,Alto valor,0,0.00,413
+1780,A,Nuevo,0,0.00,328
+1781,B,Nuevo,0,0.00,518
+1782,A,Nuevo,0,0.00,392
+1783,B,Alto valor,0,0.00,555
+1784,A,Alto valor,0,0.00,460
+1785,B,Recurrente,0,0.00,376
+1786,B,Nuevo,1,19.19,572
+1787,B,Alto valor,0,0.00,434
+1788,A,Alto valor,0,0.00,425
+1789,B,Alto valor,0,0.00,454
+1790,B,Nuevo,0,0.00,577
+1791,A,Alto valor,1,86.83,357
+1792,A,Nuevo,0,0.00,450
+1793,B,Alto valor,0,0.00,475
+1794,B,Alto valor,0,0.00,434
+1795,B,Alto valor,0,0.00,389
+1796,B,Recurrente,1,52.84,561
+1797,B,Alto valor,0,0.00,486
+1798,A,Recurrente,0,0.00,469
+1799,A,Nuevo,0,0.00,379
+1800,A,Alto valor,0,0.00,430
+1801,A,Recurrente,0,0.00,471
+1802,A,Recurrente,0,0.00,512
+1803,A,Recurrente,0,0.00,415
+1804,A,Alto valor,0,0.00,585
+1805,A,Recurrente,1,22.42,487
+1806,A,Recurrente,0,0.00,381
+1807,A,Nuevo,0,0.00,408
+1808,B,Nuevo,0,0.00,534
+1809,A,Recurrente,0,0.00,467
+1810,B,Nuevo,1,20.56,460
+1811,A,Alto valor,1,96.58,399
+1812,A,Recurrente,0,0.00,425
+1813,A,Nuevo,0,0.00,434
+1814,A,Recurrente,0,0.00,465
+1815,A,Nuevo,0,0.00,540
+1816,B,Alto valor,0,0.00,699
+1817,B,Nuevo,0,0.00,532
+1818,A,Recurrente,1,66.24,464
+1819,B,Nuevo,1,34.13,539
+1820,B,Recurrente,0,0.00,522
+1821,A,Recurrente,0,0.00,455
+1822,A,Nuevo,0,0.00,568
+1823,A,Alto valor,0,0.00,600
+1824,A,Recurrente,0,0.00,282
+1825,B,Alto valor,0,0.00,419
+1826,B,Recurrente,0,0.00,536
+1827,A,Recurrente,0,0.00,471
+1828,A,Recurrente,0,0.00,394
+1829,A,Recurrente,0,0.00,336
+1830,A,Alto valor,0,0.00,505
+1831,B,Nuevo,0,0.00,450
+1832,A,Recurrente,0,0.00,448
+1833,A,Recurrente,0,0.00,429
+1834,A,Alto valor,0,0.00,561
+1835,B,Alto valor,0,0.00,405
+1836,B,Alto valor,0,0.00,456
+1837,A,Recurrente,1,44.34,367
+1838,A,Recurrente,0,0.00,439
+1839,B,Recurrente,1,47.72,473
+1840,B,Nuevo,0,0.00,369
+1841,A,Alto valor,0,0.00,552
+1842,A,Alto valor,0,0.00,303
+1843,A,Alto valor,1,79.33,423
+1844,B,Recurrente,0,0.00,551
+1845,A,Alto valor,0,0.00,437
+1846,B,Nuevo,0,0.00,524
+1847,B,Nuevo,0,0.00,508
+1848,A,Alto valor,0,0.00,318
+1849,A,Recurrente,0,0.00,315
+1850,B,Nuevo,0,0.00,510
+1851,A,Nuevo,0,0.00,506
+1852,B,Alto valor,0,0.00,349
+1853,A,Recurrente,1,56.82,453
+1854,B,Nuevo,0,0.00,433
+1855,B,Nuevo,0,0.00,289
+1856,A,Alto valor,1,82.60,463
+1857,B,Recurrente,0,0.00,593
+1858,B,Recurrente,0,0.00,459
+1859,B,Alto valor,0,0.00,520
+1860,B,Recurrente,1,58.86,374
+1861,A,Recurrente,0,0.00,486
+1862,A,Nuevo,0,0.00,465
+1863,A,Nuevo,0,0.00,416
+1864,A,Recurrente,0,0.00,439
+1865,B,Alto valor,0,0.00,447
+1866,B,Nuevo,0,0.00,389
+1867,B,Recurrente,0,0.00,513
+1868,B,Alto valor,0,0.00,453
+1869,B,Alto valor,0,0.00,521
+1870,A,Nuevo,0,0.00,558
+1871,A,Alto valor,0,0.00,426
+1872,A,Nuevo,0,0.00,409
+1873,B,Nuevo,0,0.00,606
+1874,B,Nuevo,0,0.00,551
+1875,B,Recurrente,0,0.00,525
+1876,A,Nuevo,0,0.00,517
+1877,A,Alto valor,0,0.00,374
+1878,A,Alto valor,0,0.00,471
+1879,B,Nuevo,0,0.00,359
+1880,A,Alto valor,0,0.00,503
+1881,B,Recurrente,1,20.78,402
+1882,A,Alto valor,1,106.99,321
+1883,A,Recurrente,0,0.00,461
+1884,B,Alto valor,0,0.00,374
+1885,B,Alto valor,1,94.38,550
+1886,B,Nuevo,0,0.00,535
+1887,B,Recurrente,1,52.42,502
+1888,A,Recurrente,0,0.00,452
+1889,A,Alto valor,0,0.00,358
+1890,B,Recurrente,0,0.00,538
+1891,B,Nuevo,0,0.00,590
+1892,B,Recurrente,0,0.00,506
+1893,A,Alto valor,0,0.00,464
+1894,A,Recurrente,0,0.00,462
+1895,B,Nuevo,0,0.00,445
+1896,B,Alto valor,0,0.00,581
+1897,A,Alto valor,1,85.62,339
+1898,B,Nuevo,0,0.00,398
+1899,B,Nuevo,1,28.01,461
+1900,B,Recurrente,1,39.21,483
+1901,B,Nuevo,0,0.00,474
+1902,B,Nuevo,0,0.00,381
+1903,B,Alto valor,0,0.00,585
+1904,B,Recurrente,0,0.00,592
+1905,A,Nuevo,0,0.00,212
+1906,A,Alto valor,1,81.91,330
+1907,B,Recurrente,0,0.00,515
+1908,B,Nuevo,0,0.00,367
+1909,A,Nuevo,0,0.00,454
+1910,B,Nuevo,0,0.00,369
+1911,B,Nuevo,0,0.00,498
+1912,A,Alto valor,0,0.00,337
+1913,B,Recurrente,0,0.00,536
+1914,A,Recurrente,0,0.00,339
+1915,B,Recurrente,1,27.87,541
+1916,A,Alto valor,0,0.00,429
+1917,B,Recurrente,0,0.00,523
+1918,A,Recurrente,0,0.00,449
+1919,B,Recurrente,0,0.00,508
+1920,A,Alto valor,0,0.00,659
+1921,B,Nuevo,0,0.00,396
+1922,A,Alto valor,0,0.00,456
+1923,B,Recurrente,1,28.80,550
+1924,B,Alto valor,1,86.26,422
+1925,B,Recurrente,1,40.46,431
+1926,B,Nuevo,1,16.22,551
+1927,B,Recurrente,0,0.00,505
+1928,B,Alto valor,0,0.00,553
+1929,B,Nuevo,0,0.00,454
+1930,B,Nuevo,0,0.00,607
+1931,A,Nuevo,0,0.00,573
+1932,A,Alto valor,0,0.00,388
+1933,A,Alto valor,1,73.48,362
+1934,B,Recurrente,0,0.00,517
+1935,B,Recurrente,0,0.00,404
+1936,B,Recurrente,1,36.29,490
+1937,B,Nuevo,1,15.29,476
+1938,A,Recurrente,0,0.00,360
+1939,A,Alto valor,0,0.00,313
+1940,A,Alto valor,0,0.00,531
+1941,A,Nuevo,0,0.00,413
+1942,B,Nuevo,0,0.00,390
+1943,A,Recurrente,0,0.00,489
+1944,A,Nuevo,0,0.00,435
+1945,A,Alto valor,0,0.00,404
+1946,B,Nuevo,0,0.00,540
+1947,A,Recurrente,0,0.00,305
+1948,B,Alto valor,0,0.00,541
+1949,A,Nuevo,1,32.39,386
+1950,A,Alto valor,0,0.00,382
+1951,B,Nuevo,0,0.00,529
+1952,A,Recurrente,1,57.08,426
+1953,A,Alto valor,1,65.43,517
+1954,A,Recurrente,0,0.00,377
+1955,B,Alto valor,0,0.00,436
+1956,B,Alto valor,0,0.00,525
+1957,B,Recurrente,0,0.00,589
+1958,A,Recurrente,0,0.00,351
+1959,B,Alto valor,0,0.00,453
+1960,B,Recurrente,0,0.00,599
+1961,B,Recurrente,0,0.00,473
+1962,A,Nuevo,0,0.00,384
+1963,A,Nuevo,0,0.00,295
+1964,A,Recurrente,0,0.00,333
+1965,B,Alto valor,0,0.00,421
+1966,B,Alto valor,0,0.00,596
+1967,B,Nuevo,0,0.00,401
+1968,B,Nuevo,0,0.00,519
+1969,B,Recurrente,0,0.00,479
+1970,A,Alto valor,1,66.19,370
+1971,B,Alto valor,0,0.00,541
+1972,A,Alto valor,0,0.00,333
+1973,A,Recurrente,0,0.00,382
+1974,A,Nuevo,0,0.00,429
+1975,B,Alto valor,0,0.00,462
+1976,B,Nuevo,1,17.62,397
+1977,A,Alto valor,0,0.00,532
+1978,A,Alto valor,0,0.00,544
+1979,A,Alto valor,1,86.51,358
+1980,A,Nuevo,0,0.00,456
+1981,B,Alto valor,1,84.53,435
+1982,B,Alto valor,0,0.00,606
+1983,A,Nuevo,0,0.00,573
+1984,B,Alto valor,0,0.00,521
+1985,A,Nuevo,0,0.00,351
+1986,B,Recurrente,0,0.00,597
+1987,A,Nuevo,0,0.00,514
+1988,A,Nuevo,0,0.00,443
+1989,A,Nuevo,0,0.00,460
+1990,A,Nuevo,0,0.00,364
+1991,B,Nuevo,1,31.67,565
+1992,A,Nuevo,0,0.00,404
+1993,A,Nuevo,0,0.00,480
+1994,A,Recurrente,0,0.00,334
+1995,B,Alto valor,0,0.00,481
+1996,B,Alto valor,0,0.00,600
+1997,A,Nuevo,0,0.00,487
+1998,A,Nuevo,0,0.00,508
+1999,A,Nuevo,0,0.00,557
+2000,A,Alto valor,0,0.00,413
+2001,B,Nuevo,0,0.00,422
+2002,A,Recurrente,0,0.00,424
+2003,B,Recurrente,1,46.09,591
+2004,B,Alto valor,0,0.00,472
+2005,B,Nuevo,0,0.00,410
+2006,B,Alto valor,0,0.00,442
+2007,A,Alto valor,0,0.00,422
+2008,A,Nuevo,0,0.00,502
+2009,A,Recurrente,0,0.00,528
+2010,A,Recurrente,0,0.00,453
+2011,A,Alto valor,1,97.62,454
+2012,A,Recurrente,1,32.79,426
+2013,A,Recurrente,0,0.00,381
+2014,B,Recurrente,0,0.00,440
+2015,B,Nuevo,0,0.00,567
+2016,A,Nuevo,0,0.00,371
+2017,B,Recurrente,0,0.00,478
+2018,A,Nuevo,0,0.00,614
+2019,A,Recurrente,1,28.42,518
+2020,B,Alto valor,0,0.00,470
+2021,A,Recurrente,0,0.00,362
+2022,A,Recurrente,0,0.00,383
+2023,B,Nuevo,0,0.00,611
+2024,A,Alto valor,0,0.00,454
+2025,A,Recurrente,0,0.00,437
+2026,B,Alto valor,0,0.00,467
+2027,B,Nuevo,0,0.00,436
+2028,B,Alto valor,0,0.00,516
+2029,A,Recurrente,0,0.00,563
+2030,A,Recurrente,1,61.40,317
+2031,A,Alto valor,0,0.00,450
+2032,B,Recurrente,0,0.00,393
+2033,A,Nuevo,0,0.00,485
+2034,A,Alto valor,0,0.00,386
+2035,A,Nuevo,1,29.35,417
+2036,B,Nuevo,0,0.00,447
+2037,B,Alto valor,0,0.00,496
+2038,A,Recurrente,1,58.74,343
+2039,B,Alto valor,0,0.00,520
+2040,B,Recurrente,1,64.74,453
+2041,B,Recurrente,0,0.00,593
+2042,B,Alto valor,0,0.00,439
+2043,B,Nuevo,0,0.00,538
+2044,B,Recurrente,1,41.57,375
+2045,B,Nuevo,0,0.00,453
+2046,A,Recurrente,0,0.00,479
+2047,A,Recurrente,0,0.00,488
+2048,A,Alto valor,0,0.00,340
+2049,A,Recurrente,0,0.00,433
+2050,B,Recurrente,0,0.00,351
+2051,A,Alto valor,0,0.00,354
+2052,B,Recurrente,0,0.00,390
+2053,A,Nuevo,0,0.00,450
+2054,B,Recurrente,0,0.00,516
+2055,B,Recurrente,1,36.85,455
+2056,B,Nuevo,0,0.00,504
+2057,A,Nuevo,0,0.00,437
+2058,A,Alto valor,0,0.00,297
+2059,B,Recurrente,0,0.00,595
+2060,A,Recurrente,0,0.00,416
+2061,A,Recurrente,0,0.00,470
+2062,B,Alto valor,1,52.71,609
+2063,A,Alto valor,0,0.00,414
+2064,B,Alto valor,0,0.00,547
+2065,A,Alto valor,0,0.00,309
+2066,B,Alto valor,0,0.00,439
+2067,A,Recurrente,0,0.00,448
+2068,A,Alto valor,1,102.51,399
+2069,B,Recurrente,1,44.32,411
+2070,B,Nuevo,0,0.00,418
+2071,B,Nuevo,0,0.00,519
+2072,B,Alto valor,0,0.00,413
+2073,B,Alto valor,1,77.52,524
+2074,B,Alto valor,0,0.00,506
+2075,B,Alto valor,1,82.95,549
+2076,A,Alto valor,0,0.00,434
+2077,A,Recurrente,0,0.00,437
+2078,A,Nuevo,0,0.00,440
+2079,B,Nuevo,0,0.00,540
+2080,B,Nuevo,0,0.00,477
+2081,B,Alto valor,0,0.00,567
+2082,A,Nuevo,1,23.63,482
+2083,B,Alto valor,0,0.00,599
+2084,A,Recurrente,0,0.00,232
+2085,A,Alto valor,0,0.00,353
+2086,B,Recurrente,0,0.00,513
+2087,B,Recurrente,1,45.28,486
+2088,B,Recurrente,0,0.00,379
+2089,A,Alto valor,0,0.00,579
+2090,A,Alto valor,0,0.00,463
+2091,A,Recurrente,0,0.00,357
+2092,A,Alto valor,0,0.00,343
+2093,B,Nuevo,0,0.00,471
+2094,B,Alto valor,0,0.00,489
+2095,B,Alto valor,1,54.14,453
+2096,B,Nuevo,0,0.00,398
+2097,A,Alto valor,0,0.00,196
+2098,A,Nuevo,0,0.00,394
+2099,B,Alto valor,0,0.00,642
+2100,B,Alto valor,0,0.00,439
+2101,B,Nuevo,0,0.00,460
+2102,B,Recurrente,1,54.29,460
+2103,A,Recurrente,0,0.00,460
+2104,B,Alto valor,0,0.00,519
+2105,B,Nuevo,1,37.59,518
+2106,B,Recurrente,0,0.00,465
+2107,B,Alto valor,0,0.00,453
+2108,A,Recurrente,0,0.00,313
+2109,B,Recurrente,0,0.00,470
+2110,A,Nuevo,0,0.00,474
+2111,A,Alto valor,0,0.00,494
+2112,A,Alto valor,0,0.00,415
+2113,A,Alto valor,0,0.00,422
+2114,A,Nuevo,1,28.54,286
+2115,A,Alto valor,0,0.00,478
+2116,A,Nuevo,0,0.00,539
+2117,A,Nuevo,0,0.00,365
+2118,A,Recurrente,0,0.00,290
+2119,A,Recurrente,0,0.00,439
+2120,B,Alto valor,0,0.00,375
+2121,B,Alto valor,0,0.00,404
+2122,A,Alto valor,0,0.00,459
+2123,A,Nuevo,0,0.00,446
+2124,A,Alto valor,0,0.00,351
+2125,A,Alto valor,1,87.19,340
+2126,A,Nuevo,0,0.00,466
+2127,A,Nuevo,0,0.00,426
+2128,A,Nuevo,0,0.00,515
+2129,A,Nuevo,0,0.00,456
+2130,B,Nuevo,0,0.00,530
+2131,B,Recurrente,0,0.00,474
+2132,A,Recurrente,1,37.88,402
+2133,B,Alto valor,0,0.00,461
+2134,B,Alto valor,0,0.00,530
+2135,B,Recurrente,0,0.00,562
+2136,B,Alto valor,0,0.00,549
+2137,B,Alto valor,0,0.00,480
+2138,B,Nuevo,0,0.00,475
+2139,B,Nuevo,0,0.00,500
+2140,B,Alto valor,0,0.00,492
+2141,B,Alto valor,0,0.00,333
+2142,B,Alto valor,0,0.00,508
+2143,B,Alto valor,0,0.00,424
+2144,A,Recurrente,0,0.00,362
+2145,A,Recurrente,1,44.53,393
+2146,B,Alto valor,0,0.00,480
+2147,B,Alto valor,0,0.00,521
+2148,A,Recurrente,0,0.00,463
+2149,A,Nuevo,0,0.00,436
+2150,A,Alto valor,0,0.00,490
+2151,A,Recurrente,0,0.00,530
+2152,B,Nuevo,0,0.00,400
+2153,A,Nuevo,0,0.00,510
+2154,B,Nuevo,0,0.00,555
+2155,B,Alto valor,0,0.00,548
+2156,A,Recurrente,0,0.00,477
+2157,B,Recurrente,0,0.00,445
+2158,A,Alto valor,0,0.00,517
+2159,B,Nuevo,0,0.00,472
+2160,B,Recurrente,0,0.00,397
+2161,B,Alto valor,0,0.00,502
+2162,B,Recurrente,1,38.64,387
+2163,B,Alto valor,0,0.00,383
+2164,B,Recurrente,0,0.00,403
+2165,A,Alto valor,0,0.00,483
+2166,A,Recurrente,0,0.00,461
+2167,A,Recurrente,0,0.00,378
+2168,A,Nuevo,0,0.00,437
+2169,A,Nuevo,0,0.00,429
+2170,A,Recurrente,0,0.00,403
+2171,A,Alto valor,0,0.00,395
+2172,B,Nuevo,0,0.00,362
+2173,B,Alto valor,0,0.00,505
+2174,B,Alto valor,0,0.00,604
+2175,B,Nuevo,0,0.00,353
+2176,B,Nuevo,0,0.00,502
+2177,A,Recurrente,0,0.00,451
+2178,A,Alto valor,0,0.00,423
+2179,A,Recurrente,0,0.00,437
+2180,B,Nuevo,0,0.00,535
+2181,B,Recurrente,0,0.00,427
+2182,A,Recurrente,1,32.25,340
+2183,B,Alto valor,0,0.00,588
+2184,B,Alto valor,1,48.74,454
+2185,B,Alto valor,0,0.00,372
+2186,B,Nuevo,0,0.00,574
+2187,B,Recurrente,0,0.00,407
+2188,A,Alto valor,0,0.00,441
+2189,B,Recurrente,0,0.00,518
+2190,B,Recurrente,0,0.00,448
+2191,A,Recurrente,0,0.00,480
+2192,A,Nuevo,0,0.00,403
+2193,A,Alto valor,0,0.00,391
+2194,B,Recurrente,0,0.00,536
+2195,A,Recurrente,1,38.69,552
+2196,B,Alto valor,1,96.51,443
+2197,B,Alto valor,0,0.00,483
+2198,A,Recurrente,0,0.00,454
+2199,A,Alto valor,0,0.00,438
+2200,B,Alto valor,0,0.00,445
+2201,A,Nuevo,0,0.00,465
+2202,B,Recurrente,0,0.00,451
+2203,B,Nuevo,0,0.00,598
+2204,A,Recurrente,0,0.00,413
+2205,A,Recurrente,0,0.00,383
+2206,A,Alto valor,1,89.73,477
+2207,B,Recurrente,0,0.00,392
+2208,B,Alto valor,1,89.38,459
+2209,A,Nuevo,0,0.00,400
+2210,A,Recurrente,0,0.00,489
+2211,A,Alto valor,0,0.00,482
+2212,A,Recurrente,0,0.00,386
+2213,B,Nuevo,0,0.00,481
+2214,B,Alto valor,0,0.00,356
+2215,B,Alto valor,0,0.00,508
+2216,B,Recurrente,0,0.00,628
+2217,A,Recurrente,0,0.00,463
+2218,B,Nuevo,0,0.00,336
+2219,B,Nuevo,0,0.00,507
+2220,A,Recurrente,0,0.00,499
+2221,B,Alto valor,0,0.00,366
+2222,B,Recurrente,1,39.85,548
+2223,B,Nuevo,0,0.00,668
+2224,B,Recurrente,1,38.42,507
+2225,A,Nuevo,1,11.92,456
+2226,B,Nuevo,0,0.00,503
+2227,B,Alto valor,0,0.00,514
+2228,A,Alto valor,0,0.00,408
+2229,A,Recurrente,0,0.00,534
+2230,B,Nuevo,0,0.00,326
+2231,B,Recurrente,0,0.00,535
+2232,B,Nuevo,0,0.00,433
+2233,A,Recurrente,1,51.87,444
+2234,A,Nuevo,0,0.00,457
+2235,A,Nuevo,0,0.00,411
+2236,B,Alto valor,0,0.00,460
+2237,A,Alto valor,1,67.16,493
+2238,B,Recurrente,0,0.00,418
+2239,A,Nuevo,0,0.00,622
+2240,B,Alto valor,1,94.56,521
+2241,A,Recurrente,0,0.00,458
+2242,A,Recurrente,0,0.00,413
+2243,B,Alto valor,0,0.00,444
+2244,A,Recurrente,0,0.00,391
+2245,A,Alto valor,0,0.00,417
+2246,A,Alto valor,1,89.17,557
+2247,B,Alto valor,0,0.00,535
+2248,B,Nuevo,0,0.00,404
+2249,A,Nuevo,0,0.00,290
+2250,B,Recurrente,0,0.00,600
+2251,B,Recurrente,0,0.00,599
+2252,B,Recurrente,0,0.00,517
+2253,A,Alto valor,0,0.00,315
+2254,B,Recurrente,0,0.00,676
+2255,A,Nuevo,1,11.60,395
+2256,A,Alto valor,0,0.00,493
+2257,B,Recurrente,0,0.00,458
+2258,A,Nuevo,0,0.00,390
+2259,A,Recurrente,0,0.00,486
+2260,B,Nuevo,0,0.00,547
+2261,A,Recurrente,1,59.76,431
+2262,A,Recurrente,0,0.00,443
+2263,B,Recurrente,0,0.00,499
+2264,A,Recurrente,0,0.00,358
+2265,B,Alto valor,0,0.00,404
+2266,B,Nuevo,0,0.00,519
+2267,A,Recurrente,0,0.00,401
+2268,B,Alto valor,0,0.00,634
+2269,B,Recurrente,0,0.00,440
+2270,B,Recurrente,1,36.78,446
+2271,B,Alto valor,0,0.00,485
+2272,A,Recurrente,0,0.00,348
+2273,A,Recurrente,0,0.00,469
+2274,A,Nuevo,0,0.00,365
+2275,B,Nuevo,0,0.00,565
+2276,B,Alto valor,1,58.87,613
+2277,B,Nuevo,1,23.54,544
+2278,A,Alto valor,0,0.00,300
+2279,B,Nuevo,0,0.00,496
+2280,B,Alto valor,0,0.00,513
+2281,B,Recurrente,0,0.00,607
+2282,A,Nuevo,0,0.00,470
+2283,A,Recurrente,0,0.00,339
+2284,B,Recurrente,0,0.00,451
+2285,B,Recurrente,0,0.00,593
+2286,A,Alto valor,0,0.00,437
+2287,B,Nuevo,0,0.00,452
+2288,A,Nuevo,1,21.03,509
+2289,A,Alto valor,0,0.00,348
+2290,B,Alto valor,0,0.00,499
+2291,A,Alto valor,1,94.08,446
+2292,B,Nuevo,0,0.00,532
+2293,A,Alto valor,0,0.00,599
+2294,B,Nuevo,0,0.00,421
+2295,B,Recurrente,0,0.00,621
+2296,B,Recurrente,0,0.00,435
+2297,B,Recurrente,0,0.00,661
+2298,A,Alto valor,0,0.00,351
+2299,A,Nuevo,0,0.00,365
+2300,B,Nuevo,0,0.00,627
+2301,A,Alto valor,0,0.00,539
+2302,B,Recurrente,0,0.00,605
+2303,B,Recurrente,0,0.00,418
+2304,A,Recurrente,0,0.00,467
+2305,B,Recurrente,0,0.00,381
+2306,B,Nuevo,0,0.00,397
+2307,A,Alto valor,0,0.00,511
+2308,A,Nuevo,0,0.00,454
+2309,B,Recurrente,0,0.00,581
+2310,B,Recurrente,0,0.00,485
+2311,B,Recurrente,0,0.00,581
+2312,B,Alto valor,1,82.50,505
+2313,A,Alto valor,0,0.00,334
+2314,B,Recurrente,0,0.00,441
+2315,A,Alto valor,0,0.00,459
+2316,B,Recurrente,0,0.00,511
+2317,A,Recurrente,0,0.00,457
+2318,B,Alto valor,1,61.42,439
+2319,B,Nuevo,0,0.00,413
+2320,A,Recurrente,1,46.89,405
+2321,B,Nuevo,0,0.00,562
+2322,B,Nuevo,0,0.00,514
+2323,A,Nuevo,0,0.00,472
+2324,A,Nuevo,1,38.34,511
+2325,A,Recurrente,0,0.00,441
+2326,A,Nuevo,0,0.00,408
+2327,A,Recurrente,0,0.00,425
+2328,A,Alto valor,1,73.93,508
+2329,B,Nuevo,0,0.00,543
+2330,B,Alto valor,0,0.00,510
+2331,A,Recurrente,0,0.00,370
+2332,A,Recurrente,0,0.00,496
+2333,A,Alto valor,0,0.00,501
+2334,A,Nuevo,0,0.00,432
+2335,B,Recurrente,0,0.00,596
+2336,B,Recurrente,0,0.00,433
+2337,B,Alto valor,1,84.14,594
+2338,B,Nuevo,0,0.00,534
+2339,A,Nuevo,0,0.00,365
+2340,B,Recurrente,0,0.00,456
+2341,A,Alto valor,0,0.00,378
+2342,B,Alto valor,0,0.00,392
+2343,B,Nuevo,0,0.00,440
+2344,B,Nuevo,0,0.00,430
+2345,B,Recurrente,1,48.60,540
+2346,A,Nuevo,0,0.00,434
+2347,B,Alto valor,0,0.00,521
+2348,A,Nuevo,0,0.00,321
+2349,B,Alto valor,0,0.00,550
+2350,B,Recurrente,0,0.00,495
+2351,A,Nuevo,1,37.34,381
+2352,B,Recurrente,0,0.00,365
+2353,B,Recurrente,0,0.00,470
+2354,B,Nuevo,0,0.00,470
+2355,A,Recurrente,0,0.00,383
+2356,B,Nuevo,0,0.00,628
+2357,B,Nuevo,0,0.00,586
+2358,A,Recurrente,1,53.92,461
+2359,B,Alto valor,1,91.18,560
+2360,B,Alto valor,0,0.00,495
+2361,A,Nuevo,1,33.49,440
+2362,B,Alto valor,0,0.00,478
+2363,B,Nuevo,0,0.00,485
+2364,A,Nuevo,0,0.00,392
+2365,B,Nuevo,0,0.00,497
+2366,B,Alto valor,0,0.00,395
+2367,A,Alto valor,0,0.00,591
+2368,A,Recurrente,0,0.00,402
+2369,A,Alto valor,0,0.00,481
+2370,A,Recurrente,0,0.00,405
+2371,A,Recurrente,0,0.00,560
+2372,A,Alto valor,0,0.00,476
+2373,B,Alto valor,0,0.00,522
+2374,A,Recurrente,0,0.00,600
+2375,B,Recurrente,0,0.00,456
+2376,B,Recurrente,0,0.00,396
+2377,A,Recurrente,0,0.00,605
+2378,B,Recurrente,1,62.52,424
+2379,A,Nuevo,0,0.00,349
+2380,A,Alto valor,0,0.00,469
+2381,B,Alto valor,0,0.00,465
+2382,B,Recurrente,0,0.00,409
+2383,A,Nuevo,0,0.00,464
+2384,B,Recurrente,1,54.87,442
+2385,A,Alto valor,0,0.00,472
+2386,B,Nuevo,0,0.00,442
+2387,A,Nuevo,0,0.00,570
+2388,A,Nuevo,0,0.00,475
+2389,A,Nuevo,0,0.00,474
+2390,B,Nuevo,0,0.00,478
+2391,A,Nuevo,0,0.00,362
+2392,B,Alto valor,0,0.00,561
+2393,A,Alto valor,0,0.00,387
+2394,A,Alto valor,0,0.00,308
+2395,A,Alto valor,0,0.00,488
+2396,A,Nuevo,0,0.00,531
+2397,A,Nuevo,0,0.00,366
+2398,B,Nuevo,0,0.00,503
+2399,B,Alto valor,1,113.09,542
+2400,B,Recurrente,0,0.00,578

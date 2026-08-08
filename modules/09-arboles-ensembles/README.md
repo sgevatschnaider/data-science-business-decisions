@@ -27,6 +27,22 @@ Aprender reglas no lineales, controlar complejidad y combinar modelos para mejor
 
 Una aseguradora necesita priorizar siniestros para revisión. Requiere desempeño, reglas comunicables y control de falsos positivos.
 
+## Profundización aplicada
+
+- Gradient boosting moderno, early stopping y regularización.
+- Importancia por permutación, PDP/ICE y límites con variables correlacionadas.
+- Optimización de hiperparámetros con presupuesto y validación anidada.
+
+## Errores frecuentes
+
+- Comparar modelos sin el mismo protocolo de validación.
+- Interpretar importancia interna como causalidad.
+- Aumentar profundidad y árboles sin medir latencia ni estabilidad.
+
+## Desafío de transferencia
+
+Compará árbol, bosque y boosting por valor, estabilidad, latencia y capacidad de explicación.
+
 ## Secuencia de práctica
 
 1. Visualizar un árbol pequeño y traducir hojas a reglas.
