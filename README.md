@@ -6,6 +6,11 @@ Curso abierto de ciencia de datos, machine learning e inteligencia artificial or
 [![Calidad](https://img.shields.io/github/actions/workflow/status/sgevatschnaider/data-science-business-decisions/quality.yml?branch=main&label=Calidad&style=for-the-badge)](https://github.com/sgevatschnaider/data-science-business-decisions/actions/workflows/quality.yml)
 [![Licencia de contenidos](https://img.shields.io/badge/Contenido-CC%20BY--NC%204.0-1d4ed8?style=for-the-badge)](LICENSE.md)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sgevatschnaider/data-science-for-business-models/0a4eb650aa6fe0125c343c60982b6349b40db564/assets/Video_Ciencia%20de%20datos.gif" alt="Ciencia de datos aplicada a modelos de negocio" width="620">
+</p>
+<p align="center"><sub>Animación procedente del <a href="https://github.com/sgevatschnaider/data-science-for-business-models">repositorio original</a>, fijada a una revisión estable.</sub></p>
+
 ## Propósito
 
 El recorrido conecta cinco preguntas:
@@ -15,6 +20,8 @@ El recorrido conecta cinco preguntas:
 3. ¿El modelo generaliza y supera una referencia útil?
 4. ¿Qué acción crea valor bajo costos y restricciones?
 5. ¿Cómo se explica, controla y monitorea su impacto?
+
+Este recorrido sigue una escalera profesional: **observar → predecir → intervenir → decidir → escalar**. La predicción informa, la causalidad permite razonar sobre intervenciones, la optimización selecciona acciones y la agencia responsable ejecuta con permisos, trazabilidad y supervisión.
 
 ## Acceso directo
 
@@ -27,6 +34,8 @@ Cada módulo contiene una guía principal, una simulación sin instalación, un 
 - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
 - **Notebooks verificables:** los 15 laboratorios registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable.
 - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
+
+La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
 
 | Módulo | Contenido | Recursos |
 |---:|---|---|

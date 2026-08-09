@@ -2205,6 +2205,7 @@ ENRICHMENTS = {
         "advanced_topics": [
             "Embeddings, recuperación aumentada, evaluación de RAG y trazabilidad de fuentes.",
             "Structured outputs, herramientas y agentes con límites, permisos y observabilidad.",
+            "Agencia responsable: separar recomendación, aprobación y ejecución, con criterios de detención y reversión.",
             "Evaluación de IA generativa: veracidad, utilidad, seguridad, costo y latencia.",
         ],
         "common_failures": [
@@ -2269,6 +2270,7 @@ ENRICHMENTS = {
         "advanced_topics": [
             "Decision memo ejecutivo, registro de supuestos y arquitectura reproducible.",
             "Evaluación técnica, económica, responsable y operacional en una misma matriz.",
+            "Diseño de agencia: responsabilidades humanas, permisos mínimos, trazas y recuperación ante fallos.",
             "Plan de experimento, despliegue gradual, monitoreo y criterio de retiro.",
         ],
         "common_failures": [

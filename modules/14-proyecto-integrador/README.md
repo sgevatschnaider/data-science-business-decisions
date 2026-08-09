@@ -31,6 +31,7 @@ Cada equipo selecciona un problema de regresión, clasificación, series, segmen
 
 - Decision memo ejecutivo, registro de supuestos y arquitectura reproducible.
 - Evaluación técnica, económica, responsable y operacional en una misma matriz.
+- Diseño de agencia: responsabilidades humanas, permisos mínimos, trazas y recuperación ante fallos.
 - Plan de experimento, despliegue gradual, monitoreo y criterio de retiro.
 
 ## Errores frecuentes
