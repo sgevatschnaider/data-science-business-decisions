@@ -37,6 +37,7 @@ Un centro de atención quiere clasificar mensajes y resumir motivos. Debe compar
 
 - Embeddings, recuperación aumentada, evaluación de RAG y trazabilidad de fuentes.
 - Structured outputs, herramientas y agentes con límites, permisos y observabilidad.
+- Agencia responsable: separar recomendación, aprobación y ejecución, con criterios de detención y reversión.
 - Evaluación de IA generativa: veracidad, utilidad, seguridad, costo y latencia.
 
 ## Errores frecuentes

@@ -24,6 +24,14 @@ PAGES_URL = (
 REPO_URL = (
     f"https://github.com/{COURSE['owner']}/{COURSE['repository']}"
 )
+ORIGINAL_REPO_URL = (
+    f"https://github.com/{COURSE['owner']}/data-science-for-business-models"
+)
+ORIGINAL_GIF_URL = (
+    "https://raw.githubusercontent.com/sgevatschnaider/"
+    "data-science-for-business-models/0a4eb650aa6fe0125c343c60982b6349b40db564/"
+    "assets/Video_Ciencia%20de%20datos.gif"
+)
 
 
 def write(relative_path: str, content: str) -> None:
@@ -269,6 +277,30 @@ def home_page() -> str:
             <div><strong>15</strong><span>notebooks</span></div>
           </div>
         </section>
+        <section class="container origin-framework" aria-labelledby="escalera-decision">
+          <div class="framework-copy">
+            <p class="eyebrow">De evidencia a acción</p>
+            <h2 id="escalera-decision">La escalera de una decisión analítica</h2>
+            <p>El curso integra la visión estratégica del repositorio original y la convierte en una secuencia verificable: comprender el proceso, anticipar resultados, estimar intervenciones, elegir bajo restricciones y operar con control humano.</p>
+            <ol class="decision-ladder">
+              <li><span>01</span><div><strong>Observar</strong><p>Describir el proceso y diagnosticar la calidad de sus datos.</p></div></li>
+              <li><span>02</span><div><strong>Predecir</strong><p>Estimar resultados futuros con validación honesta.</p></div></li>
+              <li><span>03</span><div><strong>Intervenir</strong><p>Distinguir asociación, efecto causal y respuesta esperada.</p></div></li>
+              <li><span>04</span><div><strong>Decidir</strong><p>Comparar valor, costos, riesgo y restricciones operativas.</p></div></li>
+              <li><span>05</span><div><strong>Escalar</strong><p>Automatizar con permisos acotados, trazabilidad y supervisión.</p></div></li>
+            </ol>
+            <a class="text-link" href="{ORIGINAL_REPO_URL}">Consultar el repositorio de origen <span aria-hidden="true">-&gt;</span></a>
+          </div>
+          <details class="origin-visual">
+            <summary>Ver animación: ciencia de datos para modelos de negocio</summary>
+            <figure>
+              <img src="{ORIGINAL_GIF_URL}"
+                   alt="Animación conceptual sobre ciencia de datos aplicada a modelos de negocio"
+                   width="620" loading="lazy" decoding="async">
+              <figcaption>Recurso del repositorio original, incorporado con enlace fijado a una revisión estable. Si preferís reducir el movimiento, mantené este panel cerrado.</figcaption>
+            </figure>
+          </details>
+        </section>
         <section class="container start-panel">
           <div>
             <p class="eyebrow">Continuidad local</p>
@@ -475,6 +507,11 @@ def deepening_page() -> str:
             "IA generativa",
             "Evaluación de respuestas, recuperación de información, seguridad, costo y supervisión.",
             "Módulos 11 y 13",
+        ),
+        (
+            "Agencia responsable",
+            "Flujos con herramientas, permisos mínimos, aprobaciones humanas, trazas auditables y criterios de detención.",
+            "Módulos 11, 13 y 14",
         ),
         (
             "MLOps y monitoreo",
@@ -1716,6 +1753,11 @@ def root_readme() -> str:
         [![Calidad](https://img.shields.io/github/actions/workflow/status/{COURSE['owner']}/{COURSE['repository']}/quality.yml?branch=main&label=Calidad&style=for-the-badge)]({REPO_URL}/actions/workflows/quality.yml)
         [![Licencia de contenidos](https://img.shields.io/badge/Contenido-CC%20BY--NC%204.0-1d4ed8?style=for-the-badge)](LICENSE.md)
 
+        <p align="center">
+          <img src="{ORIGINAL_GIF_URL}" alt="Ciencia de datos aplicada a modelos de negocio" width="620">
+        </p>
+        <p align="center"><sub>Animación procedente del <a href="{ORIGINAL_REPO_URL}">repositorio original</a>, fijada a una revisión estable.</sub></p>
+
         ## Propósito
 
         El recorrido conecta cinco preguntas:
@@ -1725,6 +1767,8 @@ def root_readme() -> str:
         3. ¿El modelo generaliza y supera una referencia útil?
         4. ¿Qué acción crea valor bajo costos y restricciones?
         5. ¿Cómo se explica, controla y monitorea su impacto?
+
+        Este recorrido sigue una escalera profesional: **observar → predecir → intervenir → decidir → escalar**. La predicción informa, la causalidad permite razonar sobre intervenciones, la optimización selecciona acciones y la agencia responsable ejecuta con permisos, trazabilidad y supervisión.
 
         ## Acceso directo
 
@@ -1737,6 +1781,8 @@ def root_readme() -> str:
         - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
         - **Notebooks verificables:** los 15 laboratorios registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable.
         - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
+
+        La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
 
         | Módulo | Contenido | Recursos |
         |---:|---|---|
@@ -1856,6 +1902,10 @@ def supporting_files() -> None:
             Se concede permiso, de forma gratuita, a cualquier persona que obtenga una copia del software y de los archivos de documentación asociados, para usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y vender copias del software, sujeto a incluir este aviso.
 
             EL SOFTWARE SE ENTREGA SIN GARANTÍAS DE NINGÚN TIPO, EXPRESAS O IMPLÍCITAS, INCLUIDAS LAS DE COMERCIABILIDAD, ADECUACIÓN A UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES SERÁN RESPONSABLES POR RECLAMOS, DAÑOS U OTRAS RESPONSABILIDADES DERIVADAS DEL SOFTWARE O SU USO.
+
+            ## Procedencia
+
+            La animación enlazada en la portada procede de [{COURSE['owner']}/data-science-for-business-models]({ORIGINAL_REPO_URL}), repositorio publicado por el mismo autor bajo licencia MIT. El enlace apunta a una revisión fija para conservar la trazabilidad del recurso.
             """
         ),
     )
@@ -1958,6 +2008,40 @@ def supporting_files() -> None:
             - Latencia, capacidad y mantenimiento son aceptables.
             - Se documentan usos previstos, límites y responsables.
             - Hay indicadores de calidad, drift, desempeño y daño.
+            """
+        ),
+    )
+    write(
+        "references/marco-estrategico-decision.md",
+        dedent(
+            f"""
+            # Marco estratégico de decisión
+
+            Este marco organiza el recorrido analítico según el tipo de pregunta que una organización necesita responder. No reemplaza la validación técnica: ayuda a ubicarla dentro de una decisión real.
+
+            | Nivel | Pregunta rectora | Evidencia mínima | Riesgo frecuente |
+            |---|---|---|---|
+            | Observar | ¿Qué ocurre y cómo se genera el dato? | Calidad, distribución, segmentos y trazabilidad | Confundir el registro con el proceso real |
+            | Predecir | ¿Qué resultado es probable? | Baseline, validación fuera de muestra, calibración e incertidumbre | Optimizar una métrica sin política de uso |
+            | Intervenir | ¿Qué cambiaría si actuamos? | Supuestos causales, comparación válida y heterogeneidad | Interpretar correlación como efecto |
+            | Decidir | ¿Qué acción crea más valor? | Costos de error, capacidad, restricciones y análisis de sensibilidad | Usar el umbral por defecto o ignorar límites |
+            | Escalar | ¿Cómo se ejecuta de forma controlada? | Permisos mínimos, aprobación, trazas, monitoreo y reversión | Automatizar sin dueño ni criterio de detención |
+
+            ## Tres distinciones esenciales
+
+            1. **Precisión no equivale a valor.** Una mejora predictiva importa cuando cambia una acción y su beneficio supera los costos y riesgos.
+            2. **Predicción no equivale a intervención.** Estimar quién presenta un resultado no demuestra qué acción lo modificará.
+            3. **Automatización no equivale a autonomía ilimitada.** Un agente responsable opera dentro de permisos explícitos, conserva evidencia y escala excepciones a una persona.
+
+            ## Uso didáctico
+
+            Antes de elegir una técnica, documentá el nivel actual, la pregunta rectora, la evidencia disponible, la acción propuesta y el criterio que impediría avanzar. Volvé a este registro después de validar el modelo: una decisión puede ser técnicamente posible y aun así no ser económica, responsable u operable.
+
+            ## Procedencia conceptual
+
+            La síntesis adapta la visión “From Prediction to Action” del [repositorio original]({ORIGINAL_REPO_URL}) a la arquitectura verificable de este curso. La redacción y la tabla fueron elaboradas específicamente para este material.
+
+            Material elaborado por el profesor {COURSE['author']}.
             """
         ),
     )
