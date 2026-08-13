@@ -77,472 +77,61 @@ La síntesis conceptual y sus criterios de uso están documentados en [Marco est
 | 09 | Árboles, Random Forest y ensembles | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/09-arboles-ensembles.ipynb) |
 | 10 | PCA, K-Means y clustering jerárquico | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/10-clustering.ipynb) |
 | 11 | Redes neuronales y arquitecturas modernas | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb) |
-| 12 | Programación lineal y analítica prescriptiva | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatsc…30250 tokens truncated…EPO_URL}) a la arquitectura verificable de este curso. La redacción y la tabla fueron elaboradas específicamente para este material.
+| 12 | Programación lineal y analítica prescriptiva | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/12-optimizacion.ipynb) |
+| 13 | Interpretabilidad, equidad y ciclo de vida | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/13-ia-responsable.ipynb) |
+| 14 | Proyecto integrador de decisión | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/14-proyecto-integrador.ipynb) |
 
-            Material elaborado por el profesor {COURSE['author']}.
-            """
-        ),
-    )
-    write(
-        "projects/capstone/README.md",
-        dedent(
-            """
-            # Proyecto integrador de decisión
+## Organización del repositorio
 
-            ## Propósito
+```text
+.
+├── docs/                 Sitio publicado en GitHub Pages
+│   ├── modulos/          Guías, simulaciones, cuestionarios y glosarios
+│   └── assets/           Diseño y lógica compartida
+├── modules/              Índices académicos por módulo
+├── notebooks/            Laboratorios canónicos para Colab o Jupyter
+├── datasets/             Datos didácticos y diccionarios
+├── projects/capstone/    Consigna, rúbrica y plantillas
+├── assessments/          Criterios de evaluación
+├── references/           Guías rápidas
+└── scripts/              Generación y validación
+```
 
-            Construir una recomendación analítica que conecte una decisión real con datos, evaluación fuera de muestra, valor esperado, riesgos y un plan de monitoreo.
+## Uso local
 
-            ## Entrega parcial
+El sitio no necesita compilación:
 
-            - Canvas de decisión.
-            - Contrato y diccionario de datos.
-            - Controles de calidad y EDA.
-            - Baseline.
-            - Protocolo de validación.
-            - Registro de riesgos iniciales.
+```bash
+python -m http.server 8000 --directory docs
+```
 
-            ## Entrega final
+Luego abrí `http://localhost:8000`.
 
-            - Pipeline reproducible.
-            - Comparación de alternativas.
-            - Evaluación técnica y económica.
-            - Análisis de sensibilidad.
-            - Ficha de modelo o sistema.
-            - Informe ejecutivo y presentación.
+Para los notebooks:
 
-            ## Exposición
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter lab
+```
 
-            La defensa comienza por contexto, decisión y recomendación. La técnica se presenta como evidencia, seguida por impacto, incertidumbre, límites y próximos pasos.
-            """
-        ),
-    )
-    write(
-        "projects/capstone/rubric.md",
-        dedent(
-            """
-            # Rúbrica del proyecto integrador
+## Calidad
 
-            | Dimensión | Puntos | Evidencia esperada |
-            |---|---:|---|
-            | Problema y decisión | 15 | Stakeholder, unidad, horizonte, acción, éxito |
-            | Datos y calidad | 15 | Origen, diccionario, controles, sesgos |
-            | EDA y baseline | 15 | Hallazgos relevantes y referencia |
-            | Modelado | 20 | Pipeline, alternativas y justificación |
-            | Evaluación y valor | 15 | Validación, costos, sensibilidad |
-            | Responsabilidad | 10 | Límites, equidad, explicación, monitoreo |
-            | Comunicación | 10 | Narrativa, visualización, repositorio, defensa |
-            | **Total** | **100** | |
+```bash
+python scripts/build_course.py --check
+python scripts/validate_repo.py
+python scripts/execute_notebooks.py
+```
 
-            ## Condiciones de integridad
+La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, cobertura de recursos, consistencia de contenidos y ejecución real de los 15 notebooks.
 
-            Un resultado no reproducible, una evaluación contaminada o el uso de datos sin autorización requieren corrección antes de asignar puntaje al producto final.
-            """
-        ),
-    )
-    write(
-        "projects/capstone/templates/decision-canvas.md",
-        dedent(
-            """
-            # Canvas de decisión
+## Autoría
 
-            ## Contexto
+Material elaborado por el profesor Sergio Gevatschnaider.
 
-            - Organización o proceso:
-            - Stakeholder que decide:
-            - Situación actual:
+Para uso académico, consultá los metadatos de [CITATION.cff](CITATION.cff).
 
-            ## Decisión
+## Licencias
 
-            - Unidad de análisis:
-            - Momento de decisión:
-            - Horizonte:
-            - Acción disponible:
-            - Capacidad o restricción:
-
-            ## Evidencia
-
-            - Variable objetivo:
-            - Datos disponibles en ese momento:
-            - Baseline:
-            - Métrica técnica:
-            - Métrica de valor:
-
-            ## Riesgos
-
-            - Error más costoso:
-            - Grupo potencialmente afectado:
-            - Supuesto crítico:
-            - Criterio para no desplegar:
-            """
-        ),
-    )
-    write(
-        "projects/capstone/templates/final-report.md",
-        dedent(
-            """
-            # Informe final
-
-            ## Resumen ejecutivo
-
-            Decisión, recomendación, valor esperado y condición principal.
-
-            ## Problema y alcance
-
-            Unidad, población, horizonte, acción, métrica y exclusiones.
-
-            ## Datos
-
-            Origen, cobertura, calidad, sesgos y diccionario.
-
-            ## Evidencia exploratoria
-
-            Hallazgos que modificaron el enfoque.
-
-            ## Método
-
-            Baseline, pipeline, modelos y protocolo de validación.
-
-            ## Resultados
-
-            Métricas, incertidumbre, segmentos y análisis de sensibilidad.
-
-            ## Decisión recomendada
-
-            Política, umbral o asignación y valor esperado.
-
-            ## Responsabilidad y límites
-
-            Interpretación, equidad, privacidad, riesgos y supervisión.
-
-            ## Monitoreo
-
-            Indicadores, umbrales, frecuencia, responsables y respuesta.
-            """
-        ),
-    )
-    write(
-        "projects/capstone/templates/review-checklist.md",
-        dedent(
-            """
-            # Revisión antes de entregar
-
-            - [ ] La recomendación responde a una decisión concreta.
-            - [ ] Todas las figuras tienen título, unidades y lectura.
-            - [ ] El notebook ejecuta de principio a fin.
-            - [ ] No hay rutas locales, credenciales ni datos personales.
-            - [ ] El pipeline evita leakage.
-            - [ ] Test no se usó para seleccionar.
-            - [ ] Se compara contra un baseline.
-            - [ ] Se reportan incertidumbre y segmentos relevantes.
-            - [ ] Costos, capacidad y valor están cuantificados.
-            - [ ] Límites y criterio de no uso son explícitos.
-            - [ ] El plan de monitoreo tiene responsables.
-            - [ ] Todas las fuentes están citadas.
-            """
-        ),
-    )
-
-
-def datasets() -> None:
-    rng = random.Random(42)
-    output = io.StringIO()
-    writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(
-        [
-            "cliente_id",
-            "segmento",
-            "zona_operativa",
-            "canal_preferido",
-            "antiguedad_meses",
-            "compras_90d",
-            "ticket_promedio",
-            "reclamos_180d",
-            "costo_contacto",
-            "valor_cliente_12m",
-            "abandono_30d",
-        ]
-    )
-    for client_id in range(1, 1201):
-        segment = rng.choice(["Inicial", "Frecuente", "Premium"])
-        zone = rng.choice(["Centro", "Norte", "Sur", "Remota"])
-        channel = rng.choices(
-            ["Digital", "Sucursal", "Telefónico"], weights=[0.55, 0.27, 0.18]
-        )[0]
-        tenure = rng.randint(1, 84)
-        purchases = max(0, int(rng.gauss({"Inicial": 2, "Frecuente": 6, "Premium": 9}[segment], 2)))
-        ticket = max(8, rng.gauss({"Inicial": 45, "Frecuente": 72, "Premium": 135}[segment], 24))
-        complaints = max(0, int(rng.gauss(0.7 if segment != "Premium" else 0.4, 0.8)))
-        contact_cost = {"Digital": 1.8, "Sucursal": 8.5, "Telefónico": 4.2}[channel]
-        customer_value = max(20, purchases * ticket * rng.uniform(2.2, 4.8))
-        logit = (
-            -1.7
-            - 0.035 * tenure
-            - 0.18 * purchases
-            + 0.75 * complaints
-            + (0.25 if zone == "Remota" else 0)
-            + (0.18 if channel == "Telefónico" else 0)
-        )
-        probability = 1 / (1 + math.exp(-logit))
-        churn = int(rng.random() < probability)
-        ticket_value = "" if rng.random() < 0.035 else f"{ticket:.2f}"
-        writer.writerow(
-            [
-                client_id,
-                segment,
-                zone,
-                channel,
-                tenure,
-                purchases,
-                ticket_value,
-                complaints,
-                f"{contact_cost:.2f}",
-                f"{customer_value:.2f}",
-                churn,
-            ]
-        )
-    write("datasets/clientes.csv", output.getvalue())
-
-    output = io.StringIO()
-    writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(["fecha", "ventas", "promocion", "feriado", "inversion_marketing", "indice_precio"])
-    for month in range(96):
-        year = 2018 + month // 12
-        month_number = month % 12 + 1
-        seasonal = 22 * math.sin(2 * math.pi * month / 12)
-        promo = int(month_number in (5, 11))
-        holiday = int(month_number == 12)
-        marketing = 18 + 5 * promo + rng.uniform(-2.5, 2.5)
-        price_index = 100 + 0.45 * month + rng.gauss(0, 1.2)
-        sales = 120 + 1.4 * month + seasonal + 18 * promo + 28 * holiday + 0.8 * marketing + rng.gauss(0, 7)
-        writer.writerow(
-            [
-                f"{year:04d}-{month_number:02d}-01",
-                f"{sales:.1f}",
-                promo,
-                holiday,
-                f"{marketing:.2f}",
-                f"{price_index:.2f}",
-            ]
-        )
-    write("datasets/ventas-mensuales.csv", output.getvalue())
-
-    output = io.StringIO()
-    writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(["orden_id", "producto", "turno", "horas_maquina", "materia_prima", "margen", "demanda", "retraso_horas"])
-    for order_id in range(1, 601):
-        product = rng.choice(["A", "B", "C"])
-        shift = rng.choice(["Mañana", "Tarde", "Noche"])
-        hours = {"A": 2.0, "B": 1.2, "C": 2.8}[product] + rng.uniform(-0.15, 0.15)
-        material = {"A": 1.0, "B": 2.0, "C": 1.6}[product] + rng.uniform(-0.1, 0.1)
-        margin = {"A": 40, "B": 30, "C": 52}[product] + rng.uniform(-3, 3)
-        demand = max(1, int(rng.gauss({"A": 34, "B": 48, "C": 25}[product], 8)))
-        delay = max(0, rng.gauss(1.0 if shift != "Noche" else 2.1, 1.5))
-        writer.writerow([order_id, product, shift, f"{hours:.2f}", f"{material:.2f}", f"{margin:.2f}", demand, f"{delay:.2f}"])
-    write("datasets/operaciones.csv", output.getvalue())
-
-    output = io.StringIO()
-    writer = csv.writer(output, lineterminator="\n")
-    writer.writerow(["observacion_id", "variante", "segmento", "conversion", "margen", "tiempo_respuesta_ms"])
-    for observation_id in range(1, 2401):
-        variant = "B" if rng.random() < 0.5 else "A"
-        segment = rng.choice(["Nuevo", "Recurrente", "Alto valor"])
-        baseline = {"Nuevo": 0.10, "Recurrente": 0.17, "Alto valor": 0.23}[segment]
-        treatment_effect = {"Nuevo": 0.035, "Recurrente": 0.012, "Alto valor": -0.008}[segment]
-        probability = baseline + (treatment_effect if variant == "B" else 0)
-        conversion = int(rng.random() < probability)
-        margin = conversion * max(5, rng.gauss({"Nuevo": 28, "Recurrente": 46, "Alto valor": 82}[segment], 12))
-        latency = max(120, rng.gauss(430 + (65 if variant == "B" else 0), 75))
-        writer.writerow([observation_id, variant, segment, conversion, f"{margin:.2f}", f"{latency:.0f}"])
-    write("datasets/experimentos.csv", output.getvalue())
-
-    write(
-        "datasets/README.md",
-        dedent(
-            """
-            # Datos didácticos
-
-            Los archivos son sintéticos, reproducibles y no contienen información personal.
-
-            | Archivo | Unidad de análisis | Uso principal |
-            |---|---|---|
-            | `clientes.csv` | Cliente al cierre de período | EDA, faltantes, regresión, clasificación, árboles, clustering |
-            | `ventas-mensuales.csv` | Mes | Series de tiempo y backtesting |
-            | `operaciones.csv` | Orden | EDA, regresión y optimización |
-            | `experimentos.csv` | Exposición a una variante | Experimentación, heterogeneidad y decisión causal |
-
-            ## Reglas
-
-            - No interpretar relaciones sintéticas como hechos de una industria real.
-            - Documentar cualquier modificación.
-            - Mantener la semilla del generador cuando se necesite reproducibilidad.
-            """
-        ),
-    )
-    write(
-        "datasets/data-dictionary.md",
-        dedent(
-            """
-            # Diccionario de datos
-
-            ## clientes.csv
-
-            | Variable | Tipo | Descripción |
-            |---|---|---|
-            | cliente_id | entero | Identificador sintético único |
-            | segmento | categoría | Perfil comercial inicial |
-            | zona_operativa | categoría | Zona sintética para análisis de segmentos y cobertura |
-            | canal_preferido | categoría | Canal principal de interacción |
-            | antiguedad_meses | entero | Meses desde el alta |
-            | compras_90d | entero | Compras en los últimos noventa días |
-            | ticket_promedio | decimal anulable | Importe medio por compra; incluye faltantes didácticos |
-            | reclamos_180d | entero | Reclamos en los últimos ciento ochenta días |
-            | costo_contacto | decimal | Costo sintético de intervenir por el canal elegido |
-            | valor_cliente_12m | decimal | Valor sintético observado en doce meses |
-            | abandono_30d | binaria | Evento sintético en los treinta días siguientes |
-
-            ## ventas-mensuales.csv
-
-            | Variable | Tipo | Descripción |
-            |---|---|---|
-            | fecha | fecha | Primer día del mes |
-            | ventas | decimal | Nivel sintético mensual |
-            | promocion | binaria | Mes con promoción planificada |
-            | feriado | binaria | Indicador de período festivo |
-            | inversion_marketing | decimal | Inversión sintética mensual |
-            | indice_precio | decimal | Índice sintético de precio |
-
-            ## operaciones.csv
-
-            | Variable | Tipo | Descripción |
-            |---|---|---|
-            | orden_id | entero | Identificador sintético |
-            | producto | categoría | Familia A, B o C |
-            | turno | categoría | Franja operativa sintética |
-            | horas_maquina | decimal | Consumo estimado de capacidad |
-            | materia_prima | decimal | Consumo estimado de insumo |
-            | margen | decimal | Contribución sintética |
-            | demanda | entero | Unidades solicitadas en la orden |
-            | retraso_horas | decimal | Demora operativa sintética |
-
-            ## experimentos.csv
-
-            | Variable | Tipo | Descripción |
-            |---|---|---|
-            | observacion_id | entero | Identificador sintético de exposición |
-            | variante | categoría | Asignación aleatoria A o B |
-            | segmento | categoría | Segmento previo al tratamiento |
-            | conversion | binaria | Resultado principal observado |
-            | margen | decimal | Contribución observada después de la exposición |
-            | tiempo_respuesta_ms | decimal | Latencia del flujo asignado |
-            """
-        ),
-    )
-
-
-def generate() -> None:
-    write("README.md", root_readme())
-    write("docs/index.html", home_page())
-    write("docs/programa.html", program_page())
-    write("docs/proyecto-integrador.html", capstone_page())
-    write("docs/profundizaciones.html", deepening_page())
-    write("docs/accesibilidad.html", accessibility_page())
-    js_data = {
-        "course": COURSE,
-        "units": UNITS,
-        "modules": [
-            {
-                "id": module["id"],
-                "slug": module["slug"],
-                "title": module["title"],
-                "shortTitle": module["short_title"],
-                "summary": module["summary"],
-            }
-            for module in MODULES
-        ],
-    }
-    write(
-        "docs/assets/js/course-data.js",
-        "window.COURSE_DATA = "
-        + json.dumps(js_data, ensure_ascii=False, separators=(",", ":"))
-        + ";",
-    )
-    for module in MODULES:
-        base = f"docs/modulos/{module['slug']}"
-        write(f"{base}/index.html", module_index(module))
-        write(f"{base}/simulacion.html", simulation_page(module))
-        write(f"{base}/cuestionario.html", quiz_page(module))
-        write(f"{base}/glosario.html", glossary_page(module))
-        write(f"modules/{module['slug']}/README.md", module_readme(module))
-        write(
-            f"notebooks/{module['slug']}.ipynb",
-            json.dumps(notebook(module), ensure_ascii=False, indent=1),
-        )
-        for filename in module.get("custom_resource_files", []):
-            source = SOURCE_ROOT / "course-assets" / module["slug"] / filename
-            destination = ROOT / base / filename
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(source, destination)
-    supporting_files()
-    datasets()
-    manifest = {
-        "course": COURSE["title"],
-        "modules": len(MODULES),
-        "simulations": len(MODULES),
-        "questions": sum(len(module["quiz"]) for module in MODULES),
-        "glossary_terms": sum(len(module["glossary"]) for module in MODULES),
-        "notebooks": len(MODULES),
-        "module_slugs": [module["slug"] for module in MODULES],
-    }
-    write(
-        "course-manifest.json",
-        json.dumps(manifest, ensure_ascii=False, indent=2),
-    )
-
-
-def check_generated() -> list[str]:
-    global ROOT, DOCS
-    current_root = ROOT
-    mismatches: list[str] = []
-    with tempfile.TemporaryDirectory(prefix="course-check-") as directory:
-        ROOT = Path(directory)
-        DOCS = ROOT / "docs"
-        generate()
-        temporary_root = ROOT
-        for generated in temporary_root.rglob("*"):
-            if not generated.is_file():
-                continue
-            relative = generated.relative_to(temporary_root)
-            current = current_root / relative
-            if not current.is_file():
-                mismatches.append(f"falta {relative}")
-            elif current.read_bytes() != generated.read_bytes():
-                mismatches.append(f"desactualizado {relative}")
-    ROOT = current_root
-    DOCS = ROOT / "docs"
-    return mismatches
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="Comprueba que los archivos generados coincidan con las fuentes.",
-    )
-    arguments = parser.parse_args()
-    if arguments.check:
-        differences = check_generated()
-        if differences:
-            print("Los archivos generados no coinciden:")
-            for difference in differences:
-                print(f"  - {difference}")
-            raise SystemExit(1)
-        print("Archivos generados sincronizados")
-    else:
-        generate()
-        print(
-            f"Curso generado: {len(MODULES)} módulos, "
-            f"{sum(len(module['quiz']) for module in MODULES)} preguntas y "
-            f"{sum(len(module['glossary']) for module in MODULES)} términos."
-        )
+Los materiales educativos se distribuyen bajo Creative Commons Attribution-NonCommercial 4.0 International. El código fuente se distribuye bajo licencia MIT. Consultá [LICENSE.md](LICENSE.md).
