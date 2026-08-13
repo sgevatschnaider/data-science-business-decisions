@@ -13,6 +13,7 @@ import shutil
 import tempfile
 from pathlib import Path
 from textwrap import dedent
+from urllib.parse import quote
 
 from course_data import COURSE, MODULES, MODULES_BY_ID, UNITS
 
@@ -1884,27 +1885,56 @@ def notebook(module: dict) -> dict:
     }
 
 
+def readme_resource_button(label: str, url: str, kind: str) -> str:
+    colors = {
+        "guide": "0f766e",
+        "simulation": "0891b2",
+        "dashboard": "d97706",
+        "assessment": "1d4ed8",
+        "reference": "4f46e5",
+        "colab": "f9ab00",
+    }
+    encoded_label = quote(label, safe="")
+    badge = (
+        "https://img.shields.io/badge/"
+        f"{encoded_label}-Abrir-{colors[kind]}?style=flat-square"
+    )
+    if kind == "colab":
+        badge += "&logo=googlecolab&logoColor=202124"
+    return f"[![{label}]({badge})]({url})"
+
+
 def root_module_resource_links(module: dict) -> str:
     links = [
-        ("Guía", module_url(module)),
-        ("Simulación", module_url(module, "simulacion.html")),
+        ("Guía", module_url(module), "guide"),
+        ("Simulación", module_url(module, "simulacion.html"), "simulation"),
     ]
     if module.get("custom_resource_files"):
-        links.append(("Dashboard", module_url(module, "dashboard.html")))
+        links.append(
+            ("Dashboard", module_url(module, "dashboard.html"), "dashboard")
+        )
     links.extend(
         [
-            ("Cuestionario", module_url(module, "cuestionario.html")),
-            ("Glosario", module_url(module, "glosario.html")),
+            (
+                "Cuestionario",
+                module_url(module, "cuestionario.html"),
+                "assessment",
+            ),
+            ("Glosario", module_url(module, "glosario.html"), "reference"),
         ]
     )
     links.extend(
         (
             "Colab" if len(notebook_resources(module)) == 1 else f"Colab {index:02d}",
             resource["url"],
+            "colab",
         )
         for index, resource in enumerate(notebook_resources(module), start=1)
     )
-    return " · ".join(f"[{label}]({url})" for label, url in links)
+    return " ".join(
+        readme_resource_button(label, url, kind)
+        for label, url, kind in links
+    )
 
 
 def eda_classroom_readme(module: dict) -> str:
