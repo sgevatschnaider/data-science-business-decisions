@@ -14,7 +14,17 @@ Explorar con propósito: estructura, distribuciones, relaciones, segmentos y vis
 | Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html) |
 | Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html) |
 | Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html) |
-| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/01-eda-negocio.ipynb) |
+| Colab 01 · Paradigma EDA | [Abrir](https://colab.research.google.com/drive/14Vm6DoayZcSnJLpkQpJ_YVciStuR7k5F?usp=sharing) |
+| Colab 02 · Laboratorio integral de EDA | [Abrir](https://colab.research.google.com/drive/1ZJl2btb9W-EKz7yFvE1Gur0dU5AdVdOk?usp=sharing) |
+| Diapositivas 01 · Fundamentos y calidad | [Abrir](https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/view?usp=sharing) |
+| Diapositivas 02 · Análisis univariado | [Abrir](https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/view?usp=sharing) |
+| Diapositivas 03 · Relaciones y outliers | [Abrir](https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/view?usp=sharing) |
+| Dashboard analítico EDA | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/dashboard.html) |
+| Simulación 01 · Calidad de datos | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/01_eda_calidad_datos.html) |
+| Simulación 02 · Datos faltantes | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/02_eda_datos_faltantes.html) |
+| Simulación 03 · Distribuciones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/03_eda_distribuciones.html) |
+| Simulación 04 · Correlación | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/04_eda_correlacion.html) |
+| Simulación 05 · Paradoja de Simpson | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/05_eda_paradoja_simpson.html) |
 
 ## Resultados de aprendizaje
 

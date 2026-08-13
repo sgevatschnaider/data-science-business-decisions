@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Serie de simulaciones EDA</title>
+<title>EDA 03 - Distribuciones</title>
 <style>:root {
   color-scheme: light dark;
   background-color: transparent !important;
@@ -821,43 +821,176 @@ svg {
 </head>
 <body>
 <main>
-<div id="eda-series-index" data-lab-theme="oceano">
-<style>
-#eda-series-index{width:100%;color:var(--foreground);background:transparent}#eda-series-index *{box-sizing:border-box}
-#eda-series-index header{margin-bottom:1rem}#eda-series-index .series{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-#eda-series-index .series article{padding:1rem 0;border-top:1px solid var(--border)}#eda-series-index .series h3{margin:.25rem 0}
-#eda-series-index .num{color:var(--muted-foreground)}#eda-series-index footer{text-align:center;color:var(--muted-foreground);margin-top:1.25rem;padding-top:.75rem;border-top:1px solid var(--border)}
-@media(max-width:640px){#eda-series-index .series{grid-template-columns:1fr}}
-</style>
+<div id="eda-distribution-lab" class="eda-sim" data-lab-theme="oceano" data-sim-running="false">
 
 <style>
-#eda-series-index{--series-glow:color-mix(in srgb,var(--viz-series-1) 15%,transparent);padding:1.1rem;border:1px solid var(--border);border-radius:1.2rem;background:radial-gradient(circle at 95% 0,var(--series-glow),transparent 30%),var(--background)}
-#eda-series-index[data-lab-theme="oceano"]{--viz-series-1:#0284c7;--primary:#0369a1}#eda-series-index[data-lab-theme="bosque"]{--viz-series-1:#15803d;--primary:#166534}#eda-series-index[data-lab-theme="aurora"]{--viz-series-1:#7c3aed;--primary:#6d28d9}#eda-series-index[data-lab-theme="contraste"]{--viz-series-1:#2563eb;--primary:#1d4ed8}
-#eda-series-index .series article{padding:1rem;border:1px solid var(--border);border-radius:1rem;background:color-mix(in srgb,var(--card) 92%,var(--viz-series-1) 8%);transition:transform .2s ease}#eda-series-index .series article:hover{transform:translateY(-2px)}
-#eda-series-index .index-tools{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;margin:.8rem 0 1rem}
-#eda-series-index [data-index-theme][aria-pressed="true"]{border-color:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--primary) 22%,transparent)}
+#eda-distribution-lab { width:100%; color:var(--foreground); background:transparent; }
+#eda-distribution-lab * { box-sizing:border-box; }
+.eda-sim { padding:clamp(1rem,2vw,1.5rem); border:1px solid var(--border); border-radius:1.25rem; background:radial-gradient(circle at 95% 0,color-mix(in srgb,var(--viz-series-1) 14%,transparent),transparent 30%),var(--background); transition:background-color .25s ease,border-color .25s ease; }
+.eda-sim[data-lab-theme="oceano"] { --primary:light-dark(#0369a1,#38bdf8); --primary-foreground:light-dark(#fff,#082f49); --ring:light-dark(#0284c7,#7dd3fc); --viz-series-1:light-dark(#0284c7,#38bdf8); --viz-series-2:light-dark(#f97316,#fb923c); --viz-series-3:light-dark(#16a34a,#4ade80); }
+.eda-sim[data-lab-theme="bosque"] { --primary:light-dark(#166534,#4ade80); --primary-foreground:light-dark(#fff,#052e16); --ring:light-dark(#15803d,#86efac); --viz-series-1:light-dark(#15803d,#4ade80); --viz-series-2:light-dark(#ca8a04,#facc15); --viz-series-3:light-dark(#0f766e,#2dd4bf); }
+.eda-sim[data-lab-theme="aurora"] { --primary:light-dark(#6d28d9,#c084fc); --primary-foreground:light-dark(#fff,#2e1065); --ring:light-dark(#7c3aed,#d8b4fe); --viz-series-1:light-dark(#7c3aed,#c084fc); --viz-series-2:light-dark(#db2777,#f472b6); --viz-series-3:light-dark(#0891b2,#22d3ee); }
+.eda-sim[data-lab-theme="contraste"] { --primary:light-dark(#003f9e,#6eb6ff); --primary-foreground:light-dark(#fff,#071a33); --ring:light-dark(#005fcc,#9acbff); --viz-series-1:light-dark(#005fcc,#6eb6ff); --viz-series-2:light-dark(#c90000,#ff6b6b); --viz-series-3:light-dark(#08752f,#5de084); }
+.eda-sim .theme-panel { display:flex; align-items:center; flex-wrap:wrap; gap:.45rem; margin:-.25rem 0 1rem; padding:.7rem; border:1px solid var(--border); border-radius:.9rem; background:color-mix(in srgb,var(--card) 88%,var(--viz-series-1) 12%); }
+.eda-sim .theme-panel[hidden] { display:none; }
+.eda-sim [data-theme-choice] { display:inline-flex; align-items:center; gap:.4rem; }
+.eda-sim [data-theme-choice][aria-pressed="true"] { border-color:var(--primary); box-shadow:0 0 0 2px color-mix(in srgb,var(--ring) 24%,transparent); }
+.eda-sim .theme-dot { width:.72rem; height:.72rem; border-radius:50%; background:var(--dot); box-shadow:0 0 0 1px color-mix(in srgb,var(--foreground) 24%,transparent); }
+.eda-sim .sim-pulse { display:inline-flex; align-items:center; gap:.38rem; margin-left:auto; color:var(--muted-foreground); font-size:.9rem; }
+.eda-sim .sim-pulse::before { content:""; width:.6rem; height:.6rem; border-radius:50%; background:var(--muted-foreground); }
+.eda-sim[data-sim-running="true"] .sim-pulse { color:var(--foreground); }
+.eda-sim[data-sim-running="true"] .sim-pulse::before { background:var(--viz-series-3); animation:eda-pulse 1.2s ease-in-out infinite; }
+@keyframes eda-pulse { 50% { transform:scale(1.35); opacity:.55; } }
+#eda-distribution-lab .lab-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; }
+#eda-distribution-lab .lab-head h1 { margin:.2rem 0; }
+#eda-distribution-lab .kicker { color:var(--muted-foreground); }
+#eda-distribution-lab .author { color:var(--muted-foreground); margin:.25rem 0 0; }
+#eda-distribution-lab .theory { margin:.75rem 0 1rem; padding:.75rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+#eda-distribution-lab .theory[hidden] { display:none; }
+#eda-distribution-lab .theory ul { margin:.25rem 0; padding-left:1.25rem; }
+#eda-distribution-lab .theory li { margin:.25rem 0; }
+#eda-distribution-lab .controls-wrap { margin-bottom:1rem; }
+#eda-distribution-lab .field { min-width:150px; flex:1 1 165px; }
+#eda-distribution-lab .field-output { color:var(--muted-foreground); margin-left:.25rem; }
+#eda-distribution-lab .plot-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr); gap:1rem; align-items:start; }
+#eda-distribution-lab .plot-grid.equal { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#eda-distribution-lab .plot { min-width:0; position:relative; }
+#eda-distribution-lab .plot svg { width:100%; height:auto; display:block; overflow:visible; }
+#eda-distribution-lab .axis { stroke:var(--border); stroke-width:1; }
+#eda-distribution-lab .gridline { stroke:var(--border); stroke-width:1; opacity:.65; }
+#eda-distribution-lab .axis-label, #eda-distribution-lab .tick-label { fill:var(--muted-foreground); font-size:12px; }
+#eda-distribution-lab .mark-1 { fill:var(--viz-series-1); stroke:var(--background); stroke-width:1; }
+#eda-distribution-lab .mark-2 { fill:var(--viz-series-2); stroke:var(--background); stroke-width:1; }
+#eda-distribution-lab .bar-1 { fill:var(--viz-series-1); opacity:.78; }
+#eda-distribution-lab .bar-2 { fill:var(--viz-series-2); opacity:.52; }
+#eda-distribution-lab .line-1 { stroke:var(--viz-series-1); fill:none; stroke-width:3; }
+#eda-distribution-lab .line-2 { stroke:var(--viz-series-2); fill:none; stroke-width:3; }
+#eda-distribution-lab .line-3 { stroke:var(--viz-series-3); fill:none; stroke-width:3; stroke-dasharray:6 4; }
+#eda-distribution-lab .live-line { transition:all .24s ease; }
+#eda-distribution-lab .status { margin-top:1rem; padding:.8rem 0; border-top:1px solid var(--border); color:var(--foreground); }
+#eda-distribution-lab .status strong { font-weight:500; }
+#eda-distribution-lab .legend { display:flex; flex-wrap:wrap; gap:.75rem; color:var(--muted-foreground); margin:.5rem 0; }
+#eda-distribution-lab .legend span { display:inline-flex; align-items:center; gap:.35rem; }
+#eda-distribution-lab .swatch { width:.8rem; height:.8rem; border-radius:50%; display:inline-block; }
+#eda-distribution-lab .s1 { background:var(--viz-series-1); }
+#eda-distribution-lab .s2 { background:var(--viz-series-2); }
+#eda-distribution-lab .s3 { background:var(--viz-series-3); }
+#eda-distribution-lab .footer { text-align:center; color:var(--muted-foreground); margin-top:1.25rem; padding-top:.75rem; border-top:1px solid var(--border); }
+#eda-distribution-lab .data-cell-bad { background:color-mix(in srgb,var(--destructive) 16%,transparent); }
+#eda-distribution-lab .data-cell-missing { background:color-mix(in srgb,var(--viz-series-3) 18%,transparent); }
+#eda-distribution-lab .table-caption { color:var(--muted-foreground); margin:.25rem 0 .5rem; }
+#eda-distribution-lab .formula { color:var(--muted-foreground); }
+@media(max-width:700px) {
+  #eda-distribution-lab .plot-grid, #eda-distribution-lab .plot-grid.equal { grid-template-columns:1fr; }
+  #eda-distribution-lab .field { min-width:135px; }
+}
+@media(prefers-reduced-motion:reduce) { #eda-distribution-lab .live-line { transition:none; } .eda-sim[data-sim-running="true"] .sim-pulse::before { animation:none; } }
 </style>
-<header><div class="text-muted">Serie de laboratorios interactivos</div><h1>Paradigma EDA</h1><p>Recorra cinco decisiones fundamentales: calidad, ausencias, distribuciones, asociaciones y segmentación.</p></header>
-<div class="index-tools" role="group" aria-label="Selector de tema visual"><span class="text-muted">Tema:</span><button class="btn" type="button" data-index-theme="oceano" aria-pressed="true">Océano</button><button class="btn" type="button" data-index-theme="bosque" aria-pressed="false">Bosque</button><button class="btn" type="button" data-index-theme="aurora" aria-pressed="false">Aurora</button><button class="btn" type="button" data-index-theme="contraste" aria-pressed="false">Contraste</button></div>
-<section class="series">
-<article><span class="num">01</span><h3>Auditoría de calidad</h3><p>Tipos, completitud, unicidad, validez y consistencia.</p><a class="btn" href="01_eda_calidad_datos.html">Abrir simulación</a></article>
-<article><span class="num">02</span><h3>Datos faltantes</h3><p>MCAR, MAR, MNAR, tratamiento y sesgo.</p><a class="btn" href="02_eda_datos_faltantes.html">Abrir simulación</a></article>
-<article><span class="num">03</span><h3>Distribuciones</h3><p>Forma, tamaño muestral, centro y dispersión.</p><a class="btn" href="03_eda_distribuciones.html">Abrir simulación</a></article>
-<article><span class="num">04</span><h3>Correlación</h3><p>Pearson, Spearman y relaciones no lineales.</p><a class="btn" href="04_eda_correlacion.html">Abrir simulación</a></article>
-<article><span class="num">05</span><h3>Paradoja de Simpson</h3><p>Patrón global, grupos y variables contextuales.</p><a class="btn" href="05_eda_paradoja_simpson.html">Abrir simulación</a></article>
-</section>
-<footer>Material elaborado por el profesor Sergio Gevatschnaider</footer>
-<script>(function(){
-  const root=document.getElementById("eda-series-index"),buttons=Array.from(root.querySelectorAll("[data-index-theme]")),themes=["oceano","bosque","aurora","contraste"];
-  function setTheme(name){
-    const theme=themes.includes(name)?name:"oceano";
-    root.dataset.labTheme=theme;
-    buttons.forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.indexTheme===theme)));
-    try{localStorage.setItem("eda-series-theme",theme);}catch(e){}
+
+<header class="lab-head">
+  <div>
+    <div class="kicker">Paradigma EDA · Simulación interactiva</div>
+<h1>Constructor de distribuciones</h1>
+    <p class="author">Cambie forma, tamaño y dispersión; observe qué resumen representa mejor los datos.</p>
+  </div>
+  <div class="viz-row">
+
+    <button type="button" class="btn btn-ghost" data-action="themes" aria-expanded="false" aria-controls="eda-distribution-themes">Temas</button>
+    <button type="button" class="btn btn-primary" data-action="animate" aria-pressed="false">Iniciar simulación</button>
+    <button type="button" class="btn btn-ghost" data-action="theory" aria-expanded="false" aria-controls="eda-distribution-theory">Teoría</button>
+    <button type="button" class="btn" data-action="reset">Reiniciar</button>
+  </div>
+</header>
+
+<div id="eda-distribution-themes" class="theme-panel" data-theme-panel hidden role="group" aria-label="Selector de tema visual">
+  <span class="text-muted">Tema:</span>
+  <button type="button" class="btn" data-theme-choice="oceano" aria-pressed="true"><i class="theme-dot" style="--dot:#0284c7"></i>Océano</button>
+  <button type="button" class="btn" data-theme-choice="bosque" aria-pressed="false"><i class="theme-dot" style="--dot:#15803d"></i>Bosque</button>
+  <button type="button" class="btn" data-theme-choice="aurora" aria-pressed="false"><i class="theme-dot" style="--dot:#7c3aed"></i>Aurora</button>
+  <button type="button" class="btn" data-theme-choice="contraste" aria-pressed="false"><i class="theme-dot" style="--dot:#2563eb"></i>Contraste</button>
+  <span class="sim-pulse" data-live-label role="status" aria-live="polite">Lista</span>
+</div>
+<section id="eda-distribution-theory" class="theory" hidden><ul>
+      <li>Centro, dispersión y forma son dimensiones distintas de una distribución.</li>
+      <li>La media y la mediana coinciden aproximadamente en distribuciones simétricas.</li>
+      <li>Un histograma depende del tamaño muestral y del número de intervalos.</li>
+    </ul></section>
+<section class="controls-wrap"><div class="viz-controls"><label class="form-label field">Forma
+        <select class="form-select" data-control="shape"><option value="normal">Simétrica</option><option value="skew">Asimétrica derecha</option><option value="bimodal">Bimodal</option><option value="uniform">Uniforme</option></select></label>
+      <label class="form-label field">Tamaño n <span class="field-output" data-out="n">300</span>
+        <input class="form-range" data-control="n" type="range" min="30" max="900" step="30" value="300"></label>
+      <label class="form-label field">Dispersión <span class="field-output" data-out="spread">15</span>
+        <input class="form-range" data-control="spread" type="range" min="5" max="30" value="15"></label>
+      <label class="form-label field">Intervalos <span class="field-output" data-out="bins">18</span>
+        <input class="form-range" data-control="bins" type="range" min="6" max="35" value="18"></label>
+      <button type="button" class="btn btn-primary" data-action="generate">Nueva muestra</button></div></section>
+<div class="viz-grid" data-metrics aria-label="Estadísticos descriptivos"></div>
+<div class="plot-grid equal">
+  <div class="plot"><h3>Histograma y centros</h3><svg data-chart="hist" viewBox="0 0 620 340" role="img" aria-label="Histograma interactivo"></svg></div>
+  <div class="plot"><h3>Distribución acumulada</h3><svg data-chart="ecdf" viewBox="0 0 620 340" role="img" aria-label="Distribución acumulada empírica"></svg></div>
+</div>
+<div class="legend"><span><i class="swatch s1"></i>Distribución</span><span><i class="swatch s2"></i>Media</span><span><i class="swatch s3"></i>Mediana</span></div>
+<div class="status" data-status aria-live="polite"></div>
+<footer class="footer">Material elaborado por el profesor Sergio Gevatschnaider</footer>
+<script>
+(function(){
+  const root=document.getElementById("eda-distribution-lab"),q=s=>root.querySelector(s),qa=s=>Array.from(root.querySelectorAll(s));let seed=33;
+  function rng(){let t=seed++;return()=>{t=(t*1664525+1013904223)>>>0;return t/4294967296;};}
+  function normal(r){return Math.sqrt(-2*Math.log(Math.max(r(),1e-8)))*Math.cos(2*Math.PI*r());}
+  function quant(a,p){const x=a.slice().sort((u,v)=>u-v),i=(x.length-1)*p,l=Math.floor(i),h=Math.ceil(i);return x[l]+(x[h]-x[l])*(i-l);}
+  function make(){const r=rng(),n=+q('[data-control="n"]').value,s=+q('[data-control="spread"]').value,shape=q('[data-control="shape"]').value;const a=[];
+    for(let i=0;i<n;i++){let x;if(shape==="normal")x=50+s*normal(r);if(shape==="skew")x=18+16*Math.exp(.68*normal(r));if(shape==="bimodal")x=(r()<.52?35:68)+s*.55*normal(r);if(shape==="uniform")x=20+r()*60;x=Math.max(0,Math.min(100,x));a.push(x);}return a;}
+  function render(){const a=make(),n=a.length,mean=a.reduce((x,y)=>x+y,0)/n,sorted=a.slice().sort((x,y)=>x-y),median=quant(a,.5),q1=quant(a,.25),q3=quant(a,.75),sd=Math.sqrt(a.reduce((s,x)=>s+(x-mean)**2,0)/(n-1)),skew=a.reduce((s,x)=>s+(x-mean)**3,0)/n/(sd**3||1);
+    q("[data-metrics]").innerHTML=[["Media",mean.toFixed(1),"centro aritmético"],["Mediana",median.toFixed(1),"percentil 50"],["Desvío",sd.toFixed(1),"dispersión"],["IQR",(q3-q1).toFixed(1),"Q3 − Q1"],["Asimetría",skew.toFixed(2),"forma"]].map(x=>'<div class="card viz-stat"><div class="text-muted">'+x[0]+'</div><div class="viz-stat-value">'+x[1]+'</div><div class="text-small text-muted">'+x[2]+'</div></div>').join("");
+    drawHist(a,mean,median);drawEcdf(sorted,mean,median);
+    const gap=Math.abs(mean-median);q("[data-status]").innerHTML='<strong>Lectura:</strong> la diferencia media–mediana es '+gap.toFixed(1)+'. '+(gap<2?'El centro es estable entre ambas medidas.':'La forma desplaza la media; conviene informar también mediana e IQR.')+' Cambie n para observar la estabilidad muestral.';
   }
-  buttons.forEach(button=>button.addEventListener("click",()=>setTheme(button.dataset.indexTheme)));
-  let saved="oceano";try{saved=localStorage.getItem("eda-series-theme")||"oceano";}catch(e){}setTheme(saved);
-})();</script></div>
+  function drawHist(a,mean,median){const svg=q('[data-chart="hist"]'),W=620,H=340,m={l:44,r:18,t:16,b:44},bins=+q('[data-control="bins"]').value,c=Array(bins).fill(0);a.forEach(x=>c[Math.min(bins-1,Math.floor(x/100*bins))]++);const peak=Math.max(...c),iw=(W-m.l-m.r)/bins,base=H-m.b;let s='<line class="axis" x1="'+m.l+'" y1="'+base+'" x2="'+(W-m.r)+'" y2="'+base+'"/>';
+    c.forEach((v,i)=>{const h=(H-m.t-m.b)*v/peak;s+='<rect class="bar-1 live-line" x="'+(m.l+i*iw+1)+'" y="'+(base-h)+'" width="'+Math.max(1,iw-2)+'" height="'+h+'"><title>'+v+' observaciones</title></rect>';});
+    [[mean,"line-2","Media"],[median,"line-3","Mediana"]].forEach(d=>{const x=m.l+d[0]/100*(W-m.l-m.r);s+='<line class="'+d[1]+'" x1="'+x+'" y1="'+m.t+'" x2="'+x+'" y2="'+base+'"/><text class="tick-label" x="'+x+'" y="12" text-anchor="middle">'+d[2]+'</text>';});
+    [0,25,50,75,100].forEach(v=>{const x=m.l+v/100*(W-m.l-m.r);s+='<text class="tick-label" x="'+x+'" y="'+(H-18)+'" text-anchor="middle">'+v+'</text>';});svg.innerHTML=s;}
+  function drawEcdf(a,mean,median){const svg=q('[data-chart="ecdf"]'),W=620,H=340,m={l:46,r:18,t:16,b:44},base=H-m.b;let path="";a.forEach((x,i)=>{const px=m.l+x/100*(W-m.l-m.r),py=base-(i+1)/a.length*(H-m.t-m.b);path+=(i?" L ":"M ")+px.toFixed(1)+" "+py.toFixed(1);});let s='<line class="axis" x1="'+m.l+'" y1="'+base+'" x2="'+(W-m.r)+'" y2="'+base+'"/><line class="axis" x1="'+m.l+'" y1="'+m.t+'" x2="'+m.l+'" y2="'+base+'"/><path class="line-1 live-line" d="'+path+'"/>';
+    [0,25,50,75,100].forEach(v=>{const x=m.l+v/100*(W-m.l-m.r);s+='<text class="tick-label" x="'+x+'" y="'+(H-18)+'" text-anchor="middle">'+v+'</text>';});[0,.25,.5,.75,1].forEach(v=>{const y=base-v*(H-m.t-m.b);s+='<text class="tick-label" x="38" y="'+(y+4)+'" text-anchor="end">'+v.toFixed(2)+'</text>';});svg.innerHTML=s;}
+  qa("input").forEach(el=>el.addEventListener("input",()=>{q('[data-out="'+el.dataset.control+'"]').textContent=el.value;render();}));q("select").addEventListener("change",render);q('[data-action="generate"]').addEventListener("click",render);
+  q('[data-action="reset"]').addEventListener("click",()=>{q('[data-control="shape"]').value="normal";q('[data-control="n"]').value=300;q('[data-control="spread"]').value=15;q('[data-control="bins"]').value=18;qa("input").forEach(el=>q('[data-out="'+el.dataset.control+'"]').textContent=el.value);seed=33;render();});
+  q('[data-action="theory"]').addEventListener("click",()=>q(".theory").hidden=!q(".theory").hidden);render();
+  let edaTimer=null,edaRunning=false;
+  function edaSetTheme(name){
+    const themes=["oceano","bosque","aurora","contraste"],theme=themes.includes(name)?name:"oceano";
+    root.dataset.labTheme=theme;
+    qa("[data-theme-choice]").forEach(btn=>btn.setAttribute("aria-pressed",String(btn.dataset.themeChoice===theme)));
+    try{localStorage.setItem("eda-series-theme",theme);localStorage.setItem(root.id+"-theme",theme);}catch(e){}
+  }
+  function edaStop(){
+    edaRunning=false;root.dataset.simRunning="false";clearInterval(edaTimer);edaTimer=null;
+    const btn=q('[data-action="animate"]');btn.textContent="Iniciar simulación";btn.setAttribute("aria-pressed","false");
+    const label=q("[data-live-label]");if(label)label.textContent="Lista";
+  }
+  function edaStep(){const shapes=["normal","skew","bimodal","uniform"];q('[data-control="shape"]').value=shapes[Math.floor(Math.random()*shapes.length)];const n=q('[data-control="n"]');n.value=60+30*Math.floor(Math.random()*27);n.dispatchEvent(new Event("input"));const spread=q('[data-control="spread"]');spread.value=6+Math.floor(Math.random()*24);spread.dispatchEvent(new Event("input"));render();}
+  function edaToggleRun(){
+    if(edaRunning){edaStop();return;}
+    edaRunning=true;root.dataset.simRunning="true";
+    const btn=q('[data-action="animate"]');btn.textContent="Pausar simulación";btn.setAttribute("aria-pressed","true");
+    const label=q("[data-live-label]");if(label)label.textContent="Simulación activa";
+    edaStep();edaTimer=setInterval(edaStep,1200);
+  }
+  const themeToggle=q('[data-action="themes"]'),themePanel=q("[data-theme-panel]");
+  function edaShowThemes(open){themePanel.hidden=!open;themeToggle.setAttribute("aria-expanded",String(open));}
+  themeToggle.addEventListener("click",()=>edaShowThemes(themePanel.hidden));
+  qa("[data-theme-choice]").forEach(btn=>btn.addEventListener("click",()=>{edaSetTheme(btn.dataset.themeChoice);edaShowThemes(false);themeToggle.focus();}));
+  q('[data-action="animate"]').addEventListener("click",edaToggleRun);
+  q('[data-action="reset"]').addEventListener("click",edaStop);
+  const theoryButton=q('[data-action="theory"]'),theory=q(".theory");
+  theoryButton.addEventListener("click",()=>theoryButton.setAttribute("aria-expanded",String(!theory.hidden)));
+  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&!themePanel.hidden){edaShowThemes(false);themeToggle.focus();}});
+  window.addEventListener("pagehide",edaStop,{once:true});
+  document.addEventListener("visibilitychange",()=>{if(document.hidden&&edaRunning)edaStop();});
+  let edaSaved="oceano";try{edaSaved=localStorage.getItem("eda-series-theme")||localStorage.getItem(root.id+"-theme")||"oceano";}catch(e){}edaSetTheme(edaSaved);
+
+})();
+</script>
+</div>
+
 <script id="codex-visualization-floating-ui-core" src="https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js"></script>
 <script id="codex-visualization-floating-ui-dom" src="https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js"></script>
 <script id="codex-visualization-lucide" async src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js"></script>

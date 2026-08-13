@@ -23,6 +23,32 @@ El recorrido conecta cinco preguntas:
 
 Este recorrido sigue una escalera profesional: **observar → predecir → intervenir → decidir → escalar**. La predicción informa, la causalidad permite razonar sobre intervenciones, la optimización selecciona acciones y la agencia responsable ejecuta con permisos, trazabilidad y supervisión.
 
+## Paradigma EDA · aula de clase
+
+Un acceso visual y directo a la secuencia completa: fundamentos, exploración interactiva, práctica con Python y evaluación.
+
+**1 · Presentaciones**
+
+[![EDA 01 · Fundamentos](https://img.shields.io/badge/EDA%2001-Fundamentos%20y%20calidad-6d28d9?style=for-the-badge)](https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/view?usp=sharing)
+[![EDA 02 · Univariado](https://img.shields.io/badge/EDA%2002-An%C3%A1lisis%20univariado-7c3aed?style=for-the-badge)](https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/view?usp=sharing)
+[![EDA 03 · Multivariado](https://img.shields.io/badge/EDA%2003-Relaciones%20y%20outliers-8b5cf6?style=for-the-badge)](https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/view?usp=sharing)
+
+**2 · Exploración interactiva**
+
+[![Guía EDA](https://img.shields.io/badge/Gu%C3%ADa-Paradigma%20EDA-0f766e?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/index.html)
+[![Simulaciones EDA](https://img.shields.io/badge/Simulaciones-5%20laboratorios-0891b2?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html)
+[![Dashboard EDA](https://img.shields.io/badge/Dashboard-Lectura%20ejecutiva-d97706?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/dashboard.html)
+
+**3 · Laboratorios en Python**
+
+[![Colab 01](https://img.shields.io/badge/Colab%2001-Paradigma%20EDA-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/drive/14Vm6DoayZcSnJLpkQpJ_YVciStuR7k5F?usp=sharing)
+[![Colab 02](https://img.shields.io/badge/Colab%2002-Laboratorio%20integral-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/drive/1ZJl2btb9W-EKz7yFvE1Gur0dU5AdVdOk?usp=sharing)
+
+**4 · Repaso y evaluación**
+
+[![Cuestionario](https://img.shields.io/badge/Cuestionario-Autoevaluaci%C3%B3n-1d4ed8?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html)
+[![Glosario](https://img.shields.io/badge/Glosario-Consulta%20r%C3%A1pida-2563eb?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html)
+
 ## Acceso directo
 
 Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
@@ -40,7 +66,7 @@ La síntesis conceptual y sus criterios de uso están documentados en [Marco est
 | Módulo | Contenido | Recursos |
 |---:|---|---|
 | 00 | Orientación, Python y flujo de trabajo | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/00-orientacion-python.ipynb) |
-| 01 | Problema de negocio, EDA y visualización | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/01-eda-negocio.ipynb) |
+| 01 | Problema de negocio, EDA y visualización | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html) · [Dashboard](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/dashboard.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html) · [Colab 01](https://colab.research.google.com/drive/14Vm6DoayZcSnJLpkQpJ_YVciStuR7k5F?usp=sharing) · [Colab 02](https://colab.research.google.com/drive/1ZJl2btb9W-EKz7yFvE1Gur0dU5AdVdOk?usp=sharing) |
 | 02 | Calidad de datos y valores faltantes | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
 | 03 | Outliers, robustez e influencia | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/03-outliers/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/03-outliers.ipynb) |
 | 04 | Transformación de variables y pipelines | [Guía](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/04-transformacion-pipelines/index.html) · [Simulación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/04-transformacion-pipelines/simulacion.html) · [Cuestionario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/04-transformacion-pipelines/cuestionario.html) · [Glosario](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/04-transformacion-pipelines/glosario.html) · [Colab](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/04-transformacion-pipelines.ipynb) |
