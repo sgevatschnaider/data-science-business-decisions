@@ -236,7 +236,8 @@ def validate_visible_content() -> None:
         if not path.is_file() or path.suffix.lower() not in extensions:
             continue
         text = path.read_text(encoding="utf-8")
-        if forbidden_label.search(text):
+        editorial_text = re.sub(r'url\("data:[^"]+"\)', "", text)
+        if forbidden_label.search(editorial_text):
             error(f"Etiqueta editorial no permitida en {path.relative_to(ROOT)}")
         if emoji.search(text):
             error(f"Emoji no permitido en {path.relative_to(ROOT)}")
@@ -258,7 +259,10 @@ def validate_content_counts() -> None:
         local_resources = module.get("local_resources", [])
         index = DOCS / "modulos" / module["slug"] / "index.html"
         index_text = index.read_text(encoding="utf-8") if index.is_file() else ""
-        expected_progress_count = 5 + len(external_resources) + len(local_resources)
+        notebook_count = len(module.get("notebook_resources") or [None])
+        expected_progress_count = (
+            4 + notebook_count + len(external_resources) + len(local_resources)
+        )
         if f"de {expected_progress_count} recursos" not in index_text:
             error(
                 f"Módulo {module['id']}: total de recursos inconsistente "
