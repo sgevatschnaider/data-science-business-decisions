@@ -11,12 +11,29 @@ Diagnosticar completitud, validez, consistencia, duplicados y mecanismos de ause
 | Recurso | Acceso |
 |---|---|
 | Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/index.html) |
+| Diapositivas 01 · Calidad de datos y decisiones | [Abrir](https://docs.google.com/presentation/d/1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/view?usp=sharing) |
+| Diapositivas 02 · Missing Data: MCAR, MAR y MNAR | [Abrir](https://docs.google.com/presentation/d/1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/view?usp=sharing) |
+| Diapositivas 03 · Imputación, pipelines y efecto sobre modelos | [Abrir](https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/view?usp=sharing) |
 | Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/simulacion.html) |
-| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/cuestionario.html) |
-| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/glosario.html) |
 | Colab 01 · Calidad de datos | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
 | Colab 02 · Missing Data: marco conceptual | [Abrir](https://colab.research.google.com/drive/1_ldjrvEBsIlo3_GvoKJ3tUXdmjG_Nvq2?usp=sharing) |
 | Colab 03 · Missing Data: House Prices | [Abrir](https://colab.research.google.com/drive/1YUFaKt8HslnUmE9_2pyjtxg3Lt5k5HYn?usp=sharing) |
+| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/cuestionario.html) |
+| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/glosario.html) |
+
+## Presentaciones
+
+### Diapositivas 01 · Calidad de datos y decisiones
+
+Desarrolla la calidad de datos como condición para una decisión defendible: completitud, validez, consistencia, unicidad, oportunidad, trazabilidad, reglas de negocio, severidad, gobernanza y costo estadístico y económico del error.
+
+### Diapositivas 02 · Missing Data: MCAR, MAR y MNAR
+
+Explica ausencia estructural y omisión problemática, mecanismos MCAR, MAR y MNAR, diagnóstico visual, sesgo, hipótesis de ausencia y alternativas de tratamiento según el proceso que generó los faltantes.
+
+### Diapositivas 03 · Imputación, pipelines y efecto sobre modelos
+
+Conecta la imputación con modelado y producción: eliminación, media, mediana, imputación por grupo, indicadores de ausencia, leakage, separación train/test, pipelines reproducibles, House Prices y evaluación sobre distribución, segmentos, métricas y decisión.
 
 ## Resultados de aprendizaje
 
