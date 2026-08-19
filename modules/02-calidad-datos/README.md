@@ -14,7 +14,9 @@ Diagnosticar completitud, validez, consistencia, duplicados y mecanismos de ause
 | Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/simulacion.html) |
 | Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/cuestionario.html) |
 | Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/glosario.html) |
-| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
+| Colab 01 · Calidad de datos | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
+| Colab 02 · Missing Data: marco conceptual | [Abrir](https://colab.research.google.com/drive/1_ldjrvEBsIlo3_GvoKJ3tUXdmjG_Nvq2?usp=sharing) |
+| Colab 03 · Missing Data: House Prices | [Abrir](https://colab.research.google.com/drive/1YUFaKt8HslnUmE9_2pyjtxg3Lt5k5HYn?usp=sharing) |
 
 ## Resultados de aprendizaje
 
@@ -49,6 +51,16 @@ Definí qué defectos bloquean una decisión, cuáles admiten corrección y cuá
 2. Medir faltantes por variable y por segmento.
 3. Crear indicadores de ausencia antes de imputar.
 4. Comparar distribución y métrica posterior a cada tratamiento.
+
+## Laboratorios complementarios
+
+### Colab 02 · Missing Data: marco conceptual
+
+Notebook teórico-conceptual que desarrolla los datos faltantes desde una perspectiva estadística, organizacional y económica. Integra ausencia estructural, mecanismos MCAR, MAR y MNAR, calidad y gobernanza de datos, y consecuencias sobre métricas, segmentaciones, modelos predictivos y decisiones de negocio.
+
+### Colab 03 · Missing Data: House Prices
+
+Notebook práctico basado en House Prices para detectar, cuantificar, visualizar e interpretar patrones de ausencia. Compara estrategias de tratamiento e indicadores de faltantes y analiza su efecto sobre pipelines y modelos predictivos como Ridge y Random Forest.
 
 ## Entregable
 
