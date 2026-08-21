@@ -35,7 +35,7 @@ jobs:
       - name: Generar archivos del curso
         run: python scripts/build_course.py
 
-      - name: Integrar Google Slides en EDA
+      - name: Integrar visores de Google Slides
         run: python scripts/embed_eda_slides.py
 
       - name: Validar contenido

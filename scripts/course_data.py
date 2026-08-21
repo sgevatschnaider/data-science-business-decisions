@@ -449,6 +449,180 @@ MODULES = [
         ),
         "duration": "2 encuentros",
         "prerequisites": "Módulos 00 y 01",
+        "resource_hub": {
+            "presentations_description": (
+                "Tres bloques para construir el diagnóstico antes de modificar "
+                "los datos. También podés recorrerlos directamente desde esta página."
+            ),
+            "interactive_title": "Simulación interactiva",
+            "interactive_description": (
+                "Experimente con mecanismos de ausencia y compare tratamientos "
+                "antes de formular una recomendación."
+            ),
+            "simulation_resource": {
+                "label": "Laboratorio de faltantes e imputación",
+                "description": (
+                    "MCAR, MAR, MNAR, porcentaje de ausencia, tratamientos, "
+                    "sesgo y comparación de escenarios A/B."
+                ),
+                "kind": "simulation",
+            },
+            "notebooks_description": (
+                "Ejecute el diagnóstico con Python, profundice el marco conceptual "
+                "y contraste decisiones sobre un caso real."
+            ),
+            "review_description": (
+                "Compruebe comprensión y consulte conceptos sin salir del módulo."
+            ),
+            "quiz_resource": {
+                "label": "Cuestionario de calidad de datos",
+                "description": (
+                    "Autoevaluación con corrección inmediata sobre calidad, "
+                    "missing data e imputación."
+                ),
+                "kind": "assessment",
+            },
+            "glossary_resource": {
+                "label": "Glosario de calidad y valores faltantes",
+                "description": (
+                    "Conceptos y definiciones para consulta rápida durante el diagnóstico."
+                ),
+                "kind": "reference",
+            },
+        },
+        "notebook_resources": [
+            {
+                "label": "Colab 01 · Calidad de datos",
+                "url": (
+                    "https://colab.research.google.com/github/sgevatschnaider/"
+                    "data-science-business-decisions/blob/main/notebooks/"
+                    "02-calidad-datos.ipynb"
+                ),
+                "description": (
+                    "Diagnóstico, reglas de calidad, faltantes y comparación de "
+                    "estrategias de tratamiento."
+                ),
+                "progress_description": "Aplicar diagnóstico y tratamiento con Python",
+                "root_badge_detail": "Calidad de datos",
+                "kind": "colab",
+            },
+            {
+                "label": "Colab 02 · Missing Data: marco conceptual",
+                "url": (
+                    "https://colab.research.google.com/drive/"
+                    "1_ldjrvEBsIlo3_GvoKJ3tUXdmjG_Nvq2?usp=sharing"
+                ),
+                "description": (
+                    "Perspectiva estadística, organizacional y económica de los "
+                    "datos faltantes."
+                ),
+                "readme_description": (
+                    "Notebook teórico-conceptual que desarrolla los datos faltantes "
+                    "desde una perspectiva estadística, organizacional y económica. "
+                    "Integra ausencia estructural, mecanismos MCAR, MAR y MNAR, "
+                    "calidad y gobernanza de datos, y consecuencias sobre métricas, "
+                    "segmentaciones, modelos predictivos y decisiones de negocio."
+                ),
+                "progress_description": (
+                    "Comprender missing data desde una perspectiva estadística y de negocio"
+                ),
+                "root_badge_detail": "Marco conceptual",
+                "kind": "colab",
+            },
+            {
+                "label": "Colab 03 · Missing Data: House Prices",
+                "url": (
+                    "https://colab.research.google.com/drive/"
+                    "1YUFaKt8HslnUmE9_2pyjtxg3Lt5k5HYn?usp=sharing"
+                ),
+                "description": (
+                    "Patrones estructurales de ausencia, imputación, indicadores y "
+                    "efecto sobre Ridge y Random Forest."
+                ),
+                "readme_description": (
+                    "Notebook práctico basado en House Prices para detectar, "
+                    "cuantificar, visualizar e interpretar patrones de ausencia. "
+                    "Compara estrategias de tratamiento e indicadores de faltantes "
+                    "y analiza su efecto sobre pipelines y modelos predictivos como "
+                    "Ridge y Random Forest."
+                ),
+                "progress_description": (
+                    "Analizar patrones reales de ausencia, imputación y modelado"
+                ),
+                "root_badge_detail": "House Prices",
+                "kind": "colab",
+            },
+        ],
+        "external_resources": [
+            {
+                "label": "Diapositivas 01 · Calidad de datos y decisiones",
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/view?usp=sharing"
+                ),
+                "description": (
+                    "Dimensiones de calidad, reglas de negocio, gobernanza, "
+                    "trazabilidad y costo del error."
+                ),
+                "readme_description": (
+                    "Desarrolla la calidad de datos como condición para una decisión "
+                    "defendible: completitud, validez, consistencia, unicidad, "
+                    "oportunidad, trazabilidad, reglas de negocio, severidad, "
+                    "gobernanza y costo estadístico y económico del error."
+                ),
+                "root_badge_detail": "Calidad y decisiones",
+                "root_badge_color": "6d28d9",
+                "progress_description": "Comprender dimensiones, reglas y gobernanza",
+                "kind": "slides",
+            },
+            {
+                "label": "Diapositivas 02 · Missing Data: MCAR, MAR y MNAR",
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/view?usp=sharing"
+                ),
+                "description": (
+                    "Ausencia estructural, mecanismos de faltantes, patrones, "
+                    "sesgo y formulación de hipótesis."
+                ),
+                "readme_description": (
+                    "Explica ausencia estructural y omisión problemática, mecanismos "
+                    "MCAR, MAR y MNAR, diagnóstico visual, sesgo, hipótesis de "
+                    "ausencia y alternativas de tratamiento según el proceso que "
+                    "generó los faltantes."
+                ),
+                "root_badge_detail": "MCAR MAR MNAR",
+                "root_badge_color": "7c3aed",
+                "progress_description": "Interpretar por qué faltan los datos",
+                "kind": "slides",
+            },
+            {
+                "label": (
+                    "Diapositivas 03 · Imputación, pipelines y efecto sobre modelos"
+                ),
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/view?usp=sharing"
+                ),
+                "description": (
+                    "Estrategias de tratamiento, leakage, indicadores de ausencia, "
+                    "pipelines y evaluación de impacto."
+                ),
+                "readme_description": (
+                    "Conecta la imputación con modelado y producción: eliminación, "
+                    "media, mediana, imputación por grupo, indicadores de ausencia, "
+                    "leakage, separación train/test, pipelines reproducibles, House "
+                    "Prices y evaluación sobre distribución, segmentos, métricas y "
+                    "decisión."
+                ),
+                "root_badge_detail": "Imputación y pipelines",
+                "root_badge_color": "8b5cf6",
+                "progress_description": "Conectar tratamiento, leakage y modelos",
+                "kind": "slides",
+            },
+        ],
+        "external_resources_heading": "Presentaciones complementarias",
+        "show_external_resources_in_root_table": True,
         "objectives": [
             "Definir pruebas de calidad alineadas con reglas de negocio.",
             "Distinguir ausencia MCAR, MAR y MNAR como hipótesis de trabajo.",

@@ -1,8 +1,8 @@
-"""Integra las presentaciones de Google Slides dentro del módulo EDA.
+"""Integra presentaciones de Google Slides en los módulos 01 y 02.
 
 El sitio principal se genera con ``scripts/build_course.py``. Este paso aplica una
-transformación determinística al HTML generado del módulo 01 para conservar los
-visores incrustados, los accesos a pantalla completa y el diseño responsive.
+transformación determinística al HTML generado para conservar los visores
+incrustados, los accesos a pantalla completa y el diseño responsive.
 """
 
 from __future__ import annotations
@@ -10,32 +10,82 @@ from __future__ import annotations
 from pathlib import Path
 
 
-TARGET = Path("docs/modulos/01-eda-negocio/index.html")
-
-SLIDES = [
+PRESENTATION_MODULES = [
     {
-        "title": "Diapositivas 01 · Fundamentos y calidad",
-        "subtitle": "Paradigma EDA, proceso exploratorio y calidad de datos",
-        "view": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/view?usp=sharing",
-        "present": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/present?slide=id.p1",
-        "embed": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/embed?start=false&amp;loop=false&amp;delayms=3000",
-        "id": "slides-01",
+        "target": Path("docs/modulos/01-eda-negocio/index.html"),
+        "label": "módulo 01",
+        "aria_label": "Presentaciones integradas del módulo EDA",
+        "intro_source": (
+            "Tres bloques breves para acompañar la secuencia conceptual de la clase."
+        ),
+        "intro_target": (
+            "Tres bloques breves para acompañar la secuencia conceptual de la clase. "
+            "También podés recorrerlos directamente desde esta página."
+        ),
+        "slides": [
+            {
+                "title": "Diapositivas 01 · Fundamentos y calidad",
+                "subtitle": "Paradigma EDA, proceso exploratorio y calidad de datos",
+                "view": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1qQKwxrOYNadm72ohKrm9YZG-MyuyTj5khwwJSe_fJU8/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "slides-01",
+            },
+            {
+                "title": "Diapositivas 02 · Análisis univariado",
+                "subtitle": "Distribuciones, estadísticos descriptivos y visualización",
+                "view": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "slides-02",
+            },
+            {
+                "title": "Diapositivas 03 · Relaciones y outliers",
+                "subtitle": "Relaciones, valores atípicos y lectura multivariada",
+                "view": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "slides-03",
+            },
+        ],
     },
     {
-        "title": "Diapositivas 02 · Análisis univariado",
-        "subtitle": "Distribuciones, estadísticos descriptivos y visualización",
-        "view": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/view?usp=sharing",
-        "present": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/present?slide=id.p1",
-        "embed": "https://docs.google.com/presentation/d/1q4Zd4GJ2XnlhKZSNX5yoWhbrDG_26i0x6FQJZDoL_Zo/embed?start=false&amp;loop=false&amp;delayms=3000",
-        "id": "slides-02",
-    },
-    {
-        "title": "Diapositivas 03 · Relaciones y outliers",
-        "subtitle": "Relaciones, valores atípicos y lectura multivariada",
-        "view": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/view?usp=sharing",
-        "present": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/present?slide=id.p1",
-        "embed": "https://docs.google.com/presentation/d/1ch7ZOInyminmAwtZwcqnuqnjP9aa6vE6kdews_2YKfk/embed?start=false&amp;loop=false&amp;delayms=3000",
-        "id": "slides-03",
+        "target": Path("docs/modulos/02-calidad-datos/index.html"),
+        "label": "módulo 02",
+        "aria_label": "Presentaciones integradas del módulo de calidad de datos",
+        "intro_source": (
+            "Tres bloques para construir el diagnóstico antes de modificar los datos."
+        ),
+        "intro_target": (
+            "Tres bloques para construir el diagnóstico antes de modificar los datos. "
+            "También podés recorrerlos directamente desde esta página."
+        ),
+        "slides": [
+            {
+                "title": "Diapositivas 01 · Calidad de datos y decisiones",
+                "subtitle": "Dimensiones, reglas, gobernanza y costo del error",
+                "view": "https://docs.google.com/presentation/d/1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m02-slides-01",
+            },
+            {
+                "title": "Diapositivas 02 · Missing Data: MCAR, MAR y MNAR",
+                "subtitle": "Mecanismos de ausencia, patrones, hipótesis y sesgo",
+                "view": "https://docs.google.com/presentation/d/1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m02-slides-02",
+            },
+            {
+                "title": "Diapositivas 03 · Imputación, pipelines y modelos",
+                "subtitle": "Tratamiento reproducible, leakage y evaluación de impacto",
+                "view": "https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m02-slides-03",
+            },
+        ],
     },
 ]
 
@@ -160,7 +210,7 @@ STYLE = """  <style>
 
 def details_block(slide: dict[str, str], *, opened: bool = False) -> str:
     open_attr = " open" if opened else ""
-    return f"""                    <details class=\"slides-embed-card\" id=\"{slide['id']}\"{open_attr}>
+    return f"""                    <details class=\"slides-embed-card\" id=\"{slide['id']}\" name=\"slides-viewer\"{open_attr}>
                       <summary>
                         <span class=\"slides-summary-copy\">
                           <span>{slide['title']}</span>
@@ -184,12 +234,17 @@ def details_block(slide: dict[str, str], *, opened: bool = False) -> str:
                     </details>"""
 
 
-SHOWCASE = """                  <p class="slides-note"><strong>Visor integrado.</strong> Abrí cada bloque para avanzar las diapositivas sin salir de Datos y Decisiones. Si preferís una vista más grande, usá “Abrir a pantalla completa”.</p>
+def showcase(module: dict) -> str:
+    cards = "\n\n".join(
+        details_block(slide, opened=index == 0)
+        for index, slide in enumerate(module["slides"])
+    )
+    return f"""                  <p class="slides-note"><strong>Visor integrado.</strong> Abrí cada bloque para avanzar las diapositivas sin salir de Datos y Decisiones. Si preferís una vista más grande, usá “Abrir a pantalla completa”. Si Google solicita acceso, iniciá sesión desde “Abrir en Google Slides”.</p>
 
-                  <div class="slides-showcase" aria-label="Presentaciones integradas del módulo EDA">
+                  <div class="slides-showcase" aria-label="{module['aria_label']}">
 {cards}
                   </div>
-""".format(cards="\n\n".join(details_block(slide, opened=index == 0) for index, slide in enumerate(SLIDES)))
+"""
 
 
 def replace_first_after(text: str, anchor: str, old: str, new: str) -> str:
@@ -202,12 +257,13 @@ def replace_first_after(text: str, anchor: str, old: str, new: str) -> str:
     return text[:position] + new + text[position + len(old):]
 
 
-def main() -> None:
-    text = TARGET.read_text(encoding="utf-8")
+def integrate_module(module: dict) -> None:
+    target = module["target"]
+    text = target.read_text(encoding="utf-8")
 
-    # Idempotencia: si el visor ya está integrado, no lo dupliques.
+    # Idempotencia por módulo: un visor existente no impide procesar el siguiente.
     if 'class="slides-showcase"' in text:
-        print("Google Slides ya está integrado en el módulo EDA.")
+        print(f"Google Slides ya está integrado en el {module['label']}.")
         return
 
     head_anchor = '  <link rel="stylesheet" href="../../assets/css/course.css">\n</head>'
@@ -232,13 +288,13 @@ def main() -> None:
         1,
     )
     text = text.replace(
-        '<p>Tres bloques breves para acompañar la secuencia conceptual de la clase.</p>',
-        '<p>Tres bloques breves para acompañar la secuencia conceptual de la clase. También podés recorrerlos directamente desde esta página.</p>',
+        f'<p>{module["intro_source"]}</p>',
+        f'<p>{module["intro_target"]}</p>',
         1,
     )
 
     # Las tarjetas y los botones del laboratorio abren en modo presentación.
-    for slide in SLIDES:
+    for slide in module["slides"]:
         text = text.replace(f'href="{slide["view"]}"', f'href="{slide["present"]}"')
         text = replace_first_after(
             text,
@@ -252,12 +308,19 @@ def main() -> None:
         raise RuntimeError("No se encontró el final del bloque de presentaciones.")
     text = text.replace(
         marker,
-        '</a></div>\n\n' + SHOWCASE + '                </section><section class="resource-group" aria-labelledby="resource-2">',
+        '</a></div>\n\n'
+        + showcase(module)
+        + '                </section><section class="resource-group" aria-labelledby="resource-2">',
         1,
     )
 
-    TARGET.write_text(text.rstrip() + "\n", encoding="utf-8")
-    print(f"Presentaciones integradas en {TARGET}.")
+    target.write_text(text.rstrip() + "\n", encoding="utf-8")
+    print(f"Presentaciones integradas en {target}.")
+
+
+def main() -> None:
+    for module in PRESENTATION_MODULES:
+        integrate_module(module)
 
 
 if __name__ == "__main__":

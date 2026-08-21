@@ -182,22 +182,45 @@ def resource_hub(module: dict, relative: bool = True) -> str:
     def local_url(filename: str) -> str:
         return filename if relative else module_url(module, filename)
 
+    hub = module.get("resource_hub") or {}
+    simulation_resource = {
+        "label": "Centro de simulaciones EDA",
+        "description": "Acceso ordenado a los cinco laboratorios interactivos.",
+        "kind": "simulation",
+        **hub.get("simulation_resource", {}),
+        "url": local_url("simulacion.html"),
+    }
+    quiz_resource = {
+        "label": "Cuestionario de Paradigma EDA",
+        "description": "Autoevaluación con corrección inmediata.",
+        "kind": "assessment",
+        **hub.get("quiz_resource", {}),
+        "url": local_url("cuestionario.html"),
+    }
+    glossary_resource = {
+        "label": "Glosario de Paradigma EDA",
+        "description": "Buscador de conceptos y definiciones de consulta rápida.",
+        "kind": "reference",
+        **hub.get("glossary_resource", {}),
+        "url": local_url("glosario.html"),
+    }
     groups = [
         (
             "Presentaciones",
-            "Tres bloques breves para acompañar la secuencia conceptual de la clase.",
+            hub.get(
+                "presentations_description",
+                "Tres bloques breves para acompañar la secuencia conceptual de la clase.",
+            ),
             module.get("external_resources", []),
         ),
         (
-            "Simulaciones y dashboard",
-            "Explore escenarios, contraste supuestos y conecte los resultados con una decisión.",
+            hub.get("interactive_title", "Simulaciones y dashboard"),
+            hub.get(
+                "interactive_description",
+                "Explore escenarios, contraste supuestos y conecte los resultados con una decisión.",
+            ),
             [
-                {
-                    "label": "Centro de simulaciones EDA",
-                    "url": local_url("simulacion.html"),
-                    "description": "Acceso ordenado a los cinco laboratorios interactivos.",
-                    "kind": "simulation",
-                },
+                simulation_resource,
                 *[
                     {**resource, "url": local_url(resource["url"])}
                     for resource in module.get("local_resources", [])
@@ -206,26 +229,19 @@ def resource_hub(module: dict, relative: bool = True) -> str:
         ),
         (
             "Laboratorios en Google Colab",
-            "Ejecute el análisis con Python y conserve una copia propia del notebook.",
+            hub.get(
+                "notebooks_description",
+                "Ejecute el análisis con Python y conserve una copia propia del notebook.",
+            ),
             notebook_resources(module),
         ),
         (
             "Repaso y evaluación",
-            "Compruebe comprensión y consulte conceptos sin salir del módulo.",
-            [
-                {
-                    "label": "Cuestionario de Paradigma EDA",
-                    "url": local_url("cuestionario.html"),
-                    "description": "Autoevaluación con corrección inmediata.",
-                    "kind": "assessment",
-                },
-                {
-                    "label": "Glosario de Paradigma EDA",
-                    "url": local_url("glosario.html"),
-                    "description": "Buscador de conceptos y definiciones de consulta rápida.",
-                    "kind": "reference",
-                },
-            ],
+            hub.get(
+                "review_description",
+                "Compruebe comprensión y consulte conceptos sin salir del módulo.",
+            ),
+            [quiz_resource, glossary_resource],
         ),
     ]
     kind_labels = {
@@ -273,7 +289,7 @@ def resource_hub(module: dict, relative: bool = True) -> str:
 
 
 def resource_table(module: dict, relative: bool = True) -> str:
-    if module.get("custom_resource_files"):
+    if module.get("custom_resource_files") or module.get("resource_hub"):
         return resource_hub(module, relative)
     if relative:
         links = {
@@ -757,7 +773,7 @@ def module_index(module: dict) -> str:
         )
     external_target = (
         ' target="_blank" rel="noopener noreferrer"'
-        if module.get("custom_resource_files")
+        if module.get("custom_resource_files") or module.get("resource_hub")
         else ""
     )
     external_buttons = "".join(
@@ -790,7 +806,10 @@ def module_index(module: dict) -> str:
             (
                 "notebook" if index == 1 else f"notebook-{index}",
                 resource["label"],
-                "Aplicar el EDA con Python en Google Colab",
+                resource.get(
+                    "progress_description",
+                    "Aplicar el EDA con Python en Google Colab",
+                ),
             )
             for index, resource in enumerate(notebook_resources(module), start=1)
         )
@@ -806,7 +825,10 @@ def module_index(module: dict) -> str:
         (
             f"externo-{index}",
             resource["label"],
-            "Completar laboratorio complementario",
+            resource.get(
+                "progress_description",
+                "Completar laboratorio complementario",
+            ),
         )
         for index, resource in enumerate(
             module.get("external_resources", []), start=1
@@ -1133,26 +1155,76 @@ def module_readme(module: dict) -> str:
     steps = "\n        ".join(
         f"{index}. {item}" for index, item in enumerate(module["lab_steps"], start=1)
     )
-    resources = [
-        ("Guía principal", module_url(module)),
-        ("Simulación interactiva", module_url(module, "simulacion.html")),
-        ("Cuestionario", module_url(module, "cuestionario.html")),
-        ("Glosario", module_url(module, "glosario.html")),
-    ]
-    resources.extend(
-        (resource["label"], resource["url"])
-        for resource in notebook_resources(module)
-    )
-    resources.extend(
-        (resource["label"], resource["url"])
-        for resource in module.get("external_resources", [])
-    )
+    if module.get("resource_hub"):
+        resources = [("Guía principal", module_url(module))]
+        resources.extend(
+            (resource["label"], resource["url"])
+            for resource in module.get("external_resources", [])
+        )
+        resources.append(
+            ("Simulación interactiva", module_url(module, "simulacion.html"))
+        )
+        resources.extend(
+            (resource["label"], resource["url"])
+            for resource in notebook_resources(module)
+        )
+        resources.extend(
+            [
+                ("Cuestionario", module_url(module, "cuestionario.html")),
+                ("Glosario", module_url(module, "glosario.html")),
+            ]
+        )
+    else:
+        resources = [
+            ("Guía principal", module_url(module)),
+            ("Simulación interactiva", module_url(module, "simulacion.html")),
+            ("Cuestionario", module_url(module, "cuestionario.html")),
+            ("Glosario", module_url(module, "glosario.html")),
+        ]
+        resources.extend(
+            (resource["label"], resource["url"])
+            for resource in notebook_resources(module)
+        )
+        resources.extend(
+            (resource["label"], resource["url"])
+            for resource in module.get("external_resources", [])
+        )
     resources.extend(
         (resource["label"], module_url(module, resource["url"]))
         for resource in module.get("local_resources", [])
     )
     rows = "\n        ".join(
         f"| {label} | [Abrir]({url}) |" for label, url in resources
+    )
+    presentation_details = [
+        f"### {resource['label']}\n\n{resource['readme_description']}"
+        for resource in module.get("external_resources", [])
+        if resource.get("readme_description")
+    ]
+    presentations_text = (
+        "## Presentaciones\n\n" + "\n\n".join(presentation_details)
+        if presentation_details
+        else ""
+    )
+    presentations_section = (
+        "\n\n        " + presentations_text.replace("\n", "\n        ")
+        if presentations_text
+        else ""
+    )
+    notebook_details = [
+        f"### {resource['label']}\n\n{resource['readme_description']}"
+        for resource in notebook_resources(module)
+        if resource.get("readme_description")
+    ]
+    notebooks_text = (
+        "## Laboratorios complementarios\n\n" + "\n\n".join(notebook_details)
+        if notebook_details
+        else ""
+    )
+    notebooks_section = (
+        "\n\n        " + notebooks_text.replace("\n", "\n        ")
+        if notebooks_text
+        else ""
     )
     return dedent(
         f"""
@@ -1168,7 +1240,7 @@ def module_readme(module: dict) -> str:
 
         | Recurso | Acceso |
         |---|---|
-        {rows}
+        {rows}{presentations_section}
 
         ## Resultados de aprendizaje
 
@@ -1192,7 +1264,7 @@ def module_readme(module: dict) -> str:
 
         ## Secuencia de práctica
 
-        {steps}
+        {steps}{notebooks_section}
 
         ## Entregable
 
@@ -1692,7 +1764,7 @@ def notebook(module: dict) -> dict:
         objectives_source.extend(
             [
                 "\n",
-                "## Laboratorio complementario\n",
+                f"## {module.get('external_resources_heading', 'Laboratorio complementario')}\n",
                 "\n",
                 *[
                     f"- [{resource['label']}]({resource['url']})\n"
@@ -1885,7 +1957,13 @@ def notebook(module: dict) -> dict:
     }
 
 
-def readme_resource_button(label: str, url: str, kind: str) -> str:
+def readme_resource_button(
+    label: str,
+    url: str,
+    kind: str,
+    detail: str = "Abrir",
+    color: str | None = None,
+) -> str:
     colors = {
         "guide": "0f766e",
         "simulation": "0891b2",
@@ -1893,14 +1971,18 @@ def readme_resource_button(label: str, url: str, kind: str) -> str:
         "assessment": "1d4ed8",
         "reference": "4f46e5",
         "colab": "f9ab00",
+        "slides": "7c3aed",
     }
     encoded_label = quote(label, safe="")
+    encoded_detail = quote(detail, safe="")
     badge = (
         "https://img.shields.io/badge/"
-        f"{encoded_label}-Abrir-{colors[kind]}?style=flat-square"
+        f"{encoded_label}-{encoded_detail}-{color or colors[kind]}?style=flat-square"
     )
     if kind == "colab":
         badge += "&logo=googlecolab&logoColor=202124"
+    elif kind == "slides":
+        badge += "&logo=googleslides&logoColor=white"
     return f"[![{label}]({badge})]({url})"
 
 
@@ -1925,15 +2007,29 @@ def root_module_resource_links(module: dict) -> str:
     )
     links.extend(
         (
+            f"Slides {index:02d}",
+            resource["url"],
+            "slides",
+            resource.get("root_badge_detail", "Abrir"),
+            resource.get("root_badge_color"),
+        )
+        for index, resource in enumerate(
+            module.get("external_resources", []), start=1
+        )
+        if module.get("show_external_resources_in_root_table")
+    )
+    links.extend(
+        (
             "Colab" if len(notebook_resources(module)) == 1 else f"Colab {index:02d}",
             resource["url"],
             "colab",
+            resource.get("root_badge_detail", "Abrir"),
         )
         for index, resource in enumerate(notebook_resources(module), start=1)
     )
     return " ".join(
-        readme_resource_button(label, url, kind)
-        for label, url, kind in links
+        readme_resource_button(*link)
+        for link in links
     )
 
 
@@ -1972,6 +2068,41 @@ def eda_classroom_readme(module: dict) -> str:
     ).strip()
 
 
+def quality_classroom_readme(module: dict) -> str:
+    slides = module["external_resources"]
+    colabs = notebook_resources(module)
+    badge = "https://img.shields.io/badge"
+    return dedent(
+        f"""
+        ## Calidad de datos y valores faltantes · aula de clase
+
+        Secuencia integrada para diagnosticar calidad, interpretar mecanismos de ausencia y evaluar tratamientos antes de modelar.
+
+        **1 · Presentaciones**
+
+        [![M02 Slides 01]({badge}/M02%20Slides%2001-Calidad%20y%20decisiones-6d28d9?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[0]['url']})
+        [![M02 Slides 02]({badge}/M02%20Slides%2002-MCAR%20MAR%20MNAR-7c3aed?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[1]['url']})
+        [![M02 Slides 03]({badge}/M02%20Slides%2003-Imputaci%C3%B3n%20y%20pipelines-8b5cf6?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[2]['url']})
+
+        **2 · Exploración interactiva**
+
+        [![Guía M02]({badge}/Gu%C3%ADa-Calidad%20de%20datos-0f766e?style=for-the-badge)]({module_url(module)})
+        [![Simulación M02]({badge}/Simulaci%C3%B3n-Faltantes%20e%20imputaci%C3%B3n-0891b2?style=for-the-badge)]({module_url(module, 'simulacion.html')})
+
+        **3 · Laboratorios en Python**
+
+        [![Colab 01]({badge}/Colab%2001-Calidad%20de%20datos-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[0]['url']})
+        [![Colab 02]({badge}/Colab%2002-Marco%20conceptual-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[1]['url']})
+        [![Colab 03]({badge}/Colab%2003-House%20Prices-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[2]['url']})
+
+        **4 · Repaso y evaluación**
+
+        [![Cuestionario]({badge}/Cuestionario-Autoevaluaci%C3%B3n-1d4ed8?style=for-the-badge)]({module_url(module, 'cuestionario.html')})
+        [![Glosario]({badge}/Glosario-Consulta%20r%C3%A1pida-2563eb?style=for-the-badge)]({module_url(module, 'glosario.html')})
+        """
+    ).strip()
+
+
 def root_readme() -> str:
     module_rows = "\n        ".join(
         (
@@ -1982,6 +2113,9 @@ def root_readme() -> str:
     )
     eda_classroom = "\n        ".join(
         eda_classroom_readme(MODULES_BY_ID["01"]).splitlines()
+    )
+    quality_classroom = "\n        ".join(
+        quality_classroom_readme(MODULES_BY_ID["02"]).splitlines()
     )
     return dedent(
         f"""
@@ -2012,16 +2146,19 @@ def root_readme() -> str:
 
         {eda_classroom}
 
+        {quality_classroom}
+
         ## Acceso directo
 
-        Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y un notebook ejecutable en Google Colab.
+        Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
 
         ## Experiencia de aprendizaje
 
         - **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
         - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
         - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
-        - **Notebooks verificables:** los 15 laboratorios registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable.
+        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. El Módulo 02 incorpora además dos Colab complementarios sobre missing data.
+        - **Presentaciones aplicadas:** los módulos 01 y 02 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
         - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
 
         La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
@@ -2073,7 +2210,7 @@ def root_readme() -> str:
         python scripts/execute_notebooks.py
         ```
 
-        La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, cobertura de recursos, consistencia de contenidos y ejecución real de los 15 notebooks.
+        La validación comprueba estructura, enlaces internos, HTML básico, JavaScript, cobertura de recursos, consistencia de contenidos y ejecución real de los 15 notebooks canónicos del repositorio.
 
         ## Autoría
 
