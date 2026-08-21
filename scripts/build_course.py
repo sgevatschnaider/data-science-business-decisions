@@ -1991,7 +1991,7 @@ def root_module_resource_links(module: dict) -> str:
         ("Guía", module_url(module), "guide"),
         ("Simulación", module_url(module, "simulacion.html"), "simulation"),
     ]
-    if module.get("custom_resource_files"):
+    if "dashboard.html" in module.get("custom_resource_files", []):
         links.append(
             ("Dashboard", module_url(module, "dashboard.html"), "dashboard")
         )
@@ -2103,6 +2103,41 @@ def quality_classroom_readme(module: dict) -> str:
     ).strip()
 
 
+def outliers_classroom_readme(module: dict) -> str:
+    slides = module["external_resources"]
+    colabs = notebook_resources(module)
+    badge = "https://img.shields.io/badge"
+    return dedent(
+        f"""
+        ## Outliers, robustez y detección de anomalías · aula de clase
+
+        Un recorrido completo para pasar de una observación extrema a una decisión auditable: diagnóstico, influencia, modelos, umbrales, tratamiento y validación.
+
+        **1 · Presentaciones**
+
+        [![M03 Slides 01]({badge}/M03%20Slides%2001-Diagn%C3%B3stico%20y%20robustez-6d28d9?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[0]['url']})
+        [![M03 Slides 02]({badge}/M03%20Slides%2002-M%C3%A9todos%20con%20ML-8b5cf6?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[1]['url']})
+
+        **2 · Exploración interactiva**
+
+        [![Guía M03]({badge}/Gu%C3%ADa-Outliers%20y%20robustez-0f766e?style=for-the-badge)]({module_url(module)})
+        [![Simulaciones M03]({badge}/Simulaciones-6%20laboratorios-0891b2?style=for-the-badge)]({module_url(module, 'simulacion.html')})
+
+        **3 · Laboratorios en Python**
+
+        [![Colab 01]({badge}/Colab%2001-Fundamentos-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[0]['url']})
+        [![Colab 02]({badge}/Colab%2002-Modelos%20ML-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[1]['url']})
+        [![Colab 03]({badge}/Colab%2003-Hotel%20Booking-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[2]['url']})
+        [![Colab 04]({badge}/Colab%2004-Atlas%20interactivo-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[3]['url']})
+
+        **4 · Repaso y evaluación**
+
+        [![Cuestionario]({badge}/Cuestionario-30%20preguntas-1d4ed8?style=for-the-badge)]({module_url(module, 'cuestionario.html')})
+        [![Glosario]({badge}/Glosario-62%20conceptos-2563eb?style=for-the-badge)]({module_url(module, 'glosario.html')})
+        """
+    ).strip()
+
+
 def root_readme() -> str:
     module_rows = "\n        ".join(
         (
@@ -2116,6 +2151,9 @@ def root_readme() -> str:
     )
     quality_classroom = "\n        ".join(
         quality_classroom_readme(MODULES_BY_ID["02"]).splitlines()
+    )
+    outliers_classroom = "\n        ".join(
+        outliers_classroom_readme(MODULES_BY_ID["03"]).splitlines()
     )
     return dedent(
         f"""
@@ -2148,6 +2186,8 @@ def root_readme() -> str:
 
         {quality_classroom}
 
+        {outliers_classroom}
+
         ## Acceso directo
 
         Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
@@ -2157,8 +2197,8 @@ def root_readme() -> str:
         - **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
         - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
         - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
-        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. El Módulo 02 incorpora además dos Colab complementarios sobre missing data.
-        - **Presentaciones aplicadas:** los módulos 01 y 02 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
+        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. Los módulos 02 y 03 incorporan además Colab complementarios para profundizar mecanismos, casos y métodos.
+        - **Presentaciones aplicadas:** los módulos 01, 02 y 03 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
         - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
 
         La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).

@@ -1,4 +1,4 @@
-"""Integra presentaciones de Google Slides en los módulos 01 y 02.
+"""Integra presentaciones de Google Slides en los módulos ampliados.
 
 El sitio principal se genera con ``scripts/build_course.py``. Este paso aplica una
 transformación determinística al HTML generado para conservar los visores
@@ -84,6 +84,43 @@ PRESENTATION_MODULES = [
                 "present": "https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/present?slide=id.p1",
                 "embed": "https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/embed?start=false&amp;loop=false&amp;delayms=3000",
                 "id": "m02-slides-03",
+            },
+        ],
+    },
+    {
+        "target": Path("docs/modulos/03-outliers/index.html"),
+        "label": "módulo 03",
+        "aria_label": "Presentaciones integradas del módulo de outliers",
+        "intro_source": (
+            "Dos recorridos complementarios: primero diagnóstico, robustez e "
+            "influencia; después métodos modernos de detección con Machine "
+            "Learning. También podés recorrerlos directamente desde esta página."
+        ),
+        "intro_target": (
+            "Dos recorridos complementarios: primero diagnóstico, robustez e "
+            "influencia; después métodos modernos de detección con Machine "
+            "Learning. También podés recorrerlos directamente desde esta página."
+        ),
+        "slides": [
+            {
+                "title": "Diapositivas 01 · Diagnóstico, robustez y tratamiento",
+                "subtitle": (
+                    "Reglas clásicas, influencia, decisiones de tratamiento y leakage"
+                ),
+                "view": "https://docs.google.com/presentation/d/15nnL4qm_aKb3G2-G0xbna0MiUtl05-9Ic3NIHF0FwKk/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/15nnL4qm_aKb3G2-G0xbna0MiUtl05-9Ic3NIHF0FwKk/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/15nnL4qm_aKb3G2-G0xbna0MiUtl05-9Ic3NIHF0FwKk/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m03-slides-01",
+            },
+            {
+                "title": "Diapositivas 02 · Métodos de detección con ML",
+                "subtitle": (
+                    "Aislamiento, densidad, fronteras, clustering y reconstrucción"
+                ),
+                "view": "https://docs.google.com/presentation/d/1I-jQOc8mkt1WVhGZffWr6p9EWAYg13SBjryxTvYUAtc/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1I-jQOc8mkt1WVhGZffWr6p9EWAYg13SBjryxTvYUAtc/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1I-jQOc8mkt1WVhGZffWr6p9EWAYg13SBjryxTvYUAtc/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m03-slides-02",
             },
         ],
     },

@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Compará anomalías locales con una frontera no lineal de normalidad. Ajustá k, ν y gamma sobre el mismo dataset.">
+<title>LOF + One-Class SVM Explorer | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,37 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>LOF + One-Class SVM Explorer</h1><p>Compará anomalías locales con una frontera no lineal de normalidad. Ajustá k, ν y gamma sobre el mismo dataset.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>Observá dónde los modelos discrepan. Esa discrepancia revela que «anomalía» depende de la definición geométrica elegida.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Dos conceptos de rareza</h2><p class="intro">LOF compara densidades locales. One-Class SVM aprende una frontera de soporte en el espacio.</p>
+<div class="control"><label>Vecinos LOF (k) <output data-out="klof"></output></label><input id="klof" type="range" min="5" max="35" step="5" value="15"></div>
+<div class="control"><label>ν One-Class SVM <output data-out="nu"></output></label><input id="nu" type="range" min="0.03" max="0.25" step=".01" value=".08"></div>
+<div class="control"><label>Gamma RBF <output data-out="gamma"></output></label><input id="gamma" type="range" min="0.1" max="2" step=".1" value=".6"></div>
+<div class="button-stack"><button class="btn primary" id="fitBoth">Ajustar modelos</button><button class="btn" id="newBoth">Nueva muestra</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>LOF vs One-Class SVM</h2><p>Mismo dataset, dos preguntas distintas: densidad local vs frontera de normalidad.</p></div><span class="badge">Comparación paralela</span></div>
+<div class="two-col"><div><h3>Local Outlier Factor</h3><canvas id="lofChart" height="400"></canvas></div><div><h3>One-Class SVM · RBF</h3><canvas id="svmChart" height="400"></canvas></div></div></div>
+<div class="metrics"><div class="metric" id="lofSel"></div><div class="metric" id="lofAlerts"></div><div class="metric" id="svmSupport"></div><div class="metric" id="svmAlerts"></div></div>
+<div class="panel"><div id="bothInsight" class="insight"></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +125,55 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let pts5=[],lofScores=[],svm=null;
+function make5(){
+ pts5=[];for(let i=0;i<55;i++)pts5.push([-1.8+.42*normal(),-.4+.42*normal()]);
+ for(let i=0;i<40;i++)pts5.push([1.5+.95*normal(),.8+.9*normal()]);
+ pts5.push([-.35,1.5],[2.7,-1.2],[-3.1,1.1]);fit5();
+}
+function distances(){
+ const n=pts5.length,D=Array.from({length:n},()=>Array(n).fill(0));
+ for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){const d=Math.sqrt(dist2(pts5[i],pts5[j]));D[i][j]=D[j][i]=d}return D;
+}
+function calcLOF(k){
+ const D=distances(),n=pts5.length,neighbors=[],kdist=[];
+ for(let i=0;i<n;i++){const arr=[...Array(n).keys()].filter(j=>j!==i).sort((a,b)=>D[i][a]-D[i][b]);neighbors[i]=arr.slice(0,k);kdist[i]=D[i][arr[k-1]]}
+ const lrd=Array(n).fill(0);for(let i=0;i<n;i++){const reach=neighbors[i].map(j=>Math.max(kdist[j],D[i][j]));lrd[i]=1/(mean(reach)||1e-9)}
+ return Array.from({length:n},(_,i)=>mean(neighbors[i].map(j=>lrd[j]))/(lrd[i]||1e-9));
+}
+function kernel(a,b,g){return Math.exp(-g*dist2(a,b))}
+function projectCapped(v,C){
+ let lo=Math.min(...v)-C,hi=Math.max(...v);
+ for(let it=0;it<55;it++){const mid=(lo+hi)/2,s=v.reduce((z,x)=>z+clamp(x-mid,0,C),0);if(s>1)lo=mid;else hi=mid}
+ const l=(lo+hi)/2;return v.map(x=>clamp(x-l,0,C));
+}
+function fitOCSVM(nu,gamma){
+ const n=pts5.length,C=1/(nu*n),K=Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>kernel(pts5[i],pts5[j],gamma)));
+ let a=Array(n).fill(1/n),eta=.08;
+ for(let it=0;it<260;it++){const grad=a.map((_,i)=>a.reduce((s,aj,j)=>s+K[i][j]*aj,0));a=projectCapped(a.map((x,i)=>x-eta*grad[i]),C)}
+ const raw=Array.from({length:n},(_,i)=>a.reduce((s,aj,j)=>s+aj*K[i][j],0));
+ const sv=raw.filter((_,i)=>a[i]>1e-5&&a[i]<C-1e-5),rho=sv.length?mean(sv):median(raw);
+ return {a,gamma,C,rho,raw,support:a.filter(x=>x>1e-5).length,score:p=>a.reduce((s,aj,j)=>s+aj*kernel(p,pts5[j],gamma),0)-rho};
+}
+function fit5(){lofScores=calcLOF(+$("#klof").value);svm=fitOCSVM(+$("#nu").value,+$("#gamma").value);draw5()}
+function drawPoints(canvas,mode){
+ const {ctx,w,h}=fitCanvas(canvas,400),pad=38,scale=Math.min((w-2*pad)/7,(h-2*pad)/6),X=v=>w/2+v*scale,Y=v=>h/2-v*scale;clearCanvas(ctx,w,h);grid(ctx,w,h,pad);
+ if(mode==="svm"){
+  const step=18;for(let py=pad;py<h-pad;py+=step)for(let px=pad;px<w-pad;px+=step){const p=[(px-w/2)/scale,-(py-h/2)/scale],f=svm.score(p);ctx.fillStyle=f>=0?css("--success"):css("--danger");ctx.globalAlpha=.08;ctx.fillRect(px,py,step,step)}ctx.globalAlpha=1;
+ }
+ const lq=quantile(lofScores,.93);
+ pts5.forEach((p,i)=>{let alert=mode==="lof"?lofScores[i]>=lq:svm.score(p)<0;ctx.fillStyle=alert?css("--danger"):css("--accent2");ctx.globalAlpha=alert?.9:.6;ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),5,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+}
+function draw5(){
+ drawPoints($("#lofChart"),"lof");drawPoints($("#svmChart"),"svm");
+ const lq=quantile(lofScores,.93),la=lofScores.filter(s=>s>=lq).length,sa=pts5.filter(p=>svm.score(p)<0).length;
+ metric("lofSel","LOF máximo",fmt(Math.max(...lofScores),2));metric("lofAlerts","Alertas LOF",la);metric("svmSupport","Support vectors",svm.support);metric("svmAlerts","Fuera frontera",sa);
+ $("#bothInsight").innerHTML=`<strong>LOF y One-Class SVM no buscan exactamente lo mismo.</strong> LOF pregunta si la densidad de un punto es baja respecto de sus vecinos; la SVM aprende una frontera global no lineal. Con k=${$("#klof").value}, ν=${$("#nu").value} y gamma=${$("#gamma").value}, ambos pueden discrepar legítimamente en regiones de densidad desigual.`;
+}
+bindRange("klof",()=>{},"");bindRange("nu",()=>{},"");bindRange("gamma",()=>{},"");
+$("#fitBoth").addEventListener("click",fit5);$("#newBoth").addEventListener("click",make5);window.addEventListener("resize",draw5);make5();
+
+</script>
+</body></html>
