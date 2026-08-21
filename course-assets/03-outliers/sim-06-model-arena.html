@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Compará varios detectores sobre el mismo escenario y convertí el score en una decisión: precision, recall, F1, falsos positivos, falsos negativos y costo.">
+<title>Model Arena + Threshold y Costos | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,41 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>Model Arena + Threshold y Costos</h1><p>Compará varios detectores sobre el mismo escenario y convertí el score en una decisión: precision, recall, F1, falsos positivos, falsos negativos y costo.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>Cambiar el threshold no reentrena el modelo: cambia la política de decisión. Probá aumentar el costo de un falso negativo y observá qué threshold conviene.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Model Arena</h2><p class="intro">Compará detectores con etiquetas conocidas y convertí el threshold en una decisión de costo.</p>
+<div class="control"><label for="geometry">Geometría</label><select id="geometry"><option value="gauss">Gaussiana</option><option value="clusters">Dos clusters</option><option value="local">Anomalía local</option></select></div>
+<div class="control"><label>Tasa real de anomalías <output data-out="rate6"></output></label><input id="rate6" type="range" min="2" max="18" step="2" value="8"></div>
+<div class="control"><label>Percentil threshold <output data-out="thr6"></output></label><input id="thr6" type="range" min="85" max="99" step="1" value="94"></div>
+<div class="control"><label>Costo FP <output data-out="cfp"></output></label><input id="cfp" type="range" min="1" max="100" step="1" value="10"></div>
+<div class="control"><label>Costo FN <output data-out="cfn"></output></label><input id="cfn" type="range" min="20" max="1000" step="20" value="400"></div>
+<div class="button-stack"><button class="btn primary" id="regen6">Nuevo escenario</button><button class="btn" id="optimize6">Umbral de menor costo</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>Comparación sobre el mismo problema</h2><p>Las etiquetas reales se usan solo para evaluar, no para construir los scores.</p></div><span class="badge" id="winner">Arena</span></div>
+<canvas id="arenaChart" height="440"></canvas>
+<div class="tabs" id="modelTabs"></div></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Modelo</th><th>Precision</th><th>Recall</th><th>F1</th><th>FP</th><th>FN</th><th>Costo</th></tr></thead><tbody id="arenaTable"></tbody></table></div></div>
+<div class="metrics"><div class="metric" id="tp6"></div><div class="metric" id="fp6"></div><div class="metric" id="fn6"></div><div class="metric" id="cost6"></div></div>
+<div class="panel"><div id="arenaInsight" class="insight"></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +129,70 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let P6=[],selectedModel="Isolation Forest",scores6={};
+function makeArena(){
+ P6=[];const geom=$("#geometry").value,n=180,rate=+$("#rate6").value/100,na=Math.round(n*rate),nn=n-na;
+ for(let i=0;i<nn;i++){
+  if(geom==="gauss")P6.push({p:[normal(),normal()],y:0});
+  if(geom==="clusters"){const c=Math.random()<.5?-1.6:1.6;P6.push({p:[c+.55*normal(),(c*.3)+.55*normal()],y:0})}
+  if(geom==="local"){const c=Math.random()<.75?0:2.7;const s=c?0.9:.32;P6.push({p:[c+s*normal(),s*normal()],y:0})}
+ }
+ for(let i=0;i<na;i++){
+  if(geom==="local")P6.push({p:[1.0+.22*normal(),1.05+.22*normal()],y:1});
+  else P6.push({p:[(Math.random()<.5?-1:1)*(3+Math.random()*1.7),(Math.random()<.5?-1:1)*(2.5+Math.random()*1.8)],y:1})
+ }
+ computeScores();renderArena();
+}
+function mahalScores(){
+ const normalish=P6.map(o=>o.p),mx=mean(normalish.map(p=>p[0])),my=mean(normalish.map(p=>p[1]));let a=0,b=0,c=0;normalish.forEach(p=>{const x=p[0]-mx,y=p[1]-my;a+=x*x;b+=x*y;c+=y*y});a/=P6.length;b/=P6.length;c/=P6.length;const det=a*c-b*b||1e-8,A=c/det,B=-b/det,C=a/det;
+ return normalish.map(p=>{const x=p[0]-mx,y=p[1]-my;return x*(A*x+B*y)+y*(B*x+C*y)});
+}
+function lofSimple(k=15){
+ const n=P6.length,D=Array.from({length:n},()=>Array(n).fill(0));for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){const d=Math.sqrt(dist2(P6[i].p,P6[j].p));D[i][j]=D[j][i]=d}
+ const neigh=[],kd=[];for(let i=0;i<n;i++){const arr=[...Array(n).keys()].filter(j=>j!==i).sort((a,b)=>D[i][a]-D[i][b]);neigh[i]=arr.slice(0,k);kd[i]=D[i][arr[k-1]]}
+ const lrd=Array(n);for(let i=0;i<n;i++)lrd[i]=1/(mean(neigh[i].map(j=>Math.max(kd[j],D[i][j])))||1e-8);
+ return Array.from({length:n},(_,i)=>mean(neigh[i].map(j=>lrd[j]))/(lrd[i]||1e-8));
+}
+function isoApprox(){
+ // fast pedagogical isolation score via random axis projections and tail rarity
+ const T=100,res=Array(P6.length).fill(0);
+ for(let t=0;t<T;t++){const ang=Math.random()*Math.PI,u=[Math.cos(ang),Math.sin(ang)],proj=P6.map(o=>o.p[0]*u[0]+o.p[1]*u[1]),m=median(proj),scale=1.4826*mad(proj)||1;proj.forEach((v,i)=>res[i]+=Math.abs(v-m)/scale)}
+ return res.map(v=>v/T);
+}
+function computeScores(){
+ scores6={"Isolation Forest":isoApprox(),"LOF":lofSimple(15),"Mahalanobis":mahalScores()};
+ const iso=scores6["Isolation Forest"],lof=scores6["LOF"],mah=scores6["Mahalanobis"];
+ function norm(a){const m=median(a),s=1.4826*mad(a)||1;return a.map(v=>(v-m)/s)}
+ const A=norm(iso),B=norm(lof),C=norm(mah);scores6["Ensemble"]=A.map((v,i)=>(v+B[i]+C[i])/3);
+ $("#modelTabs").innerHTML=Object.keys(scores6).map(n=>`<button class="tab ${n===selectedModel?"active":""}" data-m="${n}">${n}</button>`).join("");
+ $$("#modelTabs .tab").forEach(b=>b.addEventListener("click",()=>{selectedModel=b.dataset.m;renderArena()}));
+}
+function metricsFor(scores,perc){
+ const thr=quantile(scores,perc/100);let tp=0,fp=0,tn=0,fn=0;P6.forEach((o,i)=>{const pr=scores[i]>=thr;if(pr&&o.y)tp++;else if(pr&&!o.y)fp++;else if(!pr&&o.y)fn++;else tn++});
+ const precision=tp/(tp+fp||1),recall=tp/(tp+fn||1),f1=2*precision*recall/(precision+recall||1),cost=fp*(+$("#cfp").value)+fn*(+$("#cfn").value);
+ return {thr,tp,fp,tn,fn,precision,recall,f1,cost};
+}
+function renderArena(){
+ const perc=+$("#thr6").value,rows=Object.entries(scores6).map(([name,s])=>[name,metricsFor(s,perc)]),best=[...rows].sort((a,b)=>a[1].cost-b[1].cost)[0];
+ $("#arenaTable").innerHTML=rows.map(([n,m])=>`<tr class="${n===best[0]?"best":""}"><td>${n}</td><td>${fmt(m.precision,2)}</td><td>${fmt(m.recall,2)}</td><td>${fmt(m.f1,2)}</td><td>${m.fp}</td><td>${m.fn}</td><td>$ ${fmt(m.cost,0)}</td></tr>`).join("");
+ $("#winner").textContent="Menor costo · "+best[0];
+ const m=metricsFor(scores6[selectedModel],perc);metric("tp6","TP",m.tp);metric("fp6","FP",m.fp);metric("fn6","FN",m.fn);metric("cost6","Costo esperado","$ "+fmt(m.cost,0));
+ $$("#modelTabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.m===selectedModel));
+ drawArena(m);
+ $("#arenaInsight").innerHTML=`<strong>${selectedModel}</strong> con threshold en percentil ${perc} produce ${m.fp} falsos positivos y ${m.fn} falsos negativos. Con costos FP=$${$("#cfp").value} y FN=$${$("#cfn").value}, el costo es $${fmt(m.cost,0)}. El mejor modelo económico en este escenario es <strong>${best[0]}</strong>; no necesariamente coincide con el mayor F1.`;
+}
+function drawArena(m){
+ const canvas=$("#arenaChart"),{ctx,w,h}=fitCanvas(canvas,440),pad=42,scale=Math.min((w-2*pad)/10,(h-2*pad)/9),X=v=>w/2+v*scale,Y=v=>h/2-v*scale,sc=scores6[selectedModel];clearCanvas(ctx,w,h);grid(ctx,w,h,pad);
+ P6.forEach((o,i)=>{const pr=sc[i]>=m.thr;ctx.fillStyle=pr?css("--danger"):(o.y?css("--accent3"):css("--accent2"));ctx.globalAlpha=o.y?1:.62;ctx.beginPath();ctx.arc(X(o.p[0]),Y(o.p[1]),o.y?6:4,0,Math.PI*2);ctx.fill();if(o.y&&!pr){ctx.strokeStyle=css("--accent3");ctx.lineWidth=2;ctx.stroke()}});ctx.globalAlpha=1;
+}
+function optimize(){
+ let best={cost:Infinity,p:94};for(let p=80;p<=99;p++){const m=metricsFor(scores6[selectedModel],p);if(m.cost<best.cost)best={cost:m.cost,p}}
+ $("#thr6").value=best.p;document.querySelector('[data-out="thr6"]').textContent=best.p+"%";renderArena();
+}
+$("#geometry").addEventListener("change",makeArena);bindRange("rate6",()=>{},"%");bindRange("thr6",renderArena,"%");bindRange("cfp",renderArena,"");bindRange("cfn",renderArena,"");
+$("#regen6").addEventListener("click",makeArena);$("#optimize6").addEventListener("click",optimize);window.addEventListener("resize",renderArena);makeArena();
+
+</script>
+</body></html>

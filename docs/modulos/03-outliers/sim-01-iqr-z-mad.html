@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Explorá cómo cambia la detección cuando la distribución es normal, asimétrica, bimodal o de colas pesadas. Compará sensibilidad y robustez.">
+<title>IQR vs Z-score vs MAD | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,43 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>IQR vs Z-score vs MAD</h1><p>Explorá cómo cambia la detección cuando la distribución es normal, asimétrica, bimodal o de colas pesadas. Compará sensibilidad y robustez.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>No preguntes solo «¿cuántos outliers hay?». Observá qué supuestos usa cada criterio y cómo el propio extremo modifica media y dispersión.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Generador y detectores</h2><p class="intro">Cambiá la forma de la distribución y compará tres criterios de detección.</p>
+<div class="control"><label for="dist">Distribución</label><select id="dist"><option value="normal">Normal</option><option value="log">Log-normal</option><option value="bimodal">Bimodal</option><option value="heavy">Colas pesadas</option></select></div>
+<div class="control"><label>Tamaño muestral <output data-out="n"></output></label><input id="n" type="range" min="40" max="400" step="20" value="180"></div>
+<div class="control"><label>Extremo agregado <output data-out="extreme"></output></label><input id="extreme" type="range" min="0" max="12" step=".5" value="6"></div>
+<div class="control"><label>Multiplicador IQR <output data-out="iqrk"></output></label><input id="iqrk" type="range" min="1" max="3" step=".1" value="1.5"></div>
+<div class="control"><label>Umbral |z| <output data-out="zk"></output></label><input id="zk" type="range" min="1.5" max="4" step=".1" value="3"></div>
+<div class="control"><label>Umbral z-MAD <output data-out="madk"></output></label><input id="madk" type="range" min="2" max="5" step=".1" value="3.5"></div>
+<div class="button-stack"><button class="btn primary" id="newData">Nuevos datos</button><button class="btn" id="inject">Agregar extremo</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>Distribución y umbrales</h2><p>Los puntos coloreados son los casos detectados por el método seleccionado.</p></div><span class="badge" id="shapeBadge">Distribución</span></div>
+<div class="tabs"><button class="tab active" data-method="iqr">IQR</button><button class="tab" data-method="z">Z-score</button><button class="tab" data-method="mad">MAD robusto</button></div>
+<canvas id="chart" height="430" aria-label="Histograma y detección de outliers"></canvas>
+<div class="legend"><span><i class="dot" style="background:var(--accent2)"></i>Observaciones</span><span><i class="dot" style="background:var(--danger)"></i>Detectadas</span><span><i class="dot" style="background:var(--accent3)"></i>Umbrales</span></div>
+</div>
+<div class="metrics"><div class="metric" id="mMean"></div><div class="metric" id="mMedian"></div><div class="metric" id="mSD"></div><div class="metric" id="mMAD"></div></div>
+<div class="panel"><div class="two-col"><div><h2>Comparación de detectores</h2><div class="table-wrap"><table><thead><tr><th>Método</th><th>Detectados</th><th>%</th></tr></thead><tbody id="detTable"></tbody></table></div></div><div><h2>Interpretación dinámica</h2><div class="insight" id="insight"></div></div></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +131,61 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let data=[],method="iqr",extra=0;
+function generate(){
+  const n=+$("#n").value, d=$("#dist").value; data=[];
+  for(let i=0;i<n;i++){
+    let z=normal(),v;
+    if(d==="normal")v=50+10*z;
+    if(d==="log")v=20+12*Math.exp(.62*z);
+    if(d==="bimodal")v=(Math.random()<.55?38:66)+7*normal();
+    if(d==="heavy"){let denom=Math.sqrt((Math.random()+.08));v=50+8*z/denom}
+    data.push(v);
+  }
+  extra=+$("#extreme").value;
+  if(extra>0)data.push(median(data)+extra*sd(data));
+  render();
+}
+function flagsFor(kind){
+  const m=mean(data),s=sd(data),med=median(data),md=mad(data)||1e-9,q1=quantile(data,.25),q3=quantile(data,.75),iqr=q3-q1;
+  if(kind==="iqr"){const k=+$("#iqrk").value,lo=q1-k*iqr,hi=q3+k*iqr;return {flags:data.map(v=>v<lo||v>hi),lo,hi}}
+  if(kind==="z"){const k=+$("#zk").value;return {flags:data.map(v=>Math.abs((v-m)/(s||1))>k),lo:m-k*s,hi:m+k*s}}
+  const k=+$("#madk").value; const scale=1.4826*md; return {flags:data.map(v=>Math.abs(v-med)/(scale||1)>k),lo:med-k*scale,hi:med+k*scale}
+}
+function render(){
+  const canvas=$("#chart"),{ctx,w,h}=fitCanvas(canvas,430);clearCanvas(ctx,w,h);
+  const pad=45,lo=Math.min(...data),hi=Math.max(...data),span=hi-lo||1,bins=24,counts=Array(bins).fill(0),flagCounts=Array(bins).fill(0),F=flagsFor(method);
+  data.forEach((v,i)=>{const b=Math.min(bins-1,Math.floor((v-lo)/span*bins));counts[b]++;if(F.flags[i])flagCounts[b]++});
+  const maxc=Math.max(...counts,1),bw=(w-2*pad)/bins;
+  grid(ctx,w,h,pad);
+  for(let i=0;i<bins;i++){
+    const bh=(h-2*pad)*counts[i]/maxc;
+    ctx.fillStyle=css("--accent2");ctx.globalAlpha=.55;ctx.fillRect(pad+i*bw,h-pad-bh,Math.max(2,bw-2),bh);
+    if(flagCounts[i]){const fh=(h-2*pad)*flagCounts[i]/maxc;ctx.globalAlpha=.9;ctx.fillStyle=css("--danger");ctx.fillRect(pad+i*bw,h-pad-fh,Math.max(2,bw-2),fh)}
+  }
+  ctx.globalAlpha=1;
+  [F.lo,F.hi].forEach(v=>{const x=pad+(v-lo)/span*(w-2*pad);ctx.strokeStyle=css("--accent3");ctx.setLineDash([7,5]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,h-pad);ctx.stroke()});ctx.setLineDash([]);
+  ctx.fillStyle=css("--muted");ctx.font="12px system-ui";ctx.fillText(fmt(lo,1),pad,h-16);ctx.fillText(fmt(hi,1),w-pad-38,h-16);
+  const M=mean(data),Med=median(data),S=sd(data),MD=mad(data);
+  metric("mMean","Media",fmt(M,2));metric("mMedian","Mediana",fmt(Med,2));metric("mSD","Desv. estándar",fmt(S,2));metric("mMAD","MAD",fmt(MD,2));
+  const methods=["iqr","z","mad"],names={iqr:"IQR",z:"Z-score",mad:"MAD robusto"};
+  $("#detTable").innerHTML=methods.map(k=>{const f=flagsFor(k).flags.filter(Boolean).length;return `<tr${k===method?' class="best"':''}><td>${names[k]}</td><td>${f}</td><td>${fmt(100*f/data.length,1)}%</td></tr>`}).join("");
+  const diff=Math.abs(M-Med), f=F.flags.filter(Boolean).length;
+  $("#shapeBadge").textContent=$("#dist").selectedOptions[0].textContent+" · n="+data.length;
+  let txt=`<strong>${names[method]} marca ${f} casos.</strong> `;
+  if(diff>S*.2)txt+=`La media se separa de la mediana (${fmt(diff,1)} unidades), señal de asimetría o influencia. `;
+  else txt+=`Media y mediana permanecen relativamente próximas. `;
+  txt+=method==="mad"?"MAD usa mediana y desviaciones absolutas: resiste mejor la influencia de extremos.":method==="z"?"Z-score depende de media y desviación estándar; ambas pueden moverse por los propios extremos.":"IQR usa el 50% central y no presupone normalidad.";
+  $("#insight").innerHTML=txt;
+}
+$$(".tab").forEach(b=>b.addEventListener("click",()=>{$$(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");method=b.dataset.method;render()}));
+$("#dist").addEventListener("change",generate);$("#newData").addEventListener("click",generate);
+$("#inject").addEventListener("click",()=>{data.push(median(data)+(+$("#extreme").value||6)*sd(data));render()});
+["n","extreme"].forEach(id=>bindRange(id,()=>{},id==="extreme"?" σ":""));
+["iqrk","zk","madk"].forEach(id=>bindRange(id,render,""));
+window.addEventListener("resize",render);generate();
+
+</script>
+</body></html>

@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Comprobá que una observación puede ser normal en cada variable por separado y, sin embargo, extraordinaria respecto de la relación entre variables.">
+<title>El outlier multivariado invisible | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,38 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>El outlier multivariado invisible</h1><p>Comprobá que una observación puede ser normal en cada variable por separado y, sin embargo, extraordinaria respecto de la relación entre variables.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>Buscá el escenario en el que |zX| y |zY| son menores que 3, pero Mahalanobis² supera la región de referencia.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Observación seleccionada</h2><p class="intro">Construí un caso que no sea extremo en X ni en Y, pero sí raro por su combinación.</p>
+<div class="control"><label>Correlación de la población <output data-out="rho"></output></label><input id="rho" type="range" min="-0.9" max="0.9" step=".1" value=".8"></div>
+<div class="control"><label>X del caso <output data-out="px"></output></label><input id="px" type="range" min="-3" max="3" step=".1" value="1.6"></div>
+<div class="control"><label>Y del caso <output data-out="py"></output></label><input id="py" type="range" min="-3" max="3" step=".1" value="-1.6"></div>
+<div class="button-stack"><button class="btn primary" id="invisible">Preset invisible</button><button class="btn" id="regen3">Nueva nube</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>Univariado vs multivariado</h2><p>La elipse representa una región de referencia basada en distancia de Mahalanobis.</p></div><span class="badge">Relación entre variables</span></div>
+<canvas id="multiChart" height="480" aria-label="Nube bivariada y observación seleccionada"></canvas>
+<div class="legend"><span><i class="dot" style="background:var(--accent)"></i>Observaciones normales</span><span><i class="dot" style="background:var(--danger)"></i>Caso seleccionado</span></div></div>
+<div class="metrics"><div class="metric" id="zx"></div><div class="metric" id="zy"></div><div class="metric" id="md2"></div><div class="metric" id="classMulti"></div></div>
+<div class="panel"><div class="three-col"><div><h2>Variable X</h2><div id="xStatus" class="insight"></div></div><div><h2>Variable Y</h2><div id="yStatus" class="insight"></div></div><div><h2>Relación X–Y</h2><div id="xyStatus" class="insight"></div></div></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +126,38 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let cloud=[];
+function genCloud(){
+ cloud=[];const r=+$("#rho").value;
+ for(let i=0;i<180;i++){const z1=normal(),z2=normal();cloud.push([z1,r*z1+Math.sqrt(Math.max(0,1-r*r))*z2])}
+ draw3();
+}
+function covStats(pts){
+ const mx=mean(pts.map(p=>p[0])),my=mean(pts.map(p=>p[1]));let a=0,b=0,c=0;
+ pts.forEach(p=>{const x=p[0]-mx,y=p[1]-my;a+=x*x;b+=x*y;c+=y*y});a/=pts.length;b/=pts.length;c/=pts.length;
+ const det=a*c-b*b||1e-9;return {mx,my,a,b,c,inv:[c/det,-b/det,a/det]};
+}
+function draw3(){
+ const st=covStats(cloud),p=[+$("#px").value,+$("#py").value],dx=p[0]-st.mx,dy=p[1]-st.my,md=dx*(st.inv[0]*dx+st.inv[1]*dy)+dy*(st.inv[1]*dx+st.inv[2]*dy);
+ const zx=dx/Math.sqrt(st.a),zy=dy/Math.sqrt(st.c);
+ const canvas=$("#multiChart"),{ctx,w,h}=fitCanvas(canvas,480),pad=48,s=55;clearCanvas(ctx,w,h);grid(ctx,w,h,pad);
+ const X=v=>w/2+v*s,Y=v=>h/2-v*s;
+ ctx.fillStyle=css("--accent");ctx.globalAlpha=.52;cloud.forEach(q=>{ctx.beginPath();ctx.arc(X(q[0]),Y(q[1]),3.5,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+ // covariance ellipse at chi-square ~5.99 (95%)
+ const tr=st.a+st.c,disc=Math.sqrt((st.a-st.c)**2+4*st.b*st.b),l1=(tr+disc)/2,l2=(tr-disc)/2,ang=.5*Math.atan2(2*st.b,st.a-st.c),k=Math.sqrt(5.99);
+ ctx.save();ctx.translate(X(st.mx),Y(st.my));ctx.rotate(-ang);ctx.strokeStyle=css("--accent3");ctx.lineWidth=2.5;ctx.setLineDash([8,5]);ctx.beginPath();ctx.ellipse(0,0,k*Math.sqrt(l1)*s,k*Math.sqrt(l2)*s,0,0,Math.PI*2);ctx.stroke();ctx.restore();ctx.setLineDash([]);
+ ctx.fillStyle=css("--danger");ctx.strokeStyle=css("--panel");ctx.lineWidth=3;ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),9,0,Math.PI*2);ctx.fill();ctx.stroke();
+ metric("zx","|Z| en X",fmt(Math.abs(zx),2));metric("zy","|Z| en Y",fmt(Math.abs(zy),2));metric("md2","Mahalanobis²",fmt(md,2));metric("classMulti","Diagnóstico",md>5.99?"Multivariado":"Dentro de región");
+ const ux=Math.abs(zx)>3,uy=Math.abs(zy)>3,mv=md>5.99;
+ $("#xStatus").innerHTML=`<strong>${ux?"Atípico":"No atípico"}.</strong> |z|=${fmt(Math.abs(zx),2)} ${ux?">":"≤"} 3.`;
+ $("#yStatus").innerHTML=`<strong>${uy?"Atípico":"No atípico"}.</strong> |z|=${fmt(Math.abs(zy),2)} ${uy?">":"≤"} 3.`;
+ $("#xyStatus").innerHTML=`<strong>${mv?"Anómalo en conjunto":"Compatible en conjunto"}.</strong> Mahalanobis²=${fmt(md,2)} ${mv?">":"≤"} 5,99. ${(!ux&&!uy&&mv)?"Este es el caso clave: ninguna variable aislada lo detecta, pero la combinación rompe la relación esperada.":""}`;
+}
+bindRange("rho",genCloud,"");bindRange("px",draw3," σ");bindRange("py",draw3," σ");
+$("#invisible").addEventListener("click",()=>{$("#rho").value=.8;$("#px").value=1.6;$("#py").value=-1.6;["rho","px","py"].forEach(id=>document.querySelector(`[data-out="${id}"]`).textContent=$("#"+id).value+(id==="rho"?"":" σ"));genCloud()});
+$("#regen3").addEventListener("click",genCloud);window.addEventListener("resize",draw3);genCloud();
+
+</script>
+</body></html>

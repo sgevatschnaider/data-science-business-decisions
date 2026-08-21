@@ -748,61 +748,284 @@ MODULES = [
             "¿Una observación extrema es un error, un evento valioso o una señal "
             "de que el proceso cambió?"
         ),
-        "duration": "2 encuentros",
+        "duration": "2 encuentros + laboratorio",
         "prerequisites": "Módulos 01 y 02",
+        "custom_resource_files": [
+            "simulacion.html",
+            "sim-01-iqr-z-mad.html",
+            "sim-02-influencia-regresion.html",
+            "sim-03-multivariado.html",
+            "sim-04-isolation-forest.html",
+            "sim-05-lof-ocsvm.html",
+            "sim-06-model-arena.html",
+            "cuestionario.html",
+            "glosario.html",
+        ],
+        "resource_hub": {
+            "presentations_description": (
+                "Dos recorridos complementarios: primero diagnóstico, robustez e "
+                "influencia; después métodos modernos de detección con Machine "
+                "Learning. También podés recorrerlos directamente desde esta página."
+            ),
+            "interactive_title": "Laboratorio de simulaciones",
+            "interactive_description": (
+                "Compare reglas, geometrías, modelos y umbrales sobre escenarios "
+                "controlados antes de elegir una intervención."
+            ),
+            "simulation_resource": {
+                "label": "Outliers Lab · recorrido completo",
+                "description": (
+                    "Centro de acceso a seis simulaciones sobre estadística robusta, "
+                    "influencia, rareza multivariada y detectores con ML."
+                ),
+                "kind": "simulation",
+            },
+            "notebooks_description": (
+                "Avance desde reglas clásicas hasta una comparación profesional de "
+                "detectores y un caso aplicado de reservas hoteleras."
+            ),
+            "review_description": (
+                "Consolide el criterio con 30 preguntas desarrolladas y un glosario "
+                "ampliado de consulta rápida."
+            ),
+            "quiz_resource": {
+                "label": "Cuestionario profesional de outliers",
+                "description": (
+                    "Treinta preguntas explicadas sobre fundamentos, robustez, "
+                    "influencia, ML, evaluación y producción."
+                ),
+                "kind": "assessment",
+            },
+            "glossary_resource": {
+                "label": "Glosario de outliers y detección de anomalías",
+                "description": (
+                    "Sesenta y dos conceptos con buscador, categorías, fórmulas, "
+                    "ejemplos y errores frecuentes."
+                ),
+                "kind": "reference",
+            },
+        },
+        "notebook_resources": [
+            {
+                "label": "Colab 01 · Fundamentos y sensibilidad",
+                "url": (
+                    "https://colab.research.google.com/github/sgevatschnaider/"
+                    "data-science-business-decisions/blob/main/notebooks/"
+                    "03-outliers.ipynb"
+                ),
+                "description": (
+                    "Diagnóstico reproducible con IQR, visualización, comparación "
+                    "con y sin extremos y registro de decisiones."
+                ),
+                "progress_description": (
+                    "Aplicar el flujo base y documentar la sensibilidad"
+                ),
+                "root_badge_detail": "Fundamentos",
+                "kind": "colab",
+            },
+            {
+                "label": "Colab 02 · Detectores con Machine Learning",
+                "url": (
+                    "https://colab.research.google.com/drive/"
+                    "13FwdNX2jd5lMrgNjNR0wEQJEtwlynfO8"
+                ),
+                "description": (
+                    "Isolation Forest, LOF, One-Class SVM, Elliptic Envelope, "
+                    "DBSCAN, PCA, métricas, threshold y ensemble de scores."
+                ),
+                "progress_description": (
+                    "Comparar detectores, scores, métricas y umbrales"
+                ),
+                "root_badge_detail": "Modelos ML",
+                "kind": "colab",
+            },
+            {
+                "label": "Colab 03 · Distribuciones y Hotel Booking",
+                "url": (
+                    "https://colab.research.google.com/drive/"
+                    "1BJU3zTYvxerrVwQDhyz3%76%32ZU113cp3Dp?usp=sharing"
+                ),
+                "description": (
+                    "IQR, Z-score, MAD, Yeo-Johnson y tratamiento sobre datos "
+                    "sintéticos y un caso real de reservas hoteleras."
+                ),
+                "progress_description": (
+                    "Contrastar reglas clásicas en distribuciones y segmentos"
+                ),
+                "root_badge_detail": "Hotel Booking",
+                "kind": "colab",
+            },
+            {
+                "label": "Colab 04 · Atlas interactivo de outliers",
+                "url": (
+                    "https://colab.research.google.com/drive/"
+                    "1C9k3F2sWIGx8ORQRN6HCB0V70z-r_Bia?usp=sharing"
+                ),
+                "description": (
+                    "Recorrido visual por tipologías, fundamentos estadísticos, "
+                    "visualización, tratamiento, cuestionarios y glosario."
+                ),
+                "progress_description": (
+                    "Repasar la arquitectura conceptual completa"
+                ),
+                "root_badge_detail": "Atlas interactivo",
+                "kind": "colab",
+            },
+        ],
+        "external_resources": [
+            {
+                "label": "Diapositivas 01 · Diagnóstico, robustez y tratamiento",
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "15nnL4qm_aKb3G2-G0xbna0MiUtl05-9Ic3NIHF0FwKk/view?usp=sharing"
+                ),
+                "description": (
+                    "De la definición operativa a IQR, Z-score, MAD, influencia, "
+                    "tratamiento, series temporales y prevención de leakage."
+                ),
+                "root_badge_detail": "Diagnóstico y robustez",
+                "root_badge_color": "6d28d9",
+                "progress_description": (
+                    "Comprender diagnóstico, influencia y tratamiento"
+                ),
+                "kind": "slides",
+            },
+            {
+                "label": "Diapositivas 02 · Métodos de detección con ML",
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "1I-jQOc8mkt1WVhGZffWr6p9EWAYg13SBjryxTvYUAtc/view?usp=sharing"
+                ),
+                "description": (
+                    "Comparación de Isolation Forest, LOF, One-Class SVM, "
+                    "Elliptic Envelope, DBSCAN y anomalía por reconstrucción."
+                ),
+                "root_badge_detail": "Métodos ML",
+                "root_badge_color": "8b5cf6",
+                "progress_description": (
+                    "Seleccionar y evaluar detectores de anomalías"
+                ),
+                "kind": "slides",
+            },
+        ],
+        "external_resources_heading": "Presentaciones del módulo",
+        "show_external_resources_in_root_table": True,
+        "local_resources": [
+            {
+                "label": "Simulación 01 · IQR, Z-score y MAD",
+                "url": "sim-01-iqr-z-mad.html",
+                "description": (
+                    "Compare umbrales clásicos y robustos bajo simetría, asimetría "
+                    "y contaminación."
+                ),
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 02 · Influencia en regresión",
+                "url": "sim-02-influencia-regresion.html",
+                "description": (
+                    "Mueva un punto y observe residuo, leverage, Cook y cambio de la recta."
+                ),
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 03 · Outlier multivariado",
+                "url": "sim-03-multivariado.html",
+                "description": (
+                    "Descubra observaciones normales por columna pero raras en la relación."
+                ),
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 04 · Isolation Forest",
+                "url": "sim-04-isolation-forest.html",
+                "description": (
+                    "Explore aislamiento, profundidad de partición, contaminación y score."
+                ),
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 05 · LOF y One-Class SVM",
+                "url": "sim-05-lof-ocsvm.html",
+                "description": (
+                    "Compare densidad local y fronteras de soporte sobre el mismo espacio."
+                ),
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 06 · Model Arena y costos",
+                "url": "sim-06-model-arena.html",
+                "description": (
+                    "Alinee ranking, threshold, tasa de alertas, errores y costo operativo."
+                ),
+                "kind": "simulation",
+            },
+        ],
         "objectives": [
-            "Detectar extremos con IQR, puntuación z y criterios multivariados.",
-            "Diferenciar outlier, alta palanca e influencia sobre un modelo.",
-            "Aplicar estadísticas robustas y análisis de sensibilidad.",
-            "Justificar conservar, corregir, transformar, limitar o excluir.",
+            "Definir rareza respecto de una distribución, relación, segmento o tiempo.",
+            "Comparar IQR, Z-score, MAD y criterios multivariados sin automatizar la eliminación.",
+            "Diferenciar residuo, leverage, influencia y anomalía respecto del modelo.",
+            "Seleccionar y evaluar detectores con ML según geometría, densidad, escala y objetivo.",
+            "Calibrar thresholds y justificar conservar, corregir, transformar, segmentar o excluir.",
         ],
         "theory": [
             {
-                "title": "Extremo no significa error",
+                "title": "La rareza necesita una referencia",
                 "text": (
-                    "Un valor puede ser raro y legítimo, imposible por una regla o "
-                    "resultado de otro régimen. El diagnóstico estadístico inicia "
-                    "la investigación; el contexto decide el tratamiento."
+                    "Un caso puede ser extremo en una variable, improbable en una "
+                    "relación, raro entre sus vecinos o anómalo solo para un segmento "
+                    "o momento. Detectar exige declarar primero qué patrón se considera normal."
                 ),
             },
             {
-                "title": "Detección univariada",
+                "title": "Robustez antes que automatismo",
                 "text": (
-                    "El rango intercuartílico resiste colas; la puntuación z supone "
-                    "que media y desvío son representativos. Ningún umbral reemplaza "
-                    "la inspección de unidades y procesos."
+                    "IQR y MAD resisten mejor la contaminación; Z-score funciona cuando "
+                    "media y desvío representan bien el proceso. Los umbrales son señales "
+                    "de inspección, no órdenes automáticas de borrado."
                 ),
             },
             {
-                "title": "Influencia",
+                "title": "Rareza e influencia no son sinónimos",
                 "text": (
-                    "Una observación influyente cambia sustancialmente parámetros o "
-                    "predicciones. Combina residuo, posición en el espacio de variables "
-                    "y sensibilidad del estimador."
+                    "En regresión, un caso puede tener gran residuo, alta palanca o ambas. "
+                    "La distancia de Cook y la comparación con y sin el caso muestran si "
+                    "la observación cambia parámetros, predicciones o decisiones."
                 ),
             },
             {
-                "title": "Decisiones robustas",
+                "title": "Los métodos de ML modelan rarezas distintas",
                 "text": (
-                    "Medianas, pérdidas robustas, transformaciones y análisis con y "
-                    "sin casos extremos permiten comunicar cuánto depende la conclusión "
-                    "de unas pocas observaciones."
+                    "Isolation Forest aísla; LOF compara densidades; One-Class SVM aprende "
+                    "una frontera; Elliptic Envelope usa covarianza robusta; DBSCAN trata "
+                    "ruido y PCA observa error de reconstrucción. Ninguno domina siempre."
+                ),
+            },
+            {
+                "title": "Del score a una decisión auditable",
+                "text": (
+                    "Contaminación, percentiles, capacidad de revisión y costo de falsos "
+                    "positivos y negativos convierten un score en un threshold operativo. "
+                    "El preprocesamiento debe ajustarse solo con entrenamiento para evitar leakage."
                 ),
             },
         ],
         "case": (
-            "Una venta corporativa multiplica por veinte el ticket habitual. Borrarla "
-            "mejora un promedio, pero elimina el segmento de mayor valor."
+            "En reservas hoteleras, un lead time muy alto puede ser error, grupo legítimo "
+            "o señal temprana de cancelación. El equipo debe contrastar distribución, "
+            "segmento e impacto predictivo antes de intervenir."
         ),
         "deliverable": (
-            "Bitácora de observaciones extremas con evidencia, decisión de tratamiento "
-            "y comparación de conclusiones antes y después."
+            "Informe de diagnóstico con bitácora de casos, comparación de detectores, "
+            "threshold justificado, análisis de sensibilidad y recomendación de tratamiento."
         ),
         "lab_steps": [
-            "Verificar unidades, reglas y procedencia de extremos.",
-            "Comparar IQR, puntuación z y percentiles.",
-            "Medir cambios en estadísticas y modelos.",
-            "Registrar cada decisión de tratamiento.",
+            "Verificar unidades, reglas, duplicados, temporalidad y procedencia.",
+            "Comparar IQR, Z-score y MAD bajo distintas formas de distribución.",
+            "Medir residuo, leverage, Cook y cambios del modelo con y sin el caso.",
+            "Detectar rarezas multivariadas después de escalar y segmentar.",
+            "Contrastar Isolation Forest, LOF y One-Class SVM con una referencia común.",
+            "Calibrar el threshold y registrar tratamiento, impacto, límite y responsable.",
         ],
         "simulation_title": "Detector de extremos e influencia",
         "simulation_instruction": (
@@ -2308,16 +2531,24 @@ ENRICHMENTS = {
     },
     "03": {
         "advanced_topics": [
-            "Distancias robustas, leverage, Cook y sensibilidad de parámetros.",
-            "Detección contextual: un valor puede ser normal para un segmento y extremo para otro.",
-            "Eventos raros como fuente de aprendizaje, fraude o cambio de régimen.",
+            "Distancia de Mahalanobis robusta, leverage, Cook y sensibilidad de parámetros.",
+            "Rareza global, local y contextual por segmento, tiempo, canal o régimen.",
+            "Outlier detection frente a novelty detection y datos de referencia limpios.",
+            "Isolation Forest, LOF, One-Class SVM, Elliptic Envelope, DBSCAN y PCA.",
+            "Calibración de thresholds por etiquetas, capacidad, contaminación y costo.",
         ],
         "common_failures": [
             "Eliminar automáticamente todo punto marcado por una regla estadística.",
             "Usar puntuación z en distribuciones muy asimétricas sin contraste robusto.",
-            "Evaluar influencia sin comparar conclusiones con y sin el caso.",
+            "Ajustar escala, modelo o threshold con información del conjunto de test.",
+            "Comparar detectores con orientaciones de score o tasas de alerta diferentes.",
+            "Evaluar influencia sin contrastar conclusiones con y sin el caso.",
         ],
-        "decision_challenge": "Prepará una bitácora que separe error, evento raro válido, segmento especial y observación influyente.",
+        "decision_challenge": (
+            "Construí un protocolo que separe error, evento raro válido, segmento "
+            "especial, observación influyente y cambio de régimen; luego definí una "
+            "acción y un responsable para cada clase."
+        ),
         "scenario_quiz": q(
             "Una venta excepcional es válida y cambia fuertemente la pendiente del modelo. ¿Qué corresponde?",
             ["Borrarla sin registrar", "Conservarla y reportar sensibilidad o modelar el segmento", "Duplicarla", "Reemplazarla siempre por la media"],

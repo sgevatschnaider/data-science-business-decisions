@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Visualizá la diferencia entre ser extremo y ser influyente. Un único caso puede modificar pendiente, R² y error del modelo.">
+<title>El outlier que cambia el modelo | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,38 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>El outlier que cambia el modelo</h1><p>Visualizá la diferencia entre ser extremo y ser influyente. Un único caso puede modificar pendiente, R² y error del modelo.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>Mové el punto rojo sin borrarlo. Compará la recta con y sin ese caso y preguntá si cambia una conclusión de negocio.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Punto influyente</h2><p class="intro">Mové la observación roja y observá cómo cambia la recta de regresión. También podés arrastrarla directamente en el gráfico.</p>
+<div class="control"><label>X del punto <output data-out="ox"></output></label><input id="ox" type="range" min="0" max="100" step="1" value="88"></div>
+<div class="control"><label>Y del punto <output data-out="oy"></output></label><input id="oy" type="range" min="0" max="160" step="1" value="35"></div>
+<div class="control"><label>Ruido de la muestra <output data-out="noise"></output></label><input id="noise" type="range" min="2" max="22" step="1" value="8"></div>
+<div class="button-stack"><button class="btn primary" id="regen">Nueva muestra</button><button class="btn" id="preset">Caso extremo</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>Regresión con y sin el caso</h2><p>Arrastrá el punto rojo. La línea azul usa todos los datos; la ámbar excluye solo el caso seleccionado.</p></div><span class="badge">Influencia en vivo</span></div>
+<canvas id="regChart" height="470" aria-label="Regresión lineal con punto influyente"></canvas>
+<div class="legend"><span><i class="dot" style="background:var(--accent2)"></i>Con punto</span><span><i class="dot" style="background:var(--accent3)"></i>Sin punto</span><span><i class="dot" style="background:var(--danger)"></i>Observación influyente</span></div></div>
+<div class="metrics"><div class="metric" id="slopeAll"></div><div class="metric" id="slopeBase"></div><div class="metric" id="r2All"></div><div class="metric" id="cook"></div></div>
+<div class="panel"><div class="two-col"><div><h2>Impacto</h2><div id="impactTable" class="table-wrap"></div></div><div><h2>Interpretación</h2><div id="regInsight" class="insight"></div><p style="color:var(--muted);font-size:13px">Accesibilidad: además del arrastre, los sliders X/Y permiten mover el punto con teclado.</p></div></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +126,49 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let basePts=[],drag=false;
+function ols(pts){
+ const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),mx=mean(xs),my=mean(ys);
+ let sxx=0,sxy=0;pts.forEach(p=>{sxx+=(p[0]-mx)**2;sxy+=(p[0]-mx)*(p[1]-my)});
+ const b=sxy/(sxx||1),a=my-b*mx,pred=pts.map(p=>a+b*p[0]);
+ const sse=pred.reduce((s,v,i)=>s+(ys[i]-v)**2,0),sst=ys.reduce((s,v)=>s+(v-my)**2,0);
+ return {a,b,r2:1-sse/(sst||1),rmse:Math.sqrt(sse/pts.length),mx,sxx,sse};
+}
+function cookD(all,idx,fit){
+ const n=all.length,p=2,x=all[idx][0],y=all[idx][1],yhat=fit.a+fit.b*x,e=y-yhat,mse=fit.sse/Math.max(1,n-p);
+ const h=1/n+(x-fit.mx)**2/(fit.sxx||1);
+ return (e*e/(p*(mse||1)))*(h/((1-h)**2||1));
+}
+function gen(){
+ basePts=[];const noise=+$("#noise").value;
+ for(let i=0;i<45;i++){const x=8+84*Math.random();basePts.push([x,18+1.18*x+normal()*noise])}
+ draw();
+}
+function scales(w,h){const pad=48;return {pad,x:v=>pad+v/100*(w-2*pad),y:v=>h-pad-v/160*(h-2*pad),ix:px=>(px-pad)/(w-2*pad)*100,iy:py=>(h-pad-py)/(h-2*pad)*160}}
+function draw(){
+ const p=[+$("#ox").value,+$("#oy").value],all=[...basePts,p],fa=ols(all),fb=ols(basePts),D=cookD(all,all.length-1,fa);
+ const canvas=$("#regChart"),{ctx,w,h}=fitCanvas(canvas,470),S=scales(w,h);clearCanvas(ctx,w,h);grid(ctx,w,h,S.pad);
+ ctx.fillStyle=css("--accent");ctx.globalAlpha=.65;basePts.forEach(q=>{ctx.beginPath();ctx.arc(S.x(q[0]),S.y(q[1]),4,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+ function line(f,color,dash=[]){ctx.strokeStyle=color;ctx.lineWidth=3;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(S.x(0),S.y(f.a));ctx.lineTo(S.x(100),S.y(f.a+f.b*100));ctx.stroke();ctx.setLineDash([])}
+ line(fa,css("--accent2"));line(fb,css("--accent3"),[9,6]);
+ ctx.fillStyle=css("--danger");ctx.strokeStyle=css("--panel");ctx.lineWidth=3;ctx.beginPath();ctx.arc(S.x(p[0]),S.y(p[1]),9,0,Math.PI*2);ctx.fill();ctx.stroke();
+ metric("slopeAll","Pendiente · con",fmt(fa.b,3));metric("slopeBase","Pendiente · sin",fmt(fb.b,3));metric("r2All","R² · con",fmt(fa.r2,3));metric("cook","Cook's D",fmt(D,3));
+ const slopeChange=100*Math.abs(fa.b-fb.b)/(Math.abs(fb.b)||1),rmseChange=100*(fa.rmse-fb.rmse)/(fb.rmse||1);
+ $("#impactTable").innerHTML=`<table><thead><tr><th>Métrica</th><th>Con punto</th><th>Sin punto</th></tr></thead><tbody>
+ <tr><td>Pendiente</td><td>${fmt(fa.b,3)}</td><td>${fmt(fb.b,3)}</td></tr><tr><td>R²</td><td>${fmt(fa.r2,3)}</td><td>${fmt(fb.r2,3)}</td></tr>
+ <tr><td>RMSE</td><td>${fmt(fa.rmse,2)}</td><td>${fmt(fb.rmse,2)}</td></tr></tbody></table>`;
+ let level=D>4/all.length?"alta":"moderada/baja";
+ $("#regInsight").innerHTML=`<strong>Influencia ${level}.</strong> La pendiente cambia ${fmt(slopeChange,1)}% al retirar un solo caso. ${D>4/all.length?"Cook's D supera la referencia 4/n: el punto merece revisión contextual, no eliminación automática.":"El punto es visible, pero su capacidad de cambiar el ajuste todavía es limitada."}`;
+}
+const canvas=$("#regChart");
+canvas.addEventListener("pointerdown",e=>{drag=true;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!drag)return;const r=canvas.getBoundingClientRect(),{w,h}=fitCanvas(canvas,470),S=scales(w,h);$("#ox").value=Math.round(clamp(S.ix(e.clientX-r.left),0,100));$("#oy").value=Math.round(clamp(S.iy(e.clientY-r.top),0,160));document.querySelector('[data-out="ox"]').textContent=$("#ox").value;document.querySelector('[data-out="oy"]').textContent=$("#oy").value;draw()});
+canvas.addEventListener("pointerup",()=>drag=false);canvas.addEventListener("pointercancel",()=>drag=false);
+bindRange("ox",draw,"");bindRange("oy",draw,"");bindRange("noise",()=>{},"");
+$("#regen").addEventListener("click",gen);$("#preset").addEventListener("click",()=>{$("#ox").value=95;$("#oy").value=25;document.querySelector('[data-out="ox"]').textContent=95;document.querySelector('[data-out="oy"]').textContent=25;draw()});
+window.addEventListener("resize",draw);gen();
+
+</script>
+</body></html>

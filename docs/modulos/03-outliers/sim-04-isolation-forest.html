@@ -1,4 +1,11 @@
-<!doctype html><html lang="es" data-theme="oceano"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Sergio Gevatschnaider"><title>Outliers Lab | Datos y Decisiones</title><style>
+<!doctype html>
+<html lang="es" data-theme="oceano">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Sergio Gevatschnaider">
+<meta name="description" content="Inspeccioná cómo la profundidad de aislamiento se convierte en un anomaly score. Seleccioná puntos y cambiá árboles, submuestras y contamination.">
+<title>Isolation Forest por dentro | Datos y Decisiones</title>
+<style>
 :root{
   --bg:#f5f8fb;--panel:#ffffff;--panel2:#eef4f8;--text:#102231;--muted:#617383;
   --line:#d7e1e8;--accent:#087f8c;--accent2:#1d4ed8;--accent3:#d97706;--danger:#c2415a;
@@ -47,18 +54,37 @@ tr.best{background:color-mix(in srgb,var(--success) 10%,transparent)}.footer{max
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 11px;min-height:36px}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.controls{position:static}.metrics{grid-template-columns:repeat(2,1fr)}.two-col,.three-col{grid-template-columns:1fr}}
 @media(max-width:520px){main,.topbar-inner{padding-left:14px;padding-right:14px}.hero h1{font-size:38px}.metrics{grid-template-columns:1fr}.button-stack{grid-template-columns:1fr}.brand small{display:none}}
-</style></head>
-<body><header class="topbar"><div class="topbar-inner"><a class="brand" href="../../index.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Módulo 03 · Outliers</small></span></a><div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn">Tema · Océano</button></div></div></header>
-<main><section class="hero"><div><div class="eyebrow">Suite de simulaciones didácticas</div><h1>Outliers Lab</h1><p>Seis laboratorios interactivos para pasar de reglas estadísticas a influencia, anomalías multivariadas, Isolation Forest, LOF, One-Class SVM y decisiones basadas en costo.</p></div><div class="hero-note"><strong>Secuencia sugerida</strong><span>Robustez → influencia → multivariado → aislamiento → densidad/frontera → decisión.</span></div></section>
-<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px"><a href="sim-01-iqr-z-mad.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 01</div><h2 style="font-size:22px;margin:8px 0">IQR vs Z-score vs MAD</h2><p style="color:var(--muted)">Robustez estadística, forma de distribución y criterios de detección.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-02-influencia-regresion.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 02</div><h2 style="font-size:22px;margin:8px 0">El outlier que cambia el modelo</h2><p style="color:var(--muted)">Pendiente, R², RMSE y Cook's Distance con un punto arrastrable.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-03-multivariado.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 03</div><h2 style="font-size:22px;margin:8px 0">Outlier multivariado invisible</h2><p style="color:var(--muted)">Z-score univariado vs distancia de Mahalanobis.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-04-isolation-forest.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 04</div><h2 style="font-size:22px;margin:8px 0">Isolation Forest por dentro</h2><p style="color:var(--muted)">Profundidad de aislamiento, anomaly score, ranking y contamination.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-05-lof-ocsvm.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 05</div><h2 style="font-size:22px;margin:8px 0">LOF + One-Class SVM</h2><p style="color:var(--muted)">Densidad local frente a frontera no lineal de normalidad.</p><span class="btn primary small">Abrir laboratorio →</span></article></a><a href="sim-06-model-arena.html" style="text-decoration:none"><article class="panel" style="height:100%;transition:.2s">
-<div class="eyebrow">Simulación 06</div><h2 style="font-size:22px;margin:8px 0">Model Arena + Threshold</h2><p style="color:var(--muted)">Modelos, métricas y costos de decisión en un mismo escenario.</p><span class="btn primary small">Abrir laboratorio →</span></article></a></section>
-<section class="panel" style="margin-top:22px"><h2>Enfoque de trabajo</h2><div class="three-col"><div class="insight"><strong>1. Hipótesis</strong><br>Anticipá qué debería ocurrir antes de mover un control.</div><div class="insight"><strong>2. Evidencia</strong><br>Compará scores, métricas, geometrías y sensibilidad.</div><div class="insight"><strong>3. Decisión</strong><br>No elimines un caso solo porque un algoritmo lo marca.</div></div></section></main>
-<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Ciencia de Datos para Decisiones de Negocio.</footer><script>
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="simulacion.html"><span class="mark">DD</span><span><strong>Datos y Decisiones</strong><small>Outliers · laboratorio interactivo</small></span></a>
+<div class="nav-actions"><a class="btn ghost small" href="index.html">Guía del módulo</a><button id="themeBtn" type="button">Tema · Océano</button></div>
+</div></header>
+<main>
+<section class="hero">
+<div><div class="eyebrow">Laboratorio interactivo · Outliers</div><h1>Isolation Forest por dentro</h1><p>Inspeccioná cómo la profundidad de aislamiento se convierte en un anomaly score. Seleccioná puntos y cambiá árboles, submuestras y contamination.</p></div>
+<div class="hero-note"><strong>Qué observar</strong><span>Seleccioná primero un punto central y después uno aislado. Compará profundidad media, score y ranking de anomalía.</span></div>
+</section>
+
+<section class="lab">
+<aside class="controls">
+<h2>Isolation Forest</h2><p class="intro">El bosque aprende a aislar puntos mediante particiones aleatorias. Menor profundidad media suele implicar mayor rareza.</p>
+<div class="control"><label>Número de árboles <output data-out="trees"></output></label><input id="trees" type="range" min="20" max="180" step="20" value="80"></div>
+<div class="control"><label>Submuestra por árbol <output data-out="sampleIF"></output></label><input id="sampleIF" type="range" min="32" max="128" step="16" value="64"></div>
+<div class="control"><label>Contamination <output data-out="contam"></output></label><input id="contam" type="range" min="1" max="20" step="1" value="7"></div>
+<div class="button-stack"><button class="btn primary" id="runForest">Reentrenar bosque</button><button class="btn" id="newIF">Nueva nube</button></div>
+</aside>
+<div class="stage">
+<div class="panel"><div class="panel-head"><div><h2>Score de aislamiento</h2><p>Hacé clic sobre un punto para inspeccionarlo. Rojo = mayor score de anomalía.</p></div><span class="badge" id="ifBadge">Bosque listo</span></div>
+<canvas id="ifChart" height="500" aria-label="Isolation Forest interactivo"></canvas></div>
+<div class="metrics"><div class="metric" id="ifScore"></div><div class="metric" id="ifDepth"></div><div class="metric" id="ifRank"></div><div class="metric" id="ifFlag"></div></div>
+<div class="panel"><div class="two-col"><div><h2>¿Por qué lo aísla?</h2><div id="ifExplain" class="insight"></div></div><div><h2>Regla visual</h2><p style="color:var(--muted);margin-top:0">Cada árbol elige al azar una variable y un corte. Los puntos separados del resto suelen quedar solos con pocas particiones. El score mostrado usa la profundidad media normalizada.</p></div></div></div>
+</div></section>
+
+</main>
+<footer class="footer"><strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>Recurso didáctico interactivo para Ciencia de Datos y Machine Learning.</footer>
+<script>
 const THEMES=["oceano","noche","papel","aurora"];
 const THEME_NAMES={oceano:"Océano",noche:"Noche",papel:"Papel",aurora:"Aurora"};
 let currentTheme=localStorage.getItem("outliers-theme")||"oceano";
@@ -99,4 +125,40 @@ function grid(ctx,w,h,pad=45){
 }
 function bindRange(id,fn,suffix=""){const el=document.getElementById(id),out=document.querySelector(`[data-out="${id}"]`);const sync=()=>{if(out)out.textContent=el.value+suffix;fn()};el.addEventListener("input",sync);sync()}
 function dist2(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return dx*dx+dy*dy}
-</script></body></html>
+
+
+let ifPts=[],forest=[],ifScores=[],selected=0;
+function cFactor(n){if(n<=1)return 0;if(n===2)return 1;const H=Math.log(n-1)+0.5772156649;return 2*H-2*(n-1)/n}
+function makeIFData(){ifPts=[];for(let i=0;i<95;i++){ifPts.push([normal()*.75+(Math.random()<.5?-1.2:1.2),normal()*.7])}for(let i=0;i<8;i++)ifPts.push([(Math.random()-.5)*8,(Math.random()-.5)*7]);selected=ifPts.length-1;trainForest()}
+function buildTree(indices,depth,maxDepth){
+ if(indices.length<=1||depth>=maxDepth)return {leaf:true,size:indices.length,depth};
+ const dim=Math.random()<.5?0:1,vals=indices.map(i=>ifPts[i][dim]),lo=Math.min(...vals),hi=Math.max(...vals);
+ if(hi-lo<1e-9)return {leaf:true,size:indices.length,depth};
+ const cut=lo+Math.random()*(hi-lo),L=indices.filter(i=>ifPts[i][dim]<cut),R=indices.filter(i=>ifPts[i][dim]>=cut);
+ if(!L.length||!R.length)return {leaf:true,size:indices.length,depth};
+ return {leaf:false,dim,cut,left:buildTree(L,depth+1,maxDepth),right:buildTree(R,depth+1,maxDepth)};
+}
+function pathLen(node,p,depth=0){
+ if(node.leaf)return depth+cFactor(node.size);
+ return pathLen(p[node.dim]<node.cut?node.left:node.right,p,depth+1);
+}
+function trainForest(){
+ const T=+$("#trees").value,m=Math.min(+$("#sampleIF").value,ifPts.length),maxDepth=Math.ceil(Math.log2(m));forest=[];
+ for(let t=0;t<T;t++){const idx=[...ifPts.keys()];for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}forest.push(buildTree(idx.slice(0,m),0,maxDepth))}
+ const cn=cFactor(m)||1;ifScores=ifPts.map(p=>{const h=mean(forest.map(tr=>pathLen(tr,p)));return {h,score:Math.pow(2,-h/cn)}});drawIF();
+}
+function drawIF(){
+ const canvas=$("#ifChart"),{ctx,w,h}=fitCanvas(canvas,500),pad=48,scale=Math.min((w-2*pad)/9,(h-2*pad)/8),X=v=>w/2+v*scale,Y=v=>h/2-v*scale;clearCanvas(ctx,w,h);grid(ctx,w,h,pad);
+ const vals=ifScores.map(x=>x.score),mn=Math.min(...vals),mx=Math.max(...vals),q=quantile(vals,1-(+$("#contam").value/100));
+ ifPts.forEach((p,i)=>{const t=(ifScores[i].score-mn)/(mx-mn||1);ctx.fillStyle=t>.65?css("--danger"):t>.35?css("--accent3"):css("--accent2");ctx.globalAlpha=.45+.5*t;ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),i===selected?9:5,0,Math.PI*2);ctx.fill();if(i===selected){ctx.globalAlpha=1;ctx.strokeStyle=css("--text");ctx.lineWidth=2;ctx.stroke()}});ctx.globalAlpha=1;
+ const s=ifScores[selected],rank=1+vals.filter(v=>v>s.score).length;
+ metric("ifScore","Anomaly score",fmt(s.score,3));metric("ifDepth","Profundidad media",fmt(s.h,2));metric("ifRank","Ranking",rank+" / "+ifPts.length);metric("ifFlag","Clasificación",s.score>=q?"Alerta":"Normal");
+ $("#ifBadge").textContent=forest.length+" árboles · "+$("#contam").value+"% alertas";
+ $("#ifExplain").innerHTML=`<strong>${s.score>=q?"El bosque lo considera anómalo.":"El punto no supera el threshold."}</strong> Su profundidad promedio es ${fmt(s.h,2)}. ${s.h<4.5?"Necesita pocas divisiones para quedar aislado, señal de rareza global.":"Permanece acompañado durante más particiones, comportamiento más típico."}`;
+}
+$("#ifChart").addEventListener("click",e=>{const c=e.currentTarget,r=c.getBoundingClientRect(),{w,h}=fitCanvas(c,500),pad=48,scale=Math.min((w-2*pad)/9,(h-2*pad)/8),px=(e.clientX-r.left-w/2)/scale,py=-(e.clientY-r.top-h/2)/scale;let best=0,bd=1e9;ifPts.forEach((p,i)=>{const d=(p[0]-px)**2+(p[1]-py)**2;if(d<bd){bd=d;best=i}});selected=best;drawIF()});
+bindRange("trees",()=>{},"");bindRange("sampleIF",()=>{},"");bindRange("contam",drawIF,"%");
+$("#runForest").addEventListener("click",trainForest);$("#newIF").addEventListener("click",makeIFData);window.addEventListener("resize",drawIF);makeIFData();
+
+</script>
+</body></html>
