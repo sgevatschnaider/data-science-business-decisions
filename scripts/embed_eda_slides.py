@@ -124,6 +124,33 @@ PRESENTATION_MODULES = [
             },
         ],
     },
+    {
+        "target": Path("docs/modulos/04-transformacion-pipelines/index.html"),
+        "label": "módulo 04",
+        "aria_label": "Presentación integrada del módulo de transformación de variables",
+        "intro_source": (
+            "Una presentación de 14 diapositivas para distinguir escala, forma, "
+            "objeto transformado, geometría, robustez, PCA y prevención de leakage. "
+            "También podés recorrerla directamente desde esta página."
+        ),
+        "intro_target": (
+            "Una presentación de 14 diapositivas para distinguir escala, forma, "
+            "objeto transformado, geometría, robustez, PCA y prevención de leakage. "
+            "También podés recorrerla directamente desde esta página."
+        ),
+        "slides": [
+            {
+                "title": "Diapositivas · Fundamentos y criterio de decisión",
+                "subtitle": (
+                    "Unidades, geometría, robustez, PCA, diagnóstico y prevención de leakage"
+                ),
+                "view": "https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/view?usp=sharing",
+                "present": "https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/present?slide=id.p1",
+                "embed": "https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/embed?start=false&amp;loop=false&amp;delayms=3000",
+                "id": "m04-slides-01",
+            },
+        ],
+    },
 ]
 
 STYLE = """  <style>

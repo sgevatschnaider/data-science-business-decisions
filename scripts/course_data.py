@@ -1099,58 +1099,252 @@ MODULES = [
         ),
         "duration": "2 encuentros",
         "prerequisites": "Módulos 00 a 03",
+        "custom_resource_files": [
+            "simulacion.html",
+            "01-distancia-unidades-knn.html",
+            "02-comparador-escaladores.html",
+            "03-transformaciones-forma.html",
+            "04-outliers-centro-escala.html",
+            "05-pca-covarianza-correlacion.html",
+            "06-arena-algoritmos-escala.html",
+            "07-columnas-filas-objetivo.html",
+            "08-leakage-validacion.html",
+            "09-constructor-pipelines.html",
+            "10-transformacion-variable-objetivo.html",
+            "11-clustering-documentos.html",
+            "12-selector-transformaciones.html",
+            "cuestionario.html",
+            "glosario.html",
+        ],
+        "custom_resource_aliases": [
+            {
+                "source": "simulacion.html",
+                "alias": "00-laboratorio-transformacion-variables.html",
+            },
+        ],
+        "resource_hub": {
+            "presentations_description": (
+                "Una presentación de 14 diapositivas para distinguir escala, forma, "
+                "objeto transformado, geometría, robustez, PCA y prevención de leakage. "
+                "También podés recorrerla directamente desde esta página."
+            ),
+            "interactive_title": "Laboratorio de simulaciones",
+            "interactive_description": (
+                "Doce experimentos coordinados para comparar transformaciones, "
+                "algoritmos, objetos y protocolos de validación antes de elegir un pipeline."
+            ),
+            "simulation_resource": {
+                "label": "Transformación de variables · recorrido completo",
+                "description": (
+                    "Centro de acceso a doce simulaciones sobre escala, forma, "
+                    "robustez, PCA, leakage, pipelines, objetivo, texto y selección."
+                ),
+                "kind": "simulation",
+            },
+            "notebooks_description": (
+                "Conservá el laboratorio canónico del módulo y aplicá el flujo "
+                "completo con Python dentro de un pipeline reproducible."
+            ),
+            "review_description": (
+                "Consolidá el criterio con 20 preguntas desarrolladas y un glosario "
+                "interactivo de 84 términos."
+            ),
+            "quiz_resource": {
+                "label": "Cuestionario de transformación de variables",
+                "description": (
+                    "Veinte preguntas razonadas con modos de estudio y evaluación, "
+                    "explicaciones, fórmulas, errores frecuentes y reglas de decisión."
+                ),
+                "kind": "assessment",
+            },
+            "glossary_resource": {
+                "label": "Glosario de transformación y pipelines",
+                "description": (
+                    "Ochenta y cuatro términos con buscador, filtros, favoritos, "
+                    "progreso, ejemplos, fórmulas, riesgos y relaciones conceptuales."
+                ),
+                "kind": "reference",
+            },
+        },
+        "notebook_resources": [
+            {
+                "label": "Colab · Transformación y pipelines",
+                "url": (
+                    "https://colab.research.google.com/github/sgevatschnaider/"
+                    "data-science-business-decisions/blob/main/notebooks/"
+                    "04-transformacion-pipelines.ipynb"
+                ),
+                "description": (
+                    "Laboratorio canónico con transformación, escalado, codificación, "
+                    "ColumnTransformer, Pipeline y controles de leakage."
+                ),
+                "progress_description": (
+                    "Aplicar el flujo completo con Python sin modificar el Colab existente"
+                ),
+                "root_badge_detail": "Pipeline reproducible",
+                "kind": "colab",
+            },
+        ],
+        "external_resources": [
+            {
+                "label": "Diapositivas · Fundamentos y criterio de decisión",
+                "url": (
+                    "https://docs.google.com/presentation/d/"
+                    "1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/view?usp=sharing"
+                ),
+                "description": (
+                    "Catorce diapositivas sobre unidades, escala, forma, objeto, "
+                    "distancias, PCA, robustez, diagnóstico, orden y fuga de información."
+                ),
+                "root_badge_detail": "Fundamentos y criterio",
+                "root_badge_color": "2563eb",
+                "progress_description": (
+                    "Comprender el criterio que precede a cada transformación"
+                ),
+                "kind": "slides",
+            },
+        ],
+        "external_resources_heading": "Presentación del módulo",
+        "show_external_resources_in_root_table": True,
+        "local_resources": [
+            {
+                "label": "Simulación 01 · Distancia, unidades y KNN",
+                "url": "01-distancia-unidades-knn.html",
+                "description": "Observá cómo una unidad numéricamente grande puede dominar la vecindad.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 02 · Comparador de escaladores",
+                "url": "02-comparador-escaladores.html",
+                "description": "Contrastá Standard, Min-Max, Robust y MaxAbs sobre los mismos datos.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 03 · Transformaciones de forma",
+                "url": "03-transformaciones-forma.html",
+                "description": "Explorá log, Box-Cox, Yeo-Johnson y cuantiles según dominio y distribución.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 04 · Outliers, centro y escala",
+                "url": "04-outliers-centro-escala.html",
+                "description": "Compará media y desvío con mediana e IQR bajo contaminación.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 05 · PCA, covarianza y correlación",
+                "url": "05-pca-covarianza-correlacion.html",
+                "description": "Descubrí cuándo el primer componente refleja unidades en lugar de estructura.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 06 · Arena de algoritmos y escala",
+                "url": "06-arena-algoritmos-escala.html",
+                "description": "Compará sensibilidad a escala en KNN, logística, K-means y árboles.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 07 · Columnas, filas y objetivo",
+                "url": "07-columnas-filas-objetivo.html",
+                "description": "Decidí si corresponde transformar features, observaciones, target o ciclos.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 08 · Leakage y validación",
+                "url": "08-leakage-validacion.html",
+                "description": "Separá fit y transform para no aprender del test ni del futuro.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 09 · Constructor de pipelines",
+                "url": "09-constructor-pipelines.html",
+                "description": "Ordená y justificá cada etapa de un preprocesamiento reproducible.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 10 · Transformación del objetivo",
+                "url": "10-transformacion-variable-objetivo.html",
+                "description": "Compará errores absolutos y relativos e invertí predicciones correctamente.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 11 · Clustering de documentos",
+                "url": "11-clustering-documentos.html",
+                "description": "Contrastá magnitud, normalización por fila y similitud coseno.",
+                "kind": "simulation",
+            },
+            {
+                "label": "Simulación 12 · Selector de transformaciones",
+                "url": "12-selector-transformaciones.html",
+                "description": "Vinculá diagnóstico, objetivo, alternativa y riesgo de distorsión.",
+                "kind": "simulation",
+            },
+        ],
         "objectives": [
-            "Elegir transformaciones según distribución, relación y algoritmo.",
-            "Codificar categorías y escalar variables de forma segura.",
-            "Crear variables con disponibilidad temporal explícita.",
-            "Encapsular preparación y estimación en pipelines.",
+            "Distinguir escalado, transformación de forma y normalización según el objeto que se modifica.",
+            "Elegir estadísticas de centro y escala según algoritmo, geometría y presencia de outliers.",
+            "Comparar PCA sobre covarianza y correlación sin confundir varianza con relevancia de negocio.",
+            "Transformar features, texto, tiempo y variable objetivo conservando semántica e interpretación.",
+            "Encapsular preparación y estimación dentro de pipelines y validación sin leakage.",
         ],
         "theory": [
             {
-                "title": "Transformar con hipótesis",
+                "title": "Primero se define qué objeto se transforma",
                 "text": (
-                    "Logaritmos, raíces y potencias pueden estabilizar varianza o "
-                    "linealizar relaciones. La transformación debe responder a una "
-                    "razón analítica y conservar una interpretación posible."
+                    "Escalar una columna, normalizar una fila, codificar una categoría, "
+                    "representar un ciclo o transformar el objetivo responden preguntas "
+                    "distintas. La operación correcta empieza por la semántica del objeto."
                 ),
             },
             {
-                "title": "Escalado y codificación",
+                "title": "Escala y forma resuelven problemas diferentes",
                 "text": (
-                    "Distancias y regularización son sensibles a escala; los árboles, "
-                    "mucho menos. One-hot evita imponer orden a categorías nominales, "
-                    "mientras una codificación ordinal requiere jerarquía real."
+                    "Standard, Min-Max, Robust y MaxAbs cambian centro o magnitud; log, "
+                    "Box-Cox, Yeo-Johnson y cuantiles cambian la forma. Un scaler no "
+                    "corrige por sí solo asimetría, outliers ni restricciones de dominio."
                 ),
             },
             {
-                "title": "Ingeniería de variables",
+                "title": "La geometría del algoritmo determina la sensibilidad",
                 "text": (
-                    "Ratios, recencia, frecuencia, interacciones y agregaciones pueden "
-                    "acercar el modelo al mecanismo de negocio. Toda variable debe "
-                    "existir al momento de la decisión."
+                    "KNN, K-means, SVM, PCA, redes y modelos penalizados heredan unidades, "
+                    "distancias, varianzas o gradientes. Los árboles suelen ser menos "
+                    "sensibles porque dividen por umbrales y preservan el orden."
                 ),
             },
             {
-                "title": "Pipeline contra leakage",
+                "title": "Robustez y PCA exigen un criterio explícito",
                 "text": (
-                    "Un pipeline aprende imputación, escalado y codificación solo con "
-                    "entrenamiento y reaplica los parámetros a validación y test."
+                    "Media, desvío, mínimo y máximo reaccionan a extremos; mediana e IQR "
+                    "describen mejor la masa central bajo contaminación. En PCA, escalar "
+                    "decide si se preserva varianza absoluta o se comparan patrones relativos."
+                ),
+            },
+            {
+                "title": "Fit y transform deben quedar dentro de la validación",
+                "text": (
+                    "Cada imputación, escala, cuantil, categoría o parámetro de potencia "
+                    "se aprende solo con entrenamiento. Pipeline y cross-validation "
+                    "reproducen ese orden en cada fold y mantienen test como evidencia final."
                 ),
             },
         ],
         "case": (
-            "Un modelo de demanda combina precios, categorías y recencia. Calcular "
-            "promedios usando meses futuros produce métricas excelentes e inútiles."
+            "Un equipo segmenta clientes con edad, ingreso, antigüedad y reclamos. "
+            "Sin escalar, el ingreso domina la distancia; si además calcula estadísticas "
+            "con todo el dataset, la validación aprende indirectamente de casos futuros."
         ),
         "deliverable": (
-            "Pipeline reproducible con columnas numéricas y categóricas, variables "
-            "derivadas documentadas y prueba explícita de no leakage."
+            "Matriz de decisión por variable, comparación justificada de alternativas y "
+            "pipeline reproducible con prueba explícita de que cada fit ocurre solo en train."
         ),
         "lab_steps": [
-            "Clasificar variables por tipo y tratamiento.",
-            "Comparar escala original, logarítmica y estandarizada.",
-            "Construir un ColumnTransformer dentro de un Pipeline.",
-            "Verificar disponibilidad temporal de cada feature.",
+            "Identificar si se transforma una columna, una fila, el objetivo, una categoría o el tiempo.",
+            "Diagnosticar dominio, ceros, negativos, forma, outliers, unidades y sensibilidad del algoritmo.",
+            "Comparar escaladores y transformaciones de forma sobre la misma referencia.",
+            "Contrastar PCA sobre datos crudos y estandarizados y documentar qué cambia.",
+            "Construir un ColumnTransformer dentro de un Pipeline y validarlo por fold.",
+            "Medir el resultado en unidades de negocio y registrar interpretación, riesgo y reversión.",
         ],
         "simulation_title": "Taller de transformaciones y leakage",
         "simulation_instruction": (
@@ -2558,16 +2752,19 @@ ENRICHMENTS = {
     },
     "04": {
         "advanced_topics": [
+            "Covarianza frente a correlación en PCA y estabilidad de componentes ante cambios de unidad.",
+            "Transformaciones de potencia, cuantiles y objetivo dentro de validación anidada.",
+            "Normalización por fila para texto, codificación cíclica y representación de categorías.",
             "Disponibilidad temporal y point-in-time correctness en ingeniería de variables.",
-            "Transformaciones supervisadas dentro de validación anidada.",
-            "Características categóricas de alta cardinalidad, frecuencia y target encoding seguro.",
         ],
         "common_failures": [
+            "Usar un scaler para intentar resolver asimetría, outliers o errores de dominio.",
+            "Normalizar filas cuando el problema requería escalar columnas, o viceversa.",
             "Calcular estadísticas de transformación con todo el dataset.",
+            "Elegir una transformación por métrica sin revisar interpretación, estabilidad e inversión.",
             "Crear variables con datos posteriores al momento de decisión.",
-            "Aplicar una transformación porque mejora una métrica sin revisar estabilidad.",
         ],
-        "decision_challenge": "Construí una tabla de disponibilidad que demuestre qué variable existe realmente en el instante de predicción.",
+        "decision_challenge": "Defendé un pipeline completo indicando qué se aprende en train, qué se conserva, qué puede distorsionarse y cómo se mide el resultado en unidades de negocio.",
         "scenario_quiz": q(
             "El promedio de compras de 90 días incluye una compra ocurrida dos días después del scoring. ¿Cómo se clasifica?",
             ["Variable robusta", "Leakage temporal", "Regularización", "Calibración"],

@@ -8,6 +8,122 @@
   <meta name="theme-color" content="#082f49">
   <title>Transformación de variables y pipelines | Datos y Decisiones</title>
   <link rel="stylesheet" href="../../assets/css/course.css">
+  <style>
+    .slides-note {
+      margin: 1.25rem 0 0;
+      padding: .9rem 1rem;
+      border: 1px solid rgba(14, 116, 144, .18);
+      border-radius: 12px;
+      background: rgba(14, 116, 144, .06);
+    }
+
+    .slides-showcase {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .slides-embed-card {
+      overflow: hidden;
+      border: 1px solid rgba(100, 116, 139, .24);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .slides-embed-card summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+    }
+
+    .slides-embed-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .slides-embed-card summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(14, 116, 144, .10);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .slides-embed-card[open] summary::after {
+      content: "−";
+    }
+
+    .slides-embed-card summary:focus-visible {
+      outline: 3px solid rgba(14, 116, 144, .35);
+      outline-offset: -3px;
+    }
+
+    .slides-summary-copy {
+      display: grid;
+      gap: .2rem;
+    }
+
+    .slides-summary-copy small {
+      font-weight: 500;
+      opacity: .72;
+    }
+
+    .slides-embed-body {
+      padding: 0 1rem 1rem;
+    }
+
+    .slides-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #0b172a;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, .16);
+    }
+
+    .slides-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .slides-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .8rem 1rem;
+      margin-top: .9rem;
+    }
+
+    @media (max-width: 720px) {
+      .slides-embed-card summary {
+        align-items: flex-start;
+      }
+
+      .slides-actions {
+        align-items: stretch;
+      }
+
+      .slides-actions .button,
+      .slides-actions .text-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
         <body class="module-page" data-module-id="04" data-page-kind="index">
           <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -60,9 +176,10 @@
             <div class="sidebar-block">
               <strong>Progreso del módulo</strong>
               <div class="mini-progress"><span data-module-progress-bar></span></div>
-              <p><span data-module-progress>0</span> de 5 recursos</p>
+              <p><span data-module-progress>0</span> de 18 recursos</p>
             </div>
             <nav aria-label="Secciones del módulo">
+              <a href="#presentaciones">Presentaciones</a>
               <a href="#indice">Índice interactivo</a>
               <a href="#resultados">Resultados</a>
               <a href="#conceptos">Conceptos</a>
@@ -80,17 +197,143 @@
                 <h2>Índice interactivo</h2>
                 <p>Abrí cada recurso y marcá el avance. El estado se conserva en tu navegador.</p>
               </div>
-              <div class="table-wrap">
-          <table class="resource-table">
-            <caption>Índice interactivo del módulo</caption>
-            <thead><tr><th>Recurso</th><th>Acceso</th></tr></thead>
-            <tbody><tr><th scope="row">Guía del módulo</th><td><a class="table-link" href="index.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Simulación interactiva</th><td><a class="table-link" href="simulacion.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Cuestionario</th><td><a class="table-link" href="cuestionario.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Glosario</th><td><a class="table-link" href="glosario.html">Abrir recurso</a></td></tr>
-<tr><th scope="row">Notebook en Colab</th><td><a class="table-link" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/04-transformacion-pipelines.ipynb">Abrir recurso</a></td></tr></tbody>
-          </table>
-        </div>
+              <div class="resource-hub"><section class="resource-group" id="presentaciones" aria-labelledby="resource-1">
+                  <div class="resource-group-heading">
+                    <h3 id="resource-1">Presentaciones</h3>
+                    <p>Una presentación de 14 diapositivas para distinguir escala, forma, objeto transformado, geometría, robustez, PCA y prevención de leakage. También podés recorrerla directamente desde esta página.</p>
+                  </div>
+                  <div class="resource-card-grid"><a class="resource-card resource-card--slides" href="https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/present?slide=id.p1" target="_blank" rel="noopener noreferrer">
+  <span class="resource-card-kicker">Presentación</span>
+  <strong>Diapositivas · Fundamentos y criterio de decisión</strong>
+  <span>Catorce diapositivas sobre unidades, escala, forma, objeto, distancias, PCA, robustez, diagnóstico, orden y fuga de información.</span>
+  <span class="resource-card-action">Abrir pantalla completa <span aria-hidden="true">→</span></span>
+</a></div>
+
+                  <p class="slides-note"><strong>Visor integrado.</strong> Abrí cada bloque para avanzar las diapositivas sin salir de Datos y Decisiones. Si preferís una vista más grande, usá “Abrir a pantalla completa”. Si Google solicita acceso, iniciá sesión desde “Abrir en Google Slides”.</p>
+
+                  <div class="slides-showcase" aria-label="Presentación integrada del módulo de transformación de variables">
+                    <details class="slides-embed-card" id="m04-slides-01" name="slides-viewer" open>
+                      <summary>
+                        <span class="slides-summary-copy">
+                          <span>Diapositivas · Fundamentos y criterio de decisión</span>
+                          <small>Unidades, geometría, robustez, PCA, diagnóstico y prevención de leakage</small>
+                        </span>
+                      </summary>
+                      <div class="slides-embed-body">
+                        <div class="slides-frame">
+                          <iframe
+                            src="https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/embed?start=false&amp;loop=false&amp;delayms=3000"
+                            title="Diapositivas · Fundamentos y criterio de decisión"
+                            loading="lazy"
+                            allowfullscreen>
+                          </iframe>
+                        </div>
+                        <div class="slides-actions">
+                          <a class="button secondary" href="https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/present?slide=id.p1" target="_blank" rel="noopener noreferrer">Abrir a pantalla completa</a>
+                          <a class="text-link" href="https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/view?usp=sharing" target="_blank" rel="noopener noreferrer">Abrir en Google Slides <span aria-hidden="true">→</span></a>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </section><section class="resource-group" aria-labelledby="resource-2">
+                  <div class="resource-group-heading">
+                    <h3 id="resource-2">Laboratorio de simulaciones</h3>
+                    <p>Doce experimentos coordinados para comparar transformaciones, algoritmos, objetos y protocolos de validación antes de elegir un pipeline.</p>
+                  </div>
+                  <div class="resource-card-grid"><a class="resource-card resource-card--simulation" href="simulacion.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Transformación de variables · recorrido completo</strong>
+  <span>Centro de acceso a doce simulaciones sobre escala, forma, robustez, PCA, leakage, pipelines, objetivo, texto y selección.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="01-distancia-unidades-knn.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 01 · Distancia, unidades y KNN</strong>
+  <span>Observá cómo una unidad numéricamente grande puede dominar la vecindad.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="02-comparador-escaladores.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 02 · Comparador de escaladores</strong>
+  <span>Contrastá Standard, Min-Max, Robust y MaxAbs sobre los mismos datos.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="03-transformaciones-forma.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 03 · Transformaciones de forma</strong>
+  <span>Explorá log, Box-Cox, Yeo-Johnson y cuantiles según dominio y distribución.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="04-outliers-centro-escala.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 04 · Outliers, centro y escala</strong>
+  <span>Compará media y desvío con mediana e IQR bajo contaminación.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="05-pca-covarianza-correlacion.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 05 · PCA, covarianza y correlación</strong>
+  <span>Descubrí cuándo el primer componente refleja unidades en lugar de estructura.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="06-arena-algoritmos-escala.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 06 · Arena de algoritmos y escala</strong>
+  <span>Compará sensibilidad a escala en KNN, logística, K-means y árboles.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="07-columnas-filas-objetivo.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 07 · Columnas, filas y objetivo</strong>
+  <span>Decidí si corresponde transformar features, observaciones, target o ciclos.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="08-leakage-validacion.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 08 · Leakage y validación</strong>
+  <span>Separá fit y transform para no aprender del test ni del futuro.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="09-constructor-pipelines.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 09 · Constructor de pipelines</strong>
+  <span>Ordená y justificá cada etapa de un preprocesamiento reproducible.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="10-transformacion-variable-objetivo.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 10 · Transformación del objetivo</strong>
+  <span>Compará errores absolutos y relativos e invertí predicciones correctamente.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="11-clustering-documentos.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 11 · Clustering de documentos</strong>
+  <span>Contrastá magnitud, normalización por fila y similitud coseno.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--simulation" href="12-selector-transformaciones.html">
+  <span class="resource-card-kicker">Simulación</span>
+  <strong>Simulación 12 · Selector de transformaciones</strong>
+  <span>Vinculá diagnóstico, objetivo, alternativa y riesgo de distorsión.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a></div>
+                </section><section class="resource-group" aria-labelledby="resource-3">
+                  <div class="resource-group-heading">
+                    <h3 id="resource-3">Laboratorios en Google Colab</h3>
+                    <p>Conservá el laboratorio canónico del módulo y aplicá el flujo completo con Python dentro de un pipeline reproducible.</p>
+                  </div>
+                  <div class="resource-card-grid"><a class="resource-card resource-card--colab" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/04-transformacion-pipelines.ipynb" target="_blank" rel="noopener noreferrer">
+  <span class="resource-card-kicker">Google Colab</span>
+  <strong>Colab · Transformación y pipelines</strong>
+  <span>Laboratorio canónico con transformación, escalado, codificación, ColumnTransformer, Pipeline y controles de leakage.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a></div>
+                </section><section class="resource-group" aria-labelledby="resource-4">
+                  <div class="resource-group-heading">
+                    <h3 id="resource-4">Repaso y evaluación</h3>
+                    <p>Consolidá el criterio con 20 preguntas desarrolladas y un glosario interactivo de 84 términos.</p>
+                  </div>
+                  <div class="resource-card-grid"><a class="resource-card resource-card--assessment" href="cuestionario.html">
+  <span class="resource-card-kicker">Autoevaluación</span>
+  <strong>Cuestionario de transformación de variables</strong>
+  <span>Veinte preguntas razonadas con modos de estudio y evaluación, explicaciones, fórmulas, errores frecuentes y reglas de decisión.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a><a class="resource-card resource-card--reference" href="glosario.html">
+  <span class="resource-card-kicker">Consulta</span>
+  <strong>Glosario de transformación y pipelines</strong>
+  <span>Ochenta y cuatro términos con buscador, filtros, favoritos, progreso, ejemplos, fórmulas, riesgos y relaciones conceptuales.</span>
+  <span class="resource-card-action">Abrir ahora <span aria-hidden="true">→</span></span>
+</a></div>
+                </section></div>
               <div class="progress-checklist"><label class="progress-item">
   <input type="checkbox" data-progress-item="04:guia">
   <span><strong>Guía conceptual</strong><small>Comprender propósito y conceptos</small></span>
@@ -101,7 +344,7 @@
 </label>
 <label class="progress-item">
   <input type="checkbox" data-progress-item="04:notebook">
-  <span><strong>Notebook</strong><small>Aplicar con Python</small></span>
+  <span><strong>Colab · Transformación y pipelines</strong><small>Aplicar el flujo completo con Python sin modificar el Colab existente</small></span>
 </label>
 <label class="progress-item">
   <input type="checkbox" data-progress-item="04:cuestionario">
@@ -110,34 +353,91 @@
 <label class="progress-item">
   <input type="checkbox" data-progress-item="04:glosario">
   <span><strong>Glosario</strong><small>Consolidar vocabulario</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:externo-1">
+  <span><strong>Diapositivas · Fundamentos y criterio de decisión</strong><small>Comprender el criterio que precede a cada transformación</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-1">
+  <span><strong>Simulación 01 · Distancia, unidades y KNN</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-2">
+  <span><strong>Simulación 02 · Comparador de escaladores</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-3">
+  <span><strong>Simulación 03 · Transformaciones de forma</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-4">
+  <span><strong>Simulación 04 · Outliers, centro y escala</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-5">
+  <span><strong>Simulación 05 · PCA, covarianza y correlación</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-6">
+  <span><strong>Simulación 06 · Arena de algoritmos y escala</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-7">
+  <span><strong>Simulación 07 · Columnas, filas y objetivo</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-8">
+  <span><strong>Simulación 08 · Leakage y validación</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-9">
+  <span><strong>Simulación 09 · Constructor de pipelines</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-10">
+  <span><strong>Simulación 10 · Transformación del objetivo</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-11">
+  <span><strong>Simulación 11 · Clustering de documentos</strong><small>Completar profundización interactiva</small></span>
+</label>
+<label class="progress-item">
+  <input type="checkbox" data-progress-item="04:local-12">
+  <span><strong>Simulación 12 · Selector de transformaciones</strong><small>Completar profundización interactiva</small></span>
 </label></div>
             </section>
             <section id="resultados" class="content-section">
               <p class="eyebrow">Al completar el módulo</p>
               <h2>Resultados de aprendizaje</h2>
-              <ul class="check-list"><li>Elegir transformaciones según distribución, relación y algoritmo.</li>
-<li>Codificar categorías y escalar variables de forma segura.</li>
-<li>Crear variables con disponibilidad temporal explícita.</li>
-<li>Encapsular preparación y estimación en pipelines.</li></ul>
+              <ul class="check-list"><li>Distinguir escalado, transformación de forma y normalización según el objeto que se modifica.</li>
+<li>Elegir estadísticas de centro y escala según algoritmo, geometría y presencia de outliers.</li>
+<li>Comparar PCA sobre covarianza y correlación sin confundir varianza con relevancia de negocio.</li>
+<li>Transformar features, texto, tiempo y variable objetivo conservando semántica e interpretación.</li>
+<li>Encapsular preparación y estimación dentro de pipelines y validación sin leakage.</li></ul>
             </section>
             <section id="conceptos" class="content-section">
               <p class="eyebrow">Marco conceptual</p>
               <h2>Ideas que organizan la práctica</h2>
               <div class="theory-list"><article class="theory-card">
   <span>01</span>
-  <div><h3>Transformar con hipótesis</h3><p>Logaritmos, raíces y potencias pueden estabilizar varianza o linealizar relaciones. La transformación debe responder a una razón analítica y conservar una interpretación posible.</p></div>
+  <div><h3>Primero se define qué objeto se transforma</h3><p>Escalar una columna, normalizar una fila, codificar una categoría, representar un ciclo o transformar el objetivo responden preguntas distintas. La operación correcta empieza por la semántica del objeto.</p></div>
 </article>
 <article class="theory-card">
   <span>02</span>
-  <div><h3>Escalado y codificación</h3><p>Distancias y regularización son sensibles a escala; los árboles, mucho menos. One-hot evita imponer orden a categorías nominales, mientras una codificación ordinal requiere jerarquía real.</p></div>
+  <div><h3>Escala y forma resuelven problemas diferentes</h3><p>Standard, Min-Max, Robust y MaxAbs cambian centro o magnitud; log, Box-Cox, Yeo-Johnson y cuantiles cambian la forma. Un scaler no corrige por sí solo asimetría, outliers ni restricciones de dominio.</p></div>
 </article>
 <article class="theory-card">
   <span>03</span>
-  <div><h3>Ingeniería de variables</h3><p>Ratios, recencia, frecuencia, interacciones y agregaciones pueden acercar el modelo al mecanismo de negocio. Toda variable debe existir al momento de la decisión.</p></div>
+  <div><h3>La geometría del algoritmo determina la sensibilidad</h3><p>KNN, K-means, SVM, PCA, redes y modelos penalizados heredan unidades, distancias, varianzas o gradientes. Los árboles suelen ser menos sensibles porque dividen por umbrales y preservan el orden.</p></div>
 </article>
 <article class="theory-card">
   <span>04</span>
-  <div><h3>Pipeline contra leakage</h3><p>Un pipeline aprende imputación, escalado y codificación solo con entrenamiento y reaplica los parámetros a validación y test.</p></div>
+  <div><h3>Robustez y PCA exigen un criterio explícito</h3><p>Media, desvío, mínimo y máximo reaccionan a extremos; mediana e IQR describen mejor la masa central bajo contaminación. En PCA, escalar decide si se preserva varianza absoluta o se comparan patrones relativos.</p></div>
+</article>
+<article class="theory-card">
+  <span>05</span>
+  <div><h3>Fit y transform deben quedar dentro de la validación</h3><p>Cada imputación, escala, cuantil, categoría o parámetro de potencia se aprende solo con entrenamiento. Pipeline y cross-validation reproducen ese orden en cada fold y mantienen test como evidencia final.</p></div>
 </article></div>
             </section>
             <section id="profundizacion" class="content-section">
@@ -146,51 +446,61 @@
               <p class="section-intro">Estos temas conectan el fundamento con decisiones modernas, evaluación rigurosa y operación real.</p>
               <div class="advanced-grid"><article class="advanced-card">
   <span>01</span>
-  <p>Disponibilidad temporal y point-in-time correctness en ingeniería de variables.</p>
+  <p>Covarianza frente a correlación en PCA y estabilidad de componentes ante cambios de unidad.</p>
 </article>
 <article class="advanced-card">
   <span>02</span>
-  <p>Transformaciones supervisadas dentro de validación anidada.</p>
+  <p>Transformaciones de potencia, cuantiles y objetivo dentro de validación anidada.</p>
 </article>
 <article class="advanced-card">
   <span>03</span>
-  <p>Características categóricas de alta cardinalidad, frecuencia y target encoding seguro.</p>
+  <p>Normalización por fila para texto, codificación cíclica y representación de categorías.</p>
+</article>
+<article class="advanced-card">
+  <span>04</span>
+  <p>Disponibilidad temporal y point-in-time correctness en ingeniería de variables.</p>
 </article></div>
               <div class="failure-panel">
                 <div>
                   <p class="eyebrow">Control de calidad</p>
                   <h3>Errores frecuentes que invalidan la conclusión</h3>
                 </div>
-                <ul><li>Calcular estadísticas de transformación con todo el dataset.</li>
-<li>Crear variables con datos posteriores al momento de decisión.</li>
-<li>Aplicar una transformación porque mejora una métrica sin revisar estabilidad.</li></ul>
+                <ul><li>Usar un scaler para intentar resolver asimetría, outliers o errores de dominio.</li>
+<li>Normalizar filas cuando el problema requería escalar columnas, o viceversa.</li>
+<li>Calcular estadísticas de transformación con todo el dataset.</li>
+<li>Elegir una transformación por métrica sin revisar interpretación, estabilidad e inversión.</li>
+<li>Crear variables con datos posteriores al momento de decisión.</li></ul>
               </div>
             </section>
             <section id="caso" class="content-section">
               <div class="case-panel">
                 <p class="eyebrow">Caso de negocio</p>
                 <h2>Decidir con contexto</h2>
-                <p>Un modelo de demanda combina precios, categorías y recencia. Calcular promedios usando meses futuros produce métricas excelentes e inútiles.</p>
+                <p>Un equipo segmenta clientes con edad, ingreso, antigüedad y reclamos. Sin escalar, el ingreso domina la distancia; si además calcula estadísticas con todo el dataset, la validación aprende indirectamente de casos futuros.</p>
                 <a class="text-link" href="simulacion.html">Explorar en la simulación <span aria-hidden="true">-&gt;</span></a>
               </div>
             </section>
             <section id="laboratorio" class="content-section">
               <p class="eyebrow">Práctica guiada</p>
               <h2>Secuencia de laboratorio</h2>
-              <ol class="step-list"><li><span>01</span>Clasificar variables por tipo y tratamiento.</li>
-<li><span>02</span>Comparar escala original, logarítmica y estandarizada.</li>
-<li><span>03</span>Construir un ColumnTransformer dentro de un Pipeline.</li>
-<li><span>04</span>Verificar disponibilidad temporal de cada feature.</li></ol>
+              <ol class="step-list"><li><span>01</span>Identificar si se transforma una columna, una fila, el objetivo, una categoría o el tiempo.</li>
+<li><span>02</span>Diagnosticar dominio, ceros, negativos, forma, outliers, unidades y sensibilidad del algoritmo.</li>
+<li><span>03</span>Comparar escaladores y transformaciones de forma sobre la misma referencia.</li>
+<li><span>04</span>Contrastar PCA sobre datos crudos y estandarizados y documentar qué cambia.</li>
+<li><span>05</span>Construir un ColumnTransformer dentro de un Pipeline y validarlo por fold.</li>
+<li><span>06</span>Medir el resultado en unidades de negocio y registrar interpretación, riesgo y reversión.</li></ol>
               <div class="button-row">
-                <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/04-transformacion-pipelines.ipynb">Abrir notebook en Colab</a>
+
+                <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/04-transformacion-pipelines.ipynb" target="_blank" rel="noopener noreferrer">Colab · Transformación y pipelines</a>
                 <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>
+                <a class="button tertiary" href="https://docs.google.com/presentation/d/1a5I_FUqCfgHIOlatzfu7B5h2MLku583V-Sp8ls6y6tk/present?slide=id.p1" target="_blank" rel="noopener noreferrer">Diapositivas · Fundamentos y criterio de decisión</a>
               </div>
             </section>
             <section id="desafio" class="content-section">
               <div class="challenge-panel">
                 <span>Desafío de transferencia</span>
                 <h2>Tomar una decisión defendible</h2>
-                <p>Construí una tabla de disponibilidad que demuestre qué variable existe realmente en el instante de predicción.</p>
+                <p>Defendé un pipeline completo indicando qué se aprende en train, qué se conserva, qué puede distorsionarse y cómo se mide el resultado en unidades de negocio.</p>
                 <ol>
                   <li>Escribí una hipótesis antes de calcular.</li>
                   <li>Definí la evidencia que podría refutarla.</li>
@@ -203,7 +513,7 @@
               <div class="deliverable-panel">
                 <span>Producto del módulo</span>
                 <h2>Entregable esperado</h2>
-                <p>Pipeline reproducible con columnas numéricas y categóricas, variables derivadas documentadas y prueba explícita de no leakage.</p>
+                <p>Matriz de decisión por variable, comparación justificada de alternativas y pipeline reproducible con prueba explícita de que cada fit ocurre solo en train.</p>
               </div>
             </section>
             <nav class="module-pagination" aria-label="Navegación entre módulos">

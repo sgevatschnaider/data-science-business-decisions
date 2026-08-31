@@ -2138,6 +2138,37 @@ def outliers_classroom_readme(module: dict) -> str:
     ).strip()
 
 
+def transformation_classroom_readme(module: dict) -> str:
+    slides = module["external_resources"]
+    colabs = notebook_resources(module)
+    badge = "https://img.shields.io/badge"
+    return dedent(
+        f"""
+        ## Transformación de variables y pipelines · aula de clase
+
+        Un recorrido integrado para decidir qué transformar, comparar alternativas, proteger la validación y conservar la interpretación del modelo.
+
+        **1 · Presentación**
+
+        [![M04 Slides]({badge}/M04%20Slides-Fundamentos%20y%20criterio-2563eb?style=for-the-badge&logo=googleslides&logoColor=white)]({slides[0]['url']})
+
+        **2 · Exploración interactiva**
+
+        [![Guía M04]({badge}/Gu%C3%ADa-Transformaci%C3%B3n%20y%20pipelines-0f766e?style=for-the-badge)]({module_url(module)})
+        [![Simulaciones M04]({badge}/Simulaciones-12%20laboratorios-0891b2?style=for-the-badge)]({module_url(module, 'simulacion.html')})
+
+        **3 · Laboratorio en Python**
+
+        [![Colab]({badge}/Colab-Pipeline%20reproducible-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({colabs[0]['url']})
+
+        **4 · Repaso y evaluación**
+
+        [![Cuestionario]({badge}/Cuestionario-20%20preguntas-1d4ed8?style=for-the-badge)]({module_url(module, 'cuestionario.html')})
+        [![Glosario]({badge}/Glosario-84%20t%C3%A9rminos-2563eb?style=for-the-badge)]({module_url(module, 'glosario.html')})
+        """
+    ).strip()
+
+
 def root_readme() -> str:
     module_rows = "\n        ".join(
         (
@@ -2154,6 +2185,9 @@ def root_readme() -> str:
     )
     outliers_classroom = "\n        ".join(
         outliers_classroom_readme(MODULES_BY_ID["03"]).splitlines()
+    )
+    transformation_classroom = "\n        ".join(
+        transformation_classroom_readme(MODULES_BY_ID["04"]).splitlines()
     )
     return dedent(
         f"""
@@ -2188,6 +2222,8 @@ def root_readme() -> str:
 
         {outliers_classroom}
 
+        {transformation_classroom}
+
         ## Acceso directo
 
         Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
@@ -2197,8 +2233,8 @@ def root_readme() -> str:
         - **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
         - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
         - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
-        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. Los módulos 02 y 03 incorporan además Colab complementarios para profundizar mecanismos, casos y métodos.
-        - **Presentaciones aplicadas:** los módulos 01, 02 y 03 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
+        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. Los módulos 02 y 03 incorporan además Colab complementarios para profundizar mecanismos, casos y métodos; el módulo 04 conserva su Colab canónico dentro del nuevo recorrido interactivo.
+        - **Presentaciones aplicadas:** los módulos 01, 02, 03 y 04 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
         - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
 
         La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
@@ -2862,6 +2898,11 @@ def generate() -> None:
         for filename in module.get("custom_resource_files", []):
             source = SOURCE_ROOT / "course-assets" / module["slug"] / filename
             destination = ROOT / base / filename
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, destination)
+        for alias in module.get("custom_resource_aliases", []):
+            source = ROOT / base / alias["source"]
+            destination = ROOT / base / alias["alias"]
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
     supporting_files()
