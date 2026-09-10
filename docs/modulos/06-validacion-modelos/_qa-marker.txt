@@ -1,0 +1,1 @@
+Módulo 06 upgrade build marker. This temporary marker is used only during branch validation.
