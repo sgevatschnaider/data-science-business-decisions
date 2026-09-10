@@ -2,7 +2,7 @@
 
 > **Pregunta de decisión:** ¿el desempeño observado representa casos futuros o es una consecuencia del azar, el sobreajuste, el leakage o una partición incorrecta?
 
-Este módulo convierte la validación de modelos en un **laboratorio docente completo**: teoría, presentación, 14 simulaciones, notebook reproducible, cuestionario desarrollado y glosario de referencia.
+Este módulo convierte la validación de modelos en un **laboratorio docente completo**: teoría, tres accesos de presentación, 14 simulaciones, notebook reproducible, cuestionario desarrollado y glosario de referencia.
 
 ## Accesos directos
 
@@ -10,14 +10,19 @@ Este módulo convierte la validación de modelos en un **laboratorio docente com
 |---|---|---|
 | Portal del módulo | [Abrir GitHub Pages](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/index.html) | Punto de entrada único |
 | Presentación 01 · Clase conceptual | [Abrir visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html) | 14 slides, autoplay, fullscreen, teclado y PDF |
-| Presentación 02 · Guía de simulaciones | [Abrir visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion-simulaciones.html) | 23 láminas, autoplay, velocidad, vista general, fullscreen, teclado y PDF |
-| PPTX descargable | [Descargar](../../docs/modulos/06-validacion-modelos/Modulo_06_Guia_de_las_14_Simulaciones.pptx) | 23 láminas: teoría, uso, controles y glosario de los 14 laboratorios |
-| Google Slides | [Abrir](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk) | Versión nativa del PPT |
-| PDF | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html?print=1) | Vista de impresión para guardar como PDF |
+| Presentación 02 · Guía web de simulaciones | [Abrir visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion-simulaciones.html) | 23 láminas, teoría, controles, uso, autoplay, velocidad, vista general, fullscreen, teclado y PDF |
+| Presentación 03 · PowerPoint de las simulaciones | [Abrir con autoplay](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion-simulaciones.html?autoplay=1) | Tercer acceso explícito a la guía PPTX de 23 láminas, con visor completo y reproducción automática |
+| PPTX editable · Presentación 03 | [Descargar](../../docs/modulos/06-validacion-modelos/Modulo_06_Guia_de_las_14_Simulaciones.pptx) | Archivo PowerPoint fuente: teoría, uso, controles, interpretación y glosario de los 14 laboratorios |
+| Google Slides · Presentación 01 | [Abrir](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk) | Versión nativa de Google de la clase conceptual |
+| Google · Presentación 03 | [Abrir PowerPoint online](https://docs.google.com/gview?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsgevatschnaider%2Fdata-science-business-decisions%2Fmain%2Fdocs%2Fmodulos%2F06-validacion-modelos%2FModulo_06_Guia_de_las_14_Simulaciones.pptx) | Vista online en Google del PPTX de las simulaciones, sin descargar |
+| PDF 01 | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html?print=1) | Versión imprimible de la clase conceptual |
+| PDF 02/03 | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion-simulaciones.html?print=1) | Versión imprimible de la guía de simulaciones |
 | 14 laboratorios | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/simulaciones/index.html) | Intuición visual y experimentación |
 | Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/cuestionario.html) | 10 preguntas desarrolladas |
 | Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/glosario.html) | 90 términos y flashcards |
 | Notebook Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/06-validacion-modelos.ipynb) | Implementación reproducible |
+
+> **Nota de formato:** la Presentación 02 y la Presentación 03 comparten las mismas 23 láminas de contenido sobre las simulaciones. La 02 identifica la versión web didáctica; la 03 identifica explícitamente el material PowerPoint y lo abre en modo de reproducción automática. Así se evita contar dos veces contenido idéntico y, al mismo tiempo, el PPTX deja de quedar presentado como un archivo aislado.
 
 ## Resultados de aprendizaje
 
@@ -39,14 +44,15 @@ Al finalizar el módulo el estudiante debería poder:
 **Ver → experimentar → programar → explicar → decidir**
 
 1. **Presentación 01:** construye la intuición conceptual.
-2. **Presentación 02:** explica la teoría, los controles y la lectura de cada simulación.
-3. **Laboratorios 01–04:** generalización y mecánica de CV.
-4. **Laboratorios 05–07:** splitters que respetan clases, grupos y tiempo.
-5. **Laboratorios 08–10:** leakage, overfitting y estabilidad.
-6. **Laboratorios 11–12:** tuning y Nested CV.
-7. **Laboratorios 13–14:** métricas y decisión empresarial.
-8. **Notebook Colab:** reproduce los conceptos con scikit-learn.
-9. **Cuestionario + glosario:** consolida explicación y vocabulario.
+2. **Presentación 02:** explica la teoría, los controles y la lectura de cada simulación en formato web.
+3. **Presentación 03:** ofrece la guía PowerPoint de las simulaciones como un tercer acceso visible, con visor completo, reproducción automática, descarga PPTX y vista online en Google.
+4. **Laboratorios 01–04:** generalización y mecánica de CV.
+5. **Laboratorios 05–07:** splitters que respetan clases, grupos y tiempo.
+6. **Laboratorios 08–10:** leakage, overfitting y estabilidad.
+7. **Laboratorios 11–12:** tuning y Nested CV.
+8. **Laboratorios 13–14:** métricas y decisión empresarial.
+9. **Notebook Colab:** reproduce los conceptos con scikit-learn.
+10. **Cuestionario + glosario:** consolida explicación y vocabulario.
 
 ## Los 14 laboratorios
 
