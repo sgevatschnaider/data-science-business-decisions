@@ -1,59 +1,90 @@
-# Módulo 06: Validación, selección y generalización
+# Módulo 06 · Validación, selección y generalización
 
-Diseñar particiones, baselines y validación cruzada que estimen el desempeño futuro sin contaminar la evaluación.
+> **Pregunta de decisión:** ¿el desempeño observado representa casos futuros o es una consecuencia del azar, el sobreajuste, el leakage o una partición incorrecta?
 
-## Pregunta de decisión
+Este módulo convierte la validación de modelos en un **laboratorio docente completo**: teoría, presentación, 14 simulaciones, notebook reproducible, cuestionario desarrollado y glosario de referencia.
 
-¿El desempeño observado representa casos futuros o es una consecuencia del azar, el sobreajuste o una partición incorrecta?
+## Accesos directos
 
-## Índice interactivo
-
-| Recurso | Acceso |
-|---|---|
-| Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/index.html) |
-| Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/simulacion.html) |
-| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/cuestionario.html) |
-| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/glosario.html) |
-| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/06-validacion-modelos.ipynb) |
+| Recurso | Acceso | Propósito |
+|---|---|---|
+| Portal del módulo | [Abrir GitHub Pages](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/index.html) | Punto de entrada único |
+| Presentación web | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html) | 14 slides, autoplay, fullscreen y teclado |
+| Google Slides | [Abrir](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk) | Versión nativa del PPT |
+| PDF | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html?print=1) | Vista de impresión para guardar como PDF |
+| 14 laboratorios | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/simulaciones/index.html) | Intuición visual y experimentación |
+| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/cuestionario.html) | 10 preguntas desarrolladas |
+| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/glosario.html) | 90 términos y flashcards |
+| Notebook Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/06-validacion-modelos.ipynb) | Implementación reproducible |
 
 ## Resultados de aprendizaje
 
-- Separar entrenamiento, validación y test por su función.
-- Elegir K-Fold, estratificación, grupos o cortes temporales.
-- Comparar modelos contra baselines relevantes.
-- Reportar distribución de métricas y no solo un promedio.
+Al finalizar el módulo el estudiante debería poder:
 
-## Caso de negocio
+1. distinguir **train, validation y test** por su función metodológica;
+2. explicar por qué el training score no estima generalización;
+3. comparar hold-out con K-Fold y justificar cuándo conviene cada uno;
+4. elegir K y discutir el compromiso entre sesgo, varianza y costo;
+5. seleccionar `KFold`, `StratifiedKFold`, `GroupKFold` o `TimeSeriesSplit` según la estructura del dato;
+6. detectar **data leakage** y encapsular preprocessing + modelo en un `Pipeline`;
+7. reportar media, dispersión y estabilidad entre folds;
+8. usar Repeated CV, tuning y **Nested CV** sin reutilizar información de evaluación;
+9. generar predicciones **out-of-fold (OOF)** y realizar una evaluación final reservada;
+10. traducir el score técnico a riesgo, umbral y decisión de negocio.
 
-Un scoring entrenado con operaciones de los mismos clientes en train y test parece excelente, pero falla con clientes nuevos.
+## Ruta didáctica
 
-## Profundización aplicada
+**Ver → experimentar → programar → explicar → decidir**
 
-- Validación anidada para separar selección de hiperparámetros y estimación final.
-- Intervalos por bootstrap, curvas de aprendizaje y pruebas de estabilidad.
-- Particiones por grupo, entidad, geografía y tiempo que imitan el despliegue.
+1. **Presentación:** construye la intuición conceptual.
+2. **Laboratorios 01–04:** generalización y mecánica de CV.
+3. **Laboratorios 05–07:** splitters que respetan clases, grupos y tiempo.
+4. **Laboratorios 08–10:** leakage, overfitting y estabilidad.
+5. **Laboratorios 11–12:** tuning y Nested CV.
+6. **Laboratorios 13–14:** métricas y decisión empresarial.
+7. **Notebook Colab:** reproduce los conceptos con scikit-learn.
+8. **Cuestionario + glosario:** consolida explicación y vocabulario.
 
-## Errores frecuentes
+## Los 14 laboratorios
 
-- Elegir el modelo y reportar el mismo cross-validation como estimación imparcial.
-- Ignorar dependencia entre filas del mismo cliente o período.
-- Optimizar una métrica promedio sin revisar dispersión ni segmentos.
+| # | Laboratorio | Concepto central |
+|---|---|---|
+| 01 | [Train · Validation · Test](../../docs/modulos/06-validacion-modelos/simulaciones/01_train_validation_test.html) | Por qué train, validation y test cumplen funciones distintas. |
+| 02 | [Hold-out vs. K-Fold](../../docs/modulos/06-validacion-modelos/simulaciones/02_holdout_vs_kfold.html) | Sensibilidad a una única partición frente a una distribución de scores. |
+| 03 | [K-Fold Visual Laboratory](../../docs/modulos/06-validacion-modelos/simulaciones/03_kfold_visual.html) | Rotación de folds, score por iteración y promedio acumulado. |
+| 04 | [¿Cuántos folds elegir?](../../docs/modulos/06-validacion-modelos/simulaciones/04_numero_de_folds.html) | Compromiso entre sesgo, varianza, tamaño de muestra y costo. |
+| 05 | [Stratified K-Fold](../../docs/modulos/06-validacion-modelos/simulaciones/05_stratified_kfold.html) | Preservación de clases cuando el target está desbalanceado. |
+| 06 | [GroupKFold y leakage por identidad](../../docs/modulos/06-validacion-modelos/simulaciones/06_group_kfold.html) | Separar entidades completas: clientes, pacientes, empresas. |
+| 07 | [TimeSeriesSplit](../../docs/modulos/06-validacion-modelos/simulaciones/07_time_series_split.html) | Validar futuro con pasado, incluyendo horizonte y gap temporal. |
+| 08 | [Data Leakage Laboratory](../../docs/modulos/06-validacion-modelos/simulaciones/08_data_leakage.html) | Cómo una transformación fuera del fold infla artificialmente el score. |
+| 09 | [Overfitting y Cross-Validation](../../docs/modulos/06-validacion-modelos/simulaciones/09_overfitting_cv.html) | Brecha train-CV y complejidad como señales de sobreajuste. |
+| 10 | [Repeated K-Fold](../../docs/modulos/06-validacion-modelos/simulaciones/10_repeated_kfold.html) | Distribuciones de desempeño para estudiar estabilidad e incertidumbre. |
+| 11 | [CV + Hyperparameter Tuning](../../docs/modulos/06-validacion-modelos/simulaciones/11_hyperparameter_tuning.html) | Búsqueda de hiperparámetros sin elegir por rendimiento de train. |
+| 12 | [Nested Cross-Validation](../../docs/modulos/06-validacion-modelos/simulaciones/12_nested_cv.html) | Separar tuning interno de estimación externa de generalización. |
+| 13 | [Métricas y estabilidad entre folds](../../docs/modulos/06-validacion-modelos/simulaciones/13_metricas_cv.html) | La métrica correcta depende del error que cuesta en el negocio. |
+| 14 | [Cross-Validation Business Lab](../../docs/modulos/06-validacion-modelos/simulaciones/14_business_lab.html) | Integrar split, métrica, estabilidad y umbral operativo. |
 
-## Desafío de transferencia
+## Regla de oro
 
-Diseñá una validación que replique quién, cuándo y dónde recibirá predicciones en producción.
+> **El split correcto es el que reproduce la forma en que el modelo encontrará datos nuevos en producción.**
 
-## Secuencia de práctica
+Eso significa que la unidad de separación puede ser una fila, una clase, un cliente, un paciente, una empresa, una geografía o un período temporal. El diseño de validación es parte del problema estadístico y del problema de negocio.
 
-1. Identificar dependencias temporales o por entidad.
-2. Construir un baseline antes de optimizar.
-3. Aplicar el esquema de validación dentro del pipeline.
-4. Reportar media, dispersión y comparación con test.
+## Protocolo de auditoría
 
-## Entregable
+- Definir unidad de observación y unidad de generalización.
+- Construir un baseline antes de optimizar.
+- Reservar test final cuando corresponda.
+- Ajustar toda transformación aprendida **dentro** de los folds.
+- Reportar media y dispersión de métricas.
+- Revisar estabilidad por fold y segmentos relevantes.
+- Separar tuning de evaluación con Nested CV si es necesario.
+- Traducir el resultado a una decisión operativa explícita.
 
-Protocolo de validación justificado, baseline, tabla de métricas por fold y evaluación final reservada.
+## Entregable esperado
+
+Un protocolo de validación justificado que incluya: unidad de generalización, splitter, baseline, pipeline, tabla de métricas por fold, estabilidad, selección de hiperparámetros, evaluación final reservada y lectura de negocio.
 
 ## Autoría
 
-Material elaborado por el profesor Sergio Gevatschnaider.
+Material elaborado por **Sergio Gevatschnaider** para *Data Science for Business Decisions*.
