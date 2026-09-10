@@ -10,6 +10,7 @@ Este módulo convierte la validación de modelos en un **laboratorio docente com
 |---|---|---|
 | Portal del módulo | [Abrir GitHub Pages](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/index.html) | Punto de entrada único |
 | Presentación web | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html) | 14 slides, autoplay, fullscreen y teclado |
+| PPTX descargable | [Descargar](../../docs/modulos/06-validacion-modelos/Modulo_06_Guia_de_las_14_Simulaciones.pptx) | 23 láminas: teoría, uso, controles y glosario de los 14 laboratorios |
 | Google Slides | [Abrir](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk) | Versión nativa del PPT |
 | PDF | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html?print=1) | Vista de impresión para guardar como PDF |
 | 14 laboratorios | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/simulaciones/index.html) | Intuición visual y experimentación |
