@@ -1972,6 +1972,7 @@ def readme_resource_button(
         "reference": "4f46e5",
         "colab": "f9ab00",
         "slides": "7c3aed",
+        "powerpoint": "c026d3",
     }
     encoded_label = quote(label, safe="")
     encoded_detail = quote(detail, safe="")
@@ -1983,10 +1984,30 @@ def readme_resource_button(
         badge += "&logo=googlecolab&logoColor=202124"
     elif kind == "slides":
         badge += "&logo=googleslides&logoColor=white"
+    elif kind == "powerpoint":
+        badge += "&logo=microsoftpowerpoint&logoColor=white"
     return f"[![{label}]({badge})]({url})"
 
 
 def root_module_resource_links(module: dict) -> str:
+    if module["id"] == "06":
+        pptx_url = (
+            f"{REPO_URL}/raw/refs/heads/main/docs/modulos/"
+            f"{module['slug']}/Modulo_06_Guia_de_las_14_Simulaciones.pptx"
+        )
+        links = [
+            ("Guía", module_url(module), "guide"),
+            ("Presentación 01", module_url(module, "presentacion.html"), "slides", "14 slides", "2563eb"),
+            ("Presentación 02", module_url(module, "presentacion-simulaciones.html"), "slides", "23 láminas", "7c3aed"),
+            ("PPTX", pptx_url, "powerpoint", "Descargar"),
+            ("14 laboratorios", module_url(module, "simulaciones/index.html"), "simulation"),
+            ("Cuestionario", module_url(module, "cuestionario.html"), "assessment", "10 preguntas"),
+            ("Glosario", module_url(module, "glosario.html"), "reference", "90 conceptos"),
+            ("Colab", notebook_url(module), "colab", "58 celdas"),
+            ("PDF 01", module_url(module, "presentacion.html?print=1"), "dashboard", "Guardar"),
+            ("PDF 02", module_url(module, "presentacion-simulaciones.html?print=1"), "dashboard", "Guardar"),
+        ]
+        return " ".join(readme_resource_button(*link) for link in links)
     links = [
         ("Guía", module_url(module), "guide"),
         ("Simulación", module_url(module, "simulacion.html"), "simulation"),
@@ -2169,6 +2190,44 @@ def transformation_classroom_readme(module: dict) -> str:
     ).strip()
 
 
+def validation_classroom_readme(module: dict) -> str:
+    badge = "https://img.shields.io/badge"
+    pptx_url = (
+        f"{REPO_URL}/raw/refs/heads/main/docs/modulos/{module['slug']}/"
+        "Modulo_06_Guia_de_las_14_Simulaciones.pptx"
+    )
+    return dedent(
+        f"""
+        ## Validación, selección y generalización · aula de clase
+
+        Un recorrido integral para diseñar una evaluación honesta: separar entrenamiento, validación y test; elegir el splitter correcto; evitar leakage; medir estabilidad; ajustar hiperparámetros sin contaminar la estimación y traducir el resultado a una decisión de negocio.
+
+        **1 · Presentaciones y material de clase**
+
+        [![M06 Presentación 01]({badge}/M06%20Presentaci%C3%B3n%2001-14%20slides-2563eb?style=for-the-badge)]({module_url(module, 'presentacion.html')})
+        [![M06 Presentación 02]({badge}/M06%20Presentaci%C3%B3n%2002-23%20l%C3%A1minas-7c3aed?style=for-the-badge)]({module_url(module, 'presentacion-simulaciones.html')})
+        [![M06 PPTX]({badge}/M06%20PPTX-Descargar-c026d3?style=for-the-badge&logo=microsoftpowerpoint&logoColor=white)]({pptx_url})
+        [![M06 Google Slides]({badge}/M06%20Google%20Slides-Abrir-6d28d9?style=for-the-badge&logo=googleslides&logoColor=white)](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk)
+        [![M06 PDF 01]({badge}/M06%20PDF%2001-Guardar-d97706?style=for-the-badge)]({module_url(module, 'presentacion.html?print=1')})
+        [![M06 PDF 02]({badge}/M06%20PDF%2002-Guardar-d97706?style=for-the-badge)]({module_url(module, 'presentacion-simulaciones.html?print=1')})
+
+        **2 · Exploración interactiva**
+
+        [![Guía M06]({badge}/Gu%C3%ADa-Validaci%C3%B3n%20y%20generalizaci%C3%B3n-0f766e?style=for-the-badge)]({module_url(module)})
+        [![Simulaciones M06]({badge}/Simulaciones-14%20laboratorios-0891b2?style=for-the-badge)]({module_url(module, 'simulaciones/index.html')})
+
+        **3 · Laboratorio en Python**
+
+        [![Colab M06]({badge}/Colab-Validaci%C3%B3n%20end--to--end-f9ab00?style=for-the-badge&logo=googlecolab&logoColor=202124)]({notebook_url(module)})
+
+        **4 · Repaso y evaluación**
+
+        [![Cuestionario M06]({badge}/Cuestionario-10%20preguntas-1d4ed8?style=for-the-badge)]({module_url(module, 'cuestionario.html')})
+        [![Glosario M06]({badge}/Glosario-90%20conceptos-4f46e5?style=for-the-badge)]({module_url(module, 'glosario.html')})
+        """
+    ).strip()
+
+
 def root_readme() -> str:
     module_rows = "\n        ".join(
         (
@@ -2188,6 +2247,9 @@ def root_readme() -> str:
     )
     transformation_classroom = "\n        ".join(
         transformation_classroom_readme(MODULES_BY_ID["04"]).splitlines()
+    )
+    validation_classroom = "\n        ".join(
+        validation_classroom_readme(MODULES_BY_ID["06"]).splitlines()
     )
     return dedent(
         f"""
@@ -2224,6 +2286,8 @@ def root_readme() -> str:
 
         {transformation_classroom}
 
+        {validation_classroom}
+
         ## Acceso directo
 
         Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
@@ -2231,10 +2295,10 @@ def root_readme() -> str:
         ## Experiencia de aprendizaje
 
         - **Decisión antes que algoritmo:** cada tema parte de una pregunta, un costo de error y una acción posible.
-        - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia.
+        - **Laboratorios comparables:** las simulaciones permiten guardar escenarios A/B, registrar una hipótesis y exportar evidencia. El módulo 06 amplía esta lógica con 14 laboratorios de validación, leakage, estabilidad, tuning, Nested CV y decisión de negocio.
         - **Evaluación con transferencia:** 105 preguntas combinan comprensión conceptual con situaciones profesionales.
-        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. Los módulos 02 y 03 incorporan además Colab complementarios para profundizar mecanismos, casos y métodos; el módulo 04 conserva su Colab canónico dentro del nuevo recorrido interactivo.
-        - **Presentaciones aplicadas:** los módulos 01, 02, 03 y 04 integran Google Slides para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
+        - **Notebooks verificables:** los 15 laboratorios canónicos registran entorno, visualizan evidencia, comparan alternativas y cierran con una recomendación auditable. Los módulos 02 y 03 incorporan además Colab complementarios para profundizar mecanismos, casos y métodos; los módulos 04 y 06 conservan su Colab canónico dentro de recorridos interactivos ampliados.
+        - **Presentaciones aplicadas:** los módulos 01, 02, 03, 04 y 06 integran presentaciones para preparar conceptos, hipótesis y criterios de decisión antes de la práctica.
         - **Datos para experimentar:** cuatro datasets sintéticos cubren calidad, predicción, series temporales, optimización y experimentación causal.
 
         La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
@@ -2886,20 +2950,54 @@ def generate() -> None:
     )
     for module in MODULES:
         base = f"docs/modulos/{module['slug']}"
-        write(f"{base}/index.html", module_index(module))
-        write(f"{base}/simulacion.html", simulation_page(module))
-        write(f"{base}/cuestionario.html", quiz_page(module))
-        write(f"{base}/glosario.html", glossary_page(module))
-        write(f"modules/{module['slug']}/README.md", module_readme(module))
-        write(
-            f"notebooks/{module['slug']}.ipynb",
-            json.dumps(notebook(module), ensure_ascii=False, indent=1),
-        )
+        custom_page_files = set(module.get("custom_page_files", []))
+        generated_pages = {
+            "index.html": module_index(module),
+            "simulacion.html": simulation_page(module),
+            "cuestionario.html": quiz_page(module),
+            "glosario.html": glossary_page(module),
+        }
+        for filename, content in generated_pages.items():
+            if filename not in custom_page_files:
+                write(f"{base}/{filename}", content)
+        module_readme_path = f"modules/{module['slug']}/README.md"
+        if not module.get("custom_module_readme"):
+            write(module_readme_path, module_readme(module))
+        elif ROOT != SOURCE_ROOT:
+            source_readme = SOURCE_ROOT / module_readme_path
+            destination_readme = ROOT / module_readme_path
+            destination_readme.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source_readme, destination_readme)
+        notebook_path = f"notebooks/{module['slug']}.ipynb"
+        if not module.get("custom_notebook"):
+            write(
+                notebook_path,
+                json.dumps(notebook(module), ensure_ascii=False, indent=1),
+            )
+        elif ROOT != SOURCE_ROOT:
+            source_notebook = SOURCE_ROOT / notebook_path
+            destination_notebook = ROOT / notebook_path
+            destination_notebook.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source_notebook, destination_notebook)
         for filename in module.get("custom_resource_files", []):
             source = SOURCE_ROOT / "course-assets" / module["slug"] / filename
             destination = ROOT / base / filename
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
+        # Algunos módulos ampliados mantienen páginas y directorios completos en
+        # docs. Durante una publicación normal no deben sobrescribirse; durante
+        # --check se copian al directorio temporal para validarlos como parte
+        # del sitio generado.
+        for filename in custom_page_files:
+            source = SOURCE_ROOT / base / filename
+            destination = ROOT / base / filename
+            if source.resolve() == destination.resolve():
+                continue
+            if source.is_dir():
+                shutil.copytree(source, destination, dirs_exist_ok=True)
+            else:
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, destination)
         for alias in module.get("custom_resource_aliases", []):
             source = ROOT / base / alias["source"]
             destination = ROOT / base / alias["alias"]

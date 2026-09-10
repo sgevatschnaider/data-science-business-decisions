@@ -9,7 +9,8 @@ Este módulo convierte la validación de modelos en un **laboratorio docente com
 | Recurso | Acceso | Propósito |
 |---|---|---|
 | Portal del módulo | [Abrir GitHub Pages](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/index.html) | Punto de entrada único |
-| Presentación web | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html) | 14 slides, autoplay, fullscreen y teclado |
+| Presentación 01 · Clase conceptual | [Abrir visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html) | 14 slides, autoplay, fullscreen, teclado y PDF |
+| Presentación 02 · Guía de simulaciones | [Abrir visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion-simulaciones.html) | 23 láminas, autoplay, velocidad, vista general, fullscreen, teclado y PDF |
 | PPTX descargable | [Descargar](../../docs/modulos/06-validacion-modelos/Modulo_06_Guia_de_las_14_Simulaciones.pptx) | 23 láminas: teoría, uso, controles y glosario de los 14 laboratorios |
 | Google Slides | [Abrir](https://docs.google.com/presentation/d/1-kgUluIRzdMO6SJa_MX2vQd_N01J_dmB10Zei4SgdPE/edit?usp=drivesdk) | Versión nativa del PPT |
 | PDF | [Generar / guardar](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/presentacion.html?print=1) | Vista de impresión para guardar como PDF |
@@ -37,14 +38,15 @@ Al finalizar el módulo el estudiante debería poder:
 
 **Ver → experimentar → programar → explicar → decidir**
 
-1. **Presentación:** construye la intuición conceptual.
-2. **Laboratorios 01–04:** generalización y mecánica de CV.
-3. **Laboratorios 05–07:** splitters que respetan clases, grupos y tiempo.
-4. **Laboratorios 08–10:** leakage, overfitting y estabilidad.
-5. **Laboratorios 11–12:** tuning y Nested CV.
-6. **Laboratorios 13–14:** métricas y decisión empresarial.
-7. **Notebook Colab:** reproduce los conceptos con scikit-learn.
-8. **Cuestionario + glosario:** consolida explicación y vocabulario.
+1. **Presentación 01:** construye la intuición conceptual.
+2. **Presentación 02:** explica la teoría, los controles y la lectura de cada simulación.
+3. **Laboratorios 01–04:** generalización y mecánica de CV.
+4. **Laboratorios 05–07:** splitters que respetan clases, grupos y tiempo.
+5. **Laboratorios 08–10:** leakage, overfitting y estabilidad.
+6. **Laboratorios 11–12:** tuning y Nested CV.
+7. **Laboratorios 13–14:** métricas y decisión empresarial.
+8. **Notebook Colab:** reproduce los conceptos con scikit-learn.
+9. **Cuestionario + glosario:** consolida explicación y vocabulario.
 
 ## Los 14 laboratorios
 

@@ -263,7 +263,10 @@ def validate_content_counts() -> None:
         expected_progress_count = (
             4 + notebook_count + len(external_resources) + len(local_resources)
         )
-        if f"de {expected_progress_count} recursos" not in index_text:
+        if (
+            "index.html" not in module.get("custom_page_files", [])
+            and f"de {expected_progress_count} recursos" not in index_text
+        ):
             error(
                 f"Módulo {module['id']}: total de recursos inconsistente "
                 f"en {index.relative_to(ROOT)}"
