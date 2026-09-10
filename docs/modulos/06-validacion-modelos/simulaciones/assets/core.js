@@ -1,0 +1,18 @@
+window.MV=(()=>{
+  const themes=['dark','light','academic','neon'];
+  const root=document.documentElement;
+  function css(name){return getComputedStyle(root).getPropertyValue(name).trim()||'#ffffff'}
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const mean=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:NaN;
+  const sd=a=>{if(!a.length)return NaN;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/a.length)};
+  const fmt=x=>Number.isFinite(x)?x.toFixed(3):'—';
+  function randn(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+  function canvasSetup(canvas){const rect=canvas.getBoundingClientRect();const dpr=Math.min(window.devicePixelRatio||1,2);const w=Math.max(320,Math.round(rect.width||800)),h=Math.max(240,Math.round(rect.height||420));if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr)}const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap='round';ctx.lineJoin='round';return{ctx,w,h,dpr}}
+  function grid(ctx,w,h,step=40){ctx.save();ctx.strokeStyle=css('--line');ctx.lineWidth=1;for(let x=0;x<w;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.restore()}
+  function line(ctx,pts,color,width=2){if(!pts.length)return;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();ctx.restore()}
+  function applyTheme(t){if(!themes.includes(t))t='dark';document.body.dataset.theme=t;root.dataset.theme=t;localStorage.setItem('mv-theme',t);document.dispatchEvent(new CustomEvent('mv-theme',{detail:t}));const b=document.getElementById('themeBtn');if(b)b.textContent='◐ Tema: '+t[0].toUpperCase()+t.slice(1)}
+  function cycleTheme(){const cur=root.dataset.theme||document.body.dataset.theme||'dark';applyTheme(themes[(themes.indexOf(cur)+1)%themes.length])}
+  function injectNav(){if(document.querySelector('.lab-nav'))return;const nav=document.createElement('nav');nav.className='lab-nav';nav.setAttribute('aria-label','Navegación del laboratorio');nav.innerHTML='<a href="../index.html">← Módulo 06</a><a href="index.html">14 labs</a><a href="../cuestionario.html">Cuestionario</a><a href="../glosario.html">Glosario</a>';document.body.appendChild(nav)}
+  function bindCommon(step,reset,interval=900){let timer=null;const auto=document.getElementById('autoBtn'),stepBtn=document.getElementById('stepBtn'),resetBtn=document.getElementById('resetBtn'),theme=document.getElementById('themeBtn');function stop(){if(timer){clearInterval(timer);timer=null}if(auto)auto.textContent='▶ Simulación automática'}function toggle(){if(timer){stop();return}timer=setInterval(step,interval);if(auto)auto.textContent='⏸ Pausar simulación'}if(auto)auto.addEventListener('click',toggle);if(stepBtn)stepBtn.addEventListener('click',()=>{stop();step()});if(resetBtn)resetBtn.addEventListener('click',()=>{stop();reset()});if(theme)theme.addEventListener('click',cycleTheme);document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});window.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(e.code==='Space'){e.preventDefault();toggle()}else if(e.key==='ArrowRight'){e.preventDefault();stop();step()}else if(e.key.toLowerCase()==='r'){stop();reset()}else if(e.key.toLowerCase()==='t')cycleTheme()});applyTheme(localStorage.getItem('mv-theme')||'dark');injectNav()}
+  return{css,clamp,mean,sd,fmt,randn,canvasSetup,grid,line,bindCommon,cycleTheme,applyTheme};
+})();
