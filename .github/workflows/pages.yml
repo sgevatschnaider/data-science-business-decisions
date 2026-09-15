@@ -38,8 +38,11 @@ jobs:
       - name: Integrar visores de Google Slides
         run: python scripts/embed_eda_slides.py
 
+      - name: Publicar Módulo 07 avanzado
+        run: python scripts/publish_module07.py
+
       - name: Validar contenido
-        run: python scripts/validate_repo.py
+        run: python scripts/validate_repo_course.py
 
       - name: Configurar Pages
         uses: actions/configure-pages@v6.0.0
