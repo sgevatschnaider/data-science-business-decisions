@@ -37,7 +37,7 @@ jobs:
         run: python scripts/publish_module07.py
 
       - name: Validar curso
-        run: python scripts/validate_repo.py
+        run: python scripts/validate_repo_course.py
 
       - name: Ejecutar laboratorios
         env:
