@@ -41,6 +41,9 @@ jobs:
       - name: Publicar Módulo 07 avanzado
         run: python scripts/publish_module07.py
 
+      - name: Publicar Módulo 08 avanzado
+        run: python scripts/publish_module08.py
+
       - name: Validar contenido
         run: python scripts/validate_repo_course.py
 

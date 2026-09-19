@@ -1,58 +1,55 @@
-# Módulo 08: Regresión logística y decisiones de clasificación
+# Módulo 08 · Regresión Logística y Decisiones de Clasificación
 
-Estimar probabilidades, evaluar ranking y calibración, y elegir umbrales según costos, capacidad y valor.
+De la función sigmoide a la interpretación, la validación, la decisión basada en costos, la extensión multiclase y el monitoreo en producción.
 
 ## Pregunta de decisión
 
-¿A quién conviene asignar una acción cuando los errores tienen costos distintos y la capacidad es limitada?
+**¿Qué probabilidad estimamos, qué acción tomamos y a qué costo?**
 
-## Índice interactivo
+La regresión logística produce probabilidades. La decisión operativa requiere además un umbral, una función de valor/costo, restricciones de capacidad y una evaluación fuera de muestra.
+
+## Recorrido principal
 
 | Recurso | Acceso |
 |---|---|
-| Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/index.html) |
-| Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simulacion.html) |
-| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/cuestionario.html) |
-| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/glosario.html) |
+| Portal completo | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/index.html) |
+| Presentación 01 · Fundamentos de clasificación | [Visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/presentacion-01.html) |
+| Presentación 02 · Interpretación, validación y decisiones | [Visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/presentacion-02.html) |
+| Laboratorio · 14 simulaciones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simulacion.html) |
+| Guía completa de simulaciones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/guia.html) |
+| Cuestionario avanzado · 30 preguntas | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/cuestionario.html) |
+| Glosario avanzado | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/glosario.html) |
 | Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/08-regresion-logistica.ipynb) |
+
+## Ruta didáctica
+
+1. **Fundamentos probabilísticos (Sim 01–04):** score, sigmoide, odds/logit, efectos marginales, likelihood y log-loss.
+2. **De probabilidad a clasificación (Sim 05–07):** threshold, matriz de confusión, ROC/PR y frontera de decisión.
+3. **Generalización y diseño (Sim 08–10):** regularización, especificación, train/validation/test y K-fold.
+4. **Probabilidades útiles para decidir (Sim 11–12):** discriminación, calibración, costos y política de decisión.
+5. **Extensión multiclase (Sim 13):** softmax, competencia entre clases y temperatura.
+6. **Ciclo de vida en producción (Sim 14):** drift, PSI, desempeño, calibración y monitoreo.
 
 ## Resultados de aprendizaje
 
-- Interpretar probabilidad, logit y odds.
-- Leer matrices de confusión y métricas por clase.
-- Distinguir discriminación, calibración y decisión.
-- Elegir umbrales con costos y restricciones de capacidad.
+- Derivar e interpretar la relación entre score lineal, sigmoide, probabilidad, odds y logit.
+- Interpretar coeficientes y odds ratios sin tratarlos como cambios lineales en probabilidad.
+- Comprender máxima verosimilitud y log-loss.
+- Separar discriminación, calibración y decisión.
+- Evaluar con train/validation/test o validación cruzada sin contaminar el test.
+- Analizar ROC-AUC y Precision–Recall bajo desbalance.
+- Seleccionar thresholds en función de costos, capacidad y objetivo.
+- Entender regularización L1/L2, especificación e interacciones.
+- Extender a softmax/multiclase.
+- Monitorear drift y degradación en producción.
 
-## Caso de negocio
+## Regla de oro
 
-Una campaña de retención solo puede contactar al 15 por ciento de la cartera; el equipo debe ordenar riesgo y estimar valor neto por contacto.
+**Probabilidad estimada no equivale a decisión.** Entrenamiento, evaluación de probabilidades y elección de política deben separarse. Un buen ranking puede estar mal calibrado y un threshold útil depende del contexto económico y operativo.
 
-## Profundización aplicada
+## Publicación estable
 
-- Calibración fuera de muestra, Brier score y diagramas de confiabilidad.
-- Curvas de ganancia, lift, capacidad y valor neto por política.
-- Tuning del umbral separado del entrenamiento y análisis por segmentos.
-
-## Errores frecuentes
-
-- Evaluar probabilidades sobre los mismos casos usados para ajustar.
-- Elegir 0,5 por costumbre o maximizar F1 sin función de valor.
-- Confundir buen ranking con probabilidades confiables.
-
-## Desafío de transferencia
-
-Elegí una política de contacto con capacidad limitada y costos distintos por falso positivo y falso negativo.
-
-## Secuencia de práctica
-
-1. Definir clase positiva y consecuencias de error.
-2. Construir un baseline de prevalencia.
-3. Evaluar ranking, calibración y métricas a varios umbrales.
-4. Elegir una política compatible con capacidad y valor.
-
-## Entregable
-
-Modelo probabilístico con curva de calibración, matriz de confusión, selección de umbral y matriz de costos.
+El sitio avanzado vive en `modules/08-regresion-logistica/site/`. El pipeline genera primero el curso general y luego `scripts/publish_module08.py` repone este sitio canónico en `docs/modulos/08-regresion-logistica/`, evitando que un build futuro restaure la versión básica.
 
 ## Autoría
 
