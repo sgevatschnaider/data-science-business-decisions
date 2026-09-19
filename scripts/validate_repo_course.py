@@ -17,37 +17,37 @@ M08 = ROOT / "modules/08-regresion-logistica/site"
 
 ORIGINALS = {
     "simuladores/simulador_01_funcion_sigmoide_regresion_logistica.html":
-        ("Laboratorio de la Función Sigmoide · Regresión Logística", 25928),
+        ("Laboratorio de la Función Sigmoide · Regresión Logística", 25927),
     "simuladores/simulador_02_probabilidad_odds_logit_odds_ratio.html":
-        ("Simulador 02 · Probabilidad, Odds, Logit y Odds Ratio", 25515),
+        ("Simulador 02 · Probabilidad, Odds, Logit y Odds Ratio", 25514),
     "simuladores/simulador_03_efectos_marginales_regresion_logistica.html":
-        ("Simulador 03 · Efectos Marginales en Regresión Logística", 23633),
+        ("Simulador 03 · Efectos Marginales en Regresión Logística", 23632),
     "simuladores/simulador_04_log_loss_maxima_verosimilitud.html":
-        ("Simulador 04 · Log-Loss y Máxima Verosimilitud", 23396),
+        ("Simulador 04 · Log-Loss y Máxima Verosimilitud", 23395),
     "simuladores/simulador_05_threshold_matriz_confusion_metricas.html":
-        ("Simulador 05 · Threshold Lab — Matriz de Confusión y Métricas", 24893),
+        ("Simulador 05 · Threshold Lab — Matriz de Confusión y Métricas", 24892),
     "simuladores/simulador_06_roc_precision_recall_desbalance.html":
-        ("Simulador 06 · ROC, Precision–Recall y Desbalance", 28429),
+        ("Simulador 06 · ROC, Precision–Recall y Desbalance", 28428),
     "simuladores/simulador_07_frontera_decision_2d_regresion_logistica.html":
-        ("Simulador 07 · Frontera de Decisión 2D", 25349),
+        ("Simulador 07 · Frontera de Decisión 2D", 25348),
     "simuladores/simulador_08_regularizacion_l1_l2_overfitting.html":
-        ("Simulador 08 · Regularización L1/L2 y Overfitting", 30366),
+        ("Simulador 08 · Regularización L1/L2 y Overfitting", 30365),
     "simuladores/simulador_09_dummies_interacciones_no_linealidades.html":
-        ("Simulador 09 · Dummies, Interacciones y No Linealidades", 26637),
+        ("Simulador 09 · Dummies, Interacciones y No Linealidades", 26636),
     "simuladores/simulador_10_train_validation_test_kfold_cross_validation.html":
-        ("Simulador 10 · Train, Validation, Test y K-Fold Cross-Validation", 30959),
+        ("Simulador 10 · Train, Validation, Test y K-Fold Cross-Validation", 30958),
     "simuladores/simulador_11_calibracion_vs_discriminacion.html":
-        ("Simulador 11 · Calibración vs Discriminación", 27636),
+        ("Simulador 11 · Calibración vs Discriminación", 27635),
     "simuladores/simulador_12_decision_lab_credit_scoring_costos.html":
-        ("Simulador 12 · Decision Lab — Credit Scoring, Threshold y Costos", 35061),
+        ("Simulador 12 · Decision Lab — Credit Scoring, Threshold y Costos", 35060),
     "simuladores/simulador_13_softmax_clasificacion_multiclase.html":
-        ("Simulador 13 · Softmax y Clasificación Multiclase", 24530),
+        ("Simulador 13 · Softmax y Clasificación Multiclase", 24529),
     "simuladores/simulador_14_model_drift_monitoring.html":
-        ("Simulador 14 · Model Drift & Monitoring", 35732),
+        ("Simulador 14 · Model Drift & Monitoring", 35731),
     "glosario.html":
-        ("Glosario avanzado · Regresión Logística y Clasificación", 186615),
+        ("Glosario avanzado · Regresión Logística y Clasificación", 186613),
     "cuestionario.html":
-        ("Cuestionario avanzado · Regresión Logística", 49861),
+        ("Cuestionario avanzado · Regresión Logística", 49857),
 }
 
 def discard(fragment: str) -> None:
