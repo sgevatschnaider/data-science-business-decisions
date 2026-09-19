@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 07 · Frontera de Decisión 2D</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.88);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.93);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:880px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.16rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+.main-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:82px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+.maincol{display:grid;gap:20px}.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.15rem,2vw,1.8rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+.visual-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}
+svg{width:100%;height:auto;display:block}.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}
+.boundary{stroke:var(--warn);stroke-width:4;stroke-dasharray:10 8}.point0{fill:var(--blue);stroke:#fff;stroke-width:1}.point1{fill:var(--bad);stroke:#fff;stroke-width:1}
+.explorer{fill:var(--accent);stroke:#fff;stroke-width:3}.explorerHalo{fill:rgba(53,208,255,.18)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:7px}.ldot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.scale{height:14px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(88,166,255,.75),rgba(255,255,255,.1),rgba(255,107,122,.78));margin-top:10px}
+.inspector{display:grid;gap:10px}.ibox{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.ibox .small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:850}.ibox .big{font-size:1.55rem;font-weight:900;margin-top:6px}
+.eq{border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.04));line-height:1.55;font-weight:800}
+.eq small{display:block;color:var(--muted);font-weight:500;margin-top:5px}
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.scenario{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.scenario .head{display:flex;justify-content:space-between;gap:8px;align-items:center}.scenario .big{font-size:1.6rem;font-weight:950;margin:10px 0 4px}.scenario .mini{font-size:.78rem;color:var(--muted);line-height:1.45}
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1150px){.hero,.visual-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.compare,.concepts{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">2D</div>
+      <div><strong>Simulador 07 · Regresión Logística</strong><span>Frontera de decisión y mapa de probabilidades</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Geometría del clasificador</div>
+    <h1>Frontera de <span class="gradient-text">decisión 2D</span></h1>
+    <p class="subtitle">
+      Modifica \(β_0\), \(β_1\), \(β_2\) y el threshold para observar cómo cambia la frontera
+      entre las clases. El fondo representa un <strong>campo continuo de probabilidades</strong>:
+      la frontera no crea la probabilidad, simplemente marca dónde la regla de decisión cambia de clase.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>z = β₀ + β₁x₁ + β₂x₂</b><small>Con dos variables, cada punto del plano recibe un score.</small></div>
+    <div class="formula"><b>p = σ(z)</b><small>El score se transforma en probabilidad mediante la sigmoide.</small></div>
+    <div class="formula"><b>Frontera: β₀ + β₁x₁ + β₂x₂ = logit(c)</b><small>Si c = 0.5, logit(c)=0 y aparece la forma clásica z=0.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Controles del plano</h2><span class="tag">Interactivo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="b0">β₀ · intercepto</label><span class="pill" id="b0Val">−0.80</span></div>
+      <input id="b0" type="range" min="-6" max="6" step="0.05" value="-0.8">
+      <div class="range-labels"><span>−6</span><span>0</span><span>+6</span></div>
+      <div class="hint">Desplaza la frontera sin cambiar su orientación básica.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="b1">β₁ · peso de x₁</label><span class="pill" id="b1Val">+1.20</span></div>
+      <input id="b1" type="range" min="-4" max="4" step="0.05" value="1.2">
+      <div class="range-labels"><span>−4</span><span>0</span><span>+4</span></div>
+      <div class="hint">Cambia la inclinación respecto del eje x₁.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="b2">β₂ · peso de x₂</label><span class="pill" id="b2Val">+0.90</span></div>
+      <input id="b2" type="range" min="-4" max="4" step="0.05" value="0.9">
+      <div class="range-labels"><span>−4</span><span>0</span><span>+4</span></div>
+      <div class="hint">Junto con β₁ determina la orientación de la frontera.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="threshold">Threshold c</label><span class="pill" id="thrVal">0.50</span></div>
+      <input id="threshold" type="range" min="0.05" max="0.95" step="0.01" value="0.50">
+      <div class="range-labels"><span>0.05</span><span>0.50</span><span>0.95</span></div>
+      <div class="hint">Mover c desplaza la frontera aunque el modelo probabilístico sea el mismo.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label>Escenarios</label><span class="pill">β</span></div>
+      <div class="preset-grid">
+        <button id="horizontalBtn">Frontera casi horizontal</button>
+        <button id="verticalBtn">Frontera casi vertical</button>
+        <button id="diagonalBtn">Frontera diagonal</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">Pendiente frontera</div><div class="v" id="slope">—</div><div class="s">−β₁/β₂</div></div>
+  <div class="metric"><div class="k">Intercepto x₂</div><div class="v" id="intercept">—</div><div class="s">para el threshold actual</div></div>
+  <div class="metric"><div class="k">Accuracy muestra</div><div class="v" id="acc">—</div><div class="s">clasificación visual</div></div>
+  <div class="metric"><div class="k">Punto explorador</div><div class="v" id="explorerP">—</div><div class="s">probabilidad local</div></div>
+  <div class="metric"><div class="k">Clase explorador</div><div class="v" id="explorerClass">—</div><div class="s">según c</div></div>
+</section>
+
+<section class="visual-grid">
+  <div class="card">
+    <div class="title-row"><h2>Mapa de probabilidades y frontera</h2><span class="tag">Haz clic en el plano</span></div>
+    <svg id="plane" viewBox="0 0 900 700" aria-label="Plano de decisión interactivo">
+      <g id="heatmap"></g>
+      <g id="grid"></g>
+      <line class="axis" x1="80" y1="610" x2="820" y2="610"></line>
+      <line class="axis" x1="80" y1="70" x2="80" y2="610"></line>
+      <g id="labels"></g>
+      <g id="samples"></g>
+      <line id="boundary" class="boundary"></line>
+      <circle id="explorerHalo" class="explorerHalo" r="18"></circle>
+      <circle id="explorer" class="explorer" r="8"></circle>
+    </svg>
+    <div class="legend">
+      <span><i class="ldot" style="background:var(--blue)"></i>Clase real 0</span>
+      <span><i class="ldot" style="background:var(--bad)"></i>Clase real 1</span>
+      <span><i class="ldot" style="background:var(--warn)"></i>Frontera de decisión</span>
+    </div>
+    <div class="scale"></div>
+    <div class="legend" style="justify-content:space-between"><span>p cercana a 0</span><span>p ≈ 0.5</span><span>p cercana a 1</span></div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Inspector de un punto</h2><span class="tag">x₁, x₂ → p</span></div>
+    <div class="inspector">
+      <div class="ibox"><div class="small">Coordenadas</div><div class="big" id="coords">x₁ = 1.00 · x₂ = 1.00</div></div>
+      <div class="ibox"><div class="small">Score z</div><div class="big" id="zBox">—</div></div>
+      <div class="ibox"><div class="small">Probabilidad</div><div class="big" id="pBox">—</div></div>
+      <div class="ibox"><div class="small">Decisión</div><div class="big" id="classBox">—</div></div>
+      <div class="eq" id="eq"></div>
+      <div class="interpret" id="inspectorText"></div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué cambia cuando movemos cada parámetro</h2><span class="tag">Geometría</span></div>
+  <div class="compare">
+    <div class="scenario">
+      <div class="head"><b>β₀</b><span class="tag">desplaza</span></div>
+      <div class="big">↔</div>
+      <div class="mini">Cambia la posición de la frontera. No altera directamente su orientación.</div>
+    </div>
+    <div class="scenario">
+      <div class="head"><b>β₁ y β₂</b><span class="tag">rotan</span></div>
+      <div class="big">⟳</div>
+      <div class="mini">Su relación determina la pendiente de la frontera en el plano.</div>
+    </div>
+    <div class="scenario">
+      <div class="head"><b>Threshold c</b><span class="tag">política</span></div>
+      <div class="big">⇆</div>
+      <div class="mini">Desplaza la región clasificada como positiva sin reestimar los coeficientes.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Modelo + decisión</span></div>
+  <div class="interpret" id="interpret"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · La frontera es una isoprobabilidad</b><span>Todos los puntos sobre la línea tienen exactamente la misma probabilidad: p = c.</span></div>
+    <div class="concept"><b>2 · El plano contiene probabilidades, no solo clases</b><span>Dos puntos de la misma clase predicha pueden tener riesgos muy diferentes, por ejemplo p=0.52 y p=0.95.</span></div>
+    <div class="concept"><b>3 · Cambiar el threshold no cambia β</b><span>La regla operativa se mueve sobre el mismo campo probabilístico; el modelo subyacente permanece igual.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const b0=$('b0'),b1=$('b1'),b2=$('b2'),threshold=$('threshold');
+const logistic=z=>1/(1+Math.exp(-z));
+const logit=p=>Math.log(p/(1-p));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fract=x=>x-Math.floor(x);
+const rand=i=>fract(Math.sin(i*12.9898+78.233)*43758.5453);
+const signed=(n,d=2)=>(n>=0?'+':'−')+Math.abs(n).toFixed(d);
+const fmt=(n,d=2)=>Number(n).toFixed(d).replace('-', '−');
+const pct=p=>(p*100).toFixed(1)+'%';
+
+const xmin=-5,xmax=5,ymin=-5,ymax=5;
+const x0=80,y0=70,W=740,H=540;
+const sx=x=>x0+(x-xmin)/(xmax-xmin)*W;
+const sy=y=>y0+(ymax-y)/(ymax-ymin)*H;
+const invX=px=>xmin+(px-x0)/W*(xmax-xmin);
+const invY=py=>ymax-(py-y0)/H*(ymax-ymin);
+
+let explorer={x:1,y:1};
+let samples=[];
+
+function generateSamples(){
+  samples=[];
+  for(let i=0;i<90;i++){
+    const x=-4.5+9*rand(i*3+1);
+    const y=-4.5+9*rand(i*7+4);
+    const latent=-0.5+1.0*x+0.85*y+(rand(i*11+8)-.5)*4.0;
+    const cls=latent>=0?1:0;
+    samples.push({x,y,cls});
+  }
+}
+
+function buildGrid(){
+  let g='',l='';
+  for(let v=-5;v<=5;v++){
+    const xx=sx(v),yy=sy(v);
+    g+=`<line class="gridline" y1="70" y2="610" x1="${xx}" x2="${xx}"></line>`;
+    g+=`<line class="gridline" x1="80" x2="820" y1="${yy}" y2="${yy}"></line>`;
+    if(v%2===0){
+      l+=`<text x="${xx-8}" y="636" fill="var(--muted)" font-size="12">${v}</text>`;
+      l+=`<text x="48" y="${yy+4}" fill="var(--muted)" font-size="12">${v}</text>`;
+    }
+  }
+  l+=`<text x="790" y="666" fill="var(--muted)" font-size="12">x₁</text><text x="42" y="84" fill="var(--muted)" font-size="12">x₂</text>`;
+  $('grid').innerHTML=g;$('labels').innerHTML=l;
+}
+
+function colorForP(p){
+  const a=Math.abs(p-.5)*2;
+  if(p<.5){
+    const alpha=.10+.43*a;
+    return `rgba(88,166,255,${alpha.toFixed(3)})`;
+  }else{
+    const alpha=.10+.43*a;
+    return `rgba(255,107,122,${alpha.toFixed(3)})`;
+  }
+}
+
+function drawHeatmap(B0,B1,B2){
+  const n=30,cellW=W/n,cellH=H/n;
+  let html='';
+  for(let iy=0;iy<n;iy++){
+    for(let ix=0;ix<n;ix++){
+      const xx=xmin+(ix+.5)/n*(xmax-xmin);
+      const yy=ymax-(iy+.5)/n*(ymax-ymin);
+      const p=logistic(B0+B1*xx+B2*yy);
+      html+=`<rect x="${x0+ix*cellW}" y="${y0+iy*cellH}" width="${cellW+0.6}" height="${cellH+0.6}" fill="${colorForP(p)}"></rect>`;
+    }
+  }
+  $('heatmap').innerHTML=html;
+}
+
+function drawSamples(B0,B1,B2,c){
+  let html='',correct=0;
+  samples.forEach(o=>{
+    const p=logistic(B0+B1*o.x+B2*o.y);
+    const pred=p>=c?1:0;
+    if(pred===o.cls)correct++;
+    html+=`<circle cx="${sx(o.x).toFixed(1)}" cy="${sy(o.y).toFixed(1)}" r="6.2" class="${o.cls===0?'point0':'point1'}" opacity="${pred===o.cls?.9:.55}"><title>Real ${o.cls} · p=${p.toFixed(3)} · Pred ${pred}</title></circle>`;
+  });
+  $('samples').innerHTML=html;
+  $('acc').textContent=pct(correct/samples.length);
+}
+
+function lineSegment(B0,B1,B2,c){
+  const target=logit(c);
+  const pts=[];
+  // intersections with x=min/max
+  if(Math.abs(B2)>1e-9){
+    [xmin,xmax].forEach(x=>{
+      const y=(target-B0-B1*x)/B2;
+      if(y>=ymin&&y<=ymax)pts.push({x,y});
+    });
+  }
+  if(Math.abs(B1)>1e-9){
+    [ymin,ymax].forEach(y=>{
+      const x=(target-B0-B2*y)/B1;
+      if(x>=xmin&&x<=xmax)pts.push({x,y});
+    });
+  }
+  const uniq=[];
+  pts.forEach(p=>{
+    if(!uniq.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<1e-6))uniq.push(p);
+  });
+  return uniq.slice(0,2);
+}
+
+function updateExplorer(B0,B1,B2,c){
+  const z=B0+B1*explorer.x+B2*explorer.y,p=logistic(z),cls=p>=c?1:0;
+  $('explorer').setAttribute('cx',sx(explorer.x));$('explorer').setAttribute('cy',sy(explorer.y));
+  $('explorerHalo').setAttribute('cx',sx(explorer.x));$('explorerHalo').setAttribute('cy',sy(explorer.y));
+  $('coords').textContent=`x₁ = ${fmt(explorer.x,2)} · x₂ = ${fmt(explorer.y,2)}`;
+  $('zBox').textContent=fmt(z,3);$('pBox').textContent=pct(p);$('classBox').textContent=`Ŷ = ${cls}`;
+  $('explorerP').textContent=pct(p);$('explorerClass').textContent=cls;
+  $('eq').innerHTML=`z = ${fmt(B0,2)} + (${fmt(B1,2)}×${fmt(explorer.x,2)}) + (${fmt(B2,2)}×${fmt(explorer.y,2)}) = ${fmt(z,3)}<small>p = σ(z) = ${p.toFixed(4)}; con c=${c.toFixed(2)}, la clase predicha es ${cls}.</small>`;
+  const relation=Math.abs(p-c);
+  let t=relation<.05?'muy cerca':'claramente';
+  $('inspectorText').innerHTML=`Este punto está <strong>${t}</strong> de la frontera operativa. Su probabilidad es <strong>${pct(p)}</strong> y el threshold actual es <strong>${pct(c)}</strong>. ${cls===1?'Pertenece a la región predicha como positiva.':'Pertenece a la región predicha como negativa.'}`;
+}
+
+function update(){
+  const B0=+b0.value,B1=+b1.value,B2=+b2.value,c=+threshold.value;
+  $('b0Val').textContent=signed(B0);$('b1Val').textContent=signed(B1);$('b2Val').textContent=signed(B2);$('thrVal').textContent=c.toFixed(2);
+
+  drawHeatmap(B0,B1,B2);drawSamples(B0,B1,B2,c);
+
+  const pts=lineSegment(B0,B1,B2,c);
+  if(pts.length===2){
+    $('boundary').setAttribute('x1',sx(pts[0].x));$('boundary').setAttribute('y1',sy(pts[0].y));
+    $('boundary').setAttribute('x2',sx(pts[1].x));$('boundary').setAttribute('y2',sy(pts[1].y));
+    $('boundary').style.display='';
+  } else {$('boundary').style.display='none'}
+
+  if(Math.abs(B2)>1e-6){
+    $('slope').textContent=fmt(-B1/B2,2);
+    $('intercept').textContent=fmt((logit(c)-B0)/B2,2);
+  }else{
+    $('slope').textContent='vertical';
+    $('intercept').textContent='—';
+  }
+
+  updateExplorer(B0,B1,B2,c);
+
+  let orient='';
+  if(Math.abs(B2)<.15) orient='La frontera es prácticamente vertical: x₁ domina la orientación geométrica.';
+  else if(Math.abs(B1)<.15) orient='La frontera es prácticamente horizontal: x₂ domina la orientación geométrica.';
+  else orient=`La pendiente de la frontera es aproximadamente ${fmt(-B1/B2,2)}. La relación entre β₁ y β₂ determina su rotación.`;
+
+  const thresholdEffect=c<.5
+    ? `Como c=${c.toFixed(2)} es menor que 0.50, la región clasificada como positiva se expande: se necesita menos probabilidad para predecir clase 1.`
+    : c>.5
+      ? `Como c=${c.toFixed(2)} es mayor que 0.50, la región positiva se contrae: el modelo exige mayor probabilidad para predecir clase 1.`
+      : `Con c=0.50, la frontera coincide con z=0.`;
+
+  $('interpret').innerHTML=`<strong>${orient}</strong><br><br>${thresholdEffect}<br><br>El fondo muestra que la salida del modelo es continua: la línea amarilla solo señala la isoprobabilidad <strong>p = ${c.toFixed(2)}</strong>.`;
+}
+
+[b0,b1,b2,threshold].forEach(el=>el.addEventListener('input',update));
+$('horizontalBtn').addEventListener('click',()=>{stop();b0.value=-.5;b1.value=.2;b2.value=1.6;threshold.value=.5;update()});
+$('verticalBtn').addEventListener('click',()=>{stop();b0.value=.3;b1.value=1.7;b2.value=.15;threshold.value=.5;update()});
+$('diagonalBtn').addEventListener('click',()=>{stop();b0.value=-.8;b1.value=1.2;b2.value=.9;threshold.value=.5;update()});
+$('exampleBtn').addEventListener('click',()=>{stop();b0.value=-1.2;b1.value=1.5;b2.value=-.8;threshold.value=.65;explorer={x:2,y:-1};update()});
+$('resetBtn').addEventListener('click',()=>{stop();b0.value=-.8;b1.value=1.2;b2.value=.9;threshold.value=.5;explorer={x:1,y:1};update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);$('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+$('plane').addEventListener('click',e=>{
+  const svg=e.currentTarget;
+  const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;
+  const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+  explorer.x=clamp(invX(p.x),xmin,xmax);explorer.y=clamp(invY(p.y),ymin,ymax);
+  update();
+});
+
+let anim=false,raf=null,last=0,t=0;
+function animate(ts){
+  if(!anim)return;
+  if(ts-last>30){
+    t+=.035;
+    b1.value=(1.9*Math.cos(t)).toFixed(2);
+    b2.value=(1.9*Math.sin(t)+.15).toFixed(2);
+    b0.value=(1.2*Math.sin(t*.55)).toFixed(2);
+    update();last=ts;
+  }
+  raf=requestAnimationFrame(animate);
+}
+function stop(){
+  anim=false;if(raf)cancelAnimationFrame(raf);
+  $('playBtn').textContent='▶ Simulación dinámica';$('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim)stop();
+  else{anim=true;$('playBtn').textContent='⏸ Pausar simulación';$('playBtn').classList.add('active');raf=requestAnimationFrame(animate)}
+});
+
+generateSamples();buildGrid();update();
+})();
+</script>
+</body>
+</html>
