@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laboratorio de la Función Sigmoide · Regresión Logística</title>
+<style>
+  :root{
+    --bg:#07111f;
+    --bg2:#0b1830;
+    --panel:rgba(17,31,53,.82);
+    --panel-solid:#111f35;
+    --text:#eef7ff;
+    --muted:#9fb3c8;
+    --line:#2b4564;
+    --accent:#35d0ff;
+    --accent2:#8b5cf6;
+    --good:#35d39a;
+    --warn:#ffbf47;
+    --bad:#ff6b7a;
+    --white:#ffffff;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+    --grid:rgba(159,179,200,.13);
+  }
+  [data-theme="light"]{
+    --bg:#eef7ff;
+    --bg2:#f8fbff;
+    --panel:rgba(255,255,255,.88);
+    --panel-solid:#ffffff;
+    --text:#102033;
+    --muted:#52677f;
+    --line:#c8d8e8;
+    --accent:#008fc7;
+    --accent2:#6d44d8;
+    --good:#0e9b69;
+    --warn:#b77700;
+    --bad:#d63b50;
+    --white:#ffffff;
+    --shadow:0 16px 44px rgba(50,83,112,.16);
+    --grid:rgba(71,101,128,.12);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 12% 8%, rgba(53,208,255,.16), transparent 28%),
+      radial-gradient(circle at 86% 4%, rgba(139,92,246,.16), transparent 30%),
+      linear-gradient(135deg,var(--bg),var(--bg2));
+    min-height:100vh;
+    transition:.35s ease;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px, transparent 1px);
+    background-size:34px 34px;
+    mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 92%);
+  }
+
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    backdrop-filter:blur(16px);
+    background:color-mix(in srgb, var(--bg2) 76%, transparent);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1500px; margin:auto; padding:12px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .brand{display:flex; align-items:center; gap:12px; min-width:0}
+  .logo{
+    width:42px; height:42px; border-radius:14px;
+    display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#06101d; font-weight:900; box-shadow:0 8px 25px rgba(53,208,255,.25);
+  }
+  .brand strong{display:block; font-size:.94rem}
+  .brand span{display:block; color:var(--muted); font-size:.78rem}
+  .actions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+  button{
+    font:inherit; border:1px solid var(--line); color:var(--text);
+    background:var(--panel); border-radius:12px; padding:10px 13px;
+    cursor:pointer; transition:.2s ease; font-weight:700;
+  }
+  button:hover{transform:translateY(-1px); border-color:var(--accent)}
+  button.primary{
+    border:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#06101d;
+  }
+  button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+
+  .wrap{max-width:1500px; margin:auto; padding:26px 18px 48px}
+  .hero{
+    display:grid; grid-template-columns:1.15fr .85fr; gap:20px;
+    align-items:stretch; margin-bottom:20px;
+  }
+  .hero-main, .hero-side, .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(14px);
+  }
+  .hero-main{padding:30px}
+  .eyebrow{
+    color:var(--accent); font-weight:900; letter-spacing:.12em;
+    text-transform:uppercase; font-size:.78rem; margin-bottom:9px;
+  }
+  h1{
+    margin:0; font-size:clamp(2rem,4.6vw,4.6rem); line-height:.96;
+    letter-spacing:-.05em;
+  }
+  .gradient-text{
+    background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{font-size:1.05rem; color:var(--muted); max-width:840px; line-height:1.65; margin:18px 0 0}
+  .hero-side{padding:24px; display:flex; flex-direction:column; justify-content:center; gap:14px}
+  .formula{
+    border:1px solid var(--line); border-radius:18px; padding:16px 18px;
+    background:linear-gradient(135deg, rgba(53,208,255,.08), rgba(139,92,246,.08));
+  }
+  .formula .big{font-size:clamp(1.25rem,2.1vw,2rem); font-weight:900; letter-spacing:-.02em}
+  .formula small{display:block;color:var(--muted);margin-top:7px;line-height:1.45}
+
+  .grid{
+    display:grid; grid-template-columns:360px minmax(0,1fr); gap:20px;
+  }
+  .panel{padding:20px}
+  .panel-title{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-bottom:15px;
+  }
+  .panel-title h2{font-size:1.08rem;margin:0}
+  .tag{
+    color:var(--accent); border:1px solid color-mix(in srgb,var(--accent) 45%, var(--line));
+    background:rgba(53,208,255,.07); border-radius:999px; padding:5px 9px; font-size:.72rem; font-weight:800;
+  }
+
+  .controls{display:flex; flex-direction:column; gap:15px}
+  .control{
+    border:1px solid var(--line); border-radius:18px; padding:14px;
+    background:color-mix(in srgb,var(--panel-solid) 72%, transparent);
+  }
+  .control-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+  .control label{font-weight:800}
+  .value-pill{
+    min-width:72px;text-align:center;border-radius:10px;padding:6px 8px;
+    background:rgba(53,208,255,.09); border:1px solid var(--line); font-variant-numeric:tabular-nums;
+  }
+  input[type="range"]{width:100%; accent-color:var(--accent)}
+  .range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+  .hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+
+  .maincol{display:grid; gap:20px}
+  .metrics{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;
+  }
+  .metric{
+    border:1px solid var(--line); border-radius:18px; padding:16px;
+    background:color-mix(in srgb,var(--panel-solid) 72%, transparent);
+  }
+  .metric .k{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+  .metric .v{font-size:clamp(1.45rem,2.5vw,2.2rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+  .metric .s{color:var(--muted);font-size:.78rem;margin-top:5px}
+  .class-chip{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px rgba(53,211,154,.12)}
+  .dot.zero{background:var(--bad);box-shadow:0 0 0 5px rgba(255,107,122,.12)}
+
+  .chart-panel{padding:18px}
+  .chart-wrap{position:relative}
+  svg{width:100%;height:auto;display:block}
+  .axis text{fill:var(--muted);font-size:12px}
+  .axis line,.axis path{stroke:var(--line)}
+  .gridline{stroke:var(--grid);stroke-width:1}
+  .sigmoid{fill:none;stroke:url(#curveGradient);stroke-width:5;stroke-linecap:round}
+  .threshold-line{stroke:var(--warn);stroke-width:2;stroke-dasharray:9 8}
+  .z-line{stroke:var(--accent);stroke-width:2;stroke-dasharray:5 7}
+  .point-halo{fill:rgba(53,208,255,.18)}
+  .point{fill:var(--accent);stroke:var(--white);stroke-width:2}
+  .threshold-point{fill:var(--warn);stroke:var(--white);stroke-width:2}
+  .label-box{fill:var(--panel-solid);stroke:var(--line);stroke-width:1}
+  .label-text{fill:var(--text);font-size:13px;font-weight:800}
+  .zone0{fill:rgba(255,107,122,.06)}
+  .zone1{fill:rgba(53,211,154,.06)}
+
+  .below{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:20px;
+  }
+  .equation-box{
+    border:1px solid var(--line);border-radius:18px;padding:17px;
+    background:linear-gradient(135deg,rgba(53,208,255,.06),rgba(139,92,246,.05));
+  }
+  .eq-line{font-size:clamp(1rem,1.7vw,1.4rem);font-weight:900;line-height:1.6;word-break:break-word}
+  .eq-step{color:var(--muted);font-size:.86rem;margin-top:9px}
+  .interpret{
+    font-size:.97rem;line-height:1.7;color:var(--muted)
+  }
+  .interpret strong{color:var(--text)}
+  .decision-banner{
+    margin-top:14px;border-radius:16px;padding:14px 16px;font-weight:800;
+    border:1px solid var(--line);
+  }
+  .decision-banner.one{background:rgba(53,211,154,.09)}
+  .decision-banner.zero{background:rgba(255,107,122,.09)}
+
+  .concepts{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px
+  }
+  .concept{
+    padding:14px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel-solid) 68%, transparent)
+  }
+  .concept b{display:block;margin-bottom:5px}
+  .concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+
+  .mini-track{
+    height:18px;border-radius:999px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(90deg, rgba(255,107,122,.38) 0 50%, rgba(53,211,154,.38) 50% 100%);
+    position:relative;margin-top:14px
+  }
+  .mini-marker{
+    position:absolute;top:-3px;width:4px;height:24px;background:var(--text);border-radius:4px;box-shadow:0 0 0 3px rgba(255,255,255,.08)
+  }
+
+  .footer{
+    text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px
+  }
+
+  @media (max-width:1100px){
+    .hero,.below{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:760px){
+    .topbar-inner{align-items:flex-start}
+    .brand span{display:none}
+    .hero-main{padding:22px}
+    .controls{grid-template-columns:1fr}
+    .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .concepts{grid-template-columns:1fr}
+    .actions button{padding:8px 10px;font-size:.82rem}
+  }
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">σ</div>
+      <div>
+        <strong>Simulador 01 · Regresión Logística</strong>
+        <span>Laboratorio de función sigmoide y umbral</span>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-main">
+      <div class="eyebrow">Machine Learning · Clasificación binaria</div>
+      <h1>Laboratorio de la <span class="gradient-text">función sigmoide</span></h1>
+      <p class="subtitle">
+        Explora cómo una combinación lineal de variables se transforma en una probabilidad.
+        Modifica los parámetros del modelo, mueve <strong>X</strong> y observa en tiempo real el score,
+        la probabilidad estimada y la clase resultante.
+      </p>
+    </div>
+    <aside class="hero-side">
+      <div class="formula">
+        <div class="big">z = β₀ + β₁X</div>
+        <small>El modelo construye primero un score lineal. Ese score puede tomar cualquier valor real.</small>
+      </div>
+      <div class="formula">
+        <div class="big">p = σ(z) = 1 / (1 + e<sup>−z</sup>)</div>
+        <small>La sigmoide comprime cualquier score al intervalo [0,1].</small>
+      </div>
+      <div class="formula">
+        <div class="big">Ŷ = 1 si p ≥ c</div>
+        <small>La probabilidad no es la decisión: el umbral <strong>c</strong> convierte probabilidad en clase.</small>
+      </div>
+    </aside>
+  </section>
+
+  <section class="grid">
+    <aside class="panel">
+      <div class="panel-title">
+        <h2>Controles del modelo</h2>
+        <span class="tag">Interactivo</span>
+      </div>
+      <div class="controls">
+        <div class="control">
+          <div class="control-head">
+            <label for="b0">Intercepto β₀</label>
+            <span class="value-pill" id="b0Val">−1.50</span>
+          </div>
+          <input id="b0" type="range" min="-6" max="6" step="0.05" value="-1.5">
+          <div class="range-labels"><span>−6</span><span>0</span><span>+6</span></div>
+          <div class="hint">Desplaza la curva respecto de X al modificar el score base.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-head">
+            <label for="b1">Pendiente β₁</label>
+            <span class="value-pill" id="b1Val">+0.80</span>
+          </div>
+          <input id="b1" type="range" min="-4" max="4" step="0.05" value="0.8">
+          <div class="range-labels"><span>−4</span><span>0</span><span>+4</span></div>
+          <div class="hint">Controla dirección e intensidad de la relación entre X y el score.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-head">
+            <label for="xVal">Valor de X</label>
+            <span class="value-pill" id="xDisplay">2.00</span>
+          </div>
+          <input id="xVal" type="range" min="-8" max="8" step="0.05" value="2">
+          <div class="range-labels"><span>−8</span><span>0</span><span>+8</span></div>
+          <div class="hint">Representa el valor de la variable explicativa para una observación.</div>
+        </div>
+
+        <div class="control">
+          <div class="control-head">
+            <label for="thr">Umbral c</label>
+            <span class="value-pill" id="thrVal">0.50</span>
+          </div>
+          <input id="thr" type="range" min="0.05" max="0.95" step="0.01" value="0.5">
+          <div class="range-labels"><span>0.05</span><span>0.50</span><span>0.95</span></div>
+          <div class="hint">Determina cuándo la probabilidad se transforma en clase 1.</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="maincol">
+      <section class="metrics">
+        <div class="metric">
+          <div class="k">Score lineal z</div>
+          <div class="v" id="scoreCard">0.10</div>
+          <div class="s">β₀ + β₁X</div>
+        </div>
+        <div class="metric">
+          <div class="k">Probabilidad p</div>
+          <div class="v" id="probCard">52.50%</div>
+          <div class="s">σ(z)</div>
+        </div>
+        <div class="metric">
+          <div class="k">Umbral c</div>
+          <div class="v" id="thresholdCard">0.50</div>
+          <div class="s">regla de decisión</div>
+        </div>
+        <div class="metric">
+          <div class="k">Clase predicha</div>
+          <div class="v class-chip"><span class="dot" id="classDot"></span><span id="classCard">1</span></div>
+          <div class="s" id="classSub">p ≥ c</div>
+        </div>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="panel-title">
+          <h2>Curva sigmoide y punto actual</h2>
+          <span class="tag" id="statusTag">zona de transición</span>
+        </div>
+        <div class="chart-wrap">
+          <svg id="chart" viewBox="0 0 980 520" role="img" aria-label="Curva sigmoide interactiva">
+            <defs>
+              <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff6b7a"/>
+                <stop offset="48%" stop-color="#35d0ff"/>
+                <stop offset="100%" stop-color="#35d39a"/>
+              </linearGradient>
+            </defs>
+            <rect class="zone0" x="80" y="36" width="410" height="400" rx="14"></rect>
+            <rect class="zone1" x="490" y="36" width="410" height="400" rx="14"></rect>
+
+            <g id="gridLines"></g>
+            <g class="axis">
+              <line x1="80" y1="436" x2="900" y2="436"></line>
+              <line x1="80" y1="36" x2="80" y2="436"></line>
+              <text x="884" y="468">score z</text>
+              <text x="27" y="48">p</text>
+            </g>
+            <g id="axisLabels"></g>
+            <path id="sigmoidPath" class="sigmoid"></path>
+            <line id="thresholdLine" class="threshold-line" x1="80" x2="900" y1="236" y2="236"></line>
+            <line id="zLine" class="z-line" y1="36" y2="436"></line>
+            <circle id="pointHalo" class="point-halo" r="18"></circle>
+            <circle id="point" class="point" r="8"></circle>
+            <circle id="thresholdPoint" class="threshold-point" r="6"></circle>
+
+            <g id="pointLabel">
+              <rect class="label-box" rx="10" width="142" height="48"></rect>
+              <text class="label-text" x="12" y="20" id="label1">z = 0.10</text>
+              <text class="label-text" x="12" y="38" id="label2">p = 52.50%</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section class="below">
+        <div class="panel">
+          <div class="panel-title">
+            <h2>Cálculo paso a paso</h2>
+            <span class="tag">Fórmula viva</span>
+          </div>
+          <div class="equation-box">
+            <div class="eq-line" id="eq1">z = −1.50 + (0.80 × 2.00) = 0.10</div>
+            <div class="eq-line" id="eq2">p = 1 / (1 + e<sup>−0.10</sup>) = 0.5250</div>
+            <div class="eq-line" id="eq3">0.5250 ≥ 0.50 → Ŷ = 1</div>
+            <div class="eq-step">La decisión cambia cuando la probabilidad cruza el umbral seleccionado.</div>
+          </div>
+          <div class="mini-track"><div class="mini-marker" id="probMarker"></div></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <h2>Interpretación automática</h2>
+            <span class="tag">Didáctica</span>
+          </div>
+          <div class="interpret" id="interpretText"></div>
+          <div class="decision-banner one" id="decisionBanner"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">
+          <h2>Qué observar</h2>
+          <span class="tag">Ideas clave</span>
+        </div>
+        <div class="concepts">
+          <div class="concept">
+            <b>1 · El score no es una probabilidad</b>
+            <span>z puede ser cualquier número real. La sigmoide es la transformación que lo lleva al intervalo [0,1].</span>
+          </div>
+          <div class="concept">
+            <b>2 · La mayor sensibilidad está cerca de p = 0.5</b>
+            <span>La curva cambia más rápido en la zona central y se aplana cuando p se acerca a 0 o a 1.</span>
+          </div>
+          <div class="concept">
+            <b>3 · Probabilidad y decisión son distintas</b>
+            <span>El modelo estima p. El umbral c agrega una regla operativa para convertir p en una clase.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <div class="footer">
+    Material elaborado por el profesor Sergio Gevatschnaider
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  const b0 = $('b0'), b1 = $('b1'), xVal = $('xVal'), thr = $('thr');
+  const b0Val = $('b0Val'), b1Val = $('b1Val'), xDisplay = $('xDisplay'), thrVal = $('thrVal');
+  const scoreCard = $('scoreCard'), probCard = $('probCard'), thresholdCard = $('thresholdCard');
+  const classCard = $('classCard'), classDot = $('classDot'), classSub = $('classSub');
+  const eq1 = $('eq1'), eq2 = $('eq2'), eq3 = $('eq3');
+  const interpretText = $('interpretText'), decisionBanner = $('decisionBanner'), statusTag = $('statusTag');
+  const thresholdLine = $('thresholdLine'), zLine = $('zLine'), point = $('point'),
+        pointHalo = $('pointHalo'), thresholdPoint = $('thresholdPoint'),
+        pointLabel = $('pointLabel'), label1 = $('label1'), label2 = $('label2'),
+        probMarker = $('probMarker');
+  const playBtn = $('playBtn'), resetBtn = $('resetBtn'), exampleBtn = $('exampleBtn'), themeBtn = $('themeBtn');
+  let animating = false;
+  let raf = null;
+  let direction = 1;
+
+  const W = 820, H = 400, x0 = 80, y0 = 36;
+  const zMin = -8, zMax = 8;
+
+  const sigmoid = z => 1 / (1 + Math.exp(-z));
+  const logit = p => Math.log(p/(1-p));
+  const sx = z => x0 + (z - zMin)/(zMax-zMin)*W;
+  const sy = p => y0 + (1-p)*H;
+
+  function fmt(n, d=2){
+    const s = Number(n).toFixed(d);
+    return s.replace('-', '−');
+  }
+  function signFmt(n){
+    return (n >= 0 ? '+' : '−') + Math.abs(n).toFixed(2);
+  }
+  function statusFromP(p){
+    if(p < .15) return ['probabilidad muy baja','var(--bad)'];
+    if(p < .40) return ['probabilidad baja','var(--warn)'];
+    if(p <= .60) return ['zona de transición','var(--accent)'];
+    if(p <= .85) return ['probabilidad alta','var(--good)'];
+    return ['probabilidad muy alta','var(--good)'];
+  }
+
+  function buildChart(){
+    let d = '';
+    for(let i=0;i<=220;i++){
+      const z = zMin + (zMax-zMin)*i/220;
+      const p = sigmoid(z);
+      d += (i===0?'M':'L') + sx(z).toFixed(2) + ',' + sy(p).toFixed(2);
+    }
+    $('sigmoidPath').setAttribute('d', d);
+
+    const grid = $('gridLines');
+    let g = '';
+    for(let p=0;p<=1.0001;p+=.25){
+      const y=sy(p);
+      g += `<line class="gridline" x1="80" x2="900" y1="${y}" y2="${y}"></line>`;
+    }
+    for(let z=-8;z<=8;z+=2){
+      const x=sx(z);
+      g += `<line class="gridline" y1="36" y2="436" x1="${x}" x2="${x}"></line>`;
+    }
+    grid.innerHTML=g;
+
+    const labels = $('axisLabels');
+    let t = '';
+    for(let p=0;p<=1.0001;p+=.25){
+      t += `<text x="35" y="${sy(p)+4}" fill="var(--muted)" font-size="12">${p.toFixed(2)}</text>`;
+    }
+    for(let z=-8;z<=8;z+=2){
+      t += `<text x="${sx(z)-8}" y="458" fill="var(--muted)" font-size="12">${z}</text>`;
+    }
+    labels.innerHTML=t;
+  }
+
+  function update(){
+    const B0 = parseFloat(b0.value);
+    const B1 = parseFloat(b1.value);
+    const X = parseFloat(xVal.value);
+    const C = parseFloat(thr.value);
+
+    const z = B0 + B1*X;
+    const p = sigmoid(z);
+    const cls = p >= C ? 1 : 0;
+
+    b0Val.textContent = signFmt(B0);
+    b1Val.textContent = signFmt(B1);
+    xDisplay.textContent = fmt(X,2);
+    thrVal.textContent = C.toFixed(2);
+
+    scoreCard.textContent = fmt(z,2);
+    probCard.textContent = (p*100).toFixed(2) + '%';
+    thresholdCard.textContent = C.toFixed(2);
+    classCard.textContent = cls;
+    classDot.className = 'dot' + (cls ? '' : ' zero');
+    classSub.textContent = cls ? 'p ≥ c' : 'p < c';
+
+    eq1.innerHTML = `z = ${fmt(B0,2)} + (${fmt(B1,2)} × ${fmt(X,2)}) = ${fmt(z,2)}`;
+    eq2.innerHTML = `p = 1 / (1 + e<sup>${fmt(-z,2)}</sup>) = ${p.toFixed(4)}`;
+    eq3.innerHTML = `${p.toFixed(4)} ${cls ? '≥' : '<'} ${C.toFixed(2)} → Ŷ = ${cls}`;
+
+    const px = sx(Math.max(zMin,Math.min(zMax,z)));
+    const py = sy(p);
+    point.setAttribute('cx',px); point.setAttribute('cy',py);
+    pointHalo.setAttribute('cx',px); pointHalo.setAttribute('cy',py);
+    zLine.setAttribute('x1',px); zLine.setAttribute('x2',px);
+
+    const ty = sy(C);
+    thresholdLine.setAttribute('y1',ty); thresholdLine.setAttribute('y2',ty);
+
+    const tz = logit(C);
+    const tpx = sx(Math.max(zMin,Math.min(zMax,tz)));
+    thresholdPoint.setAttribute('cx',tpx);
+    thresholdPoint.setAttribute('cy',ty);
+
+    const labelX = Math.min(820,Math.max(92,px+16));
+    const labelY = Math.min(376,Math.max(48,py-58));
+    pointLabel.setAttribute('transform',`translate(${labelX},${labelY})`);
+    label1.textContent = `z = ${fmt(z,2)}`;
+    label2.textContent = `p = ${(p*100).toFixed(2)}%`;
+
+    probMarker.style.left = `calc(${(p*100).toFixed(2)}% - 2px)`;
+
+    const [st] = statusFromP(p);
+    statusTag.textContent = st;
+
+    const directionText = B1 > 0
+      ? 'Como β₁ es positivo, aumentar X eleva el score y tiende a aumentar la probabilidad.'
+      : B1 < 0
+        ? 'Como β₁ es negativo, aumentar X reduce el score y tiende a reducir la probabilidad.'
+        : 'Como β₁ vale cero, X no modifica el score: la probabilidad depende solo del intercepto.';
+
+    const zoneText = p < .15
+      ? 'El punto está en la zona plana inferior de la sigmoide: cambios adicionales en z modifican poco la probabilidad.'
+      : p > .85
+        ? 'El punto está en la zona plana superior de la sigmoide: la probabilidad ya está cerca de su techo.'
+        : 'El punto está en la zona más sensible de la sigmoide: pequeños cambios en z pueden modificar claramente la probabilidad.';
+
+    interpretText.innerHTML =
+      `<strong>${directionText}</strong><br><br>${zoneText}<br><br>` +
+      `Con el umbral actual <strong>c = ${C.toFixed(2)}</strong>, la observación queda clasificada como ` +
+      `<strong>clase ${cls}</strong>.`;
+
+    decisionBanner.className = 'decision-banner ' + (cls ? 'one' : 'zero');
+    decisionBanner.innerHTML = cls
+      ? `Decisión: <strong>Ŷ = 1</strong>. La probabilidad ${(p*100).toFixed(2)}% supera o iguala el umbral ${(C*100).toFixed(0)}%.`
+      : `Decisión: <strong>Ŷ = 0</strong>. La probabilidad ${(p*100).toFixed(2)}% no alcanza el umbral ${(C*100).toFixed(0)}%.`;
+  }
+
+  [b0,b1,xVal,thr].forEach(el => el.addEventListener('input', update));
+
+  resetBtn.addEventListener('click', () => {
+    stopAnimation();
+    b0.value = -1.5; b1.value = .8; xVal.value = 2; thr.value = .5;
+    update();
+  });
+
+  exampleBtn.addEventListener('click', () => {
+    stopAnimation();
+    b0.value = -2.2; b1.value = 1.25; xVal.value = 1.6; thr.value = .65;
+    update();
+  });
+
+  themeBtn.addEventListener('click', () => {
+    const body = document.body;
+    const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️ Tema claro' : '🌙 Tema oscuro';
+  });
+
+  function animationStep(){
+    if(!animating) return;
+    let x = parseFloat(xVal.value);
+    x += direction * 0.045;
+    if(x >= 8){x=8; direction=-1;}
+    if(x <= -8){x=-8; direction=1;}
+    xVal.value = x;
+    update();
+    raf = requestAnimationFrame(animationStep);
+  }
+
+  function stopAnimation(){
+    animating = false;
+    if(raf) cancelAnimationFrame(raf);
+    playBtn.textContent = '▶ Simulación dinámica';
+    playBtn.classList.remove('active');
+  }
+
+  playBtn.addEventListener('click', () => {
+    if(animating){
+      stopAnimation();
+    } else {
+      animating = true;
+      playBtn.textContent = '⏸ Pausar simulación';
+      playBtn.classList.add('active');
+      animationStep();
+    }
+  });
+
+  buildChart();
+  update();
+})();
+</script>
+</body>
+</html>
