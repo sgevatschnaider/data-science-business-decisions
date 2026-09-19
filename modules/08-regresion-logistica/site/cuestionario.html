@@ -1,37 +1,307 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cuestionario avanzado · Regresión Logística</title><link rel="stylesheet" href="styles.css"><script defer src="site.js"></script></head><body><header class="top"><div class="wrap"><div class="brand"><span>08</span> · Cuestionario avanzado</div><nav><a class="btn" href="index.html">← Módulo</a><a class="btn" href="simulacion.html">Laboratorio</a><a class="btn" href="glosario.html">Glosario</a><button onclick="toggleTheme()">◐ Tema</button></nav></div></header><main class="section" data-question-count="30"><div class="wrap"><div class="eyebrow">Autoevaluación con explicación</div><h1 class="page-title">Regresión logística y decisiones de clasificación</h1><p class="lead">30 preguntas con devolución inmediata. La explicación apunta al criterio estadístico y a su consecuencia para la decisión.</p><div class="metrics"><div class="metric">Respondidas<b id="answered">0/30</b></div><div class="metric">Correctas<b id="correct">0</b></div><div class="metric">Puntaje<b id="score">0%</b></div><div class="metric">Meta sugerida<b>≥ 80%</b></div></div><div id="quiz"></div><div class="actions"><button class="primary" onclick="resetQuiz()">Reiniciar</button><a class="btn" href="simulacion.html">Volver al laboratorio</a></div></div></main><script>
-const Q=[
-['¿Qué modela directamente la regresión logística?',['La probabilidad condicional de una clase','Una media continua sin restricción','La varianza residual','La distancia euclídea'],0,'La salida natural es P(Y=1|X), obtenida transformando un score lineal con la sigmoide.'],
-['¿Por qué no usar regresión lineal ordinaria para una respuesta binaria?',['Puede producir predicciones fuera de [0,1] y no respeta la estructura Bernoulli','Porque no admite variables numéricas','Porque siempre sobreajusta','Porque no tiene intercepto'],0,'La logística usa una función de enlace y una verosimilitud coherentes con una variable binaria.'],
-['Si z=0, la sigmoide vale:',['0,5','0','1','e'],0,'σ(0)=1/(1+1)=0,5.'],
-['El logit de p es:',['log[p/(1-p)]','p/(1+p)','log(p)','1-p'],0,'El logit transforma probabilidades (0,1) en toda la recta real.'],
-['Un coeficiente β=0,7 implica, ceteris paribus:',['Multiplicar los odds por exp(0,7)','Aumentar p en 70 puntos','Duplicar siempre la probabilidad','Aumentar accuracy 0,7'],0,'Los coeficientes son aditivos en log-odds y multiplicativos en odds.'],
-['¿Por qué un odds ratio no equivale a un cambio fijo en probabilidad?',['Porque el cambio en p depende del riesgo de partida','Porque odds y probabilidad son idénticos','Porque β cambia con cada caso','Porque el OR solo existe en multiclase'],0,'La sigmoide es no lineal: igual cambio en log-odds produce distinto cambio en p según el punto inicial.'],
-['El efecto marginal de una x continua es proporcional a:',['β·p(1-p)','β/p','1-β','β²'],0,'Para el logit binario, ∂p/∂x=βp(1-p).'],
-['¿Dónde es mayor |p(1-p)|?',['Alrededor de p=0,5','En p≈0','En p≈1','Es constante'],0,'La sensibilidad de la sigmoide es máxima en su zona central.'],
-['La regresión logística estándar se estima típicamente por:',['Máxima verosimilitud','Mínimos cuadrados siempre','K-means','PCA'],0,'Se maximiza la probabilidad de observar las clases registradas bajo el modelo Bernoulli.'],
-['¿Qué penaliza fuertemente la log-loss?',['Predicciones muy seguras y equivocadas','Predicciones cercanas a 0,5 solamente','Coeficientes positivos','Clases balanceadas'],0,'Como usa -log(probabilidad asignada al resultado real), una probabilidad casi cero para el resultado observado genera gran pérdida.'],
-['¿Qué cambia al mover el threshold manteniendo las probabilidades fijas?',['La política de clasificación y la matriz de confusión','Los coeficientes entrenados','La calibración intrínseca','La muestra de entrenamiento'],0,'El threshold opera después del modelo y decide qué score recibe la etiqueta/acción positiva.'],
-['Bajar el threshold suele:',['Aumentar recall y también falsos positivos','Aumentar precision necesariamente','Reducir TP','No cambiar ninguna métrica'],0,'Al declarar positivos más casos se capturan más eventos, pero normalmente se incorporan más negativos.'],
-['Precision responde:',['De los predichos positivos, cuántos eran realmente positivos','De los positivos reales, cuántos encontré','Qué proporción total acerté','Qué tan calibrado está el modelo'],0,'Precision=TP/(TP+FP).'],
-['Recall responde:',['De los positivos reales, cuántos detecté','De los positivos predichos, cuántos acerté','Cuántos negativos acerté','Cuánto vale el OR'],0,'Recall o sensibilidad=TP/(TP+FN).'],
-['Specificity es:',['TN/(TN+FP)','TP/(TP+FN)','TP/(TP+FP)','FP/(FP+TN)'],0,'Mide la fracción de negativos reales correctamente identificados.'],
-['ROC-AUC evalúa principalmente:',['Capacidad de ranking/discriminación a través de thresholds','Calibración absoluta de probabilidades','Costo económico','Causalidad'],0,'ROC-AUC resume la capacidad de ordenar positivos por encima de negativos, no si 0,8 significa 80%.'],
-['Con eventos muy raros, la curva PR suele ser especialmente informativa porque:',['Hace explícita la precision frente al recall y su baseline depende de la prevalencia','Siempre da AUC=1','Elimina el desbalance','No usa falsos positivos'],0,'Cuando hay muchos negativos, la precision evidencia el costo de acumular FP.'],
-['Un modelo bien calibrado significa que:',['Entre casos con p≈0,7, el evento ocurre cerca del 70%','Tiene AUC=1','Usa threshold 0,5','Todos sus coeficientes son significativos'],0,'Calibración relaciona probabilidades pronosticadas con frecuencias observadas.'],
-['¿Puede haber buena discriminación y mala calibración?',['Sí','No','Solo en regresión lineal','Solo con dos observaciones'],0,'Un modelo puede ordenar correctamente y, sin embargo, ser demasiado extremo o conservador en sus probabilidades.'],
-['El Brier score mide:',['Error cuadrático de probabilidades','Solo ranking','Tamaño de coeficientes','Cantidad de falsos negativos'],0,'Promedia (p-y)² y es una regla de puntuación probabilística.'],
-['¿Por qué separar train, validation y test?',['Para ajustar, seleccionar y estimar desempeño final sin reutilizar evidencia','Para aumentar artificialmente n','Para eliminar regularización','Para evitar usar métricas'],0,'El test debe quedar sellado hasta que el diseño esté fijado.'],
-['Ajustar un scaler antes del split produce:',['Leakage','Calibración perfecta','Más folds','Un OR mayor'],0,'El preprocesamiento aprende estadísticas de datos que deberían permanecer fuera del entrenamiento.'],
-['En K-fold, el preprocesamiento debe:',['Ajustarse dentro de cada fold de entrenamiento','Ajustarse una vez con todo el dataset','Omitirse siempre','Usar solo el test'],0,'Pipeline y cross-validation deben impedir que información del fold validado participe del ajuste.'],
-['La regularización L2 tiende a:',['Contraer coeficientes suavemente','Forzar todos a cero exactamente','Aumentar varianza sin límite','Cambiar Y'],0,'L2 penaliza la suma de cuadrados y reduce magnitudes.'],
-['La regularización L1 puede:',['Llevar algunos coeficientes exactamente a cero','Garantizar causalidad','Eliminar necesidad de validation','Convertir logit en probit'],0,'La geometría de la penalización L1 favorece soluciones sparse.'],
-['Una interacción x·grupo implica que:',['El efecto de x depende del grupo','El grupo desaparece','x deja de ser numérica','El modelo se vuelve no supervisado'],0,'El término de interacción modifica la pendiente asociada a x según la categoría.'],
-['Para softmax multiclase, las probabilidades:',['Suman 1 entre las clases','Son independientes y pueden sumar 3','Deben ser 0 o 1','No dependen de logits'],0,'Softmax normaliza exponentiales de logits y produce una distribución categórica.'],
-['Aumentar la temperatura en softmax suele:',['Aplanar la distribución de probabilidades','Hacerla más concentrada','Cambiar el orden de logits necesariamente','Forzar una clase a 1'],0,'Temperaturas mayores reducen diferencias relativas antes de la exponenciación.'],
-['Model drift puede ocurrir aunque el código no cambie porque:',['La distribución de entrada o la relación con el target puede cambiar','El modelo vuelve a entrenarse solo','La sigmoide deja de existir','ROC deja de definirse'],0,'Producción es un entorno dinámico: población, prevalencia y mecanismo generador pueden desplazarse.'],
-['¿Qué monitoreo es más defendible en producción?',['Distribución/PSI, prevalencia, ranking, calibración y costo de política','Solo accuracy de train','Solo cantidad de filas','Solo el intercepto'],0,'Una visión conjunta detecta drift de covariables, base rate, desempeño predictivo y degradación económica.']
-];
-let state=Array(Q.length).fill(null);const box=document.getElementById('quiz');
-function render(){box.innerHTML=Q.map((q,i)=>'<article class="card quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span><h3>'+q[0]+'</h3>'+q[1].map((o,j)=>'<button class="option '+(state[i]!==null?(j===q[2]?'correct':state[i]===j?'wrong':''):'')+'" '+(state[i]!==null?'disabled':'')+' onclick="answer('+i+','+j+')">'+o+'</button>').join('')+'<div class="explain '+(state[i]!==null?'show':'')+'"><strong>'+(state[i]===q[2]?'Correcto':'Revisar concepto')+'.</strong> '+q[3]+'</div></article>').join('');const a=state.filter(x=>x!==null).length,c=state.reduce((n,x,i)=>n+(x===Q[i][2]),0);document.getElementById('answered').textContent=a+'/'+Q.length;document.getElementById('correct').textContent=c;document.getElementById('score').textContent=a?Math.round(c/a*100)+'%':'0%'}
-window.answer=(i,j)=>{if(state[i]===null){state[i]=j;render()}};window.resetQuiz=()=>{state=Array(Q.length).fill(null);render();scrollTo({top:0,behavior:'smooth'})};render();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cuestionario avanzado · Regresión Logística</title>
+<style>
+:root{
+ --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.91);--panel2:#12243b;
+ --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+ --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--shadow:0 18px 50px rgba(0,0,0,.28);
+ --grid:rgba(159,179,200,.11)
+}
+[data-theme="light"]{
+ --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.95);--panel2:#fff;
+ --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+ --good:#0e9b69;--warn:#a96c00;--bad:#d63b50;--shadow:0 16px 44px rgba(50,83,112,.16);
+ --grid:rgba(71,101,128,.10)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+ color:var(--text);
+ background:radial-gradient(circle at 8% 3%,rgba(53,208,255,.15),transparent 29%),
+ radial-gradient(circle at 92% 0%,rgba(139,92,246,.16),transparent 32%),
+ linear-gradient(135deg,var(--bg),var(--bg2));transition:.3s
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.56),transparent 94%)}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 82%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.95rem}.brand span{display:block;color:var(--muted);font-size:.77rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);border-radius:12px;padding:10px 13px;cursor:pointer;font-weight:780;transition:.2s}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 50px}
+.hero{display:grid;grid-template-columns:1.17fr .83fr;gap:20px;margin-bottom:20px}
+.hero-main,.hero-side,.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:32px}.hero-side{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:center}
+.eyebrow{color:var(--accent);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2.1rem,4.6vw,4.7rem);line-height:.97;letter-spacing:-.055em}
+.gradient{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.67;max-width:930px;margin:18px 0 0}
+.stat{border:1px solid var(--line);border-radius:17px;padding:14px;background:linear-gradient(135deg,rgba(53,208,255,.055),rgba(139,92,246,.04))}
+.stat .big{font-size:1.7rem;font-weight:950}.stat .small{font-size:.74rem;color:var(--muted);margin-top:3px;line-height:1.35}
+.dashboard{display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:10px;margin-bottom:16px}
+.metric{padding:15px 16px}.metric .k{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:900}.metric .v{font-size:1.65rem;font-weight:950;margin-top:5px}
+.progress-wrap{display:flex;flex-direction:column;justify-content:center}
+.progress-head{display:flex;justify-content:space-between;gap:8px;font-size:.76rem;color:var(--muted);margin-bottom:8px}
+.progress{height:12px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:rgba(127,140,160,.12)}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.25s}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px}
+.sidebar{padding:17px;align-self:start;position:sticky;top:82px}
+.side-title{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin:0 0 9px}
+.index{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:16px}
+.qnav{aspect-ratio:1;border-radius:11px;padding:0;display:grid;place-items:center;font-size:.78rem}
+.qnav.current{border-color:var(--accent);box-shadow:0 0 0 2px rgba(53,208,255,.13)}
+.qnav.correct{background:rgba(53,211,154,.13);border-color:var(--good);color:var(--good)}
+.qnav.wrong{background:rgba(255,107,122,.11);border-color:var(--bad);color:var(--bad)}
+.topic-list{display:grid;gap:6px}.topic-row{display:flex;justify-content:space-between;gap:8px;font-size:.75rem;padding:7px 8px;border-radius:10px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}.topic-row span:last-child{font-weight:900}
+.quiz-card{padding:24px}
+.qmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.badge{font-size:.7rem;border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted)}.badge.topic{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.qtitle{font-size:clamp(1.2rem,2.2vw,1.65rem);line-height:1.42;font-weight:900;margin:4px 0 18px}
+.options{display:grid;gap:10px}
+.option{display:grid;grid-template-columns:40px 1fr;gap:11px;align-items:center;text-align:left;padding:13px 14px;border-radius:16px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.option .letter{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);font-weight:950}
+.option.selected{border-color:var(--accent);background:rgba(53,208,255,.075)}
+.option.correct{border-color:var(--good);background:rgba(53,211,154,.09)}.option.wrong{border-color:var(--bad);background:rgba(255,107,122,.08)}
+.option.correct .letter{border-color:var(--good);color:var(--good)}.option.wrong .letter{border-color:var(--bad);color:var(--bad)}
+.controls-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+.controls-left,.controls-right{display:flex;gap:8px;flex-wrap:wrap}
+.feedback{display:none;margin-top:18px;border-top:1px solid var(--line);padding-top:18px}
+.feedback.visible{display:block}
+.verdict{border-radius:16px;padding:14px 16px;font-weight:900;margin-bottom:12px}.verdict.ok{background:rgba(53,211,154,.10);border:1px solid var(--good);color:var(--good)}.verdict.no{background:rgba(255,107,122,.09);border:1px solid var(--bad);color:var(--bad)}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.guide-section{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.guide-section.full{grid-column:1/-1}
+.guide-section h3{margin:0 0 7px;font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.guide-section p{margin:0;line-height:1.62;font-size:.91rem}
+.formula{font-weight:900;background:linear-gradient(135deg,rgba(53,208,255,.065),rgba(139,92,246,.05))}
+.take{border-color:color-mix(in srgb,var(--good) 55%,var(--line));background:rgba(53,211,154,.06)}
+.why-list{display:grid;gap:7px}.why-item{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:start;font-size:.84rem;line-height:1.45}.why-letter{width:27px;height:27px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;font-weight:900}
+.result-panel{display:none;padding:24px;margin-top:18px}.result-panel.visible{display:block}
+.result-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:16px}
+.score-big{font-size:4rem;font-weight:950;letter-spacing:-.06em}.score-label{color:var(--muted);font-size:.8rem}
+.topic-bars{display:grid;gap:9px}.tbar-row{display:grid;grid-template-columns:140px 1fr 58px;gap:9px;align-items:center;font-size:.78rem}.tbar{height:10px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:rgba(127,140,160,.12)}.tbar>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--good))}
+.study-note{font-size:.78rem;color:var(--muted);line-height:1.45;margin-top:10px}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+@media(max-width:1150px){.hero{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.sidebar{position:static}.dashboard{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.hero-side{grid-template-columns:1fr 1fr}.dashboard{grid-template-columns:1fr 1fr}.guide-grid{grid-template-columns:1fr}.guide-section.full{grid-column:auto}.result-grid{grid-template-columns:1fr}.topic-bars .tbar-row{grid-template-columns:100px 1fr 50px}.brand span{display:none}.actions button{padding:8px 9px;font-size:.8rem}}
+@media(max-width:520px){.hero-side,.dashboard{grid-template-columns:1fr}.index{grid-template-columns:repeat(6,1fr)}.quiz-card{padding:17px}}
+</style>
+</head>
+<body data-theme="dark">
+<header class="topbar">
+ <div class="topbar-inner">
+  <div class="brand"><div class="logo">30</div><div><strong>Cuestionario avanzado · Regresión Logística</strong><span>Evaluación interactiva + guía de estudio</span></div></div>
+  <div class="actions">
+   <button id="themeBtn">☀️ Tema claro</button>
+   <button id="guideModeBtn">📘 Modo guía: OFF</button>
+   <button id="resetBtn">Reiniciar</button>
+  </div>
+ </div>
+</header>
+
+<main class="wrap">
+<section class="hero">
+ <div class="hero-main">
+  <div class="eyebrow">Regresión logística · evaluación integral</div>
+  <h1>30 preguntas para <span class="gradient">comprender, calcular y decidir</span></h1>
+  <p class="subtitle">Cuestionario progresivo basado en el recorrido del material: fundamentos probabilísticos, sigmoide, odds/logit, interpretación de coeficientes, máxima verosimilitud, métricas, ROC/PR, regularización, especificación, validación, calibración, costos, softmax y monitoreo. Cada respuesta se transforma en una explicación completa para repasar antes de un examen.</p>
+ </div>
+ <aside class="hero-side">
+  <div class="stat"><div class="big">30</div><div class="small">preguntas con cuatro alternativas.</div></div>
+  <div class="stat"><div class="big">15</div><div class="small">áreas conceptuales.</div></div>
+  <div class="stat"><div class="big">3 niveles</div><div class="small">básico, intermedio y avanzado.</div></div>
+  <div class="stat"><div class="big">6 capas</div><div class="small">respuesta, fórmula, ejemplo, distractores e idea clave.</div></div>
+ </aside>
+</section>
+
+<section class="dashboard">
+ <div class="card metric"><div class="k">Respondidas</div><div class="v" id="answered">0 / 30</div></div>
+ <div class="card metric"><div class="k">Correctas</div><div class="v" id="correctCount">0</div></div>
+ <div class="card metric"><div class="k">Puntaje</div><div class="v" id="scorePct">—</div></div>
+ <div class="card metric progress-wrap"><div class="progress-head"><span>Progreso total</span><span id="progressText">0%</span></div><div class="progress"><div id="progressBar"></div></div></div>
+</section>
+
+<div class="layout">
+ <aside class="card sidebar">
+  <div class="side-title">Navegación</div>
+  <div id="index" class="index"></div>
+  <div class="side-title">Desempeño por tema</div>
+  <div id="topicList" class="topic-list"></div>
+  <div class="study-note">En <strong>Modo guía</strong> podés abrir la explicación completa antes de responder. En modo evaluación, la guía aparece después de comprobar.</div>
+ </aside>
+
+ <section>
+  <div class="card quiz-card">
+   <div class="qmeta"><span id="qNumber" class="badge">Pregunta 1 de 30</span><span id="qTopic" class="badge topic">Fundamentos</span><span id="qLevel" class="badge">Básico</span></div>
+   <div id="qTitle" class="qtitle"></div>
+   <div id="options" class="options"></div>
+   <div class="controls-row">
+    <div class="controls-left"><button id="prevBtn">← Anterior</button><button id="nextBtn">Siguiente →</button></div>
+    <div class="controls-right"><button id="showGuideBtn">Mostrar guía</button><button id="checkBtn" class="primary">Comprobar respuesta</button></div>
+   </div>
+   <div id="feedback" class="feedback"></div>
+  </div>
+
+  <div id="resultPanel" class="card result-panel">
+   <div class="result-grid">
+    <div><div class="eyebrow">Resultado</div><div id="finalScore" class="score-big">—</div><div id="finalLabel" class="score-label"></div><div class="controls-row" style="justify-content:flex-start"><button id="reviewWrongBtn">Repasar errores</button><button id="restart2Btn">Hacer de nuevo</button></div></div>
+    <div><div class="side-title">Dominio por área</div><div id="topicBars" class="topic-bars"></div></div>
+   </div>
+  </div>
+ </section>
+</div>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+ const questions=[{"id": 1, "topic": "Fundamentos", "level": "Básico", "q": "¿Cuál es la razón principal por la que una regresión lineal ordinaria no es adecuada como modelo probabilístico directo cuando Y∈{0,1}?", "options": ["Porque una regresión lineal siempre produce coeficientes iguales a cero.", "Porque sus predicciones pueden ser menores que 0 o mayores que 1.", "Porque no puede incluir más de una variable explicativa.", "Porque la variable dependiente binaria impide calcular cualquier media."], "correct": 1, "answer": "La respuesta correcta es que una regresión lineal puede producir valores fuera del intervalo [0,1]. Una probabilidad válida debe permanecer entre 0 y 1. La regresión logística conserva una combinación lineal de los predictores, pero no la usa directamente como probabilidad: primero construye un score z y luego lo transforma mediante la función sigmoide.", "formula": "z = β₀ + β₁x₁ + … + βₖxₖ;  p = 1/(1+e^(−z))", "example": "Si una regresión lineal produce ŷ=1,18 para cierto caso, ese valor no puede interpretarse como 118% de probabilidad. La logística transforma el score y garantiza una salida válida entre 0 y 1.", "why": ["Los coeficientes no tienen por qué ser cero.", "Ésta es la limitación central de rango que motiva la transformación logística.", "Una regresión lineal puede incluir múltiples predictores.", "Una variable binaria sí tiene media; de hecho, su media es la proporción de unos."], "take": "La logística no elimina la estructura lineal: la desplaza a la escala del logit."}, {"id": 2, "topic": "Fundamentos", "level": "Básico", "q": "Si el score lineal de una observación es z=0, ¿qué probabilidad devuelve exactamente la función sigmoide?", "options": ["0", "0,25", "0,50", "1"], "correct": 2, "answer": "Cuando z=0, la función sigmoide devuelve exactamente 0,50. Ese punto es el centro de la curva logística y también el punto de máxima pendiente. Por eso, con threshold c=0,50, la frontera de decisión estándar se obtiene imponiendo z=0.", "formula": "σ(0)=1/(1+e⁰)=1/2=0,50", "example": "Si β₀+β₁x₁+β₂x₂=0 para un caso, el modelo le asigna 50% de probabilidad a Y=1.", "why": ["La sigmoide nunca vale 0 para un z finito.", "0,25 correspondería a un z negativo, no a z=0.", "Resultado exacto de σ(0).", "La sigmoide se aproxima a 1 cuando z→+∞, pero no vale 1 en z=0."], "take": "z=0 ↔ p=0,50 ↔ odds=1 ↔ logit=0."}, {"id": 3, "topic": "Fundamentos", "level": "Intermedio", "q": "Un modelo produce z≈1,386 para un cliente. ¿Cuál es aproximadamente su probabilidad estimada?", "options": ["0,20", "0,50", "0,80", "1,386"], "correct": 2, "answer": "La probabilidad es aproximadamente 0,80. El valor 1,386 es cercano a ln(4). Si z=logit(p), entonces las odds son e^z≈4 y, por tanto, p=4/(1+4)=0,80.", "formula": "p=σ(1,386)≈0,80; odds=e^1,386≈4", "example": "Un score de 1,386 no significa 138,6% de probabilidad: es un valor en escala logit que debe transformarse.", "why": ["0,20 corresponde aproximadamente a z=−1,386.", "p=0,50 corresponde a z=0.", "Conversión correcta mediante la sigmoide.", "z es un score, no una probabilidad."], "take": "Los scores pueden tomar cualquier valor real; la sigmoide los lleva a [0,1]."}, {"id": 4, "topic": "Odds y logit", "level": "Básico", "q": "Si p=0,80, ¿cuáles son las odds del evento?", "options": ["0,20", "0,80", "4", "5"], "correct": 2, "answer": "Las odds son 4. Se calculan como p/(1−p). Con p=0,80, la probabilidad de no evento es 0,20; por lo tanto, 0,80/0,20=4. Esto se interpreta como cuatro unidades relativas de evento por cada una de no evento.", "formula": "odds = p/(1−p) = 0,80/0,20 = 4", "example": "Odds=4 corresponden a p=4/(1+4)=0,80.", "why": ["0,20 es 1−p, no las odds.", "0,80 es la probabilidad, no las odds.", "Conversión correcta.", "5 sería 1/(1−p), que no es la definición de odds."], "take": "Probabilidad y odds no son la misma escala."}, {"id": 5, "topic": "Odds y logit", "level": "Intermedio", "q": "Si p=0,20, ¿cuál es aproximadamente el logit de esa probabilidad?", "options": ["−1,386", "−0,20", "0,20", "1,386"], "correct": 0, "answer": "El logit es aproximadamente −1,386. Primero, las odds son 0,20/0,80=0,25. Luego ln(0,25)=−1,386. El signo negativo indica que el evento es menos probable que el no evento.", "formula": "logit(0,20)=ln(0,20/0,80)=ln(0,25)≈−1,386", "example": "p=0,80 tiene logit +1,386 y p=0,20 tiene logit −1,386: son simétricos respecto de 0,50.", "why": ["Es el valor correcto.", "El logit no es −p.", "El logit no coincide con p.", "+1,386 corresponde a p≈0,80."], "take": "El logit convierte (0,1) en toda la recta real."}, {"id": 6, "topic": "Interpretación", "level": "Intermedio", "q": "En un modelo logístico, βⱼ=0,70. Manteniendo las demás variables constantes, ¿cuál es la interpretación correcta de un aumento de una unidad en xⱼ?", "options": ["La probabilidad aumenta exactamente 70 puntos porcentuales.", "Las odds se multiplican aproximadamente por e^0,70≈2,01.", "La probabilidad se duplica exactamente.", "El logit se divide por 0,70."], "correct": 1, "answer": "Un coeficiente β=0,70 significa que el logit aumenta 0,70 por cada unidad adicional de xⱼ y, de manera equivalente, que las odds se multiplican por e^0,70≈2,01. Esto no implica que la probabilidad se duplique, porque la conversión entre odds y probabilidad es no lineal.", "formula": "Δlogit = βⱼ;  OR = e^βⱼ = e^0,70 ≈ 2,01", "example": "Si las odds iniciales son 0,50, tras una unidad adicional pasarían a ≈1,005. La probabilidad cambia de 0,333 a ≈0,501, no a 0,666.", "why": ["β no mide puntos porcentuales de p.", "Interpretación correcta en odds.", "Duplicar odds no es lo mismo que duplicar p.", "β se suma al logit; no lo divide."], "take": "OR=e^β es multiplicador de odds, no multiplicador de probabilidad."}, {"id": 7, "topic": "Interpretación", "level": "Avanzado", "q": "Con β=1, ¿en cuál de estos puntos es mayor el efecto marginal local ∂p/∂x=βp(1−p)?", "options": ["p=0,05", "p=0,10", "p=0,50", "p=0,90"], "correct": 2, "answer": "El efecto marginal es máximo en p=0,50 porque p(1−p) alcanza allí su máximo de 0,25. Cerca de 0 o 1, la sigmoide se aplana y el mismo cambio en el score produce una variación mucho menor de probabilidad.", "formula": "∂p/∂x = βp(1−p); con β=1 y p=0,50 → 0,25", "example": "En p=0,10 el factor p(1−p)=0,09; en p=0,50 es 0,25; en p=0,90 vuelve a 0,09.", "why": ["0,0475 es pequeño.", "0,09 es menor que 0,25.", "Máximo de p(1−p).", "0,09 por simetría con p=0,10."], "take": "El coeficiente es constante en log-odds; el efecto sobre probabilidad no lo es."}, {"id": 8, "topic": "Entrenamiento", "level": "Intermedio", "q": "Para una observación con y=1 y probabilidad predicha p=0,80, ¿cuál es su contribución a la likelihood Bernoulli?", "options": ["0,20", "0,50", "0,80", "−ln(0,80)"], "correct": 2, "answer": "Para y=1, la contribución a la likelihood es p. La expresión general p^y(1−p)^(1−y) se reduce a p cuando y=1. Por lo tanto, la contribución es 0,80.", "formula": "p^1(1−p)^0 = p = 0,80", "example": "Si el mismo caso tuviera y=0, la contribución sería 1−p=0,20.", "why": ["Correspondería a y=0.", "No surge de la fórmula Bernoulli para este caso.", "Contribución correcta.", "−ln(0,80) es la pérdida individual, no la likelihood."], "take": "Likelihood y log-loss están conectadas, pero no son la misma cantidad."}, {"id": 9, "topic": "Entrenamiento", "level": "Intermedio", "q": "Para un caso realmente positivo (y=1), ¿qué predicción genera la mayor log-loss?", "options": ["p=0,99", "p=0,80", "p=0,51", "p=0,01"], "correct": 3, "answer": "La mayor pérdida aparece con p=0,01 porque el modelo está extremadamente confiado en la clase incorrecta. Para y=1, la pérdida es −ln(p); por eso, cuanto más se acerca p a cero, más crece la penalización sin cota superior.", "formula": "Loss(y=1)=−ln(p); −ln(0,01)≈4,605", "example": "p=0,99 produce una pérdida cercana a 0,010; p=0,01 produce ≈4,605.", "why": ["Es una predicción casi perfecta para y=1.", "Tiene pérdida baja.", "Está apenas del lado correcto de 0,5 pero con pérdida moderada.", "Es un error extremadamente confiado y recibe la mayor penalización."], "take": "Log-loss evalúa calidad probabilística, no solo acierto de clase."}, {"id": 10, "topic": "Decisión", "level": "Intermedio", "q": "Sin reentrenar el modelo, se baja el threshold de 0,50 a 0,30. ¿Qué patrón es el más esperable?", "options": ["Disminuyen simultáneamente TP y FP.", "Aumentan TP y FP; suelen disminuir FN y TN.", "Los coeficientes β cambian automáticamente.", "El AUC aumenta necesariamente."], "correct": 1, "answer": "Al bajar el threshold, más observaciones son clasificadas como positivas. Por ello suelen aumentar los verdaderos positivos y también las falsas alarmas; al mismo tiempo disminuyen los falsos negativos y los verdaderos negativos. Los coeficientes y el ranking permanecen iguales.", "formula": "ŷ=1 si p̂≥c", "example": "Un caso con p̂=0,38 era negativo con c=0,50 y pasa a positivo con c=0,30.", "why": ["Bajar c expande la región positiva.", "Es el trade-off esperado.", "Cambiar c no reestima β.", "AUC resume el ranking a través de thresholds y no aumenta por mover uno."], "take": "Threshold pertenece a la política de decisión, no al entrenamiento del modelo."}, {"id": 11, "topic": "Métricas", "level": "Intermedio", "q": "En una muestra: TP=72, FP=18, FN=8 y TN=102. ¿Cuál es el recall?", "options": ["72%", "80%", "90%", "94%"], "correct": 2, "answer": "Recall=TP/(TP+FN)=72/(72+8)=72/80=0,90. La métrica mira exclusivamente a los positivos reales y pregunta qué proporción fue detectada.", "formula": "Recall = TP/(TP+FN) = 72/80 = 0,90", "example": "El modelo detectó 72 de los 80 positivos reales y perdió 8.", "why": ["No usa el denominador correcto.", "80% coincide con la precision: 72/(72+18).", "Cálculo correcto.", "No corresponde a ninguna métrica principal con estos valores."], "take": "Recall se concentra en no perder positivos; precision se concentra en la calidad de las alertas."}, {"id": 12, "topic": "Métricas", "level": "Intermedio", "q": "Con TP=72, FP=18, FN=8 y TN=102, ¿cuál es la precision?", "options": ["72%", "80%", "85%", "90%"], "correct": 1, "answer": "Precision=TP/(TP+FP)=72/(72+18)=72/90=0,80. De las 90 observaciones marcadas como positivas, 72 eran realmente positivas.", "formula": "Precision = TP/(TP+FP) = 72/90 = 0,80", "example": "Una precision de 80% significa que una de cada cinco alertas positivas es falsa en esta muestra.", "why": ["TP/N no define precision.", "Cálculo correcto.", "85% sería la specificity en este ejemplo: 102/120.", "90% es el recall."], "take": "El denominador de precision son los positivos predichos."}, {"id": 13, "topic": "Desbalance", "level": "Intermedio", "q": "En un dataset con 9.900 negativos y 100 positivos, un modelo siempre predice clase 0. ¿Cuál es la principal conclusión?", "options": ["Es excelente porque logra 99% de accuracy.", "Es inútil para detectar positivos aunque su accuracy sea 99%.", "Tendrá precision y recall iguales a 99%.", "Su ROC-AUC será necesariamente 1."], "correct": 1, "answer": "El modelo alcanza 99% de accuracy porque acierta todos los negativos, pero recall=0%: no detecta ninguno de los 100 positivos. Este es el ejemplo clásico de por qué la exactitud aislada puede ser engañosa con clases desbalanceadas.", "formula": "Accuracy=9900/10000=99%; Recall=0/100=0%", "example": "Fraude, default o enfermedad rara suelen exigir métricas que miren explícitamente la clase minoritaria.", "why": ["Una accuracy alta no basta si el objetivo es detectar positivos.", "Conclusión correcta.", "Recall es 0; precision incluso puede quedar indefinida si nunca predice positivo.", "Un clasificador constante no posee discriminación perfecta."], "take": "Siempre interpretar accuracy junto con prevalencia y matriz de confusión."}, {"id": 14, "topic": "ROC / PR", "level": "Intermedio", "q": "¿Qué representa un punto de la curva ROC para un threshold determinado?", "options": ["Precision frente a recall.", "TPR frente a FPR.", "Accuracy frente a log-loss.", "Odds frente a logit."], "correct": 1, "answer": "Cada threshold produce un par (FPR,TPR), donde TPR es recall y FPR es la proporción de negativos reales marcados erróneamente como positivos. Al recorrer todos los thresholds se forma la curva ROC.", "formula": "TPR=TP/(TP+FN); FPR=FP/(FP+TN)", "example": "Un threshold más bajo suele mover el punto hacia arriba y hacia la derecha: detecta más positivos, pero genera más falsas alarmas.", "why": ["Eso describe la curva Precision–Recall.", "Definición correcta de ROC.", "No son los ejes de ROC.", "Son transformaciones del modelo, no ejes de ROC."], "take": "ROC describe un conjunto de políticas posibles, no una única decisión."}, {"id": 15, "topic": "ROC / PR", "level": "Avanzado", "q": "¿Cuál es la interpretación más precisa de un ROC-AUC=0,85?", "options": ["El modelo acierta exactamente 85% de las clases con threshold 0,50.", "Existe aproximadamente 85% de probabilidad de que un positivo aleatorio reciba mayor score que un negativo aleatorio.", "El modelo está calibrado al 85%.", "El 85% de las probabilidades está por encima de 0,50."], "correct": 1, "answer": "AUC es una medida de discriminación o ranking. Una interpretación útil es que, al elegir un positivo y un negativo al azar, el modelo asigna un score mayor al positivo en aproximadamente 85% de los pares. No fija accuracy, calibración ni threshold.", "formula": "AUC ≈ P(score⁺ > score⁻)", "example": "Dos modelos con idéntico ranking pero probabilidades en escalas distintas pueden compartir el mismo AUC.", "why": ["Accuracy depende del threshold.", "Interpretación estándar de ranking.", "AUC no mide calibración.", "No tiene esa interpretación."], "take": "AUC evalúa orden relativo; calibración evalúa significado absoluto de las probabilidades."}, {"id": 16, "topic": "ROC / PR", "level": "Avanzado", "q": "Un modelo mantiene TPR=0,80 y FPR=0,10. Si la prevalencia positiva cae a 5%, ¿cuál es aproximadamente la precision esperada?", "options": ["5%", "29,6%", "80%", "90%"], "correct": 1, "answer": "La precision esperada es aproximadamente 29,6%. Usando prevalencia π=0,05: TP proporcional=0,05×0,80=0,04; FP proporcional=0,95×0,10=0,095. Entonces precision=0,04/(0,04+0,095)=0,296. El ejemplo muestra por qué una FPR aparentemente baja puede producir muchas falsas alarmas cuando los negativos dominan.", "formula": "Precision = π·TPR / [π·TPR + (1−π)·FPR] ≈ 0,296", "example": "Sobre 1.000 casos: ~50 positivos → 40 TP; ~950 negativos → 95 FP; precision≈40/135=29,6%.", "why": ["La prevalencia no coincide con precision.", "Cálculo correcto.", "80% es TPR, no precision.", "90% es 1−FPR."], "take": "Precision depende de la prevalencia; ROC opera con tasas condicionadas por clase."}, {"id": 17, "topic": "Geometría", "level": "Intermedio", "q": "Con threshold c=0,50 y dos predictores, ¿qué ecuación define la frontera de decisión de una regresión logística lineal?", "options": ["β₀+β₁x₁+β₂x₂=0", "β₀+β₁x₁+β₂x₂=0,50", "x₁+x₂=1 siempre", "σ(z)=0"], "correct": 0, "answer": "Con c=0,50, logit(0,50)=0. Como z=β₀+β₁x₁+β₂x₂, la frontera es z=0. En dos dimensiones esta ecuación representa una recta; en más dimensiones, un hiperplano.", "formula": "p=0,50 ⇔ logit(p)=0 ⇔ β₀+β₁x₁+β₂x₂=0", "example": "Si c cambia a 0,70, la frontera deja de ser z=0 y pasa a z=logit(0,70)≈0,847.", "why": ["Ecuación correcta para c=0,50.", "Confunde probabilidad con score.", "Solo ocurriría en una parametrización particular.", "La sigmoide nunca vale 0 para un z finito."], "take": "La frontera general es z=logit(c), no siempre z=0."}, {"id": 18, "topic": "Regularización", "level": "Intermedio", "q": "¿Qué diferencia conceptual describe mejor L1 y L2 en regresión logística?", "options": ["L1 puede llevar coeficientes exactamente a cero; L2 suele contraerlos suavemente.", "L2 elimina siempre todas las variables correlacionadas; L1 nunca cambia coeficientes.", "L1 solo sirve para clasificación multiclase; L2 solo para binaria.", "Ambas cambian el threshold pero no la función objetivo."], "correct": 0, "answer": "L1 agrega λΣ|βⱼ| y favorece soluciones dispersas: algunos coeficientes pueden quedar exactamente en cero. L2 agrega λΣβⱼ² y suele contraer los coeficientes de manera continua sin anularlos necesariamente.", "formula": "L1: Loss+λΣ|βⱼ|;  L2: Loss+λΣβⱼ²", "example": "Con muchas variables de ruido, L1 puede actuar como selección de variables; con multicolinealidad, L2 suele aportar estabilidad.", "why": ["Describe correctamente el efecto típico de ambas penalizaciones.", "La afirmación invierte y exagera propiedades.", "Ambas pueden aplicarse a problemas binarios y extensiones multiclase.", "Regularización modifica el objetivo de entrenamiento, no el threshold."], "take": "Regularización controla complejidad; no sustituye validación."}, {"id": 19, "topic": "Regularización", "level": "Avanzado", "q": "¿Cuál de estos patrones es más compatible con overfitting?", "options": ["Train y test con log-loss altas y similares.", "Train con log-loss muy baja y test claramente peor.", "Train peor que test por una diferencia mínima.", "Coeficientes exactamente cero bajo L1."], "correct": 1, "answer": "Overfitting se manifiesta típicamente como excelente ajuste en entrenamiento y deterioro fuera de muestra. El modelo captura particularidades o ruido de train que no generalizan. Una brecha importante entre train y validation/test es una señal, aunque siempre debe analizarse en contexto.", "formula": "Señal típica: Loss_train << Loss_test", "example": "Train log-loss=0,18 y test=0,62 sugiere mucha más capacidad de ajuste que de generalización.", "why": ["Eso es más compatible con underfitting.", "Patrón clásico de overfitting.", "Una diferencia pequeña no establece overfitting.", "L1 puede producir ceros como efecto normal de regularización."], "take": "El objetivo no es ganar en train; es generalizar."}, {"id": 20, "topic": "Especificación", "level": "Intermedio", "q": "Una variable “situación laboral” tiene tres niveles: Empleado, Autónomo y Monotributista. Si Empleado es la referencia, ¿cómo se interpreta β_Autónomo?", "options": ["Como diferencia de log-odds entre Autónomo y Empleado, ceteris paribus.", "Como probabilidad absoluta de ser Autónomo.", "Como diferencia entre Autónomo y Monotributista exclusivamente.", "Como el intercepto de toda la muestra."], "correct": 0, "answer": "El coeficiente de la dummy Autónomo compara ese grupo con la categoría omitida, Empleado, manteniendo constantes las demás variables. Está expresado en log-odds; al exponenciarlo se obtiene el odds ratio relativo a Empleado.", "formula": "OR_Autónomo vs Empleado = e^(β_Autónomo)", "example": "Si β_Autónomo=0,50, las odds del evento son ≈1,65 veces las de Empleado, controlando por las demás X.", "why": ["Interpretación correcta.", "Una dummy no modela la probabilidad de pertenecer a la categoría.", "La comparación es contra la referencia.", "No es el intercepto."], "take": "Toda interpretación de una dummy debe nombrar explícitamente su categoría de referencia."}, {"id": 21, "topic": "Especificación", "level": "Avanzado", "q": "En z=β₀+β₁X₁+β₂X₂+β₃X₁X₂, ¿cuál es el efecto de X₁ sobre el logit?", "options": ["β₁ solamente", "β₁+β₃X₂", "β₂+β₃X₁", "β₃ solamente"], "correct": 1, "answer": "Con una interacción, el efecto de X₁ sobre el logit depende de X₂. La derivada de z respecto de X₁ es β₁+β₃X₂. Por eso β₁ ya no representa un efecto universal: representa el efecto cuando X₂=0.", "formula": "∂z/∂X₁ = β₁ + β₃X₂", "example": "Si β₁=0,4 y β₃=0,2, el efecto en X₂=1 es 0,6 y en X₂=3 es 1,0.", "why": ["Ignora la interacción.", "Derivada correcta.", "Ése es el efecto de X₂, no de X₁.", "β₃ por sí solo mide cuánto cambia el efecto con X₂."], "take": "Una interacción cambia pendientes, no solo niveles."}, {"id": 22, "topic": "Especificación", "level": "Intermedio", "q": "¿Qué logra agregar X² a un modelo logístico?", "options": ["Permitir curvatura en la relación entre X y el logit.", "Convertir automáticamente el problema en causal.", "Eliminar la necesidad de la sigmoide.", "Forzar que la probabilidad sea siempre 0,50."], "correct": 0, "answer": "Agregar un término cuadrático permite que el score z tenga curvatura respecto de X. La regresión logística sigue usando la sigmoide al final; lo que cambia es la especificación del predictor lineal. Esto permite que el efecto de X varíe con su propio nivel.", "formula": "z=β₀+β₁X+β₂X²", "example": "Si β₂<0, el logit puede crecer con X hasta cierto punto y luego disminuir.", "why": ["Es el propósito del término cuadrático.", "No identifica causalidad por sí mismo.", "La sigmoide sigue siendo necesaria para mapear z a probabilidad.", "No impone p=0,50."], "take": "“Logística” no significa que todos los predictores deban entrar de forma lineal sin transformar."}, {"id": 23, "topic": "Validación", "level": "Intermedio", "q": "¿Cuál es la función correcta de Train, Validation y Test?", "options": ["Train evalúa, Validation entrena y Test ajusta el threshold.", "Train aprende parámetros, Validation ayuda a elegir configuraciones y Test evalúa al final.", "Los tres deben usarse simultáneamente para estimar β.", "Test debe revisarse repetidamente hasta elegir el mejor modelo."], "correct": 1, "answer": "Train se utiliza para ajustar los parámetros del modelo. Validation —o cross-validation dentro del conjunto de desarrollo— se usa para comparar especificaciones e hiperparámetros. Test debe mantenerse reservado para una evaluación final lo más independiente posible.", "formula": "Train → aprender; Validation → elegir; Test → evaluar", "example": "Se puede reservar 20% como test y hacer 5-fold CV sobre el 80% restante.", "why": ["Invierte las funciones.", "Esquema correcto.", "El test no debe intervenir en la estimación ordinaria.", "Reusar el test para elegir contamina la evaluación."], "take": "Cuantas más decisiones tomás mirando un conjunto, menos “fuera de muestra” queda."}, {"id": 24, "topic": "Validación", "level": "Intermedio", "q": "En una validación cruzada de 5 folds sobre el development set, ¿qué ocurre con cada observación?", "options": ["Se usa exactamente cinco veces como validation.", "Se usa una vez como validation y cuatro veces dentro de train.", "Nunca entra al train.", "Entra también al test final."], "correct": 1, "answer": "En 5-fold CV, el development set se divide en cinco bloques. Cada bloque actúa una vez como validation y en las otras cuatro iteraciones forma parte del entrenamiento. El test final, si existe, permanece completamente fuera de este ciclo.", "formula": "K=5 → 5 entrenamientos; cada caso: 1×validation + 4×train", "example": "Con 500 observaciones de development, cada fold tiene aproximadamente 100 casos.", "why": ["Cada observación valida una sola vez.", "Descripción correcta.", "Participa cuatro veces en train.", "El test final es una partición separada."], "take": "Cross-validation estima media y variabilidad, no solo un único resultado."}, {"id": 25, "topic": "Calibración", "level": "Avanzado", "q": "Dos modelos ordenan exactamente igual a todos los individuos, pero uno transforma sus probabilidades haciéndolas mucho más extremas. ¿Qué puede ocurrir?", "options": ["El AUC puede mantenerse igual mientras Brier y log-loss empeoran.", "El AUC debe caer a 0,50.", "La calibración necesariamente mejora.", "Precision y recall quedan fijas para cualquier threshold numérico."], "correct": 0, "answer": "Si la transformación es monotónica, el ranking puede permanecer idéntico y, por tanto, el ROC-AUC puede no cambiar. Sin embargo, si las probabilidades se vuelven demasiado extremas, la calibración, Brier y log-loss pueden deteriorarse. Esto separa claramente discriminación de calidad probabilística.", "formula": "Ranking igual ⇒ AUC igual; Brier=(1/n)Σ(p̂−y)²", "example": "Un modelo que cambia 0,60 a 0,95 y 0,40 a 0,05 conserva el orden, pero puede quedar sobreconfiado.", "why": ["Describe la diferencia discriminación/calibración.", "El ranking no cambió.", "Extremar probabilidades no garantiza calibración.", "Con thresholds numéricos fijos las clases pueden cambiar aunque el ranking no cambie."], "take": "AUC responde “quién tiene más riesgo”; calibración responde “cuánto riesgo”."}, {"id": 26, "topic": "Calibración", "level": "Intermedio", "q": "Para un caso con y=1, ¿cuál de estas predicciones tiene el menor Brier contribution (p−y)²?", "options": ["p=0,10", "p=0,40", "p=0,80", "p=0,95"], "correct": 3, "answer": "Para y=1, el error cuadrático es (p−1)². Cuanto más se aproxima p a 1, menor es la contribución. Con p=0,95, el error es (−0,05)²=0,0025, menor que en las demás opciones.", "formula": "Brier_i=(p−y)²; (0,95−1)²=0,0025", "example": "p=0,80 produce 0,04; p=0,10 produce 0,81.", "why": ["Error 0,81.", "Error 0,36.", "Error 0,04.", "Error 0,0025, el menor."], "take": "Brier evalúa cercanía probabilística mediante error cuadrático."}, {"id": 27, "topic": "Decisión", "level": "Avanzado", "q": "En credit scoring, un falso negativo significa aprobar a un cliente que luego entra en default. Si el costo de FN aumenta mucho respecto del costo de FP, ¿qué política de threshold suele ser razonable, manteniendo el modelo fijo?", "options": ["Subir el threshold para marcar menos casos como riesgo alto.", "Bajar el threshold para detectar más potenciales defaults.", "Dejar c=0,50 porque es matemáticamente óptimo.", "Modificar AUC mediante el threshold."], "correct": 1, "answer": "Si perder un futuro default se vuelve mucho más costoso, conviene reducir el threshold para clasificar más casos como riesgo alto. Esto aumenta recall y reduce FN, aunque normalmente a costa de más FP. El threshold óptimo depende de costos y restricciones, no de una regla universal.", "formula": "Costo ≈ C_FP·FP + C_FN·FN", "example": "Si C_FN es 10 veces C_FP, puede justificarse aceptar más falsas alarmas para evitar defaults no detectados.", "why": ["Subir c tiende a aumentar FN.", "Dirección coherente con costo FN alto.", "0,50 no es universalmente óptimo.", "AUC no se modifica eligiendo un único threshold."], "take": "El mejor threshold es una decisión económica/operativa sobre probabilidades ya estimadas."}, {"id": 28, "topic": "Multiclase", "level": "Intermedio", "q": "Para scores softmax z=[2,1,0], ¿qué propiedad debe cumplirse necesariamente en las probabilidades resultantes?", "options": ["Cada probabilidad debe ser mayor que 0,50.", "Las probabilidades deben sumar 1.", "El score más bajo debe recibir probabilidad 0 exacta.", "Los scores deben sumar 1 antes de exponentiar."], "correct": 1, "answer": "Softmax convierte un vector de scores reales en una distribución de probabilidad: cada componente queda entre 0 y 1 y todas suman exactamente 1. Para [2,1,0], aproximadamente se obtiene [0,665; 0,245; 0,090].", "formula": "p_j=e^(z_j)/Σ_m e^(z_m); Σ_j p_j=1", "example": "La clase con z=2 recibe la mayor probabilidad, pero las demás conservan masa positiva.", "why": ["Tres probabilidades no pueden ser todas >0,50 y sumar 1.", "Propiedad definitoria de softmax.", "Para scores finitos softmax da probabilidades positivas, no cero exacto.", "Los scores pueden sumar cualquier valor."], "take": "Softmax normaliza competencia relativa entre clases."}, {"id": 29, "topic": "Multiclase", "level": "Avanzado", "q": "Se suma +5 a todos los scores de un modelo softmax: [2,1,0] pasa a [7,6,5]. ¿Qué ocurre con las probabilidades?", "options": ["Cambian porque todos los exponentes son mayores.", "Permanecen exactamente iguales.", "Se vuelven todas iguales a 1/3.", "La primera clase pasa necesariamente a probabilidad 1."], "correct": 1, "answer": "Las probabilidades permanecen exactamente iguales. Softmax es invariante a sumar una misma constante a todos los scores, porque el factor e^5 aparece tanto en numeradores como en denominador y se cancela. Lo importante son las diferencias relativas entre scores.", "formula": "softmax(z+c)=softmax(z)", "example": "[2,1,0] y [7,6,5] generan la misma distribución; esta propiedad también permite estabilizar el cálculo restando max(z).", "why": ["El factor común se cancela.", "Propiedad exacta de softmax.", "Sumar una constante no elimina diferencias.", "La dominancia no se vuelve infinita por una traslación común."], "take": "En softmax importan diferencias de score, no su nivel absoluto."}, {"id": 30, "topic": "Monitoreo", "level": "Avanzado", "q": "Un modelo mantiene sus coeficientes fijos, pero seis meses después la distribución de X cambia y además AUC y calibración empeoran. ¿Cuál es la lectura más completa?", "options": ["Puede existir data drift y además performance drift; debe investigarse si también hay concept drift.", "Solo cambió el threshold.", "Como los coeficientes son fijos, el modelo no puede deteriorarse.", "Un cambio en X demuestra automáticamente causalidad."], "correct": 0, "answer": "El cambio en la distribución de X es data drift. El deterioro de AUC y calibración es performance drift. Para entender la causa, debe investigarse si también cambió la relación P(Y|X), es decir, si existe concept drift. Un modelo congelado puede degradarse porque el entorno que genera los datos cambia.", "formula": "Data drift: P_t(X)≠P_0(X); Concept drift: P_t(Y|X)≠P_0(Y|X)", "example": "Una recesión puede modificar composición de clientes y también la relación entre deuda, ingresos y default.", "why": ["Diagnóstico conceptual completo.", "Mover threshold no explica por sí solo cambios de distribución y calibración.", "Un modelo fijo puede deteriorarse ante cambios del entorno.", "Drift es cambio distribucional, no prueba de causalidad."], "take": "Desplegar un modelo no cierra el trabajo: inicia la etapa de monitoreo."}];
+ const letters=['A','B','C','D'];
+ const state=questions.map(()=>({selected:null,checked:false,correct:false,guide:false}));
+ let current=0, guideMode=false, reviewSet=null;
+
+ const $=id=>document.getElementById(id);
+
+ function activeSequence(){
+   return reviewSet && reviewSet.length ? reviewSet : questions.map((_,i)=>i);
+ }
+ function currentPos(){
+   return activeSequence().indexOf(current);
+ }
+
+ function render(){
+   const q=questions[current],s=state[current];
+   $('qNumber').textContent=`Pregunta ${current+1} de ${questions.length}`;
+   $('qTopic').textContent=q.topic;$('qLevel').textContent=q.level;$('qTitle').textContent=q.q;
+   $('options').innerHTML=q.options.map((opt,i)=>{
+     let cls='option';
+     if(s.selected===i)cls+=' selected';
+     if(s.checked && i===q.correct)cls+=' correct';
+     if(s.checked && s.selected===i && i!==q.correct)cls+=' wrong';
+     return `<button type="button" class="${cls}" data-option="${i}" ${s.checked?'disabled':''}>
+       <span class="letter">${letters[i]}</span><span>${opt}</span></button>`;
+   }).join('');
+   document.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+      state[current].selected=+btn.dataset.option; render();
+   }));
+
+   const seq=activeSequence(),pos=currentPos();
+   $('prevBtn').disabled=pos<=0;
+   $('nextBtn').disabled=pos<0 || pos>=seq.length-1;
+   $('checkBtn').disabled=s.checked || s.selected===null;
+   $('showGuideBtn').style.display=(guideMode||s.checked)?'':'none';
+   $('showGuideBtn').textContent=s.guide?'Ocultar guía':'Mostrar guía';
+   renderFeedback();
+   renderIndex();renderStats();renderTopics();
+
+   if(state.every(x=>x.checked)) showResults(); else $('resultPanel').classList.remove('visible');
+ }
+
+ function renderFeedback(){
+   const q=questions[current],s=state[current],fb=$('feedback');
+   const visible=s.checked || (guideMode && s.guide);
+   fb.classList.toggle('visible',visible);
+   if(!visible){fb.innerHTML='';return}
+   const verdict=s.checked
+      ? `<div class="verdict ${s.correct?'ok':'no'}">${s.correct?'✓ Respuesta correcta':'✕ Respuesta a revisar'} · La opción correcta es ${letters[q.correct]}.</div>`
+      : `<div class="verdict ok">Modo guía · estudiá la explicación antes de responder.</div>`;
+   const why=q.why.map((w,i)=>`<div class="why-item"><span class="why-letter">${letters[i]}</span><span>${w}</span></div>`).join('');
+   fb.innerHTML=verdict+`
+    <div class="guide-grid">
+      <div class="guide-section full"><h3>Respuesta desarrollada</h3><p>${q.answer}</p></div>
+      <div class="guide-section formula"><h3>Fórmula / relación clave</h3><p>${q.formula}</p></div>
+      <div class="guide-section"><h3>Ejemplo aplicado</h3><p>${q.example}</p></div>
+      <div class="guide-section full"><h3>Por qué cada alternativa</h3><div class="why-list">${why}</div></div>
+      <div class="guide-section full take"><h3>Idea clave para examen</h3><p>${q.take}</p></div>
+    </div>`;
+ }
+
+ function renderIndex(){
+   $('index').innerHTML=questions.map((q,i)=>{
+     const s=state[i]; let cls='qnav';
+     if(i===current)cls+=' current';
+     if(s.checked)cls+=s.correct?' correct':' wrong';
+     return `<button type="button" class="${cls}" data-i="${i}">${i+1}</button>`;
+   }).join('');
+   document.querySelectorAll('.qnav').forEach(b=>b.addEventListener('click',()=>{current=+b.dataset.i;render();window.scrollTo({top:0,behavior:'smooth'})}));
+ }
+
+ function renderStats(){
+   const ans=state.filter(s=>s.checked).length,cor=state.filter(s=>s.correct).length;
+   $('answered').textContent=`${ans} / ${questions.length}`;
+   $('correctCount').textContent=cor;
+   $('scorePct').textContent=ans?Math.round(cor/ans*100)+'%':'—';
+   const p=ans/questions.length*100;$('progressBar').style.width=p+'%';$('progressText').textContent=Math.round(p)+'%';
+ }
+
+ function topicStats(){
+   const map={};
+   questions.forEach((q,i)=>{
+     if(!map[q.topic])map[q.topic]={total:0,checked:0,correct:0};
+     map[q.topic].total++;
+     if(state[i].checked)map[q.topic].checked++;
+     if(state[i].correct)map[q.topic].correct++;
+   });
+   return map;
+ }
+ function renderTopics(){
+   const map=topicStats();
+   $('topicList').innerHTML=Object.entries(map).map(([t,v])=>`<div class="topic-row"><span>${t}</span><span>${v.correct}/${v.checked||0}</span></div>`).join('');
+ }
+ function showResults(){
+   const cor=state.filter(s=>s.correct).length,pct=Math.round(cor/questions.length*100);
+   $('finalScore').textContent=pct+'%';
+   $('finalLabel').textContent=`${cor} respuestas correctas de ${questions.length}. `+
+      (pct>=90?'Dominio muy sólido del recorrido completo.':pct>=75?'Buen dominio; conviene repasar los temas con errores.':pct>=60?'Base suficiente, pero hay conceptos importantes para consolidar.':'Conviene usar las respuestas desarrolladas como guía y repetir el cuestionario.');
+   const map=topicStats();
+   $('topicBars').innerHTML=Object.entries(map).map(([t,v])=>{
+      const p=v.total?v.correct/v.total*100:0;
+      return `<div class="tbar-row"><span>${t}</span><div class="tbar"><div style="width:${p}%"></div></div><strong>${Math.round(p)}%</strong></div>`;
+   }).join('');
+   $('resultPanel').classList.add('visible');
+ }
+
+ $('checkBtn').addEventListener('click',()=>{
+   const s=state[current],q=questions[current];
+   if(s.selected===null||s.checked)return;
+   s.checked=true;s.correct=s.selected===q.correct;s.guide=true;
+   render();
+ });
+ $('showGuideBtn').addEventListener('click',()=>{state[current].guide=!state[current].guide;render()});
+ $('prevBtn').addEventListener('click',()=>{const seq=activeSequence(),p=currentPos();if(p>0){current=seq[p-1];render()}});
+ $('nextBtn').addEventListener('click',()=>{const seq=activeSequence(),p=currentPos();if(p<seq.length-1){current=seq[p+1];render()}});
+
+ $('themeBtn').addEventListener('click',()=>{
+   const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+   body.setAttribute('data-theme',next);$('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro';
+ });
+ $('guideModeBtn').addEventListener('click',()=>{
+   guideMode=!guideMode;$('guideModeBtn').textContent=guideMode?'📘 Modo guía: ON':'📘 Modo guía: OFF';
+   if(guideMode)state[current].guide=true;render();
+ });
+
+ function resetAll(){
+   state.forEach(s=>{s.selected=null;s.checked=false;s.correct=false;s.guide=false});
+   current=0;reviewSet=null;$('resultPanel').classList.remove('visible');render();
+ }
+ $('resetBtn').addEventListener('click',resetAll);$('restart2Btn').addEventListener('click',resetAll);
+ $('reviewWrongBtn').addEventListener('click',()=>{
+   const wrong=state.map((s,i)=>s.checked&&!s.correct?i:null).filter(i=>i!==null);
+   if(!wrong.length){alert('No hay respuestas incorrectas para repasar.');return}
+   reviewSet=wrong;current=wrong[0];render();window.scrollTo({top:0,behavior:'smooth'});
+ });
+
+ render();
+})();
+</script>
+</body>
+</html>
