@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 12 · Decision Lab — Credit Scoring, Threshold y Costos</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.89);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--violet:#a78bfa;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.94);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;--violet:#7c3aed;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{
+  font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);
+  border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760
+}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:920px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.13rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+
+.main-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:88px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+
+.maincol{display:grid;gap:20px}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.08rem,1.9vw,1.65rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+
+.flow{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr 36px 1fr 36px 1fr;gap:8px;align-items:center}
+.step{border:1px solid var(--line);border-radius:17px;padding:14px;min-height:122px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.step .n{font-size:.68rem;color:var(--accent);font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.step .big{font-size:1.25rem;font-weight:950;margin:7px 0}.step .mini{font-size:.74rem;color:var(--muted);line-height:1.4}
+.arrow{font-size:1.5rem;color:var(--accent);text-align:center;font-weight:900}
+
+.profile-grid{display:grid;grid-template-columns:1fr .92fr;gap:18px}
+.riskbox{border:1px solid var(--line);border-radius:22px;padding:20px;background:linear-gradient(135deg,rgba(53,208,255,.055),rgba(139,92,246,.045))}
+.risk-head{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.risk-number{font-size:clamp(3rem,6vw,5.8rem);font-weight:950;letter-spacing:-.06em;margin:12px 0 2px}
+.risk-sub{color:var(--muted);font-size:.85rem}
+.risk-track{height:22px;border-radius:999px;border:1px solid var(--line);overflow:hidden;position:relative;margin:18px 0 8px;background:linear-gradient(90deg,rgba(53,211,154,.50),rgba(255,191,71,.45),rgba(255,107,122,.55))}
+.risk-marker,.threshold-marker{position:absolute;top:-4px;width:4px;height:30px;border-radius:4px}
+.risk-marker{background:var(--white);box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+.threshold-marker{background:var(--accent2)}
+.track-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem}
+.action-box{border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}
+.action-box.approve{background:rgba(53,211,154,.09)}.action-box.review{background:rgba(255,191,71,.10)}.action-box.reject{background:rgba(255,107,122,.10)}
+.action-box .small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:850}.action-box .big{font-size:1.8rem;font-weight:950;margin:6px 0}
+.eq{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 72%,transparent);line-height:1.55;font-weight:800;word-break:break-word}
+.eq small{display:block;color:var(--muted);font-weight:500;margin-top:5px}
+.decomp{display:grid;gap:8px;margin-top:10px}.term{display:grid;grid-template-columns:1fr auto;gap:8px;border-bottom:1px solid var(--line);padding:8px 2px}.term span{color:var(--muted);font-size:.8rem}.term strong{font-size:.82rem}
+
+.cost-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+svg{width:100%;height:auto;display:block}
+.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}.axis-label{fill:var(--muted);font-size:12px}
+.costCurve{fill:none;stroke:var(--warn);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+.currentLine{stroke:var(--accent);stroke-width:2.3;stroke-dasharray:7 7}
+.optLine{stroke:var(--good);stroke-width:2.3;stroke-dasharray:6 6}
+.currentPoint{fill:var(--accent);stroke:#fff;stroke-width:2}.optPoint{fill:var(--good);stroke:#fff;stroke-width:2}
+.matrix{display:grid;grid-template-columns:72px 1fr 1fr;grid-template-rows:42px 1fr 1fr;gap:8px;min-height:270px}
+.mh{display:grid;place-items:center;color:var(--muted);font-size:.74rem;font-weight:850;text-align:center}
+.cell{border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cell .abbr{font-size:.72rem;font-weight:900;letter-spacing:.08em}.cell .num{font-size:1.9rem;font-weight:950;margin:5px 0}.cell .desc{font-size:.68rem;color:var(--muted);line-height:1.3}
+.tp{background:rgba(53,211,154,.09)}.tn{background:rgba(88,166,255,.08)}.fp{background:rgba(255,191,71,.10)}.fn{background:rgba(255,107,122,.10)}
+
+.cost-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.cost-card{border:1px solid var(--line);border-radius:16px;padding:13px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.cost-card .small{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:850}.cost-card .big{font-size:1.35rem;font-weight:950;margin-top:6px}
+
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.policy{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pstate{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.pstate.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.pstate .small{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:850}
+.pstate .big{font-size:1.5rem;font-weight:950;margin:8px 0}.pstate .mini{font-size:.78rem;color:var(--muted);line-height:1.45}
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}}
+@media(max-width:1150px){.hero,.profile-grid,.cost-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.cost-summary,.policy,.concepts{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">€</div>
+      <div><strong>Simulador 12 · Regresión Logística</strong><span>Decision Lab · Credit Scoring, threshold y costos</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · De probabilidades a decisiones</div>
+    <h1>Decision Lab: <span class="gradient-text">Credit Scoring</span></h1>
+    <p class="subtitle">
+      Integra toda la unidad en una sola experiencia: define un perfil de cliente, calcula su probabilidad de default,
+      elige un threshold y observa cómo esa política afecta errores y costos sobre una cartera completa.
+      La clase positiva es <strong>default</strong>: un falso positivo rechaza a un buen pagador; un falso negativo aprueba a un futuro defaulter.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>Evento: default dentro de 12 meses</b><small>El modelo estima P(Default=1 | X).</small></div>
+    <div class="formula"><b>Decisión: p̂ ≥ c → alto riesgo</b><small>El threshold pertenece a la política de decisión, no a la estimación probabilística.</small></div>
+    <div class="formula"><b>Costo = C<sub>FP</sub>·FP + C<sub>FN</sub>·FN</b><small>El mejor threshold depende del costo relativo de equivocarse en cada dirección.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Perfil y política</h2><span class="tag">Interactivo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="income">Ingreso mensual</label><span class="pill" id="incomeVal">$1.600k</span></div>
+      <input id="income" type="range" min="400" max="5000" step="50" value="1600">
+      <div class="range-labels"><span>$400k</span><span>$2.7M</span><span>$5M</span></div>
+      <div class="hint">Mayor ingreso reduce el riesgo en este modelo didáctico, manteniendo lo demás constante.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="debt">Deuda / ingreso</label><span class="pill" id="debtVal">38%</span></div>
+      <input id="debt" type="range" min="5" max="90" step="1" value="38">
+      <div class="range-labels"><span>5%</span><span>45%</span><span>90%</span></div>
+      <div class="hint">Una carga financiera mayor incrementa el score de riesgo.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="history">Historial de pagos</label><span class="pill" id="historyVal">78 / 100</span></div>
+      <input id="history" type="range" min="0" max="100" step="1" value="78">
+      <div class="range-labels"><span>débil</span><span>medio</span><span>excelente</span></div>
+      <div class="hint">Valor alto = mejor comportamiento histórico.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="tenure">Antigüedad laboral</label><span class="pill" id="tenureVal">5 años</span></div>
+      <input id="tenure" type="range" min="0" max="20" step="0.5" value="5">
+      <div class="range-labels"><span>0</span><span>10</span><span>20 años</span></div>
+      <div class="hint">Se usa como proxy didáctica de estabilidad.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="threshold">Threshold c</label><span class="pill" id="thrVal">0.25</span></div>
+      <input id="threshold" type="range" min="0.03" max="0.75" step="0.01" value="0.25">
+      <div class="range-labels"><span>0.03</span><span>0.39</span><span>0.75</span></div>
+      <div class="hint">Por encima de c, el caso se marca como riesgo alto. Una zona cercana al umbral se envía a revisión.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="cfp">Costo FP</label><span class="pill" id="cfpVal">$10k</span></div>
+      <input id="cfp" type="range" min="1" max="100" step="1" value="10">
+      <div class="range-labels"><span>$1k</span><span>$50k</span><span>$100k</span></div>
+      <div class="hint">Costo de rechazar o frenar a un cliente que en realidad no hubiera entrado en default.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label for="cfn">Costo FN</label><span class="pill" id="cfnVal">$120k</span></div>
+      <input id="cfn" type="range" min="10" max="500" step="5" value="120">
+      <div class="range-labels"><span>$10k</span><span>$250k</span><span>$500k</span></div>
+      <div class="hint">Costo de aprobar como bajo riesgo a un cliente que luego entra en default.</div>
+    </div>
+    <div class="control">
+      <div class="control-head"><label>Perfiles rápidos</label><span class="pill">caso</span></div>
+      <div class="preset-grid">
+        <button id="lowBtn">Perfil de bajo riesgo</button>
+        <button id="borderBtn">Perfil cercano al umbral</button>
+        <button id="highBtn">Perfil de alto riesgo</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">Score z</div><div class="v" id="score">—</div><div class="s">combinación lineal</div></div>
+  <div class="metric"><div class="k">P(default)</div><div class="v" id="riskMetric">—</div><div class="s">probabilidad individual</div></div>
+  <div class="metric"><div class="k">Threshold</div><div class="v" id="thresholdMetric">—</div><div class="s">política actual</div></div>
+  <div class="metric"><div class="k">Decisión</div><div class="v" id="decisionMetric">—</div><div class="s">acción operativa</div></div>
+  <div class="metric"><div class="k">Costo cartera</div><div class="v" id="portfolioCost">—</div><div class="s">FP + FN</div></div>
+  <div class="metric"><div class="k">Umbral menor costo</div><div class="v" id="optimalMetric">—</div><div class="s">cartera simulada</div></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Del dato a la acción</h2><span class="tag">Flujo integrado</span></div>
+  <div class="flow">
+    <div class="step"><div class="n">1 · Datos</div><div class="big">Perfil</div><div class="mini">Ingreso, deuda, historial y antigüedad.</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">2 · Score</div><div class="big">z = Xβ</div><div class="mini">Las variables se combinan en escala logit.</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">3 · Probabilidad</div><div class="big">p̂ = σ(z)</div><div class="mini">Riesgo individual de default.</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">4 · Threshold</div><div class="big">p̂ vs c</div><div class="mini">La política transforma riesgo en señal operativa.</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">5 · Acción</div><div class="big">Decidir</div><div class="mini">Aprobar, revisar o rechazar según la política.</div></div>
+  </div>
+</section>
+
+<section class="profile-grid">
+  <div class="riskbox">
+    <div class="risk-head"><div><div class="tag">Cliente actual</div><div class="risk-number" id="riskBig">—</div><div class="risk-sub">probabilidad estimada de default a 12 meses</div></div></div>
+    <div class="risk-track">
+      <div class="risk-marker" id="riskMarker"></div>
+      <div class="threshold-marker" id="thresholdMarker"></div>
+    </div>
+    <div class="track-labels"><span>riesgo bajo</span><span>threshold</span><span>riesgo alto</span></div>
+    <div class="action-box approve" id="actionBox"><div class="small">Acción sugerida por la política simulada</div><div class="big" id="actionBig">—</div><div class="hint" id="actionText"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Cómo se forma el score</h2><span class="tag">Transparencia</span></div>
+    <div class="eq" id="scoreFormula"></div>
+    <div class="decomp" id="decomp"></div>
+    <div class="interpret" id="profileInterpret" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section class="cost-grid">
+  <div class="card">
+    <div class="title-row">
+      <h2>Costo total según threshold</h2>
+      <button id="optimalBtn">Usar umbral de menor costo</button>
+    </div>
+    <svg id="costChart" viewBox="0 0 900 520">
+      <g id="costGrid"></g>
+      <line class="axis" x1="75" y1="440" x2="840" y2="440"></line>
+      <line class="axis" x1="75" y1="55" x2="75" y2="440"></line>
+      <path id="costPath" class="costCurve"></path>
+      <line id="currentLine" class="currentLine" y1="55" y2="440"></line>
+      <line id="optLine" class="optLine" y1="55" y2="440"></line>
+      <circle id="currentPoint" class="currentPoint" r="8"></circle>
+      <circle id="optPoint" class="optPoint" r="8"></circle>
+      <g id="costLabels"></g>
+    </svg>
+    <div class="cost-summary">
+      <div class="cost-card"><div class="small">Costo FP</div><div class="big" id="fpCostTotal">—</div></div>
+      <div class="cost-card"><div class="small">Costo FN</div><div class="big" id="fnCostTotal">—</div></div>
+      <div class="cost-card"><div class="small">Costo actual</div><div class="big" id="currentCost2">—</div></div>
+      <div class="cost-card"><div class="small">Costo mínimo</div><div class="big" id="minCost">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Matriz de decisión</h2><span class="tag">10.000 casos simulados</span></div>
+    <div class="matrix">
+      <div></div><div class="mh">Real 0<br>no default</div><div class="mh">Real 1<br>default</div>
+      <div class="mh">Pred. 0<br>bajo riesgo</div>
+      <div class="cell tn"><div class="abbr">TN</div><div class="num" id="tn">0</div><div class="desc">buen pagador aprobado</div></div>
+      <div class="cell fn"><div class="abbr">FN</div><div class="num" id="fn">0</div><div class="desc">default no detectado</div></div>
+      <div class="mh">Pred. 1<br>alto riesgo</div>
+      <div class="cell fp"><div class="abbr">FP</div><div class="num" id="fp">0</div><div class="desc">buen pagador rechazado</div></div>
+      <div class="cell tp"><div class="abbr">TP</div><div class="num" id="tp">0</div><div class="desc">default anticipado</div></div>
+    </div>
+    <div class="interpret" id="matrixText" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Cómo cambia la política con los costos</h2><span class="tag">Economía de errores</span></div>
+  <div class="policy">
+    <div class="pstate" id="fpPolicy"><div class="small">FP relativamente caro</div><div class="big">Threshold ↑</div><div class="mini">Conviene ser más exigente antes de marcar alto riesgo, para no rechazar tantos buenos clientes.</div></div>
+    <div class="pstate" id="balancedPolicy"><div class="small">Costos similares</div><div class="big">Equilibrio</div><div class="mini">La política pondera de manera más simétrica falsas alarmas y defaults perdidos.</div></div>
+    <div class="pstate" id="fnPolicy"><div class="small">FN relativamente caro</div><div class="big">Threshold ↓</div><div class="mini">Conviene detectar más posibles defaults, aunque aumenten las falsas alarmas.</div></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Modelo ≠ política</span></div>
+  <div class="interpret" id="interpret"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · El modelo estima; la política decide</b><span>La regresión logística produce una probabilidad. Aprobar, revisar o rechazar exige agregar reglas de negocio y costos.</span></div>
+    <div class="concept"><b>2 · El mejor threshold depende del costo de error</b><span>Si un default no detectado es mucho más costoso que una falsa alarma, el umbral de menor costo suele desplazarse hacia abajo.</span></div>
+    <div class="concept"><b>3 · Optimizar costo no elimina la gobernanza</b><span>Una política real también requiere restricciones regulatorias, validación temporal, monitoreo, explicabilidad y revisión humana cuando corresponda.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const incomeEl=$('income'),debtEl=$('debt'),historyEl=$('history'),tenureEl=$('tenure');
+const thresholdEl=$('threshold'),cfpEl=$('cfp'),cfnEl=$('cfn');
+
+const logistic=z=>1/(1+Math.exp(-z));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const pct=v=>(100*v).toFixed(1)+'%';
+const moneyK=v=>'$'+Math.round(v).toLocaleString('es-AR')+'k';
+const signed=(v,d=3)=>(v>=0?'+':'−')+Math.abs(v).toFixed(d);
+const fmt=(v,d=3)=>Number(v).toFixed(d).replace('-', '−');
+
+const COEF={b0:-1.35,income:-.62,debt:2.55,history:-1.45,tenure:-.48};
+
+function features(income,debt,history,tenure){
+  return {
+    income:(Math.log(income)-Math.log(1600)),
+    debt:(debt/100-.35),
+    history:((history-70)/30),
+    tenure:((tenure-5)/8)
+  }
+}
+function scoreFor(income,debt,history,tenure){
+  const f=features(income,debt,history,tenure);
+  const terms={
+    intercept:COEF.b0,
+    income:COEF.income*f.income,
+    debt:COEF.debt*f.debt,
+    history:COEF.history*f.history,
+    tenure:COEF.tenure*f.tenure
+  };
+  const z=Object.values(terms).reduce((s,v)=>s+v,0);
+  return {z,p:logistic(z),f,terms}
+}
+
+// deterministic portfolio
+function mulberry32(seed){
+  return function(){
+    let t=seed+=0x6D2B79F5;
+    t=Math.imul(t^t>>>15,t|1);
+    t^=t+Math.imul(t^t>>>7,t|61);
+    return ((t^t>>>14)>>>0)/4294967296;
+  }
+}
+function gauss(rng){
+  let u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)
+}
+const portfolio=[];
+(function buildPortfolio(){
+  const rng=mulberry32(120926);
+  for(let i=0;i<10000;i++){
+    const income=clamp(Math.exp(Math.log(1700)+.52*gauss(rng)),400,5000);
+    const debt=clamp(35+16*gauss(rng),5,90);
+    const history=clamp(72+17*gauss(rng)-.12*(debt-35),0,100);
+    const tenure=clamp(5.5+4.2*gauss(rng),0,20);
+    const {p}=scoreFor(income,debt,history,tenure);
+    const y=rng()<p?1:0;
+    portfolio.push({p,y});
+  }
+})();
+
+function confusion(c){
+  let TP=0,TN=0,FP=0,FN=0;
+  portfolio.forEach(o=>{
+    const pred=o.p>=c?1:0;
+    if(o.y===1&&pred===1)TP++;
+    else if(o.y===0&&pred===0)TN++;
+    else if(o.y===0&&pred===1)FP++;
+    else FN++;
+  });
+  return {TP,TN,FP,FN}
+}
+function costAt(c){
+  const m=confusion(c),cfp=+cfpEl.value,cfn=+cfnEl.value;
+  return {...m,cost:cfp*m.FP+cfn*m.FN,fpCost:cfp*m.FP,fnCost:cfn*m.FN}
+}
+function costCurve(){
+  const pts=[];
+  for(let i=0;i<=96;i++){
+    const c=.03+i*(.72/96);
+    const r=costAt(c);
+    pts.push({c,...r});
+  }
+  let best=pts[0];
+  pts.forEach(p=>{if(p.cost<best.cost)best=p});
+  return {pts,best}
+}
+
+function actionFrom(p,c){
+  const band=.035;
+  if(Math.abs(p-c)<=band)return {name:'REVISAR',cls:'review',text:'El caso está muy cerca del threshold. La simulación lo deriva a revisión manual.'};
+  if(p<c)return {name:'APROBAR',cls:'approve',text:'La probabilidad estimada queda por debajo del threshold de riesgo alto.'};
+  return {name:'RECHAZAR / REVISAR',cls:'reject',text:'La probabilidad supera el threshold y el caso se clasifica como riesgo alto.'};
+}
+
+const x0=75,y0=55,W=765,H=385;
+const sx=c=>x0+(c-.03)/.72*W;
+function drawCostChart(curve,currentC){
+  const costs=curve.pts.map(p=>p.cost);
+  const min=Math.min(...costs),max=Math.max(...costs);
+  const lo=Math.max(0,min*.92),hi=max*1.05;
+  const sy=v=>y0+(hi-v)/(hi-lo)*H;
+  let path='',grid='',labels='';
+  curve.pts.forEach((p,i)=>{path+=(i?'L':'M')+sx(p.c).toFixed(1)+','+sy(p.cost).toFixed(1)});
+  for(let i=0;i<=6;i++){
+    const c=.03+i*.72/6,x=sx(c);
+    grid+=`<line class="gridline" x1="${x}" x2="${x}" y1="55" y2="440"></line>`;
+    labels+=`<text x="${x-12}" y="466" class="axis-label">${c.toFixed(2)}</text>`;
+  }
+  for(let i=0;i<=5;i++){
+    const v=lo+(hi-lo)*i/5,y=sy(v);
+    grid+=`<line class="gridline" x1="75" x2="840" y1="${y}" y2="${y}"></line>`;
+    labels+=`<text x="10" y="${y+4}" class="axis-label">${moneyK(v)}</text>`;
+  }
+  labels+=`<text x="775" y="495" class="axis-label">threshold</text><text x="10" y="68" class="axis-label">costo</text>`;
+  $('costGrid').innerHTML=grid;$('costLabels').innerHTML=labels;$('costPath').setAttribute('d',path);
+
+  const cur=costAt(currentC),cx=sx(currentC),cy=sy(cur.cost);
+  const ox=sx(curve.best.c),oy=sy(curve.best.cost);
+  $('currentLine').setAttribute('x1',cx);$('currentLine').setAttribute('x2',cx);
+  $('optLine').setAttribute('x1',ox);$('optLine').setAttribute('x2',ox);
+  $('currentPoint').setAttribute('cx',cx);$('currentPoint').setAttribute('cy',cy);
+  $('optPoint').setAttribute('cx',ox);$('optPoint').setAttribute('cy',oy);
+}
+
+function update(){
+  const income=+incomeEl.value,debt=+debtEl.value,history=+historyEl.value,tenure=+tenureEl.value;
+  const c=+thresholdEl.value,cfp=+cfpEl.value,cfn=+cfnEl.value;
+  const s=scoreFor(income,debt,history,tenure),action=actionFrom(s.p,c);
+  const curve=costCurve(),cm=costAt(c);
+
+  $('incomeVal').textContent='$'+(income/1000).toFixed(3).replace('.',',')+'k';
+  $('debtVal').textContent=debt.toFixed(0)+'%';
+  $('historyVal').textContent=history.toFixed(0)+' / 100';
+  $('tenureVal').textContent=tenure.toFixed(1)+' años';
+  $('thrVal').textContent=c.toFixed(2);
+  $('cfpVal').textContent=moneyK(cfp);$('cfnVal').textContent=moneyK(cfn);
+
+  $('score').textContent=fmt(s.z,3);
+  $('riskMetric').textContent=pct(s.p);
+  $('thresholdMetric').textContent=c.toFixed(2);
+  $('decisionMetric').textContent=action.name==='APROBAR'?'Aprobar':action.name==='REVISAR'?'Revisar':'Alto riesgo';
+  $('portfolioCost').textContent=moneyK(cm.cost);
+  $('optimalMetric').textContent=curve.best.c.toFixed(2);
+
+  $('riskBig').textContent=pct(s.p);
+  $('riskMarker').style.left=`calc(${(s.p*100).toFixed(2)}% - 2px)`;
+  $('thresholdMarker').style.left=`calc(${(c*100).toFixed(2)}% - 2px)`;
+  $('actionBox').className='action-box '+action.cls;
+  $('actionBig').textContent=action.name;
+  $('actionText').textContent=action.text;
+
+  $('scoreFormula').innerHTML=`z = β₀ + β₁·Ingreso + β₂·Deuda + β₃·Historial + β₄·Antigüedad = <strong>${fmt(s.z,3)}</strong><small>p(default) = σ(z) = ${s.p.toFixed(4)}.</small>`;
+  const labels=[
+    ['Intercepto',s.terms.intercept],
+    ['Ingreso transformado',s.terms.income],
+    ['Deuda / ingreso',s.terms.debt],
+    ['Historial de pagos',s.terms.history],
+    ['Antigüedad laboral',s.terms.tenure]
+  ];
+  $('decomp').innerHTML=labels.map(([name,val])=>`<div class="term"><span>${name}</span><strong>${signed(val,3)}</strong></div>`).join('');
+
+  const gap=s.p-c;
+  $('profileInterpret').innerHTML=`El perfil obtiene una probabilidad de default de <strong>${pct(s.p)}</strong>. El threshold operativo es <strong>${pct(c)}</strong>. ${gap>=0?`El riesgo queda ${Math.abs(gap*100).toFixed(1)} puntos porcentuales por encima del umbral.`:`El riesgo queda ${Math.abs(gap*100).toFixed(1)} puntos porcentuales por debajo del umbral.`}`;
+
+  $('tn').textContent=cm.TN;$('fn').textContent=cm.FN;$('fp').textContent=cm.FP;$('tp').textContent=cm.TP;
+  $('fpCostTotal').textContent=moneyK(cm.fpCost);$('fnCostTotal').textContent=moneyK(cm.fnCost);
+  $('currentCost2').textContent=moneyK(cm.cost);$('minCost').textContent=moneyK(curve.best.cost);
+
+  $('matrixText').innerHTML=`Con c=<strong>${c.toFixed(2)}</strong>, la cartera simulada produce <strong>${cm.FP} falsos positivos</strong> y <strong>${cm.FN} falsos negativos</strong>. A los costos actuales, FP aporta <strong>${moneyK(cm.fpCost)}</strong> y FN aporta <strong>${moneyK(cm.fnCost)}</strong> al costo total.`;
+
+  drawCostChart(curve,c);
+
+  const ratio=cfn/cfp;
+  $('fpPolicy').classList.toggle('active',ratio<.65);
+  $('balancedPolicy').classList.toggle('active',ratio>=.65&&ratio<=1.8);
+  $('fnPolicy').classList.toggle('active',ratio>1.8);
+
+  let costText='';
+  if(ratio>1.8)costText=`El costo de un FN es ${ratio.toFixed(1)} veces el costo de un FP. La política económicamente eficiente tiende a <strong>bajar el threshold</strong> para detectar más defaults potenciales.`;
+  else if(ratio<.65)costText=`El costo de un FP domina. La política tiende a <strong>subir el threshold</strong> para reducir el rechazo de buenos pagadores.`;
+  else costText=`Los costos de FP y FN son relativamente cercanos. El threshold de menor costo surge de un compromiso más equilibrado.`;
+
+  $('interpret').innerHTML=`El modelo probabilístico del cliente no cambia cuando movés el threshold: su p(default) sigue siendo <strong>${pct(s.p)}</strong>. Lo que cambia es la <strong>política de decisión</strong>. ${costText} Para esta cartera simulada, el menor costo aparece cerca de <strong>c=${curve.best.c.toFixed(2)}</strong>, frente al c actual de <strong>${c.toFixed(2)}</strong>. Esta optimización es didáctica: en una implementación real también deben considerarse límites regulatorios, fairness, capital, capacidad de revisión, drift y validación temporal.`;
+}
+
+[incomeEl,debtEl,historyEl,tenureEl,thresholdEl,cfpEl,cfnEl].forEach(el=>el.addEventListener('input',update));
+
+$('optimalBtn').addEventListener('click',()=>{
+  stop();
+  const best=costCurve().best;
+  thresholdEl.value=best.c.toFixed(2);
+  update();
+});
+$('lowBtn').addEventListener('click',()=>{stop();incomeEl.value=3400;debtEl.value=18;historyEl.value=92;tenureEl.value=11;update()});
+$('borderBtn').addEventListener('click',()=>{stop();incomeEl.value=1350;debtEl.value=46;historyEl.value=68;tenureEl.value=3;update()});
+$('highBtn').addEventListener('click',()=>{stop();incomeEl.value=700;debtEl.value=74;historyEl.value=38;tenureEl.value=1;update()});
+$('exampleBtn').addEventListener('click',()=>{stop();incomeEl.value=1100;debtEl.value=57;historyEl.value=61;tenureEl.value=2.5;thresholdEl.value=.22;cfpEl.value=12;cfnEl.value=180;update()});
+$('resetBtn').addEventListener('click',()=>{stop();incomeEl.value=1600;debtEl.value=38;historyEl.value=78;tenureEl.value=5;thresholdEl.value=.25;cfpEl.value=10;cfnEl.value=120;update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);
+  $('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let anim=false,raf=null,dir=1,last=0;
+function animate(ts){
+  if(!anim)return;
+  if(ts-last>40){
+    let v=+debtEl.value+dir*.32;
+    if(v>=82){v=82;dir=-1}
+    if(v<=10){v=10;dir=1}
+    debtEl.value=v.toFixed(0);update();last=ts;
+  }
+  raf=requestAnimationFrame(animate);
+}
+function stop(){
+  anim=false;if(raf)cancelAnimationFrame(raf);
+  $('playBtn').textContent='▶ Simulación dinámica';
+  $('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim)stop();
+  else{
+    anim=true;$('playBtn').textContent='⏸ Pausar simulación';$('playBtn').classList.add('active');
+    raf=requestAnimationFrame(animate)
+  }
+});
+
+update();
+})();
+</script>
+</body>
+</html>

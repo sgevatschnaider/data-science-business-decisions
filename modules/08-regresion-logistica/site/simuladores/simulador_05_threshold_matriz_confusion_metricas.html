@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 05 · Threshold Lab — Matriz de Confusión y Métricas</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.87);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.93);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);background:
+  radial-gradient(circle at 9% 4%,rgba(53,208,255,.16),transparent 30%),
+  radial-gradient(circle at 91% 0%,rgba(139,92,246,.17),transparent 32%),
+  linear-gradient(135deg,var(--bg),var(--bg2));transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{
+  font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);border-radius:12px;padding:10px 13px;
+  cursor:pointer;transition:.2s ease;font-weight:760
+}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:870px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.16rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+.main-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:80px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+.maincol{display:grid;gap:20px}.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.15rem,2vw,1.8rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+.visual-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}
+svg{width:100%;height:auto;display:block}.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}
+.threshold{stroke:var(--warn);stroke-width:3;stroke-dasharray:9 7}.th-label{fill:var(--warn);font-weight:900;font-size:13px}
+.obs0{fill:var(--blue);opacity:.83}.obs1{fill:var(--bad);opacity:.88}.wrong{stroke:var(--warn);stroke-width:3}.right{stroke:var(--white);stroke-width:1}
+.zone-neg{fill:rgba(88,166,255,.055)}.zone-pos{fill:rgba(255,107,122,.055)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:7px}
+.legend span{display:inline-flex;align-items:center;gap:7px}.ldot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.matrix{display:grid;grid-template-columns:84px 1fr 1fr;grid-template-rows:50px 1fr 1fr;gap:8px;min-height:330px}
+.mh{display:grid;place-items:center;color:var(--muted);font-size:.78rem;font-weight:850;text-align:center}
+.cell{border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cell .abbr{font-size:.78rem;font-weight:900;letter-spacing:.08em}.cell .num{font-size:2.35rem;font-weight:950;margin:6px 0}.cell .desc{font-size:.72rem;color:var(--muted);line-height:1.35}
+.tp{background:rgba(53,211,154,.09)}.tn{background:rgba(88,166,255,.08)}.fp{background:rgba(255,191,71,.10)}.fn{background:rgba(255,107,122,.10)}
+.trades{display:grid;grid-template-columns:1fr 1fr;gap:18px}.trade-card{border:1px solid var(--line);border-radius:20px;padding:18px;background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.04))}
+.gauge{height:16px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:rgba(127,140,160,.12);margin:10px 0 4px}
+.gauge>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:50%}
+.kv{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.82rem}.kv strong{color:var(--text)}
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.metric-table{width:100%;border-collapse:collapse;font-size:.87rem}.metric-table th,.metric-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}.metric-table th{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}.metric-table td:last-child{text-align:right;font-weight:850}
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1150px){.hero,.visual-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.trades,.concepts{grid-template-columns:1fr}.matrix{grid-template-columns:68px 1fr 1fr;min-height:300px}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">c</div>
+      <div><strong>Simulador 05 · Regresión Logística</strong><span>Threshold Lab · matriz de confusión y métricas</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Decisión y evaluación</div>
+    <h1><span class="gradient-text">Threshold Lab</span></h1>
+    <p class="subtitle">
+      El modelo entrega probabilidades. El umbral convierte esas probabilidades en decisiones.
+      Muévelo y observa cómo cada cambio reorganiza TP, TN, FP y FN, modificando simultáneamente
+      <strong>accuracy, precision, recall, specificity y F1</strong>.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>Ŷ = 1 si p ≥ c</b><small>El umbral c define la frontera entre las dos clases predichas.</small></div>
+    <div class="formula"><b>Precision = TP / (TP + FP)</b><small>Pregunta: de los casos marcados positivos, ¿cuántos eran realmente positivos?</small></div>
+    <div class="formula"><b>Recall = TP / (TP + FN)</b><small>Pregunta: de los positivos reales, ¿cuántos logró detectar el modelo?</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Control del umbral</h2><span class="tag">Interactivo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="threshold">Threshold c</label><span class="pill" id="thresholdVal">0.50</span></div>
+      <input id="threshold" type="range" min="0.05" max="0.95" step="0.01" value="0.50">
+      <div class="range-labels"><span>0.05</span><span>0.50</span><span>0.95</span></div>
+      <div class="hint">Bajarlo genera más predicciones positivas; subirlo exige mayor probabilidad para clasificar como 1.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="separation">Separación del modelo</label><span class="pill" id="sepVal">Buena</span></div>
+      <input id="separation" type="range" min="0" max="2" step="1" value="1">
+      <div class="range-labels"><span>Débil</span><span>Buena</span><span>Alta</span></div>
+      <div class="hint">Cambia el grado de solapamiento entre las probabilidades de ambas clases.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label>Escenarios rápidos</label><span class="pill">c</span></div>
+      <div class="preset-grid">
+        <button type="button" id="recallBtn">Detectar más positivos · c = 0.30</button>
+        <button type="button" id="balanceBtn" class="selected">Equilibrio inicial · c = 0.50</button>
+        <button type="button" id="precisionBtn">Reducir falsas alarmas · c = 0.70</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">Accuracy</div><div class="v" id="acc">—</div><div class="s">aciertos totales</div></div>
+  <div class="metric"><div class="k">Precision</div><div class="v" id="prec">—</div><div class="s">calidad de positivos</div></div>
+  <div class="metric"><div class="k">Recall</div><div class="v" id="rec">—</div><div class="s">positivos detectados</div></div>
+  <div class="metric"><div class="k">Specificity</div><div class="v" id="spec">—</div><div class="s">negativos detectados</div></div>
+  <div class="metric"><div class="k">F1</div><div class="v" id="f1">—</div><div class="s">balance P/R</div></div>
+  <div class="metric"><div class="k">Pred. positivas</div><div class="v" id="predPos">—</div><div class="s">p ≥ c</div></div>
+</section>
+
+<section class="visual-grid">
+  <div class="card">
+    <div class="title-row"><h2>Probabilidades observación por observación</h2><span class="tag" id="thresholdTag">c = 0.50</span></div>
+    <svg id="probChart" viewBox="0 0 980 470">
+      <rect id="zoneNeg" class="zone-neg" x="70" y="45" width="410" height="350"></rect>
+      <rect id="zonePos" class="zone-pos" x="480" y="45" width="430" height="350"></rect>
+      <g id="grid"></g>
+      <line class="axis" x1="70" y1="395" x2="910" y2="395"></line>
+      <line class="axis" x1="70" y1="45" x2="70" y2="395"></line>
+      <g id="labels"></g>
+      <g id="points"></g>
+      <line id="thresholdLine" class="threshold" y1="45" y2="395"></line>
+      <text id="thresholdLabel" class="th-label" y="66">c = 0.50</text>
+    </svg>
+    <div class="legend">
+      <span><i class="ldot" style="background:var(--blue)"></i>Real 0</span>
+      <span><i class="ldot" style="background:var(--bad)"></i>Real 1</span>
+      <span><i class="ldot" style="background:var(--warn)"></i>Borde amarillo = error de clasificación</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Matriz de confusión</h2><span class="tag">Resultado actual</span></div>
+    <div class="matrix">
+      <div></div><div class="mh">Real 0</div><div class="mh">Real 1</div>
+      <div class="mh">Pred. 0</div>
+      <div class="cell tn"><div class="abbr">TN</div><div class="num" id="tn">0</div><div class="desc">negativos correctos</div></div>
+      <div class="cell fn"><div class="abbr">FN</div><div class="num" id="fn">0</div><div class="desc">positivos perdidos</div></div>
+      <div class="mh">Pred. 1</div>
+      <div class="cell fp"><div class="abbr">FP</div><div class="num" id="fp">0</div><div class="desc">falsas alarmas</div></div>
+      <div class="cell tp"><div class="abbr">TP</div><div class="num" id="tp">0</div><div class="desc">positivos detectados</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="trades">
+  <div class="trade-card">
+    <div class="title-row"><h2>Precision ↔ Recall</h2><span class="tag">Trade-off</span></div>
+    <div class="kv"><span>Precision</span><strong id="prec2">—</strong></div><div class="gauge"><div id="precBar"></div></div>
+    <div class="kv" style="margin-top:12px"><span>Recall</span><strong id="rec2">—</strong></div><div class="gauge"><div id="recBar"></div></div>
+    <div class="interpret" id="tradeText" style="margin-top:14px"></div>
+  </div>
+
+  <div class="trade-card">
+    <div class="title-row"><h2>Lectura completa</h2><span class="tag">Didáctica</span></div>
+    <table class="metric-table">
+      <thead><tr><th>Métrica</th><th>Pregunta que responde</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Accuracy</td><td>¿Cuánto acierta en total?</td><td id="tAcc">—</td></tr>
+        <tr><td>Precision</td><td>¿Cuántos positivos predichos eran reales?</td><td id="tPrec">—</td></tr>
+        <tr><td>Recall</td><td>¿Cuántos positivos reales detectó?</td><td id="tRec">—</td></tr>
+        <tr><td>Specificity</td><td>¿Cuántos negativos reales detectó?</td><td id="tSpec">—</td></tr>
+        <tr><td>F1</td><td>¿Cómo equilibra precision y recall?</td><td id="tF1">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Umbral → decisión</span></div>
+  <div class="interpret" id="interpret"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · El modelo no cambia</b><span>Al mover c no reentrenamos la regresión logística. Cambiamos la regla que convierte probabilidades en clases.</span></div>
+    <div class="concept"><b>2 · Un error baja mientras otro sube</b><span>Umbrales bajos suelen reducir FN y elevar FP; umbrales altos suelen hacer lo contrario.</span></div>
+    <div class="concept"><b>3 · No existe una métrica universal</b><span>La métrica relevante depende del problema y del costo relativo de falsos positivos y falsos negativos.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const threshold=$('threshold'), separation=$('separation');
+let data=[];
+
+function fract(x){return x-Math.floor(x)}
+function rand(i){return fract(Math.sin(i*12.9898+78.233)*43758.5453)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function pct(v){return (100*v).toFixed(1)+'%'}
+function safeDiv(a,b){return b===0?0:a/b}
+
+function generateData(){
+  data=[];
+  const sep=+separation.value;
+  const centers=[
+    {neg:.43,pos:.57,spread:.24},
+    {neg:.33,pos:.67,spread:.22},
+    {neg:.23,pos:.77,spread:.18}
+  ][sep];
+
+  for(let i=0;i<100;i++){
+    const u=(rand(i*3+1)+rand(i*7+9)+rand(i*11+4))/3-.5;
+    const p=clamp(centers.neg + u*centers.spread*2, .02,.98);
+    data.push({y:0,p});
+  }
+  for(let i=0;i<100;i++){
+    const u=(rand(i*5+101)+rand(i*9+27)+rand(i*13+41))/3-.5;
+    const p=clamp(centers.pos + u*centers.spread*2, .02,.98);
+    data.push({y:1,p});
+  }
+}
+
+function metrics(c){
+  let TP=0,TN=0,FP=0,FN=0;
+  data.forEach(o=>{
+    const pred=o.p>=c?1:0;
+    if(o.y===1&&pred===1)TP++;
+    else if(o.y===0&&pred===0)TN++;
+    else if(o.y===0&&pred===1)FP++;
+    else FN++;
+  });
+  const acc=(TP+TN)/data.length;
+  const precision=safeDiv(TP,TP+FP);
+  const recall=safeDiv(TP,TP+FN);
+  const specificity=safeDiv(TN,TN+FP);
+  const f1=safeDiv(2*precision*recall,precision+recall);
+  return {TP,TN,FP,FN,acc,precision,recall,specificity,f1,predPos:TP+FP};
+}
+
+const x0=70,y0=45,W=840,H=350;
+const sx=p=>x0+p*W;
+
+function buildAxes(){
+  let g='',l='';
+  for(let p=0;p<=1.0001;p+=.1){
+    const x=sx(p);
+    g+=`<line class="gridline" y1="45" y2="395" x1="${x}" x2="${x}"></line>`;
+    l+=`<text x="${x-10}" y="420" fill="var(--muted)" font-size="12">${p.toFixed(1)}</text>`;
+  }
+  for(let j=0;j<=4;j++){
+    const y=65+j*75;
+    g+=`<line class="gridline" x1="70" x2="910" y1="${y}" y2="${y}"></line>`;
+  }
+  l+=`<text x="838" y="449" fill="var(--muted)" font-size="12">probabilidad predicha</text>`;
+  $('grid').innerHTML=g;$('labels').innerHTML=l;
+}
+
+function drawPoints(c){
+  const grp=$('points');
+  let html='';
+  let idx0=0,idx1=0;
+  data.forEach((o,i)=>{
+    const pred=o.p>=c?1:0;
+    const correct=pred===o.y;
+    const lane=o.y===0?0:1;
+    const k=o.y===0?idx0++:idx1++;
+    const row=k%4;
+    const jitter=(rand(i+200)-.5)*15;
+    const cy=(o.y===0?135:290)+row*13+jitter;
+    html+=`<circle cx="${sx(o.p).toFixed(1)}" cy="${cy.toFixed(1)}" r="6.2" class="${o.y===0?'obs0':'obs1'} ${correct?'right':'wrong'}"><title>Real ${o.y} · p=${o.p.toFixed(3)} · Pred ${pred}</title></circle>`;
+  });
+  grp.innerHTML=html;
+  const tx=sx(c);
+  $('thresholdLine').setAttribute('x1',tx);$('thresholdLine').setAttribute('x2',tx);
+  $('thresholdLabel').setAttribute('x',Math.min(852,Math.max(76,tx+8)));
+  $('thresholdLabel').textContent='c = '+c.toFixed(2);
+  $('zoneNeg').setAttribute('width',Math.max(0,tx-70));
+  $('zonePos').setAttribute('x',tx);$('zonePos').setAttribute('width',Math.max(0,910-tx));
+}
+
+function setBars(m){
+  $('precBar').style.width=(m.precision*100)+'%';
+  $('recBar').style.width=(m.recall*100)+'%';
+  $('prec2').textContent=pct(m.precision);$('rec2').textContent=pct(m.recall);
+}
+
+function update(){
+  const c=+threshold.value,m=metrics(c);
+  $('thresholdVal').textContent=c.toFixed(2);$('thresholdTag').textContent='c = '+c.toFixed(2);
+  const names=['Débil','Buena','Alta'];$('sepVal').textContent=names[+separation.value];
+
+  $('tp').textContent=m.TP;$('tn').textContent=m.TN;$('fp').textContent=m.FP;$('fn').textContent=m.FN;
+  $('acc').textContent=pct(m.acc);$('prec').textContent=pct(m.precision);$('rec').textContent=pct(m.recall);
+  $('spec').textContent=pct(m.specificity);$('f1').textContent=pct(m.f1);$('predPos').textContent=m.predPos;
+  $('tAcc').textContent=pct(m.acc);$('tPrec').textContent=pct(m.precision);$('tRec').textContent=pct(m.recall);
+  $('tSpec').textContent=pct(m.specificity);$('tF1').textContent=pct(m.f1);
+  setBars(m);drawPoints(c);
+
+  let trade='';
+  if(c<.40) trade=`El umbral es <strong>bajo</strong>. El sistema clasifica más casos como positivos: el recall tiende a subir, pero aparecen más falsas alarmas.`;
+  else if(c>.60) trade=`El umbral es <strong>alto</strong>. El sistema exige mayor evidencia para predecir clase 1: precision puede mejorar, pero aumenta el riesgo de falsos negativos.`;
+  else trade=`El umbral está en una <strong>zona intermedia</strong>. Precision y recall compiten sin que una de las dos métricas sea priorizada de forma extrema.`;
+  $('tradeText').innerHTML=trade;
+
+  const errorTotal=m.FP+m.FN;
+  const errRate=errorTotal/data.length;
+  const balance=Math.abs(m.precision-m.recall);
+  let summary=`Con <strong>c = ${c.toFixed(2)}</strong>, el modelo predice <strong>${m.predPos}</strong> casos positivos sobre ${data.length}. `;
+  summary+=`La matriz contiene <strong>${m.TP} TP</strong>, <strong>${m.TN} TN</strong>, <strong>${m.FP} FP</strong> y <strong>${m.FN} FN</strong>. `;
+  if(m.FN>m.FP) summary+=`Actualmente predominan los <strong>falsos negativos</strong>: el criterio es relativamente exigente para declarar un positivo. `;
+  else if(m.FP>m.FN) summary+=`Actualmente predominan los <strong>falsos positivos</strong>: el criterio es relativamente permisivo para declarar un positivo. `;
+  else summary+=`Los dos tipos de error tienen la misma frecuencia. `;
+  summary+=`El error total es ${(errRate*100).toFixed(1)}%. `;
+  summary+=balance<.05?`Precision y recall están muy próximos en este punto.`:`Precision y recall difieren ${(balance*100).toFixed(1)} puntos porcentuales, mostrando claramente el trade-off del umbral.`;
+  $('interpret').innerHTML=summary;
+
+  $('recallBtn').classList.toggle('selected',Math.abs(c-.30)<.005);
+  $('balanceBtn').classList.toggle('selected',Math.abs(c-.50)<.005);
+  $('precisionBtn').classList.toggle('selected',Math.abs(c-.70)<.005);
+}
+
+threshold.addEventListener('input',update);
+separation.addEventListener('input',()=>{generateData();update()});
+$('recallBtn').addEventListener('click',()=>{stop();threshold.value=.30;update()});
+$('balanceBtn').addEventListener('click',()=>{stop();threshold.value=.50;update()});
+$('precisionBtn').addEventListener('click',()=>{stop();threshold.value=.70;update()});
+$('exampleBtn').addEventListener('click',()=>{stop();separation.value=1;generateData();threshold.value=.35;update()});
+$('resetBtn').addEventListener('click',()=>{stop();separation.value=1;threshold.value=.50;generateData();update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);$('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let anim=false,raf=null,dir=1,last=0;
+function animate(ts){
+  if(!anim)return;
+  if(ts-last>28){
+    let v=+threshold.value+dir*.006;
+    if(v>=.90){v=.90;dir=-1} if(v<=.10){v=.10;dir=1}
+    threshold.value=v;update();last=ts;
+  }
+  raf=requestAnimationFrame(animate);
+}
+function stop(){
+  anim=false;if(raf)cancelAnimationFrame(raf);
+  $('playBtn').textContent='▶ Simulación dinámica';$('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim)stop();
+  else{anim=true;$('playBtn').textContent='⏸ Pausar simulación';$('playBtn').classList.add('active');raf=requestAnimationFrame(animate)}
+});
+
+buildAxes();generateData();update();
+})();
+</script>
+</body>
+</html>

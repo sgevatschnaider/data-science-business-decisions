@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 10 · Train, Validation, Test y K-Fold Cross-Validation</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.88);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--violet:#a78bfa;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.93);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;--violet:#7c3aed;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{
+  font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);
+  border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760
+}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:900px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.14rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+
+.main-grid{display:grid;grid-template-columns:370px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:84px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+.control-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.control-actions button{padding:11px 8px}
+
+.maincol{display:grid;gap:20px}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.12rem,2vw,1.75rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+
+.workflow{display:grid;grid-template-columns:1fr 52px 1.5fr 52px 1fr;gap:10px;align-items:center}
+.stage{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent);min-height:126px}
+.stage .small{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:850}
+.stage .big{font-size:1.6rem;font-weight:950;margin:7px 0}.stage .mini{font-size:.78rem;color:var(--muted);line-height:1.45}
+.stage.dev{background:linear-gradient(135deg,rgba(53,211,154,.07),rgba(53,208,255,.04))}
+.stage.test{background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(139,92,246,.04))}
+.arrow{font-size:1.8rem;color:var(--accent);text-align:center;font-weight:900}
+
+.fold-wrap{overflow-x:auto;padding-bottom:4px}
+.fold-grid{display:grid;gap:8px;min-width:760px}
+.fold-row{display:grid;grid-template-columns:68px repeat(var(--k),1fr);gap:6px;align-items:center}
+.fold-label{font-size:.75rem;color:var(--muted);font-weight:850;text-align:right;padding-right:5px}
+.fold-cell{height:42px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;font-size:.72rem;font-weight:850}
+.fold-cell.train{background:rgba(53,211,154,.13);color:var(--good)}
+.fold-cell.val{background:rgba(255,191,71,.17);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,var(--line))}
+.fold-cell.inactive{opacity:.45}
+.test-strip{display:grid;grid-template-columns:68px 1fr;gap:6px;margin-top:10px;min-width:760px;align-items:center}
+.test-cell{height:42px;border:1px solid color-mix(in srgb,var(--violet) 55%,var(--line));border-radius:10px;display:grid;place-items:center;background:rgba(167,139,250,.13);color:var(--violet);font-size:.74rem;font-weight:900}
+
+.visual-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+svg{width:100%;height:auto;display:block}
+.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}.axis-label{fill:var(--muted);font-size:12px}
+.meanline{stroke:var(--accent);stroke-width:2.4;stroke-dasharray:8 7}.point{fill:var(--warn);stroke:#fff;stroke-width:2}.activePoint{fill:var(--bad);stroke:#fff;stroke-width:3}
+.rangeLine{stroke:var(--muted);stroke-width:2}.bar{fill:rgba(53,208,255,.7)}.barActive{fill:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.ldot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:620px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right}
+th{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
+th:first-child,td:first-child{text-align:left}
+tr.active{background:rgba(53,208,255,.07)}
+.summary-row{font-weight:900;background:rgba(53,211,154,.05)}
+
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.eq{border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.04));line-height:1.55;font-weight:800}
+.eq small{display:block;color:var(--muted);font-weight:500;margin-top:5px}
+
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.state{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.state .small{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:850}
+.state .big{font-size:1.6rem;font-weight:950;margin:8px 0}.state .mini{font-size:.78rem;color:var(--muted);line-height:1.45}
+.state.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1150px){.hero,.visual-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.workflow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.compare,.concepts{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">K</div>
+      <div><strong>Simulador 10 · Regresión Logística</strong><span>Train, Validation, Test y K-Fold Cross-Validation</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Validación y generalización</div>
+    <h1>Train, Validation, Test y <span class="gradient-text">K-Fold</span></h1>
+    <p class="subtitle">
+      Un único train/test split puede dar una impresión demasiado optimista o pesimista.
+      Este laboratorio reserva un <strong>test final que nunca participa de la validación</strong>,
+      aplica K-fold sobre el conjunto de desarrollo y entrena realmente una regresión logística en cada fold
+      para medir <strong>promedio y variabilidad</strong>.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>Development set → K folds</b><small>En cada iteración, K−1 folds entrenan y 1 fold valida.</small></div>
+    <div class="formula"><b>Media ± desviación</b><small>No interesa solo un resultado: interesa cuán estable es frente a distintas particiones.</small></div>
+    <div class="formula"><b>Test final = una sola vez</b><small>Se usa al final, después de decidir el procedimiento de modelado.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Controles de validación</h2><span class="tag">Interactivo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="n">Tamaño total N</label><span class="pill" id="nVal">400</span></div>
+      <input id="n" type="range" min="150" max="800" step="50" value="400">
+      <div class="range-labels"><span>150</span><span>450</span><span>800</span></div>
+      <div class="hint">20% se reserva como test final. El 80% restante entra al proceso de validación cruzada.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="k">Número de folds K</label><span class="pill" id="kVal">5</span></div>
+      <input id="k" type="range" min="3" max="10" step="1" value="5">
+      <div class="range-labels"><span>3</span><span>5</span><span>10</span></div>
+      <div class="hint">K alto usa más datos para entrenar en cada iteración, pero aumenta el costo computacional.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="noise">Ruido del problema</label><span class="pill" id="noiseVal">Medio</span></div>
+      <input id="noise" type="range" min="0" max="2" step="1" value="1">
+      <div class="range-labels"><span>Bajo</span><span>Medio</span><span>Alto</span></div>
+      <div class="hint">Más ruido suele aumentar la variabilidad entre folds.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="lambda">Regularización L2 λ</label><span class="pill" id="lambdaVal">0.05</span></div>
+      <input id="lambda" type="range" min="0" max="0.50" step="0.01" value="0.05">
+      <div class="range-labels"><span>0</span><span>0.25</span><span>0.50</span></div>
+      <div class="hint">Se mantiene el mismo λ en todos los folds para evaluar el procedimiento de forma comparable.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label>Recorrido por folds</label><span class="pill" id="foldVal">1 / 5</span></div>
+      <div class="control-actions">
+        <button id="prevFoldBtn">← Fold anterior</button>
+        <button id="nextFoldBtn">Siguiente fold →</button>
+      </div>
+      <div class="hint">El fold amarillo es validación; los verdes forman el conjunto de entrenamiento.</div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">Development</div><div class="v" id="devN">320</div><div class="s">80% de N</div></div>
+  <div class="metric"><div class="k">Test final</div><div class="v" id="testN">80</div><div class="s">20% reservado</div></div>
+  <div class="metric"><div class="k">AUC CV</div><div class="v" id="aucCV">—</div><div class="s">media ± sd</div></div>
+  <div class="metric"><div class="k">Accuracy CV</div><div class="v" id="accCV">—</div><div class="s">media ± sd</div></div>
+  <div class="metric"><div class="k">Log-Loss CV</div><div class="v" id="lossCV">—</div><div class="s">media ± sd</div></div>
+  <div class="metric"><div class="k">Test final AUC</div><div class="v" id="testAuc">—</div><div class="s">modelo reentrenado</div></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Flujo correcto de evaluación</h2><span class="tag">Test protegido</span></div>
+  <div class="workflow">
+    <div class="stage">
+      <div class="small">Datos completos</div><div class="big" id="wfAll">N = 400</div>
+      <div class="mini">Se separan antes de validar o comparar el modelo.</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage dev">
+      <div class="small">Development · 80%</div><div class="big" id="wfDev">320 casos</div>
+      <div class="mini">Aquí se ejecuta K-fold: entrenamiento y validación repetidos.</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage test">
+      <div class="small">Test final · 20%</div><div class="big" id="wfTest">80 casos</div>
+      <div class="mini">Permanece intacto hasta la evaluación final.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Cómo rota la validación</h2><span class="tag" id="activeFoldTag">Fold 1 como validación</span></div>
+  <div class="fold-wrap">
+    <div class="fold-grid" id="foldGrid"></div>
+    <div class="test-strip">
+      <div class="fold-label">Test final</div>
+      <div class="test-cell">RESERVADO · no participa en ningún fold</div>
+    </div>
+  </div>
+</section>
+
+<section class="visual-grid">
+  <div class="card">
+    <div class="title-row"><h2>Variabilidad entre folds</h2><span class="tag">AUC</span></div>
+    <svg id="foldChart" viewBox="0 0 820 540">
+      <g id="chartGrid"></g>
+      <line class="axis" x1="70" y1="460" x2="760" y2="460"></line>
+      <line class="axis" x1="70" y1="55" x2="70" y2="460"></line>
+      <line id="meanLine" class="meanline" x1="70" x2="760"></line>
+      <g id="foldPoints"></g>
+      <g id="chartLabels"></g>
+    </svg>
+    <div class="legend">
+      <span><i class="ldot" style="background:var(--warn)"></i>AUC de cada fold</span>
+      <span><i class="ldot" style="background:var(--accent)"></i>Línea = AUC promedio</span>
+      <span><i class="ldot" style="background:var(--bad)"></i>Fold activo</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Resultados por fold</h2><span class="tag">modelo real</span></div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Fold</th><th>Train n</th><th>Val n</th><th>Accuracy</th><th>AUC</th><th>Log-Loss</th></tr></thead>
+        <tbody id="foldTable"></tbody>
+      </table>
+    </div>
+    <div class="interpret" id="tableText" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>¿Por qué no alcanza una sola partición?</h2><span class="tag">Estabilidad</span></div>
+  <div class="compare">
+    <div class="state" id="stableState">
+      <div class="small">Variabilidad baja</div><div class="big">Estable</div>
+      <div class="mini">Los folds producen resultados parecidos. La estimación del desempeño es menos dependiente de una partición particular.</div>
+    </div>
+    <div class="state" id="moderateState">
+      <div class="small">Variabilidad intermedia</div><div class="big">Revisar</div>
+      <div class="mini">El desempeño cambia de manera visible entre folds. Conviene mirar tamaño muestral, ruido y composición de los datos.</div>
+    </div>
+    <div class="state" id="unstableState">
+      <div class="small">Variabilidad alta</div><div class="big">Inestable</div>
+      <div class="mini">Una única división podría dar una conclusión engañosa sobre la calidad del modelo.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Promedio ± variabilidad</span></div>
+  <div class="interpret" id="interpret"></div>
+  <div class="eq" id="eqBox" style="margin-top:12px"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · Train no es evaluación</b><span>El modelo aprende sobre train. Medir allí mismo produce una estimación optimista de su desempeño futuro.</span></div>
+    <div class="concept"><b>2 · Cross-validation mide estabilidad</b><span>Repetir entrenamiento y validación sobre particiones distintas permite observar media y dispersión, no solo un número aislado.</span></div>
+    <div class="concept"><b>3 · El test final debe quedar intacto</b><span>Si usamos el test para elegir parámetros o comparar variantes, deja de ser una evaluación verdaderamente fuera de muestra.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const nEl=$('n'),kEl=$('k'),noiseEl=$('noise'),lambdaEl=$('lambda');
+let data=[],dev=[],test=[],folds=[],results=[],activeFold=0;
+const P=5;
+const betaTrue=[1.35,-1.10,.85,.45,-.35];
+
+function mulberry32(seed){
+  return function(){
+    let t=seed+=0x6D2B79F5;
+    t=Math.imul(t^t>>>15,t|1);
+    t^=t+Math.imul(t^t>>>7,t|61);
+    return ((t^t>>>14)>>>0)/4294967296;
+  }
+}
+function makeRng(seed){return mulberry32(seed)}
+function gauss(rng){
+  let u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)
+}
+function logistic(z){if(z>35)return 1;if(z<-35)return 0;return 1/(1+Math.exp(-z))}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function mean(a){return a.reduce((s,v)=>s+v,0)/a.length}
+function sd(a){const m=mean(a);return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length)}
+function pct(v){return (100*v).toFixed(1)+'%'}
+
+function generateData(){
+  const N=+nEl.value;
+  const noiseScale=[.40,.85,1.35][+noiseEl.value];
+  const rng=makeRng(20260919 + N*7 + (+noiseEl.value)*1009);
+  data=[];
+  for(let i=0;i<N;i++){
+    const x=[];
+    for(let j=0;j<P;j++)x.push(gauss(rng));
+    let z=-.15;
+    for(let j=0;j<P;j++)z+=betaTrue[j]*x[j];
+    z+=noiseScale*gauss(rng);
+    const p=logistic(z),y=rng()<p?1:0;
+    data.push({x,y,key:rng()});
+  }
+  data.sort((a,b)=>a.key-b.key);
+  const devN=Math.round(N*.8);
+  dev=data.slice(0,devN);
+  test=data.slice(devN);
+  buildFolds();
+}
+function buildFolds(){
+  const K=+kEl.value;
+  folds=Array.from({length:K},()=>[]);
+  dev.forEach((o,i)=>folds[i%K].push(o));
+  activeFold=Math.min(activeFold,K-1);
+  runCV();
+}
+function trainModel(train,lambda){
+  let b=new Array(P).fill(0),intercept=0;
+  const lr=.115,iters=280,n=train.length;
+  for(let it=0;it<iters;it++){
+    let gi=0;const g=new Array(P).fill(0);
+    for(const o of train){
+      let z=intercept;
+      for(let j=0;j<P;j++)z+=b[j]*o.x[j];
+      const pr=logistic(z),e=pr-o.y;
+      gi+=e;for(let j=0;j<P;j++)g[j]+=e*o.x[j];
+    }
+    intercept-=lr*gi/n;
+    for(let j=0;j<P;j++)b[j]-=lr*(g[j]/n+2*lambda*b[j]);
+  }
+  return {b,intercept}
+}
+function scores(model,set){
+  return set.map(o=>{
+    let z=model.intercept;
+    for(let j=0;j<P;j++)z+=model.b[j]*o.x[j];
+    return {p:clamp(logistic(z),1e-9,1-1e-9),y:o.y}
+  })
+}
+function auc(sc){
+  const sorted=[...sc].sort((a,b)=>a.p-b.p);
+  let nPos=0,nNeg=0,rankSum=0;
+  for(const s of sorted){if(s.y===1)nPos++;else nNeg++}
+  if(!nPos||!nNeg)return .5;
+  let i=0,rank=1;
+  while(i<sorted.length){
+    let j=i+1;while(j<sorted.length&&Math.abs(sorted[j].p-sorted[i].p)<1e-12)j++;
+    const avg=(rank+(rank+(j-i)-1))/2;
+    for(let k=i;k<j;k++)if(sorted[k].y===1)rankSum+=avg;
+    rank+=j-i;i=j;
+  }
+  return (rankSum-nPos*(nPos+1)/2)/(nPos*nNeg)
+}
+function evaluate(model,set){
+  const sc=scores(model,set);let correct=0,ll=0;
+  sc.forEach(s=>{
+    const pred=s.p>=.5?1:0;if(pred===s.y)correct++;
+    ll+=-(s.y*Math.log(s.p)+(1-s.y)*Math.log(1-s.p))
+  });
+  return {acc:correct/set.length,loss:ll/set.length,auc:auc(sc)}
+}
+function runCV(){
+  const K=folds.length,lambda=+lambdaEl.value;
+  results=[];
+  for(let i=0;i<K;i++){
+    const val=folds[i];
+    const train=[];
+    for(let j=0;j<K;j++)if(j!==i)train.push(...folds[j]);
+    const model=trainModel(train,lambda);
+    const ev=evaluate(model,val);
+    results.push({fold:i+1,trainN:train.length,valN:val.length,...ev});
+  }
+  renderAll();
+}
+function finalTest(){
+  const model=trainModel(dev,+lambdaEl.value);
+  return evaluate(model,test)
+}
+
+function renderMetrics(){
+  const N=+nEl.value,K=+kEl.value;
+  const aucs=results.map(r=>r.auc),accs=results.map(r=>r.acc),losses=results.map(r=>r.loss);
+  const ft=finalTest();
+  $('nVal').textContent=N;$('kVal').textContent=K;$('noiseVal').textContent=['Bajo','Medio','Alto'][+noiseEl.value];
+  $('lambdaVal').textContent=(+lambdaEl.value).toFixed(2);$('foldVal').textContent=`${activeFold+1} / ${K}`;
+  $('devN').textContent=dev.length;$('testN').textContent=test.length;
+  $('aucCV').textContent=`${mean(aucs).toFixed(3)} ± ${sd(aucs).toFixed(3)}`;
+  $('accCV').textContent=`${pct(mean(accs))} ± ${(sd(accs)*100).toFixed(1)}pp`;
+  $('lossCV').textContent=`${mean(losses).toFixed(3)} ± ${sd(losses).toFixed(3)}`;
+  $('testAuc').textContent=ft.auc.toFixed(3);
+  $('wfAll').textContent=`N = ${N}`;$('wfDev').textContent=`${dev.length} casos`;$('wfTest').textContent=`${test.length} casos`;
+  $('activeFoldTag').textContent=`Fold ${activeFold+1} como validación`;
+}
+
+function renderFoldGrid(){
+  const K=folds.length,root=$('foldGrid');
+  root.style.setProperty('--k',K);
+  let html='';
+  for(let r=0;r<K;r++){
+    html+=`<div class="fold-row"><div class="fold-label">Iteración ${r+1}</div>`;
+    for(let c=0;c<K;c++){
+      const isVal=r===c;
+      const inactive=r!==activeFold;
+      html+=`<div class="fold-cell ${isVal?'val':'train'} ${inactive?'inactive':''}">${isVal?'VALIDATION':'TRAIN'}<br>F${c+1}</div>`;
+    }
+    html+='</div>';
+  }
+  root.innerHTML=html;
+}
+
+function renderTable(){
+  const aucs=results.map(r=>r.auc),accs=results.map(r=>r.acc),losses=results.map(r=>r.loss);
+  let html=results.map((r,i)=>`<tr class="${i===activeFold?'active':''}">
+    <td>Fold ${r.fold}</td><td>${r.trainN}</td><td>${r.valN}</td>
+    <td>${pct(r.acc)}</td><td>${r.auc.toFixed(3)}</td><td>${r.loss.toFixed(3)}</td>
+  </tr>`).join('');
+  html+=`<tr class="summary-row"><td>Media ± sd</td><td>—</td><td>—</td>
+    <td>${pct(mean(accs))} ± ${(sd(accs)*100).toFixed(1)}pp</td>
+    <td>${mean(aucs).toFixed(3)} ± ${sd(aucs).toFixed(3)}</td>
+    <td>${mean(losses).toFixed(3)} ± ${sd(losses).toFixed(3)}</td></tr>`;
+  $('foldTable').innerHTML=html;
+
+  const r=results[activeFold];
+  $('tableText').innerHTML=`En la iteración activa, el modelo se entrenó con <strong>${r.trainN}</strong> observaciones y se evaluó sobre <strong>${r.valN}</strong> casos que no participaron del ajuste. El AUC de este fold es <strong>${r.auc.toFixed(3)}</strong>.`;
+}
+
+function renderChart(){
+  const K=results.length,aucs=results.map(r=>r.auc),m=mean(aucs);
+  const lo=Math.max(.45,Math.min(...aucs)-.08),hi=Math.min(1,Math.max(...aucs)+.08);
+  const x0=70,y0=55,W=690,H=405;
+  const sx=i=>K===1?x0+W/2:x0+i/(K-1)*W;
+  const sy=v=>y0+(hi-v)/(hi-lo)*H;
+
+  let grid='',labels='',points='';
+  for(let j=0;j<=5;j++){
+    const v=lo+(hi-lo)*j/5,y=sy(v);
+    grid+=`<line class="gridline" x1="70" x2="760" y1="${y}" y2="${y}"></line>`;
+    labels+=`<text x="30" y="${y+4}" class="axis-label">${v.toFixed(2)}</text>`;
+  }
+  results.forEach((r,i)=>{
+    const x=sx(i),y=sy(r.auc);
+    grid+=`<line class="gridline" y1="55" y2="460" x1="${x}" x2="${x}"></line>`;
+    labels+=`<text x="${x-17}" y="487" class="axis-label">F${i+1}</text>`;
+    points+=`<circle cx="${x}" cy="${y}" r="${i===activeFold?9:7}" class="${i===activeFold?'activePoint':'point'}"><title>Fold ${i+1}: AUC ${r.auc.toFixed(3)}</title></circle>`;
+  });
+  labels+=`<text x="710" y="520" class="axis-label">fold</text><text x="16" y="70" class="axis-label">AUC</text>`;
+  $('chartGrid').innerHTML=grid;$('chartLabels').innerHTML=labels;$('foldPoints').innerHTML=points;
+  $('meanLine').setAttribute('y1',sy(m));$('meanLine').setAttribute('y2',sy(m));
+}
+
+function renderInterpretation(){
+  const aucs=results.map(r=>r.auc),accs=results.map(r=>r.acc);
+  const aucSd=sd(aucs),accSd=sd(accs),K=results.length;
+  let state='stable';
+  if(aucSd>.045||accSd>.055)state='unstable';
+  else if(aucSd>.025||accSd>.035)state='moderate';
+
+  $('stableState').classList.toggle('active',state==='stable');
+  $('moderateState').classList.toggle('active',state==='moderate');
+  $('unstableState').classList.toggle('active',state==='unstable');
+
+  const ft=finalTest(),r=results[activeFold];
+  let text=`Con <strong>${K}-fold cross-validation</strong>, cada observación del development set funciona exactamente una vez como validación y ${K-1} veces dentro del entrenamiento. `;
+  text+=`El AUC medio es <strong>${mean(aucs).toFixed(3)}</strong> con desviación estándar <strong>${aucSd.toFixed(3)}</strong>. `;
+  if(state==='stable')text+=`La variabilidad es baja: el resultado depende relativamente poco de qué fold quedó afuera. `;
+  else if(state==='moderate')text+=`La variabilidad es visible: una sola partición podría dar una estimación algo distinta del rendimiento típico. `;
+  else text+=`La variabilidad es alta: el desempeño depende mucho de la partición, por lo que una única división sería poco confiable. `;
+  text+=`Después de la validación, el modelo se reentrena con las <strong>${dev.length}</strong> observaciones de desarrollo y se evalúa una sola vez en las <strong>${test.length}</strong> observaciones reservadas, obteniendo AUC = <strong>${ft.auc.toFixed(3)}</strong>.`;
+  $('interpret').innerHTML=text;
+  $('eqBox').innerHTML=`AUC CV = ${mean(aucs).toFixed(3)} ± ${aucSd.toFixed(3)} · Fold activo = ${r.auc.toFixed(3)} · Test final = ${ft.auc.toFixed(3)}<small>El test final no participa ni en el entrenamiento de los folds ni en la estimación del promedio de cross-validation.</small>`;
+}
+
+function renderAll(){
+  renderMetrics();renderFoldGrid();renderTable();renderChart();renderInterpretation();
+}
+
+nEl.addEventListener('input',()=>{generateData()});
+kEl.addEventListener('input',()=>{buildFolds()});
+noiseEl.addEventListener('input',()=>{generateData()});
+lambdaEl.addEventListener('input',()=>{runCV()});
+
+$('prevFoldBtn').addEventListener('click',()=>{stop();activeFold=(activeFold-1+folds.length)%folds.length;renderAll()});
+$('nextFoldBtn').addEventListener('click',()=>{stop();activeFold=(activeFold+1)%folds.length;renderAll()});
+
+$('exampleBtn').addEventListener('click',()=>{
+  stop();nEl.value=200;kEl.value=5;noiseEl.value=2;lambdaEl.value=.04;generateData()
+});
+$('resetBtn').addEventListener('click',()=>{
+  stop();nEl.value=400;kEl.value=5;noiseEl.value=1;lambdaEl.value=.05;activeFold=0;generateData()
+});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);
+  $('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let anim=false,timer=null;
+function stop(){
+  anim=false;if(timer)clearInterval(timer);timer=null;
+  $('playBtn').textContent='▶ Simulación dinámica';$('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim){stop();return}
+  anim=true;$('playBtn').textContent='⏸ Pausar simulación';$('playBtn').classList.add('active');
+  timer=setInterval(()=>{activeFold=(activeFold+1)%folds.length;renderAll()},1100);
+});
+
+generateData();
+})();
+</script>
+</body>
+</html>

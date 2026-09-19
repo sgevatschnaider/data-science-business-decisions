@@ -21,6 +21,29 @@ La regresión logística produce probabilidades. La decisión operativa requiere
 | Glosario avanzado | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/glosario.html) |
 | Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/08-regresion-logistica.ipynb) |
 
+## Simuladores originales completos
+
+Los siguientes archivos se publican **sin resumir, recomponer ni simplificar**. Son los HTML originales provistos para el módulo.
+
+| Nº | Simulador original |
+|---:|---|
+| 01 | [Función sigmoide](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_01_funcion_sigmoide_regresion_logistica.html) |
+| 02 | [Probabilidad, Odds, Logit y Odds Ratio](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_02_probabilidad_odds_logit_odds_ratio.html) |
+| 03 | [Efectos marginales](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_03_efectos_marginales_regresion_logistica.html) |
+| 04 | [Log-Loss y Máxima Verosimilitud](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_04_log_loss_maxima_verosimilitud.html) |
+| 05 | [Threshold, Matriz de Confusión y Métricas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_05_threshold_matriz_confusion_metricas.html) |
+| 06 | [ROC, Precision–Recall y Desbalance](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_06_roc_precision_recall_desbalance.html) |
+| 07 | [Frontera de Decisión 2D](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_07_frontera_decision_2d_regresion_logistica.html) |
+| 08 | [Regularización L1/L2 y Overfitting](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_08_regularizacion_l1_l2_overfitting.html) |
+| 09 | [Dummies, Interacciones y No Linealidades](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_09_dummies_interacciones_no_linealidades.html) |
+| 10 | [Train, Validation, Test y K-Fold](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_10_train_validation_test_kfold_cross_validation.html) |
+| 11 | [Calibración vs Discriminación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_11_calibracion_vs_discriminacion.html) |
+| 12 | [Decision Lab — Credit Scoring, Threshold y Costos](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_12_decision_lab_credit_scoring_costos.html) |
+| 13 | [Softmax y Clasificación Multiclase](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_13_softmax_clasificacion_multiclase.html) |
+| 14 | [Model Drift & Monitoring](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simuladores/simulador_14_model_drift_monitoring.html) |
+
+El glosario y el cuestionario también se publican desde los HTML originales completos.
+
 ## Ruta didáctica
 
 1. **Fundamentos probabilísticos (Sim 01–04):** score, sigmoide, odds/logit, efectos marginales, likelihood y log-loss.

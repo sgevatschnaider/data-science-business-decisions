@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 06 · ROC, Precision–Recall y Desbalance</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.88);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.93);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:880px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.16rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+.main-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:84px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.preset-grid button{padding:10px 7px;font-size:.78rem}
+.maincol{display:grid;gap:20px}.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.15rem,2vw,1.8rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+svg{width:100%;height:auto;display:block}.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}
+.roc{fill:none;stroke:var(--accent);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+.pr{fill:none;stroke:var(--warn);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+.random{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:8 8;opacity:.8}
+.baseline{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:8 8;opacity:.85}
+.point{fill:var(--bad);stroke:#fff;stroke-width:2}.guide{stroke:var(--bad);stroke-width:1.8;stroke-dasharray:5 6}
+.curve-label{fill:var(--text);font-size:12px;font-weight:850}.axis-label{fill:var(--muted);font-size:12px}
+.dist-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.hist{fill:rgba(88,166,255,.45)}.hist2{fill:rgba(255,107,122,.45)}.threshold-line{stroke:var(--warn);stroke-width:3;stroke-dasharray:8 7}
+.matrix{display:grid;grid-template-columns:72px 1fr 1fr;grid-template-rows:42px 1fr 1fr;gap:8px;min-height:260px}
+.mh{display:grid;place-items:center;color:var(--muted);font-size:.76rem;font-weight:850;text-align:center}.cell{border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cell .abbr{font-size:.72rem;font-weight:900;letter-spacing:.08em}.cell .num{font-size:1.9rem;font-weight:950;margin:5px 0}.cell .desc{font-size:.68rem;color:var(--muted)}
+.tp{background:rgba(53,211,154,.09)}.tn{background:rgba(88,166,255,.08)}.fp{background:rgba(255,191,71,.10)}.fn{background:rgba(255,107,122,.10)}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.scenario{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.scenario.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.scenario .head{display:flex;justify-content:space-between;gap:8px;align-items:center}.scenario .big{font-size:1.8rem;font-weight:950;margin:10px 0 3px}.scenario .mini{font-size:.78rem;color:var(--muted);line-height:1.45}
+.gauge{height:14px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:rgba(127,140,160,.12);margin-top:9px}.gauge>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1150px){.hero,.charts,.dist-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.compare,.concepts{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">ROC</div>
+      <div><strong>Simulador 06 · Regresión Logística</strong><span>ROC, Precision–Recall y desbalance de clases</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Evaluación</div>
+    <h1>ROC, Precision–Recall y <span class="gradient-text">desbalance</span></h1>
+    <p class="subtitle">
+      Mueve el umbral y observa el mismo punto recorrer simultáneamente la curva ROC y la curva Precision–Recall.
+      Después cambia la prevalencia del evento: descubrirás por qué <strong>ROC-AUC puede mantenerse estable</strong>
+      mientras la <strong>precision se deteriora</strong> cuando la clase positiva se vuelve rara.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>TPR = TP / (TP + FN)</b><small>Recall o sensibilidad: proporción de positivos reales detectados.</small></div>
+    <div class="formula"><b>FPR = FP / (FP + TN)</b><small>Falsas alarmas entre todos los negativos reales.</small></div>
+    <div class="formula"><b>Precision = TP / (TP + FP)</b><small>Depende fuertemente de cuán frecuente sea la clase positiva.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Controles</h2><span class="tag">Interactivo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="threshold">Threshold c</label><span class="pill" id="thresholdVal">0.50</span></div>
+      <input id="threshold" type="range" min="0.02" max="0.98" step="0.01" value="0.50">
+      <div class="range-labels"><span>0.02</span><span>0.50</span><span>0.98</span></div>
+      <div class="hint">El mismo threshold determina un punto en ROC y otro en Precision–Recall.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="prevalence">Prevalencia positiva</label><span class="pill" id="prevVal">10%</span></div>
+      <input id="prevalence" type="range" min="1" max="50" step="1" value="10">
+      <div class="range-labels"><span>1%</span><span>25%</span><span>50%</span></div>
+      <div class="hint">Controla cuántos positivos existen en la población sin cambiar la calidad del ranking del modelo.</div>
+      <div class="preset-grid" style="margin-top:10px">
+        <button type="button" id="prev50">50%</button>
+        <button type="button" id="prev10" class="selected">10%</button>
+        <button type="button" id="prev1">1%</button>
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="separation">Separación del modelo</label><span class="pill" id="sepVal">Buena</span></div>
+      <input id="separation" type="range" min="0" max="2" step="1" value="1">
+      <div class="range-labels"><span>Débil</span><span>Buena</span><span>Alta</span></div>
+      <div class="hint">Modifica el solapamiento entre scores de positivos y negativos.</div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">ROC-AUC</div><div class="v" id="rocAuc">—</div><div class="s">discriminación global</div></div>
+  <div class="metric"><div class="k">PR-AUC</div><div class="v" id="prAuc">—</div><div class="s">precision–recall</div></div>
+  <div class="metric"><div class="k">Recall / TPR</div><div class="v" id="recall">—</div><div class="s">positivos detectados</div></div>
+  <div class="metric"><div class="k">FPR</div><div class="v" id="fpr">—</div><div class="s">falsas alarmas</div></div>
+  <div class="metric"><div class="k">Precision</div><div class="v" id="precision">—</div><div class="s">calidad de alertas</div></div>
+  <div class="metric"><div class="k">Prevalencia</div><div class="v" id="prevMetric">10%</div><div class="s">baseline PR</div></div>
+</section>
+
+<section class="charts">
+  <div class="card">
+    <div class="title-row"><h2>Curva ROC</h2><span class="tag">ranking</span></div>
+    <svg id="rocChart" viewBox="0 0 650 560">
+      <g id="rocGrid"></g>
+      <line class="axis" x1="75" y1="480" x2="590" y2="480"></line>
+      <line class="axis" x1="75" y1="55" x2="75" y2="480"></line>
+      <line class="random" x1="75" y1="480" x2="590" y2="55"></line>
+      <path id="rocPath" class="roc"></path>
+      <line id="rocGX" class="guide"></line><line id="rocGY" class="guide"></line>
+      <circle id="rocPoint" class="point" r="9"></circle>
+      <g id="rocLabels"></g>
+      <text x="460" y="90" class="curve-label">modelo</text>
+      <text x="410" y="310" class="axis-label">azar</text>
+    </svg>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Curva Precision–Recall</h2><span class="tag">eventos raros</span></div>
+    <svg id="prChart" viewBox="0 0 650 560">
+      <g id="prGrid"></g>
+      <line class="axis" x1="75" y1="480" x2="590" y2="480"></line>
+      <line class="axis" x1="75" y1="55" x2="75" y2="480"></line>
+      <line id="prBaseline" class="baseline" x1="75" x2="590"></line>
+      <path id="prPath" class="pr"></path>
+      <line id="prGX" class="guide"></line><line id="prGY" class="guide"></line>
+      <circle id="prPoint" class="point" r="9"></circle>
+      <g id="prLabels"></g>
+      <text x="430" y="90" class="curve-label">modelo</text>
+      <text id="baseText" x="390" y="450" class="axis-label">baseline = prevalencia</text>
+    </svg>
+  </div>
+</section>
+
+<section class="dist-grid">
+  <div class="card">
+    <div class="title-row"><h2>Distribución de probabilidades</h2><span class="tag">clases reales</span></div>
+    <svg id="histChart" viewBox="0 0 900 430">
+      <g id="histGrid"></g>
+      <line class="axis" x1="70" y1="365" x2="840" y2="365"></line>
+      <line class="axis" x1="70" y1="45" x2="70" y2="365"></line>
+      <g id="histBars"></g>
+      <line id="histThreshold" class="threshold-line" y1="45" y2="365"></line>
+      <g id="histLabels"></g>
+    </svg>
+    <div class="interpret" id="histText"></div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Matriz actual</h2><span class="tag" id="matrixTag">c = 0.50</span></div>
+    <div class="matrix">
+      <div></div><div class="mh">Real 0</div><div class="mh">Real 1</div>
+      <div class="mh">Pred. 0</div>
+      <div class="cell tn"><div class="abbr">TN</div><div class="num" id="tn">0</div><div class="desc">negativos correctos</div></div>
+      <div class="cell fn"><div class="abbr">FN</div><div class="num" id="fn">0</div><div class="desc">positivos perdidos</div></div>
+      <div class="mh">Pred. 1</div>
+      <div class="cell fp"><div class="abbr">FP</div><div class="num" id="fp">0</div><div class="desc">falsas alarmas</div></div>
+      <div class="cell tp"><div class="abbr">TP</div><div class="num" id="tp">0</div><div class="desc">positivos detectados</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Mismo modelo, distinta prevalencia</h2><span class="tag">Experimento clave</span></div>
+  <div class="compare">
+    <div class="scenario" id="sc50">
+      <div class="head"><b>Balanceado</b><span class="tag">50%</span></div>
+      <div class="big" id="p50">—</div><div class="mini">Precision al threshold actual.</div>
+      <div class="gauge"><div id="g50"></div></div>
+    </div>
+    <div class="scenario" id="sc10">
+      <div class="head"><b>Evento poco frecuente</b><span class="tag">10%</span></div>
+      <div class="big" id="p10">—</div><div class="mini">Mismo TPR y FPR, pero más negativos disponibles para generar FP.</div>
+      <div class="gauge"><div id="g10"></div></div>
+    </div>
+    <div class="scenario" id="sc1">
+      <div class="head"><b>Evento raro</b><span class="tag">1%</span></div>
+      <div class="big" id="p1">—</div><div class="mini">La precision puede caer fuertemente aunque la ROC sea idéntica.</div>
+      <div class="gauge"><div id="g1"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">ROC ≠ PR</span></div>
+  <div class="interpret" id="interpret"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · ROC mide separación relativa</b><span>TPR y FPR se calculan dentro de cada clase; por eso la prevalencia afecta poco o nada a la curva ROC si el ranking se mantiene.</span></div>
+    <div class="concept"><b>2 · Precision sí depende de prevalencia</b><span>Cuando hay muchísimos negativos, incluso una tasa baja de falsos positivos puede producir numerosas falsas alarmas.</span></div>
+    <div class="concept"><b>3 · PR es especialmente útil con eventos raros</b><span>Fraude, default y otros eventos poco frecuentes exigen mirar qué proporción de las alertas positivas realmente corresponde a casos positivos.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const threshold=$('threshold'), prevalence=$('prevalence'), separation=$('separation');
+let posScores=[],negScores=[];
+
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fract=x=>x-Math.floor(x);
+const rand=i=>fract(Math.sin(i*12.9898+78.233)*43758.5453);
+const pct=v=>(100*v).toFixed(1)+'%';
+const safe=(a,b)=>b===0?0:a/b;
+
+function generateScores(){
+  posScores=[];negScores=[];
+  const cfg=[
+    {neg:.42,pos:.58,spread:.30},
+    {neg:.32,pos:.68,spread:.25},
+    {neg:.22,pos:.78,spread:.20}
+  ][+separation.value];
+  for(let i=0;i<1200;i++){
+    const u=(rand(i+1)+rand(i*3+5)+rand(i*7+11)+rand(i*13+17))/4-.5;
+    negScores.push(clamp(cfg.neg+u*cfg.spread*2,.001,.999));
+  }
+  for(let i=0;i<1200;i++){
+    const u=(rand(i+3001)+rand(i*5+71)+rand(i*11+31)+rand(i*17+19))/4-.5;
+    posScores.push(clamp(cfg.pos+u*cfg.spread*2,.001,.999));
+  }
+}
+
+function rates(c){
+  let tp=0,fp=0;
+  for(const p of posScores) if(p>=c) tp++;
+  for(const p of negScores) if(p>=c) fp++;
+  return {tpr:tp/posScores.length,fpr:fp/negScores.length};
+}
+function precisionFromRates(tpr,fpr,prev){
+  const num=tpr*prev;
+  return safe(num,num+fpr*(1-prev));
+}
+function pointMetrics(c,prev){
+  const r=rates(c);
+  const precision=precisionFromRates(r.tpr,r.fpr,prev);
+  return {...r,precision,recall:r.tpr};
+}
+function curveData(prev){
+  const roc=[],pr=[];
+  for(let i=0;i<=200;i++){
+    const c=1-i/200;
+    const r=rates(c);
+    const precision=precisionFromRates(r.tpr,r.fpr,prev);
+    roc.push({x:r.fpr,y:r.tpr,c});
+    pr.push({x:r.tpr,y:precision,c});
+  }
+  return {roc,pr};
+}
+function auc(points){
+  let area=0;
+  const pts=[...points].sort((a,b)=>a.x-b.x);
+  for(let i=1;i<pts.length;i++){
+    const dx=pts[i].x-pts[i-1].x;
+    area+=dx*(pts[i].y+pts[i-1].y)/2;
+  }
+  return area;
+}
+
+const CX0=75,CY0=55,CW=515,CH=425;
+const sx=x=>CX0+x*CW, sy=y=>CY0+(1-y)*CH;
+
+function buildAxes(){
+  let rg='',rl='',pg='',pl='';
+  for(let v=0;v<=1.0001;v+=.2){
+    const x=sx(v),y=sy(v);
+    rg+=`<line class="gridline" y1="55" y2="480" x1="${x}" x2="${x}"></line><line class="gridline" x1="75" x2="590" y1="${y}" y2="${y}"></line>`;
+    pg+=`<line class="gridline" y1="55" y2="480" x1="${x}" x2="${x}"></line><line class="gridline" x1="75" x2="590" y1="${y}" y2="${y}"></line>`;
+    rl+=`<text x="${x-10}" y="505" class="axis-label">${v.toFixed(1)}</text><text x="38" y="${y+4}" class="axis-label">${v.toFixed(1)}</text>`;
+    pl+=`<text x="${x-10}" y="505" class="axis-label">${v.toFixed(1)}</text><text x="38" y="${y+4}" class="axis-label">${v.toFixed(1)}</text>`;
+  }
+  rl+=`<text x="510" y="535" class="axis-label">FPR</text><text x="18" y="68" class="axis-label">TPR</text>`;
+  pl+=`<text x="495" y="535" class="axis-label">Recall</text><text x="8" y="68" class="axis-label">Precision</text>`;
+  $('rocGrid').innerHTML=rg;$('rocLabels').innerHTML=rl;
+  $('prGrid').innerHTML=pg;$('prLabels').innerHTML=pl;
+}
+function pathFrom(points){
+  return points.map((p,i)=>(i?'L':'M')+sx(p.x).toFixed(1)+','+sy(p.y).toFixed(1)).join('');
+}
+
+function histData(){
+  const bins=20,neg=new Array(bins).fill(0),pos=new Array(bins).fill(0);
+  negScores.forEach(v=>neg[Math.min(bins-1,Math.floor(v*bins))]++);
+  posScores.forEach(v=>pos[Math.min(bins-1,Math.floor(v*bins))]++);
+  const max=Math.max(...neg,...pos);
+  return {neg,pos,max,bins};
+}
+function drawHist(c){
+  const {neg,pos,max,bins}=histData();
+  const x0=70,y0=45,W=770,H=320,bw=W/bins;
+  let bars='',grid='',labels='';
+  for(let i=0;i<bins;i++){
+    const hn=neg[i]/max*H,hp=pos[i]/max*H;
+    bars+=`<rect class="hist" x="${x0+i*bw+1}" y="${y0+H-hn}" width="${bw/2-2}" height="${hn}"></rect>`;
+    bars+=`<rect class="hist2" x="${x0+i*bw+bw/2}" y="${y0+H-hp}" width="${bw/2-2}" height="${hp}"></rect>`;
+  }
+  for(let p=0;p<=1.0001;p+=.2){
+    const x=x0+p*W;
+    grid+=`<line class="gridline" y1="45" y2="365" x1="${x}" x2="${x}"></line>`;
+    labels+=`<text x="${x-10}" y="390" class="axis-label">${p.toFixed(1)}</text>`;
+  }
+  labels+=`<text x="700" y="415" class="axis-label">probabilidad predicha</text>`;
+  $('histGrid').innerHTML=grid;$('histBars').innerHTML=bars;$('histLabels').innerHTML=labels;
+  const tx=x0+c*W;$('histThreshold').setAttribute('x1',tx);$('histThreshold').setAttribute('x2',tx);
+}
+
+function confusion(c,prev,N=10000){
+  const r=rates(c);
+  const pos=Math.max(1,Math.round(N*prev)),neg=N-pos;
+  const TP=Math.round(pos*r.tpr),FN=pos-TP,FP=Math.round(neg*r.fpr),TN=neg-FP;
+  return {TP,FN,FP,TN};
+}
+function update(){
+  const c=+threshold.value,prev=+prevalence.value/100;
+  const cur=pointMetrics(c,prev),curves=curveData(prev);
+  const rocA=auc(curves.roc),prA=auc(curves.pr);
+
+  $('thresholdVal').textContent=c.toFixed(2);$('prevVal').textContent=Math.round(prev*100)+'%';
+  $('prevMetric').textContent=Math.round(prev*100)+'%';
+  $('sepVal').textContent=['Débil','Buena','Alta'][+separation.value];
+  $('rocAuc').textContent=rocA.toFixed(3);$('prAuc').textContent=prA.toFixed(3);
+  $('recall').textContent=pct(cur.recall);$('fpr').textContent=pct(cur.fpr);$('precision').textContent=pct(cur.precision);
+
+  $('rocPath').setAttribute('d',pathFrom(curves.roc));
+  $('prPath').setAttribute('d',pathFrom(curves.pr));
+
+  const rx=sx(cur.fpr),ry=sy(cur.tpr);
+  $('rocPoint').setAttribute('cx',rx);$('rocPoint').setAttribute('cy',ry);
+  $('rocGX').setAttribute('x1',rx);$('rocGX').setAttribute('x2',rx);$('rocGX').setAttribute('y1',ry);$('rocGX').setAttribute('y2',480);
+  $('rocGY').setAttribute('x1',75);$('rocGY').setAttribute('x2',rx);$('rocGY').setAttribute('y1',ry);$('rocGY').setAttribute('y2',ry);
+
+  const px=sx(cur.recall),py=sy(cur.precision);
+  $('prPoint').setAttribute('cx',px);$('prPoint').setAttribute('cy',py);
+  $('prGX').setAttribute('x1',px);$('prGX').setAttribute('x2',px);$('prGX').setAttribute('y1',py);$('prGX').setAttribute('y2',480);
+  $('prGY').setAttribute('x1',75);$('prGY').setAttribute('x2',px);$('prGY').setAttribute('y1',py);$('prGY').setAttribute('y2',py);
+
+  const by=sy(prev);$('prBaseline').setAttribute('y1',by);$('prBaseline').setAttribute('y2',by);
+  $('baseText').setAttribute('y',Math.max(72,Math.min(470,by-8)));
+  $('baseText').textContent='baseline = '+Math.round(prev*100)+'%';
+
+  drawHist(c);
+  const cm=confusion(c,prev);
+  $('tp').textContent=cm.TP;$('tn').textContent=cm.TN;$('fp').textContent=cm.FP;$('fn').textContent=cm.FN;
+  $('matrixTag').textContent='c = '+c.toFixed(2);
+
+  $('histText').innerHTML=`Con este modelo, los positivos tienden a concentrarse en probabilidades más altas y los negativos en valores más bajos. El umbral <strong>${c.toFixed(2)}</strong> corta ambas distribuciones: a la derecha se predice clase 1; a la izquierda, clase 0.`;
+
+  [50,10,1].forEach(v=>{
+    const pp=precisionFromRates(cur.tpr,cur.fpr,v/100);
+    $('p'+v).textContent=pct(pp);$('g'+v).style.width=(pp*100)+'%';
+    $('sc'+v).classList.toggle('active',Math.round(prev*100)===v);
+  });
+
+  $('prev50').classList.toggle('selected',Math.round(prev*100)===50);
+  $('prev10').classList.toggle('selected',Math.round(prev*100)===10);
+  $('prev1').classList.toggle('selected',Math.round(prev*100)===1);
+
+  const p50=precisionFromRates(cur.tpr,cur.fpr,.50),p10=precisionFromRates(cur.tpr,cur.fpr,.10),p1=precisionFromRates(cur.tpr,cur.fpr,.01);
+  let msg=`Con <strong>c = ${c.toFixed(2)}</strong>, el modelo obtiene TPR/Recall de <strong>${pct(cur.tpr)}</strong> y FPR de <strong>${pct(cur.fpr)}</strong>. `;
+  msg+=`Esos dos valores determinan el punto actual de la ROC y dependen del comportamiento dentro de cada clase. `;
+  msg+=`Con prevalencia de <strong>${Math.round(prev*100)}%</strong>, la precision es <strong>${pct(cur.precision)}</strong>. `;
+  msg+=`Si mantenemos exactamente el mismo TPR y FPR pero reducimos la prevalencia, la precision pasa de <strong>${pct(p50)}</strong> con 50% de positivos a <strong>${pct(p10)}</strong> con 10% y a <strong>${pct(p1)}</strong> con 1%. `;
+  msg+=`Por eso, en eventos raros, una ROC atractiva no garantiza que la mayoría de las alertas positivas sean correctas.`;
+  $('interpret').innerHTML=msg;
+}
+
+threshold.addEventListener('input',update);
+prevalence.addEventListener('input',update);
+separation.addEventListener('input',()=>{generateScores();update()});
+$('prev50').addEventListener('click',()=>{stop();prevalence.value=50;update()});
+$('prev10').addEventListener('click',()=>{stop();prevalence.value=10;update()});
+$('prev1').addEventListener('click',()=>{stop();prevalence.value=1;update()});
+$('exampleBtn').addEventListener('click',()=>{stop();separation.value=1;generateScores();threshold.value=.55;prevalence.value=1;update()});
+$('resetBtn').addEventListener('click',()=>{stop();separation.value=1;threshold.value=.50;prevalence.value=10;generateScores();update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);$('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let anim=false,raf=null,dir=1,last=0;
+function animate(ts){
+  if(!anim)return;
+  if(ts-last>32){
+    let v=+threshold.value+dir*.006;
+    if(v>=.96){v=.96;dir=-1} if(v<=.04){v=.04;dir=1}
+    threshold.value=v;update();last=ts;
+  }
+  raf=requestAnimationFrame(animate);
+}
+function stop(){
+  anim=false;if(raf)cancelAnimationFrame(raf);
+  $('playBtn').textContent='▶ Simulación dinámica';$('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim)stop();else{
+    anim=true;$('playBtn').textContent='⏸ Pausar simulación';$('playBtn').classList.add('active');raf=requestAnimationFrame(animate)
+  }
+});
+
+buildAxes();generateScores();update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 14 · Model Drift & Monitoring</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.90);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--violet:#a78bfa;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.94);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#a96c00;--bad:#d63b50;--blue:#2563eb;--violet:#7c3aed;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 80%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{
+  font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);
+  border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760
+}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:920px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.13rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+
+.main-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:88px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+
+.maincol{display:grid;gap:20px}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.05rem,1.8vw,1.6rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+
+.status-board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.status-card{border:1px solid var(--line);border-radius:18px;padding:15px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.status-card .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.status-card .label{font-weight:900}.status-card .desc{font-size:.76rem;color:var(--muted);line-height:1.42;margin-top:8px}
+.light{width:13px;height:13px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px rgba(53,211,154,.10)}
+.light.warn{background:var(--warn);box-shadow:0 0 0 5px rgba(255,191,71,.10)}
+.light.bad{background:var(--bad);box-shadow:0 0 0 5px rgba(255,107,122,.10)}
+
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+svg{width:100%;height:auto;display:block}
+.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}.axis-label{fill:var(--muted);font-size:12px}
+.baseBar{fill:rgba(88,166,255,.45)}.curBar{fill:rgba(255,191,71,.65)}
+.diag{stroke:var(--muted);stroke-width:2;stroke-dasharray:8 8}
+.calBase{fill:none;stroke:var(--blue);stroke-width:3.5;stroke-dasharray:7 6}
+.calCur{fill:none;stroke:var(--warn);stroke-width:4.5}
+.calPointBase{fill:var(--blue);stroke:#fff;stroke-width:1.5}.calPointCur{fill:var(--warn);stroke:#fff;stroke-width:1.5}
+.aucLine{fill:none;stroke:var(--accent);stroke-width:4}.brierLine{fill:none;stroke:var(--warn);stroke-width:4}.psiLine{fill:none;stroke:var(--bad);stroke-width:4}
+.monthLine{stroke:var(--violet);stroke-width:2.2;stroke-dasharray:7 7}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}.ldot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.psi-grid{display:grid;grid-template-columns:1fr .9fr;gap:18px}
+.psi-table{display:grid;gap:7px}
+.psi-row{display:grid;grid-template-columns:62px 1fr 1fr 78px;gap:8px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:9px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.psi-row .lab{font-size:.72rem;color:var(--muted);font-weight:850}
+.smallbar{height:10px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:rgba(127,140,160,.12)}
+.smallbar>div{height:100%;background:var(--blue)}.smallbar.current>div{background:var(--warn)}
+.psi-row strong{text-align:right;font-size:.78rem}
+
+.monitor-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mstep{border:1px solid var(--line);border-radius:17px;padding:14px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.mstep .n{font-size:.68rem;color:var(--accent);font-weight:900;text-transform:uppercase;letter-spacing:.08em}.mstep .big{font-size:1.12rem;font-weight:950;margin:6px 0}.mstep .mini{font-size:.74rem;color:var(--muted);line-height:1.4}
+
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.alert{border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:10px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.alert.warn{border-color:color-mix(in srgb,var(--warn) 60%,var(--line));background:rgba(255,191,71,.06)}
+.alert.bad{border-color:color-mix(in srgb,var(--bad) 60%,var(--line));background:rgba(255,107,122,.06)}
+.alert b{display:block;margin-bottom:5px}.alert span{font-size:.8rem;color:var(--muted);line-height:1.45}
+
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.status-board{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1150px){.hero,.charts,.psi-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.monitor-flow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.status-board,.monitor-flow,.concepts{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}.psi-row{grid-template-columns:50px 1fr 1fr 62px}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">Δ</div>
+      <div><strong>Simulador 14 · Regresión Logística</strong><span>Model Drift & Monitoring</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación temporal</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Ciclo de vida en producción</div>
+    <h1>Model Drift & <span class="gradient-text">Monitoring</span></h1>
+    <p class="subtitle">
+      El modelo permanece <strong>congelado</strong>, pero el mundo puede cambiar.
+      Avanza mes a mes y separa cuatro fenómenos diferentes:
+      cambios en la población de entrada, cambios en la prevalencia, cambios en la relación entre X e Y
+      y, finalmente, deterioro observable de las métricas del modelo.
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>Data drift: Pₜ(X) ≠ P₀(X)</b><small>Cambia la población que recibe el modelo.</small></div>
+    <div class="formula"><b>Prior drift: Pₜ(Y) ≠ P₀(Y)</b><small>Cambia la frecuencia base del evento.</small></div>
+    <div class="formula"><b>Concept drift: Pₜ(Y|X) ≠ P₀(Y|X)</b><small>Cambia la relación predictiva aprendida.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Escenario temporal</h2><span class="tag">Modelo fijo</span></div>
+  <div class="controls">
+    <div class="control">
+      <div class="control-head"><label for="month">Mes desde despliegue</label><span class="pill" id="monthVal">0</span></div>
+      <input id="month" type="range" min="0" max="12" step="1" value="0">
+      <div class="range-labels"><span>Baseline</span><span>6</span><span>12 meses</span></div>
+      <div class="hint">La severidad configurada se manifiesta progresivamente a medida que pasa el tiempo.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="dataDrift">Data drift</label><span class="pill" id="dataVal">0%</span></div>
+      <input id="dataDrift" type="range" min="0" max="100" step="5" value="0">
+      <div class="range-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div class="hint">Desplaza y ensancha la distribución de X sin modificar los coeficientes del modelo desplegado.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="priorDrift">Prior drift</label><span class="pill" id="priorVal">0%</span></div>
+      <input id="priorDrift" type="range" min="0" max="100" step="5" value="0">
+      <div class="range-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div class="hint">Eleva o reduce la tasa base del evento mediante un cambio del intercepto verdadero.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="conceptDrift">Concept drift</label><span class="pill" id="conceptVal">0%</span></div>
+      <input id="conceptDrift" type="range" min="0" max="100" step="5" value="0">
+      <div class="range-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+      <div class="hint">Hace que las relaciones verdaderas entre predictores y resultado se aparten de las β congeladas.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label>Escenarios rápidos</label><span class="pill">Drift</span></div>
+      <div class="preset-grid">
+        <button id="stableBtn">Entorno estable</button>
+        <button id="dataOnlyBtn">Solo cambio de población</button>
+        <button id="conceptOnlyBtn">Concept drift severo</button>
+        <button id="crisisBtn">Escenario combinado</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">ROC-AUC</div><div class="v" id="aucMetric">—</div><div class="s">discriminación</div></div>
+  <div class="metric"><div class="k">Brier score</div><div class="v" id="brierMetric">—</div><div class="s">calidad probabilística</div></div>
+  <div class="metric"><div class="k">ECE</div><div class="v" id="eceMetric">—</div><div class="s">calibración</div></div>
+  <div class="metric"><div class="k">PSI score</div><div class="v" id="psiMetric">—</div><div class="s">drift distribucional</div></div>
+  <div class="metric"><div class="k">Prevalencia</div><div class="v" id="prevMetric">—</div><div class="s">P(Y=1)</div></div>
+  <div class="metric"><div class="k">Riesgo medio</div><div class="v" id="meanScoreMetric">—</div><div class="s">media p̂</div></div>
+</section>
+
+<section class="status-board">
+  <div class="status-card"><div class="top"><span class="label">Input monitoring</span><span class="light" id="inputLight"></span></div><div class="desc" id="inputStatus">Sin alertas relevantes.</div></div>
+  <div class="status-card"><div class="top"><span class="label">Performance</span><span class="light" id="perfLight"></span></div><div class="desc" id="perfStatus">AUC estable.</div></div>
+  <div class="status-card"><div class="top"><span class="label">Calibration</span><span class="light" id="calLight"></span></div><div class="desc" id="calStatus">Probabilidades consistentes.</div></div>
+  <div class="status-card"><div class="top"><span class="label">Overall status</span><span class="light" id="overallLight"></span></div><div class="desc" id="overallStatus">Modelo dentro de parámetros.</div></div>
+</section>
+
+<section class="charts">
+  <div class="card">
+    <div class="title-row"><h2>Distribución del score</h2><span class="tag">Baseline vs actual</span></div>
+    <svg id="histChart" viewBox="0 0 820 500">
+      <g id="histGrid"></g>
+      <line class="axis" x1="70" y1="420" x2="760" y2="420"></line>
+      <line class="axis" x1="70" y1="55" x2="70" y2="420"></line>
+      <g id="histBars"></g>
+      <g id="histLabels"></g>
+    </svg>
+    <div class="legend">
+      <span><i class="ldot" style="background:var(--blue)"></i>Referencia</span>
+      <span><i class="ldot" style="background:var(--warn)"></i>Mes actual</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Calibration plot</h2><span class="tag">¿p̂ conserva significado?</span></div>
+    <svg id="calChart" viewBox="0 0 650 500">
+      <g id="calGrid"></g>
+      <line class="axis" x1="70" y1="420" x2="590" y2="420"></line>
+      <line class="axis" x1="70" y1="50" x2="70" y2="420"></line>
+      <line class="diag" x1="70" y1="420" x2="590" y2="50"></line>
+      <path id="calBasePath" class="calBase"></path>
+      <path id="calCurPath" class="calCur"></path>
+      <g id="calPoints"></g>
+      <g id="calLabels"></g>
+    </svg>
+    <div class="legend">
+      <span><i class="ldot" style="background:var(--blue)"></i>Baseline</span>
+      <span><i class="ldot" style="background:var(--warn)"></i>Actual</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Evolución de métricas</h2><span class="tag">Mes 0 → 12</span></div>
+  <svg id="trendChart" viewBox="0 0 1000 470">
+    <g id="trendGrid"></g>
+    <line class="axis" x1="70" y1="390" x2="940" y2="390"></line>
+    <line class="axis" x1="70" y1="50" x2="70" y2="390"></line>
+    <path id="aucPath" class="aucLine"></path>
+    <path id="brierPath" class="brierLine"></path>
+    <path id="psiPath" class="psiLine"></path>
+    <line id="monthLine" class="monthLine" y1="50" y2="390"></line>
+    <g id="trendLabels"></g>
+  </svg>
+  <div class="legend">
+    <span><i class="ldot" style="background:var(--accent)"></i>AUC</span>
+    <span><i class="ldot" style="background:var(--warn)"></i>1 − Brier</span>
+    <span><i class="ldot" style="background:var(--bad)"></i>1 − PSI normalizado</span>
+  </div>
+</section>
+
+<section class="psi-grid">
+  <div class="card">
+    <div class="title-row"><h2>PSI por deciles del score</h2><span class="tag">Population Stability Index</span></div>
+    <div id="psiTable" class="psi-table"></div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Alertas y diagnóstico</h2><span class="tag">No confundir síntomas</span></div>
+    <div id="diagnosticText" class="interpret"></div>
+    <div id="alerts"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Proceso de monitoreo recomendado</h2><span class="tag">Producción</span></div>
+  <div class="monitor-flow">
+    <div class="mstep"><div class="n">1 · Inputs</div><div class="big">P(X)</div><div class="mini">Distribuciones, faltantes, rangos, categorías y PSI.</div></div>
+    <div class="mstep"><div class="n">2 · Scores</div><div class="big">p̂</div><div class="mini">Distribución de riesgo, tasas de decisión y score drift.</div></div>
+    <div class="mstep"><div class="n">3 · Outcomes</div><div class="big">P(Y)</div><div class="mini">Prevalencia, demoras de etiquetas y prior drift.</div></div>
+    <div class="mstep"><div class="n">4 · Performance</div><div class="big">AUC + Brier</div><div class="mini">Discriminación, calibración, recall y costos.</div></div>
+    <div class="mstep"><div class="n">5 · Acción</div><div class="big">Investigar</div><div class="mini">Recalibrar, reentrenar, revisar variables o política.</div></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Drift ≠ una sola métrica</span></div>
+  <div id="interpret" class="interpret"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · Data drift no implica automáticamente performance drift</b><span>Puede cambiar P(X) mientras el ranking y la calibración siguen aceptables. Es una señal para investigar, no una condena automática del modelo.</span></div>
+    <div class="concept"><b>2 · Concept drift puede aparecer sin un PSI extremo</b><span>Si cambia P(Y|X), la relación aprendida deja de representar el mundo aunque la distribución marginal de X se parezca a la referencia.</span></div>
+    <div class="concept"><b>3 · Monitorear exige varias capas</b><span>Inputs, scores, prevalencia, discriminación, calibración, decisiones y costos deben leerse conjuntamente antes de recalibrar o reentrenar.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const monthEl=$('month'),dataEl=$('dataDrift'),priorEl=$('priorDrift'),conceptEl=$('conceptDrift');
+const logistic=z=>1/(1+Math.exp(-z));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+const pct=v=>(100*v).toFixed(1)+'%';
+
+function mulberry32(seed){
+  return function(){
+    let t=seed+=0x6D2B79F5;
+    t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);
+    return ((t^t>>>14)>>>0)/4294967296;
+  }
+}
+function gauss(rng){
+  let u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)
+}
+
+// frozen production model
+const MODEL={b0:-1.05,b1:1.25,b2:-.95};
+const N=2500;
+
+function population(month, dataSeverity, priorSeverity, conceptSeverity, seedOffset=0){
+  const progress=month/12;
+  const d=progress*dataSeverity/100, pr=progress*priorSeverity/100, c=progress*conceptSeverity/100;
+  const rng=mulberry32(20260919 + month*10007 + Math.round(dataSeverity)*31 + Math.round(priorSeverity)*73 + Math.round(conceptSeverity)*113 + seedOffset);
+  const out=[];
+  for(let i=0;i<N;i++){
+    let x1=gauss(rng),x2=gauss(rng);
+    // Data drift: location + scale + mild correlation pattern
+    x1=(1+.30*d)*x1 + 1.10*d;
+    x2=(1+.18*d)*x2 - .75*d + .22*d*x1;
+
+    // frozen model score / prediction
+    const modelZ=MODEL.b0+MODEL.b1*x1+MODEL.b2*x2;
+    const pred=logistic(modelZ);
+
+    // true process can drift separately
+    const trueB0=MODEL.b0 + 1.35*pr;
+    const trueB1=MODEL.b1*(1-.70*c);
+    const trueB2=MODEL.b2*(1-.50*c) + .75*c;
+    const interaction=.42*c*x1*x2;
+    const trueZ=trueB0+trueB1*x1+trueB2*x2+interaction;
+    const trueP=logistic(trueZ);
+    const y=rng()<trueP?1:0;
+    out.push({x1,x2,pred,y,trueP});
+  }
+  return out;
+}
+
+const baseline=population(0,0,0,0,909);
+
+function auc(data){
+  const arr=[...data].sort((a,b)=>a.pred-b.pred);
+  const nP=arr.reduce((s,d)=>s+d.y,0),nN=arr.length-nP;
+  if(!nP||!nN)return .5;
+  let rank=1,sum=0,i=0;
+  while(i<arr.length){
+    let j=i+1;while(j<arr.length&&Math.abs(arr[j].pred-arr[i].pred)<1e-12)j++;
+    const avg=(rank+rank+(j-i)-1)/2;
+    for(let k=i;k<j;k++)if(arr[k].y===1)sum+=avg;
+    rank+=j-i;i=j;
+  }
+  return (sum-nP*(nP+1)/2)/(nP*nN)
+}
+function brier(data){return mean(data.map(d=>(d.pred-d.y)**2))}
+function calBins(data,bins=10){
+  const out=[];
+  for(let b=0;b<bins;b++){
+    const lo=b/bins,hi=(b+1)/bins;
+    const rows=data.filter(d=>b===bins-1?(d.pred>=lo&&d.pred<=hi):(d.pred>=lo&&d.pred<hi));
+    if(rows.length)out.push({lo,hi,n:rows.length,pred:mean(rows.map(d=>d.pred)),obs:mean(rows.map(d=>d.y))});
+  }
+  return out
+}
+function ece(data){
+  return calBins(data).reduce((s,b)=>s+b.n/data.length*Math.abs(b.pred-b.obs),0)
+}
+function hist(data,bins=10){
+  const counts=new Array(bins).fill(0);
+  data.forEach(d=>{let k=Math.min(bins-1,Math.floor(d.pred*bins));counts[k]++});
+  return counts.map(c=>c/data.length)
+}
+const baseHist=hist(baseline);
+
+function psi(current){
+  const cur=hist(current),eps=1e-5;
+  let total=0;const parts=[];
+  for(let i=0;i<cur.length;i++){
+    const p=Math.max(eps,baseHist[i]),q=Math.max(eps,cur[i]);
+    const v=(q-p)*Math.log(q/p);total+=v;
+    parts.push({base:p,cur:q,part:v});
+  }
+  return {total,parts}
+}
+function metrics(data){
+  return {
+    auc:auc(data),
+    brier:brier(data),
+    ece:ece(data),
+    prev:mean(data.map(d=>d.y)),
+    meanScore:mean(data.map(d=>d.pred)),
+    psi:psi(data)
+  }
+}
+const baseM=metrics(baseline);
+
+function timeline(){
+  const arr=[];
+  const ds=+dataEl.value,ps=+priorEl.value,cs=+conceptEl.value;
+  for(let m=0;m<=12;m++){
+    const d=m===0?baseline:population(m,ds,ps,cs,2000);
+    arr.push({month:m,...metrics(d)});
+  }
+  return arr;
+}
+
+function setLight(id,status){
+  const el=$(id);el.className='light'+(status==='warn'?' warn':status==='bad'?' bad':'')
+}
+function statusFrom(m){
+  const aucDrop=baseM.auc-m.auc;
+  const psi=m.psi.total;
+  const e=m.ece;
+  const input=psi>0.25?'bad':psi>0.10?'warn':'good';
+  const perf=aucDrop>0.10?'bad':aucDrop>0.05?'warn':'good';
+  const cal=e>0.10?'bad':e>0.05?'warn':'good';
+  const all=[input,perf,cal];
+  const overall=all.includes('bad')?'bad':all.includes('warn')?'warn':'good';
+  return {input,perf,cal,overall,aucDrop}
+}
+
+function drawHistogram(cur){
+  const ch=hist(cur),max=Math.max(...baseHist,...ch)*1.15;
+  const x0=70,y0=55,W=690,H=365,bins=10,bw=W/bins;
+  let grid='',bars='',labels='';
+  for(let i=0;i<=5;i++){
+    const y=y0+i*H/5;
+    grid+=`<line class="gridline" x1="70" x2="760" y1="${y}" y2="${y}"></line>`;
+  }
+  for(let i=0;i<bins;i++){
+    const bx=x0+i*bw;
+    const bh=baseHist[i]/max*H,chh=ch[i]/max*H;
+    bars+=`<rect class="baseBar" x="${bx+7}" y="${y0+H-bh}" width="${bw*.34}" height="${bh}" rx="3"></rect>`;
+    bars+=`<rect class="curBar" x="${bx+bw*.48}" y="${y0+H-chh}" width="${bw*.34}" height="${chh}" rx="3"></rect>`;
+    labels+=`<text x="${bx+bw*.26}" y="445" class="axis-label">${(i/10).toFixed(1)}</text>`;
+  }
+  labels+=`<text x="690" y="475" class="axis-label">p̂</text><text x="14" y="68" class="axis-label">frecuencia</text>`;
+  $('histGrid').innerHTML=grid;$('histBars').innerHTML=bars;$('histLabels').innerHTML=labels;
+}
+
+const calX0=70,calY0=50,calW=520,calH=370;
+const csx=v=>calX0+v*calW,csy=v=>calY0+(1-v)*calH;
+function buildCalAxes(){
+  let g='',l='';
+  for(let v=0;v<=1.0001;v+=.2){
+    const x=csx(v),y=csy(v);
+    g+=`<line class="gridline" y1="50" y2="420" x1="${x}" x2="${x}"></line>`;
+    g+=`<line class="gridline" x1="70" x2="590" y1="${y}" y2="${y}"></line>`;
+    l+=`<text x="${x-9}" y="446" class="axis-label">${v.toFixed(1)}</text><text x="34" y="${y+4}" class="axis-label">${v.toFixed(1)}</text>`;
+  }
+  l+=`<text x="468" y="476" class="axis-label">p̂ media</text><text x="7" y="65" class="axis-label">observada</text>`;
+  $('calGrid').innerHTML=g;$('calLabels').innerHTML=l;
+}
+function curvePath(bins){
+  return bins.map((b,i)=>(i?'L':'M')+csx(b.pred).toFixed(1)+','+csy(b.obs).toFixed(1)).join('')
+}
+function drawCalibration(cur){
+  const b0=calBins(baseline),bc=calBins(cur);
+  $('calBasePath').setAttribute('d',curvePath(b0));$('calCurPath').setAttribute('d',curvePath(bc));
+  let points='';
+  b0.forEach(b=>points+=`<circle class="calPointBase" cx="${csx(b.pred)}" cy="${csy(b.obs)}" r="4.5"></circle>`);
+  bc.forEach(b=>points+=`<circle class="calPointCur" cx="${csx(b.pred)}" cy="${csy(b.obs)}" r="5.5"></circle>`);
+  $('calPoints').innerHTML=points;
+}
+
+function drawTrend(arr,month){
+  const x0=70,y0=50,W=870,H=340;
+  const sx=m=>x0+m/12*W,sy=v=>y0+(1-clamp(v,0,1))*H;
+  let grid='',labels='';
+  for(let m=0;m<=12;m+=2){
+    const x=sx(m);grid+=`<line class="gridline" x1="${x}" x2="${x}" y1="50" y2="390"></line>`;
+    labels+=`<text x="${x-6}" y="415" class="axis-label">${m}</text>`;
+  }
+  for(let v=0;v<=1.0001;v+=.2){
+    const y=sy(v);grid+=`<line class="gridline" x1="70" x2="940" y1="${y}" y2="${y}"></line>`;
+    labels+=`<text x="34" y="${y+4}" class="axis-label">${v.toFixed(1)}</text>`;
+  }
+  labels+=`<text x="890" y="448" class="axis-label">mes</text><text x="14" y="63" class="axis-label">índice</text>`;
+  $('trendGrid').innerHTML=grid;$('trendLabels').innerHTML=labels;
+  const path=(getter)=>arr.map((o,i)=>(i?'L':'M')+sx(o.month).toFixed(1)+','+sy(getter(o)).toFixed(1)).join('');
+  $('aucPath').setAttribute('d',path(o=>o.auc));
+  $('brierPath').setAttribute('d',path(o=>1-clamp(o.brier,0,1)));
+  $('psiPath').setAttribute('d',path(o=>1-clamp(o.psi.total/0.5,0,1)));
+  const mx=sx(month);$('monthLine').setAttribute('x1',mx);$('monthLine').setAttribute('x2',mx);
+}
+
+function drawPsiTable(m){
+  $('psiTable').innerHTML=m.psi.parts.map((r,i)=>`
+    <div class="psi-row">
+      <div class="lab">${i*10}–${(i+1)*10}%</div>
+      <div><div class="smallbar"><div style="width:${Math.min(100,r.base*400)}%"></div></div><div class="hint">base ${(r.base*100).toFixed(1)}%</div></div>
+      <div><div class="smallbar current"><div style="width:${Math.min(100,r.cur*400)}%"></div></div><div class="hint">actual ${(r.cur*100).toFixed(1)}%</div></div>
+      <strong>${r.part.toFixed(3)}</strong>
+    </div>`).join('');
+}
+
+function update(){
+  const month=+monthEl.value,ds=+dataEl.value,ps=+priorEl.value,cs=+conceptEl.value;
+  const cur=month===0?baseline:population(month,ds,ps,cs,3000);
+  const m=metrics(cur),tl=timeline(),st=statusFrom(m);
+
+  $('monthVal').textContent=month;$('dataVal').textContent=ds+'%';$('priorVal').textContent=ps+'%';$('conceptVal').textContent=cs+'%';
+  $('aucMetric').textContent=m.auc.toFixed(3);$('brierMetric').textContent=m.brier.toFixed(3);$('eceMetric').textContent=m.ece.toFixed(3);
+  $('psiMetric').textContent=m.psi.total.toFixed(3);$('prevMetric').textContent=pct(m.prev);$('meanScoreMetric').textContent=pct(m.meanScore);
+
+  setLight('inputLight',st.input);setLight('perfLight',st.perf);setLight('calLight',st.cal);setLight('overallLight',st.overall);
+  $('inputStatus').textContent=st.input==='bad'?'PSI elevado: cambio distribucional importante.':st.input==='warn'?'PSI moderado: revisar distribución de inputs/scores.':'Distribución cercana a referencia.';
+  $('perfStatus').textContent=st.perf==='bad'?'Deterioro fuerte de discriminación.':st.perf==='warn'?'AUC cayó de forma apreciable.':'AUC dentro de rango estable.';
+  $('calStatus').textContent=st.cal==='bad'?'Calibración deteriorada: probabilidades pierden significado.':st.cal==='warn'?'Desviación de calibración visible.':'Calibración razonablemente estable.';
+  $('overallStatus').textContent=st.overall==='bad'?'Acción prioritaria de investigación.':st.overall==='warn'?'Revisión recomendada.':'Modelo dentro de parámetros simulados.';
+
+  drawHistogram(cur);drawCalibration(cur);drawTrend(tl,month);drawPsiTable(m);
+
+  const activeData=ds*month/12>15,activePrior=ps*month/12>15,activeConcept=cs*month/12>15;
+  let diag=[];
+  if(activeData)diag.push('hay señales de <strong>data drift</strong> porque P(X) fue desplazada');
+  if(activePrior)diag.push('la <strong>prevalencia</strong> también cambió, compatible con prior drift');
+  if(activeConcept)diag.push('la relación verdadera entre X e Y fue modificada, generando <strong>concept drift</strong>');
+  if(!diag.length)diag.push('el entorno permanece cercano al baseline');
+
+  $('diagnosticText').innerHTML=`En el mes <strong>${month}</strong>, ${diag.join('; ')}. El modelo desplegado sigue usando exactamente β₀=${MODEL.b0.toFixed(2)}, β₁=${MODEL.b1.toFixed(2)} y β₂=${MODEL.b2.toFixed(2)}. El PSI del score es <strong>${m.psi.total.toFixed(3)}</strong>, el AUC pasó de <strong>${baseM.auc.toFixed(3)}</strong> a <strong>${m.auc.toFixed(3)}</strong> y el ECE actual es <strong>${m.ece.toFixed(3)}</strong>.`;
+
+  const alerts=[];
+  if(m.psi.total>0.25)alerts.push(['bad','PSI > 0,25','Cambio importante en la distribución del score. Investigar qué variables explican el desplazamiento; no asumir automáticamente que el modelo debe reentrenarse.']);
+  else if(m.psi.total>0.10)alerts.push(['warn','PSI > 0,10','Cambio moderado. Conviene segmentar el PSI por variable, categoría y cohorte temporal.']);
+  if(st.aucDrop>0.10)alerts.push(['bad','AUC cayó > 0,10','Existe performance drift significativo. Investigar concept drift, calidad de etiquetas y cambios del proceso de originación.']);
+  else if(st.aucDrop>0.05)alerts.push(['warn','AUC cayó > 0,05','La discriminación se deterioró respecto del baseline.']);
+  if(m.ece>0.10)alerts.push(['bad','ECE elevado','Las probabilidades requieren revisión de calibración; si el ranking sigue siendo útil, una recalibración podría ser suficiente.']);
+  else if(m.ece>0.05)alerts.push(['warn','Calibración en observación','La probabilidad predicha y la frecuencia real comienzan a separarse.']);
+  if(!alerts.length)alerts.push(['','Sin alertas críticas','Las métricas permanecen dentro de los límites didácticos definidos para este laboratorio.']);
+  $('alerts').innerHTML=alerts.map(a=>`<div class="alert ${a[0]}"><b>${a[1]}</b><span>${a[2]}</span></div>`).join('');
+
+  let action='';
+  if(st.overall==='bad'){
+    if(st.perf==='bad')action='La prioridad es diagnosticar la causa del performance drift. Si cambió P(Y|X), puede ser necesario reentrenar; si principalmente falló la escala probabilística con ranking estable, considerar recalibración.';
+    else action='Hay una alerta fuerte de distribución o calibración. Investigar segmentos afectados antes de tomar una decisión de reentrenamiento.';
+  }else if(st.overall==='warn'){
+    action='Conviene aumentar la frecuencia de monitoreo, revisar variables responsables y comparar cohortes. Una señal aislada todavía no identifica la causa.';
+  }else{
+    action='No aparece una razón estadística fuerte para intervenir. Continuar monitoreo y mantener el test de estabilidad temporal.';
+  }
+  $('interpret').innerHTML=`El monitoreo debe separar <strong>causas</strong> de <strong>síntomas</strong>. PSI informa que cambió una distribución; AUC informa si se deterioró el ranking; Brier y ECE muestran calidad probabilística; prevalencia informa cambios en el evento. <br><br><strong>Lectura para este escenario:</strong> ${action}`;
+}
+
+[monthEl,dataEl,priorEl,conceptEl].forEach(el=>el.addEventListener('input',update));
+
+$('stableBtn').addEventListener('click',()=>{stop();dataEl.value=5;priorEl.value=5;conceptEl.value=0;monthEl.value=12;update()});
+$('dataOnlyBtn').addEventListener('click',()=>{stop();dataEl.value=85;priorEl.value=0;conceptEl.value=0;monthEl.value=12;update()});
+$('conceptOnlyBtn').addEventListener('click',()=>{stop();dataEl.value=5;priorEl.value=5;conceptEl.value=90;monthEl.value=12;update()});
+$('crisisBtn').addEventListener('click',()=>{stop();dataEl.value=80;priorEl.value=75;conceptEl.value=85;monthEl.value=12;update()});
+$('exampleBtn').addEventListener('click',()=>{stop();dataEl.value=55;priorEl.value=45;conceptEl.value=70;monthEl.value=9;update()});
+$('resetBtn').addEventListener('click',()=>{stop();dataEl.value=0;priorEl.value=0;conceptEl.value=0;monthEl.value=0;update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);$('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let timer=null,playing=false;
+function stop(){
+  playing=false;if(timer)clearInterval(timer);timer=null;
+  $('playBtn').textContent='▶ Simulación temporal';$('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(playing){stop();return}
+  playing=true;$('playBtn').textContent='⏸ Pausar';$('playBtn').classList.add('active');
+  if(+monthEl.value>=12)monthEl.value=0;
+  timer=setInterval(()=>{
+    let m=+monthEl.value+1;
+    if(m>12){stop();return}
+    monthEl.value=m;update();
+  },800);
+});
+
+buildCalAxes();update();
+})();
+</script>
+</body>
+</html>

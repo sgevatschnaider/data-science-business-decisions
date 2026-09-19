@@ -1,80 +1,1895 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Glosario avanzado · Regresión Logística</title><link rel="stylesheet" href="styles.css"><script defer src="site.js"></script></head><body><header class="top"><div class="wrap"><div class="brand"><span>08</span> · Glosario avanzado</div><nav><a class="btn" href="index.html">← Módulo</a><a class="btn" href="simulacion.html">Laboratorio</a><a class="btn" href="cuestionario.html">Cuestionario</a><button onclick="toggleTheme()">◐ Tema</button></nav></div></header><main class="section"><div class="wrap"><div class="eyebrow">Guía de estudio</div><h1 class="page-title">Conceptos clave de regresión logística y clasificación</h1><p class="lead">Buscá por término, definición o familia conceptual. Las definiciones priorizan interpretación correcta, validación y decisión.</p><div class="toolbar"><input class="search" id="q" placeholder="Buscar: odds ratio, calibración, threshold, drift…"><select id="cat"><option value="">Todas las categorías</option><option>Fundamentos</option><option>Interpretación</option><option>Estimación</option><option>Métricas</option><option>Validación</option><option>Regularización</option><option>Decisión</option><option>Multiclase</option><option>Producción</option></select></div><div class="card"><div id="count" class="small"></div><div id="terms"></div></div></div></main><script>
-const T=[
-['Clasificación binaria','Fundamentos','Problema supervisado donde Y toma dos clases, usualmente codificadas 0 y 1.'],
-['Clase positiva','Fundamentos','Evento de interés definido como Y=1; su elección determina cómo se leen precision, recall y costos.'],
-['Probabilidad condicional','Fundamentos','P(Y=1|X): probabilidad del evento dadas las variables explicativas observadas.'],
-['Score lineal','Fundamentos','z=β₀+β₁x₁+…+βkxk. Puede tomar cualquier valor real y es lineal en los parámetros.'],
-['Sigmoide','Fundamentos','σ(z)=1/(1+e^-z). Transforma el score real en una probabilidad entre 0 y 1.'],
-['Logit','Fundamentos','log[p/(1-p)]. Es la inversa de la sigmoide y vuelve lineal la relación entre covariables y log-odds.'],
-['Odds','Fundamentos','p/(1-p). Relación entre probabilidad de evento y no evento.'],
-['Intercepto','Interpretación','β₀: log-odds cuando todas las covariables valen cero, siempre que ese punto tenga interpretación sustantiva.'],
-['Coeficiente logístico','Interpretación','Cambio aditivo en log-odds ante una unidad adicional de x, manteniendo las demás variables constantes.'],
-['Odds ratio','Interpretación','exp(β). Factor multiplicativo aplicado a los odds por una unidad adicional de la covariable.'],
-['Ceteris paribus','Interpretación','Interpretación condicional: variar una covariable manteniendo fijas las demás incluidas en el modelo.'],
-['Efecto marginal','Interpretación','Cambio local en p respecto de x; para una x continua en logit es β·p(1-p).'],
-['AME','Interpretación','Average Marginal Effect: promedio de efectos marginales calculados para las observaciones.'],
-['MEM','Interpretación','Marginal Effect at the Mean: efecto calculado en el vector de medias; puede representar un caso poco realista.'],
-['Dummy','Interpretación','Indicador 0/1 para pertenencia a una categoría; se interpreta respecto de una categoría de referencia.'],
-['Categoría de referencia','Interpretación','Nivel omitido frente al cual se interpretan coeficientes de variables categóricas.'],
-['Interacción','Interpretación','Término que hace que el efecto de una variable dependa del nivel de otra.'],
-['No linealidad en X','Interpretación','Términos como x² o splines permiten que el logit cambie de forma no lineal con una covariable.'],
-['Máxima verosimilitud','Estimación','Método que elige parámetros que maximizan la probabilidad de observar las clases registradas bajo el modelo.'],
-['Likelihood','Estimación','Función de los parámetros que cuantifica cuán compatibles son los datos observados con el modelo.'],
-['Log-likelihood','Estimación','Logaritmo de la likelihood; convierte productos en sumas y facilita optimización numérica.'],
-['Log-loss','Estimación','Pérdida probabilística -[y log p +(1-y)log(1-p)]; castiga mucho la confianza equivocada.'],
-['Entropía cruzada binaria','Estimación','Otro nombre frecuente para la log-loss Bernoulli.'],
-['Separación completa','Estimación','Situación donde una combinación de predictores separa perfectamente clases y los coeficientes MLE pueden divergir.'],
-['Matriz de confusión','Métricas','Tabla de TP, FP, FN y TN para un threshold específico.'],
-['True Positive','Métricas','Caso positivo real correctamente clasificado como positivo.'],
-['False Positive','Métricas','Caso negativo real clasificado como positivo; su costo depende de la acción asociada.'],
-['False Negative','Métricas','Caso positivo real clasificado como negativo; puede representar oportunidad o riesgo no detectado.'],
-['True Negative','Métricas','Caso negativo real correctamente clasificado como negativo.'],
-['Accuracy','Métricas','(TP+TN)/N. Puede ser engañosa con fuerte desbalance o costos asimétricos.'],
-['Precision','Métricas','TP/(TP+FP). Entre los casos señalados positivos, proporción realmente positiva.'],
-['Recall / Sensitivity','Métricas','TP/(TP+FN). Entre los positivos reales, proporción detectada.'],
-['Specificity','Métricas','TN/(TN+FP). Entre los negativos reales, proporción correctamente descartada.'],
-['F1','Métricas','Media armónica de precision y recall; útil como resumen, pero no reemplaza una función explícita de valor.'],
-['Threshold','Decisión','Umbral que transforma probabilidad o score en una acción/clase. No es un parámetro que deba quedar fijado en 0,5 por costumbre.'],
-['ROC','Métricas','Curva TPR vs FPR a través de thresholds.'],
-['ROC-AUC','Métricas','Resumen de discriminación/ranking; no evalúa calibración absoluta.'],
-['Precision–Recall','Métricas','Curva de precision frente a recall. Especialmente útil cuando la clase positiva es rara.'],
-['Average Precision','Métricas','Resumen de precision–recall a distintos niveles de recall; su baseline depende de la prevalencia.'],
-['Calibración','Métricas','Concordancia entre probabilidades pronosticadas y frecuencias observadas.'],
-['Diagrama de confiabilidad','Métricas','Compara probabilidad media predicha con frecuencia observada por grupos de score.'],
-['Brier score','Métricas','Promedio de (p-y)²; evalúa calidad de probabilidades. Menor es mejor.'],
-['Discriminación','Métricas','Capacidad de ordenar casos positivos por encima de negativos. Puede ser buena aun con mala calibración.'],
-['Train set','Validación','Datos usados para ajustar parámetros del modelo.'],
-['Validation set','Validación','Datos usados para seleccionar especificación, hiperparámetros y política antes de tocar test.'],
-['Test set','Validación','Muestra sellada para una estimación final del desempeño fuera de muestra.'],
-['Cross-validation','Validación','Repetición de particiones train/validation para estimar desempeño y variabilidad del proceso de modelado.'],
-['Stratified K-fold','Validación','K-fold que preserva aproximadamente la proporción de clases en cada fold.'],
-['Leakage','Validación','Información no disponible en el momento de predicción que entra directa o indirectamente al entrenamiento/evaluación.'],
-['Pipeline','Validación','Encapsula transformaciones y estimador para que cada paso se ajuste solo con los datos permitidos.'],
-['Generalización','Validación','Capacidad de mantener desempeño en observaciones nuevas.'],
-['Overfitting','Validación','Ajuste excesivo al ruido de entrenamiento que deteriora desempeño fuera de muestra.'],
-['Regularización','Regularización','Penalización de complejidad que reduce magnitudes de coeficientes y puede mejorar generalización.'],
-['L1 / Lasso','Regularización','Penaliza suma de valores absolutos y puede llevar coeficientes exactamente a cero.'],
-['L2 / Ridge','Regularización','Penaliza suma de cuadrados y contrae coeficientes suavemente.'],
-['C','Regularización','En scikit-learn, inverso de la fuerza de regularización: C pequeño implica penalización más fuerte.'],
-['Costo de falso positivo','Decisión','Pérdida asociada a actuar sobre un caso que finalmente es negativo.'],
-['Costo de falso negativo','Decisión','Pérdida asociada a no actuar sobre un caso que era positivo.'],
-['Valor esperado','Decisión','Combina probabilidades, beneficios, costos y acciones para comparar políticas en unidades de negocio.'],
-['Restricción de capacidad','Decisión','Límite operativo sobre cuántos casos pueden recibir una intervención; convierte el ranking en una política de selección.'],
-['Lift','Decisión','Mejora de tasa de respuesta/evento en un segmento seleccionado respecto de la tasa base.'],
-['Gain','Decisión','Proporción acumulada de positivos capturados al actuar sobre una fracción ordenada de la población.'],
-['Softmax','Multiclase','Transforma K logits en probabilidades positivas que suman 1.'],
-['Temperatura','Multiclase','Escala logits antes de softmax: valores altos aplanan probabilidades; valores bajos las concentran.'],
-['Regresión logística multinomial','Multiclase','Extensión que modela múltiples clases mutuamente excluyentes mediante logits relativos/softmax.'],
-['One-vs-Rest','Multiclase','Estrategia que entrena un clasificador binario por clase contra el resto.'],
-['Model drift','Producción','Degradación causada por cambios en datos, relaciones o contexto respecto del período de entrenamiento.'],
-['Covariate shift','Producción','Cambia P(X) mientras puede mantenerse aproximadamente P(Y|X).'],
-['Prior probability shift','Producción','Cambia la prevalencia P(Y), alterando base rate y posiblemente la calibración.'],
-['Concept drift','Producción','Cambia la relación P(Y|X), por lo que la función predictiva aprendida deja de representar el proceso actual.'],
-['PSI','Producción','Population Stability Index: indicador de cambio distribucional por bins; es diagnóstico, no prueba causal.'],
-['Recalibración','Producción','Ajuste posterior de probabilidades para corregir desviaciones de calibración sin necesariamente reentrenar todo el modelo.'],
-['Monitoreo','Producción','Seguimiento conjunto de datos, prevalencia, discriminación, calibración, costos y volumen de acciones.']
-];
-const q=document.getElementById('q'),cat=document.getElementById('cat'),box=document.getElementById('terms'),count=document.getElementById('count');
-function render(){const s=q.value.trim().toLowerCase(),c=cat.value;const f=T.filter(t=>(!c||t[1]===c)&&(!s||(t[0]+' '+t[1]+' '+t[2]).toLowerCase().includes(s)));count.textContent=f.length+' de '+T.length+' términos';box.innerHTML=f.map(t=>'<div class="term"><b>'+t[0]+'</b> <span class="pill">'+t[1]+'</span><div>'+t[2]+'</div></div>').join('')}
-q.addEventListener('input',render);cat.addEventListener('change',render);render();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario avanzado · Regresión Logística y Clasificación</title>
+<style>
+:root {
+  --bg:#07111f; --bg2:#0b1830; --panel:rgba(17,31,53,.90); --panel2:#12243b;
+  --text:#eef7ff; --muted:#9fb3c8; --line:#294665; --accent:#35d0ff; --accent2:#8b5cf6;
+  --good:#35d39a; --warn:#ffbf47; --bad:#ff6b7a; --shadow:0 18px 50px rgba(0,0,0,.28);
+  --grid:rgba(159,179,200,.12);
+}
+[data-theme="light"] {
+  --bg:#edf7ff; --bg2:#f8fbff; --panel:rgba(255,255,255,.95); --panel2:#fff;
+  --text:#102033; --muted:#53677e; --line:#c8d7e8; --accent:#008fc7; --accent2:#6d44d8;
+  --good:#0e9b69; --warn:#a96c00; --bad:#d63b50; --shadow:0 16px 44px rgba(50,83,112,.16);
+  --grid:rgba(71,101,128,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 3%,rgba(53,208,255,.15),transparent 29%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.16),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.3s ease;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px; mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 94%);
+}
+.topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 82%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950;font-size:1.15rem}
+.brand strong{display:block;font-size:.95rem} .brand span{display:block;color:var(--muted);font-size:.77rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);border-radius:12px;padding:10px 13px;cursor:pointer;font-weight:760;transition:.2s}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 50px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-bottom:20px}
+.hero-main,.hero-side,.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:32px} .hero-side{padding:22px;display:grid;gap:12px;align-content:center}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:10px}
+h1{margin:0;font-size:clamp(2.1rem,4.6vw,4.7rem);line-height:.97;letter-spacing:-.055em}
+.gradient{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.04rem;line-height:1.68;max-width:950px;margin:18px 0 0}
+.stat{border:1px solid var(--line);border-radius:18px;padding:15px;background:linear-gradient(135deg,rgba(53,208,255,.055),rgba(139,92,246,.05))}
+.stat .big{font-size:1.85rem;font-weight:950} .stat .small{font-size:.78rem;color:var(--muted);margin-top:4px;line-height:1.4}
+.toolbar{display:grid;grid-template-columns:minmax(260px,1fr) auto;gap:12px;margin-bottom:14px}
+.search{position:relative}
+.search input{width:100%;padding:14px 16px 14px 44px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;outline:none}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,208,255,.12)}
+.search::before{content:"⌕";position:absolute;left:16px;top:8px;font-size:1.5rem;color:var(--muted)}
+.counter{display:flex;align-items:center;justify-content:center;padding:0 16px;border:1px solid var(--line);border-radius:16px;background:var(--panel);font-weight:850;white-space:nowrap}
+.filter-card{padding:16px 18px;margin-bottom:14px}
+.chips,.azbar{display:flex;gap:8px;flex-wrap:wrap}
+.chip,.az{padding:8px 10px;font-size:.78rem;border-radius:999px}
+.chip.active,.az.active{border-color:var(--accent);background:rgba(53,208,255,.13)}
+.filter-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;font-weight:900;margin:0 0 9px}
+.route{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.route-step{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.route-step b{display:block;margin-bottom:5px} .route-step span{font-size:.77rem;color:var(--muted);line-height:1.4}
+.glossary{display:grid;gap:10px}
+.term-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.10)}
+.term-card[open]{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.term-card summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.term-card summary::-webkit-details-marker{display:none}
+.summary-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
+.term-title{font-size:1rem;font-weight:900}
+.cat-badge{font-size:.68rem;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:999px;padding:4px 7px;background:rgba(53,208,255,.06)}
+.chev{font-size:1.25rem;color:var(--muted);transition:.2s}
+.term-card[open] .chev{transform:rotate(45deg);color:var(--accent)}
+.term-body{padding:0 18px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.term-body section{border:1px solid var(--line);border-radius:14px;padding:13px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.term-body section:first-child{grid-column:1/-1}
+.term-body h4{margin:0 0 6px;font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.term-body p{margin:0;line-height:1.58;font-size:.91rem}
+.formula-box{background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.055))!important}
+.formula-box div{font-weight:850;line-height:1.5}
+.warning-box{background:rgba(255,107,122,.055)!important}
+.warning-box h4{color:var(--bad)}
+.study{display:none;margin-bottom:18px}
+.study.visible{display:grid;grid-template-columns:.75fr 1.25fr;gap:14px}
+.study-side,.study-main{padding:18px}
+.study-term{font-size:2rem;font-weight:950;letter-spacing:-.03em;margin:4px 0 10px}
+.study-category{color:var(--accent);font-size:.76rem;font-weight:900;text-transform:uppercase;letter-spacing:.09em}
+.study-answer{display:none;border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+.study-answer.visible{display:block}
+.study-main p{color:var(--muted);line-height:1.6}
+.study-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.empty{display:none;text-align:center;padding:34px;color:var(--muted)}
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+mark{background:rgba(255,191,71,.22);color:inherit;padding:0 2px;border-radius:4px}
+@media(max-width:1100px){.hero{grid-template-columns:1fr}.route{grid-template-columns:repeat(2,1fr)}.study.visible{grid-template-columns:1fr}}
+@media(max-width:800px){.toolbar{grid-template-columns:1fr}.term-body{grid-template-columns:1fr}.term-body section:first-child{grid-column:auto}.route{grid-template-columns:1fr}.brand span{display:none}.actions button{font-size:.8rem;padding:8px 10px}}
+</style>
+</head>
+<body data-theme="dark">
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">β</div>
+      <div><strong>Glosario avanzado · Regresión Logística</strong><span>Guía de estudio interactiva</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="studyBtn">🎓 Modo estudio</button>
+      <button id="expandBtn">Expandir todo</button>
+      <button id="collapseBtn">Contraer todo</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Regresión logística · Machine Learning · Inferencia · Decisión</div>
+    <h1>Glosario <span class="gradient">integral y avanzado</span></h1>
+    <p class="subtitle">Una guía para estudiar el tema desde la intuición probabilística hasta la implementación y el ciclo de vida en producción. Cada concepto incluye definición desarrollada, fórmula, intuición, ejemplo, conexiones y errores frecuentes. Integra los contenidos de fundamentos, interpretación, métricas, validación, regularización, calibración, decisión, multiclase y monitoreo.</p>
+  </div>
+  <aside class="hero-side">
+    <div class="stat"><div class="big">88 conceptos</div><div class="small">De fundamentos a model monitoring.</div></div>
+    <div class="stat"><div class="big">12 áreas</div><div class="small">Organizadas para estudiar por tema o buscar un concepto puntual.</div></div>
+    <div class="stat"><div class="big">6 capas</div><div class="small">Definición · fórmula · intuición · ejemplo · conexiones · error frecuente.</div></div>
+  </aside>
+</section>
+
+<section class="card filter-card">
+  <div class="filter-label">Ruta sugerida de estudio</div>
+  <div class="route">
+    <div class="route-step"><b>1 · Fundamentos</b><span>Bernoulli → score → sigmoide → odds → logit.</span></div>
+    <div class="route-step"><b>2 · Interpretación</b><span>β → OR → dummies → interacciones → efectos marginales.</span></div>
+    <div class="route-step"><b>3 · Entrenamiento</b><span>Likelihood → log-loss → MLE → regularización.</span></div>
+    <div class="route-step"><b>4 · Evaluación</b><span>Matriz → métricas → ROC/PR → validación → calibración.</span></div>
+    <div class="route-step"><b>5 · Decisión y producción</b><span>Threshold → costos → multiclase → drift → monitoreo.</span></div>
+  </div>
+</section>
+
+<section id="studyPanel" class="study">
+  <div class="card study-side">
+    <div class="study-category" id="studyCat">—</div>
+    <div class="study-term" id="studyTerm">—</div>
+    <p>Intentá explicar el concepto sin mirar la respuesta. Después revelá la definición y verificá fórmula, ejemplo y error frecuente.</p>
+    <div class="study-actions">
+      <button id="revealBtn" class="primary">Revelar respuesta</button>
+      <button id="nextStudyBtn">Otro concepto</button>
+    </div>
+  </div>
+  <div class="card study-main">
+    <div class="filter-label">Respuesta</div>
+    <div id="studyAnswer" class="study-answer"></div>
+  </div>
+</section>
+
+<section class="toolbar">
+  <div class="search"><input id="searchInput" type="search" placeholder="Buscar: logit, AUC, regularización, drift..." autocomplete="off"></div>
+  <div class="counter" id="counter">88 / 88</div>
+</section>
+
+<section class="card filter-card">
+  <div class="filter-label">Filtrar por área</div>
+  <div class="chips">
+    <button type="button" class="chip active" data-filter="all">Todas</button>
+    <button type="button" class="chip" data-filter="Calibración">Calibración</button>
+<button type="button" class="chip" data-filter="Decisión">Decisión</button>
+<button type="button" class="chip" data-filter="Entrenamiento">Entrenamiento</button>
+<button type="button" class="chip" data-filter="Especificación">Especificación</button>
+<button type="button" class="chip" data-filter="Fundamentos">Fundamentos</button>
+<button type="button" class="chip" data-filter="Inferencia">Inferencia</button>
+<button type="button" class="chip" data-filter="Interpretación">Interpretación</button>
+<button type="button" class="chip" data-filter="Monitoreo">Monitoreo</button>
+<button type="button" class="chip" data-filter="Multiclase">Multiclase</button>
+<button type="button" class="chip" data-filter="Métricas">Métricas</button>
+<button type="button" class="chip" data-filter="ROC / PR">ROC / PR</button>
+<button type="button" class="chip" data-filter="Validación">Validación</button>
+  </div>
+  <div class="filter-label" style="margin-top:14px">Navegación alfabética</div>
+  <div class="azbar">
+    <button type="button" class="az active" data-letter="all">Todos</button>
+    <button type="button" class="az" data-letter="A">A</button>
+<button type="button" class="az" data-letter="B">B</button>
+<button type="button" class="az" data-letter="C">C</button>
+<button type="button" class="az" data-letter="D">D</button>
+<button type="button" class="az" data-letter="E">E</button>
+<button type="button" class="az" data-letter="F">F</button>
+<button type="button" class="az" data-letter="I">I</button>
+<button type="button" class="az" data-letter="K">K</button>
+<button type="button" class="az" data-letter="L">L</button>
+<button type="button" class="az" data-letter="M">M</button>
+<button type="button" class="az" data-letter="N">N</button>
+<button type="button" class="az" data-letter="O">O</button>
+<button type="button" class="az" data-letter="P">P</button>
+<button type="button" class="az" data-letter="R">R</button>
+<button type="button" class="az" data-letter="S">S</button>
+<button type="button" class="az" data-letter="T">T</button>
+<button type="button" class="az" data-letter="U">U</button>
+<button type="button" class="az" data-letter="W">W</button>
+  </div>
+</section>
+
+<section id="glossary" class="glossary">
+
+    <details class="term-card" data-term="accuracy (exactitud)" data-cat="Métricas" data-index="0">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Accuracy (exactitud)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de observaciones clasificadas correctamente sobre el total. Resume en un único número los verdaderos positivos y verdaderos negativos, pero no distingue qué tipo de error está cometiendo el modelo.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Accuracy = (TP + TN) / (TP + TN + FP + FN)</div></section>
+        <section><h4>Intuición</h4><p>Responde: «¿qué porcentaje de decisiones fueron correctas?». Es útil cuando las clases tienen frecuencias similares y los costos de FP y FN no son muy diferentes.</p></section>
+        <section><h4>Ejemplo</h4><p>Si sobre 1.000 casos hay 420 TP y 480 TN, la accuracy es (420+480)/1000 = 90%. Sin embargo, con 990 negativos y solo 10 positivos, un modelo que siempre predice 0 tendría 99% de accuracy y sería inútil para detectar la clase positiva.</p></section>
+        <section><h4>Conexiones</h4><p>Matriz de confusión · desbalance de clases · threshold · precision · recall · F1.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usarla como única métrica en eventos raros. Una accuracy alta puede ocultar recall igual a cero.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="auc (area under the roc curve)" data-cat="Métricas" data-index="1">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">AUC (Area Under the ROC Curve)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Área bajo la curva ROC. Mide la capacidad de discriminación del modelo a través de todos los thresholds posibles. Puede interpretarse como la probabilidad de que un positivo elegido al azar reciba un score mayor que un negativo elegido al azar.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>0.5 ≈ azar; 1.0 = ranking perfecto</div></section>
+        <section><h4>Intuición</h4><p>AUC no pregunta si las probabilidades son correctas en valor absoluto; pregunta si el modelo ordena bien los casos de menor a mayor riesgo.</p></section>
+        <section><h4>Ejemplo</h4><p>Dos modelos pueden tener AUC 0,85 aunque uno prediga 0,20 y 0,40 y otro 0,60 y 0,95 para los mismos casos, siempre que conserven el mismo ranking.</p></section>
+        <section><h4>Conexiones</h4><p>ROC · TPR · FPR · discriminación · calibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir AUC alto con probabilidades bien calibradas o con un threshold óptimo.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="bernoulli" data-cat="Fundamentos" data-index="2">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Bernoulli</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Distribución probabilística para una variable aleatoria binaria Y∈{0,1}. En regresión logística se asume que, condicionalmente a X, cada observación sigue una Bernoulli con probabilidad pᵢ de tomar el valor 1.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P(Y=y)=p^y(1-p)^(1-y)</div></section>
+        <section><h4>Intuición</h4><p>Cada observación aporta una probabilidad p si ocurre el evento y 1−p si no ocurre.</p></section>
+        <section><h4>Ejemplo</h4><p>Si el modelo asigna p=0,80 a un cliente y finalmente Y=1, la contribución de ese caso a la likelihood es 0,80. Si Y=0, sería 0,20.</p></section>
+        <section><h4>Conexiones</h4><p>Likelihood · máxima verosimilitud · log-loss.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Pensar que Bernoulli implica que todas las observaciones tienen la misma p. En regresión logística, cada caso puede tener una p diferente según X.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="brier score" data-cat="Calibración" data-index="3">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Brier Score</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Error cuadrático medio de las probabilidades predichas frente a los resultados binarios observados. Evalúa simultáneamente la cercanía de las probabilidades a los resultados y, por tanto, la calidad probabilística global.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Brier = (1/n) Σ (pᵢ − yᵢ)²</div></section>
+        <section><h4>Intuición</h4><p>Penaliza que una probabilidad esté lejos de lo que finalmente ocurrió. Cuanto menor, mejor.</p></section>
+        <section><h4>Ejemplo</h4><p>Para y=1: una predicción p=0,90 aporta (0,90−1)²=0,01; una p=0,20 aporta 0,64.</p></section>
+        <section><h4>Conexiones</h4><p>Calibración · log-loss · discriminación · calibration plot.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Comparar Brier Scores entre poblaciones con prevalencias muy distintas sin contexto.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="calibración" data-cat="Calibración" data-index="4">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Calibración</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Propiedad según la cual las probabilidades predichas representan frecuencias observadas. Un modelo está bien calibrado si, aproximadamente, entre los casos con p̂=0,30 el evento ocurre 30% de las veces.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Ideal: E[Y | p̂≈p] ≈ p</div></section>
+        <section><h4>Intuición</h4><p>La discriminación dice quién tiene más riesgo; la calibración dice si 30% realmente significa cerca de 30%.</p></section>
+        <section><h4>Ejemplo</h4><p>Un modelo puede ordenar perfectamente clientes de menor a mayor riesgo, pero asignar 0,90 donde el evento ocurre solo 0,55. Discrimina bien y calibra mal.</p></section>
+        <section><h4>Conexiones</h4><p>Calibration plot · Brier · ECE · AUC · temperatura.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Suponer que un AUC alto garantiza buena calibración.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="calibration plot (reliability diagram)" data-cat="Calibración" data-index="5">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Calibration plot (reliability diagram)</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Gráfico que compara, por grupos de probabilidad, la probabilidad media predicha con la frecuencia observada del evento. La diagonal de 45° representa calibración perfecta.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Eje X: p̂ media del bin · Eje Y: frecuencia observada</div></section>
+        <section><h4>Intuición</h4><p>Si los puntos están por encima de la diagonal, el modelo subestima el riesgo; si están por debajo, lo sobreestima.</p></section>
+        <section><h4>Ejemplo</h4><p>En un bin con p̂ media 0,40 y frecuencia real 0,55, el modelo está subestimando el evento en ese rango.</p></section>
+        <section><h4>Conexiones</h4><p>Calibración · ECE · Brier · overconfidence.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar bins con muy pocas observaciones como evidencia fuerte. El tamaño de cada grupo importa.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="categoría de referencia" data-cat="Interpretación" data-index="6">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Categoría de referencia</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Nivel de una variable categórica que no recibe dummy propia y funciona como base de comparación. Los coeficientes de las demás categorías expresan diferencias en log-odds respecto de esa referencia, manteniendo constantes las demás variables.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Ej.: z=β₀+β₁D_Autónomo+β₂D_Monotributista</div></section>
+        <section><h4>Intuición</h4><p>Si “Empleado” es referencia, β₁ indica cuánto cambia el logit de “Autónomo” respecto de “Empleado”.</p></section>
+        <section><h4>Ejemplo</h4><p>β_Autónomo=0,50 implica OR=e^0,50≈1,65 frente a la categoría Empleado.</p></section>
+        <section><h4>Conexiones</h4><p>Dummy · odds ratio · coeficiente β.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar el coeficiente de una dummy sin mencionar cuál es la categoría de referencia.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="clasificación binaria" data-cat="Fundamentos" data-index="7">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Clasificación binaria</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Problema predictivo en el que la variable objetivo tiene dos resultados posibles, habitualmente codificados como 0 y 1. La regresión logística modela la probabilidad condicional de pertenecer a la clase 1.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Y∈{0,1}; p(X)=P(Y=1|X)</div></section>
+        <section><h4>Intuición</h4><p>Primero se estima una probabilidad; luego una regla de decisión puede convertirla en una clase.</p></section>
+        <section><h4>Ejemplo</h4><p>Default/no default, fraude/no fraude, churn/no churn, compra/no compra.</p></section>
+        <section><h4>Conexiones</h4><p>Regresión logística · probabilidad predicha · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir la probabilidad estimada con la clase final. La clase depende del threshold.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="coeficiente β" data-cat="Interpretación" data-index="8">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Coeficiente β</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Parámetro que mide el cambio en el log-odds asociado a un aumento unitario del predictor correspondiente, manteniendo las demás variables constantes. Su efecto sobre la probabilidad no es constante porque la sigmoide es no lineal.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Δlogit(p)=βⱼ·Δxⱼ</div></section>
+        <section><h4>Intuición</h4><p>β trabaja en escala logit, no directamente en puntos porcentuales de probabilidad.</p></section>
+        <section><h4>Ejemplo</h4><p>β=0,70 significa que una unidad adicional multiplica las odds por e^0,70≈2,01, pero no duplica necesariamente la probabilidad.</p></section>
+        <section><h4>Conexiones</h4><p>Logit · odds ratio · efecto marginal.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Decir “β=0,7 aumenta la probabilidad en 70%”. Esa interpretación es incorrecta.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="concept drift" data-cat="Monitoreo" data-index="9">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Concept drift</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cambio en la relación condicional P(Y|X). Significa que la asociación entre predictores y resultado que el modelo aprendió deja de ser estable, aunque las variables de entrada puedan tener distribuciones similares.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P_t(Y|X) ≠ P_0(Y|X)</div></section>
+        <section><h4>Intuición</h4><p>El mundo cambió de manera que los mismos X ya no implican el mismo riesgo.</p></section>
+        <section><h4>Ejemplo</h4><p>Un patrón de comportamiento que antes anticipaba default deja de hacerlo después de un cambio regulatorio o macroeconómico.</p></section>
+        <section><h4>Conexiones</h4><p>Data drift · prior drift · performance drift · monitoreo.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Intentar detectarlo solo con PSI de las variables. Puede haber concept drift sin cambios grandes en P(X).</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="cross-entropy / log-loss" data-cat="Entrenamiento" data-index="10">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Cross-Entropy / Log-Loss</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Función de pérdida probabilística usada en clasificación logística. Penaliza las predicciones según la probabilidad asignada a la clase realmente observada y castiga con mucha fuerza los errores confiados.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>−[y ln(p)+(1−y)ln(1−p)]</div></section>
+        <section><h4>Intuición</h4><p>No solo importa acertar la clase; importa cuán razonable era la probabilidad.</p></section>
+        <section><h4>Ejemplo</h4><p>Con y=1, p=0,90 produce pérdida ≈0,105; p=0,51 produce ≈0,673; p=0,01 produce ≈4,605.</p></section>
+        <section><h4>Conexiones</h4><p>Máxima verosimilitud · log-likelihood · calibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir log-loss con tasa de error 0/1. Dos casos clasificados igual pueden tener pérdidas muy distintas.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="cross-validation" data-cat="Validación" data-index="11">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Cross-Validation</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Familia de procedimientos que reutilizan distintas particiones del conjunto de desarrollo para entrenar y validar repetidamente. Su objetivo es estimar desempeño y estabilidad con menor dependencia de una única división aleatoria.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Promedio CV = (1/K) Σ métrica_k</div></section>
+        <section><h4>Intuición</h4><p>En vez de preguntar “¿qué pasó en este único validation set?”, pregunta “¿qué ocurre en varias particiones razonables?”.</p></section>
+        <section><h4>Ejemplo</h4><p>En 5-fold CV cada observación funciona una vez como validation y cuatro veces dentro del entrenamiento.</p></section>
+        <section><h4>Conexiones</h4><p>K-fold · train/validation/test · tuning.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Incluir el test final dentro de la cross-validation y luego reportarlo como evaluación independiente.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="data drift" data-cat="Monitoreo" data-index="12">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Data drift</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cambio en la distribución de los predictores o del score entre la población actual y una población de referencia. Se refiere a P(X), no necesariamente al vínculo entre X e Y.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P_t(X) ≠ P_0(X)</div></section>
+        <section><h4>Intuición</h4><p>Los casos que llegan al modelo ya no “se parecen” a los que vio durante desarrollo.</p></section>
+        <section><h4>Ejemplo</h4><p>La proporción de clientes de altos ingresos aumenta, o la distribución de deuda/ingreso se desplaza.</p></section>
+        <section><h4>Conexiones</h4><p>PSI · concept drift · monitoreo.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Concluir automáticamente que hay pérdida de performance. Puede existir data drift y AUC estable.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="decision boundary (frontera de decisión)" data-cat="Decisión" data-index="13">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Decision boundary (frontera de decisión)</span>
+          <span class="cat-badge">Decisión</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Conjunto de puntos del espacio de predictores para los cuales la probabilidad estimada coincide exactamente con el threshold. En dos variables y un modelo lineal en el logit, la frontera es una línea.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>β₀+β₁x₁+β₂x₂ = logit(c)</div></section>
+        <section><h4>Intuición</h4><p>Separa regiones del espacio que la política clasifica como 0 o 1.</p></section>
+        <section><h4>Ejemplo</h4><p>Con c=0,5, logit(c)=0 y la frontera satisface z=0.</p></section>
+        <section><h4>Conexiones</h4><p>Threshold · score lineal · sigmoide.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Creer que cambiar el threshold reentrena el modelo. Solo desplaza la frontera operativa.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="discriminación" data-cat="Métricas" data-index="14">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Discriminación</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Capacidad de un modelo para asignar scores mayores a los casos que finalmente presentan el evento que a los que no lo presentan. Es una propiedad de ranking, no de exactitud probabilística.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Frecuentemente resumida por ROC-AUC</div></section>
+        <section><h4>Intuición</h4><p>Pregunta “¿quién tiene más riesgo?” y no “¿cuánto riesgo exactamente?”.</p></section>
+        <section><h4>Ejemplo</h4><p>Un modelo puede identificar correctamente el orden de riesgo pero asignar probabilidades demasiado altas.</p></section>
+        <section><h4>Conexiones</h4><p>AUC · ROC · calibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usar discriminación como sinónimo de calibración.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="dummy variable" data-cat="Interpretación" data-index="15">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Dummy variable</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Variable indicadora, usualmente 0/1, utilizada para representar niveles de una variable categórica dentro de un modelo numérico. Para K categorías se usan típicamente K−1 dummies más una categoría de referencia.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>D=1 si pertenece a la categoría; D=0 en caso contrario</div></section>
+        <section><h4>Intuición</h4><p>Permite desplazar el logit para grupos diferentes.</p></section>
+        <section><h4>Ejemplo</h4><p>D_Autónomo=1 para autónomos y 0 para el resto, tomando Empleado como referencia.</p></section>
+        <section><h4>Conexiones</h4><p>Categoría de referencia · interacción · odds ratio.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Incluir K dummies y un intercepto para K categorías, generando multicolinealidad perfecta.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="ece (expected calibration error)" data-cat="Calibración" data-index="16">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">ECE (Expected Calibration Error)</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Resumen de la discrepancia entre probabilidades predichas y frecuencias observadas, usualmente agrupando casos en bins. Pondera la diferencia absoluta de cada bin por su tamaño.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>ECE = Σ_b (n_b/n) |acc_b − conf_b|</div></section>
+        <section><h4>Intuición</h4><p>Cuanto más cerca de cero, más alineadas están predicciones y frecuencias observadas.</p></section>
+        <section><h4>Ejemplo</h4><p>Si un grupo representa 20% de los casos, predice 0,70 y observa 0,60, aporta 0,20×0,10=0,02 al ECE.</p></section>
+        <section><h4>Conexiones</h4><p>Calibration plot · Brier · temperatura.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Tomarlo como una medida completamente independiente de la elección de bins.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="efecto marginal" data-cat="Interpretación" data-index="17">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Efecto marginal</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cambio local de la probabilidad predicha ante una variación infinitesimal de un predictor continuo. En la regresión logística simple muestra explícitamente que el efecto sobre p depende tanto de β como del nivel inicial de p.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>∂p/∂xⱼ = βⱼ p(1−p)</div></section>
+        <section><h4>Intuición</h4><p>La misma β puede tener impacto fuerte cerca de p=0,5 y mucho menor cerca de p=0 o p=1.</p></section>
+        <section><h4>Ejemplo</h4><p>Con β=1 y p=0,5, el efecto marginal es 0,25; con p=0,1 es 0,09.</p></section>
+        <section><h4>Conexiones</h4><p>Coeficiente β · sigmoide · AME.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Tratar el efecto marginal como constante para todos los individuos.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="efecto marginal promedio (ame)" data-cat="Interpretación" data-index="18">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Efecto marginal promedio (AME)</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Promedio de los efectos marginales individuales calculados para cada observación. Resume el impacto típico de un predictor sobre la probabilidad en la muestra, preservando la no linealidad del modelo.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>AME_j = (1/n) Σ β_j p_i(1−p_i)</div></section>
+        <section><h4>Intuición</h4><p>En lugar de evaluar el efecto en un caso artificial “promedio”, promedia los efectos sobre los casos reales.</p></section>
+        <section><h4>Ejemplo</h4><p>Si los individuos tienen riesgos muy distintos, los efectos marginales también difieren; AME resume esa distribución.</p></section>
+        <section><h4>Conexiones</h4><p>Efecto marginal · probabilidad predicha.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretarlo como efecto causal si el diseño del estudio no identifica causalidad.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="entropía" data-cat="Multiclase" data-index="19">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Entropía</span>
+          <span class="cat-badge">Multiclase</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Medida de incertidumbre de una distribución de probabilidades. En clasificación multiclase aumenta cuando las probabilidades están repartidas entre varias clases y disminuye cuando una clase concentra casi toda la masa.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>H(p)=−Σ_j p_j ln(p_j)</div></section>
+        <section><h4>Intuición</h4><p>Una predicción 0,98/0,01/0,01 tiene poca incertidumbre; 0,34/0,33/0,33 tiene mucha.</p></section>
+        <section><h4>Ejemplo</h4><p>Softmax puede mantener la misma clase ganadora y, al subir la temperatura, aumentar la entropía.</p></section>
+        <section><h4>Conexiones</h4><p>Softmax · temperatura · confianza.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir alta entropía con error seguro. Indica incertidumbre, no necesariamente clasificación incorrecta.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="error de clasificación" data-cat="Métricas" data-index="20">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Error de clasificación</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Indicador 0/1 de si una clase predicha coincide o no con la clase real. Depende del threshold y pierde información sobre la confianza probabilística.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>I(ŷ ≠ y)</div></section>
+        <section><h4>Intuición</h4><p>Dos predicciones p=0,51 y p=0,99 pueden ser ambas correctas con c=0,5, aunque su confianza sea muy distinta.</p></section>
+        <section><h4>Ejemplo</h4><p>Por eso el error 0/1 y log-loss responden preguntas diferentes.</p></section>
+        <section><h4>Conexiones</h4><p>Threshold · accuracy · log-loss.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Optimizar solo error de clasificación cuando las probabilidades se usan para decisiones posteriores.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="false negative (fn)" data-cat="Métricas" data-index="21">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">False Negative (FN)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Caso realmente positivo que el modelo clasifica como negativo. Es un evento que el sistema no detecta.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Real=1, Predicho=0</div></section>
+        <section><h4>Intuición</h4><p>Representa una omisión.</p></section>
+        <section><h4>Ejemplo</h4><p>En credit scoring: un cliente que finalmente entra en default pero fue aprobado como bajo riesgo.</p></section>
+        <section><h4>Conexiones</h4><p>Recall · matriz de confusión · costo FN.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Asumir que FN y FP tienen el mismo costo económico o social.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="false positive (fp)" data-cat="Métricas" data-index="22">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">False Positive (FP)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Caso realmente negativo que el modelo clasifica como positivo. Es una falsa alarma.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Real=0, Predicho=1</div></section>
+        <section><h4>Intuición</h4><p>El sistema marca un evento que no ocurrió.</p></section>
+        <section><h4>Ejemplo</h4><p>En credit scoring: rechazar como alto riesgo a un cliente que hubiera pagado correctamente.</p></section>
+        <section><h4>Conexiones</h4><p>Precision · specificity · costo FP.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Evaluarlo sin considerar la prevalencia: con muchísimos negativos, una FPR pequeña puede generar muchos FP.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="f1 score" data-cat="Métricas" data-index="23">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">F1 Score</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Media armónica entre precision y recall. Premia modelos que mantienen ambas métricas razonablemente altas y cae fuertemente si una de ellas es baja.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>F1 = 2·Precision·Recall / (Precision+Recall)</div></section>
+        <section><h4>Intuición</h4><p>Es útil cuando interesa equilibrar detección de positivos y calidad de las alertas.</p></section>
+        <section><h4>Ejemplo</h4><p>Precision=0,80 y Recall=0,50 producen F1≈0,615.</p></section>
+        <section><h4>Conexiones</h4><p>Precision · recall · threshold · desbalance.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usarlo automáticamente sin justificar por qué precision y recall deberían tener el mismo peso.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="fpr (false positive rate)" data-cat="ROC / PR" data-index="24">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">FPR (False Positive Rate)</span>
+          <span class="cat-badge">ROC / PR</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de negativos reales que son clasificados erróneamente como positivos. Es el eje horizontal de la curva ROC.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>FPR = FP / (FP + TN) = 1 − Specificity</div></section>
+        <section><h4>Intuición</h4><p>Mide la tasa de falsas alarmas dentro de la población negativa.</p></section>
+        <section><h4>Ejemplo</h4><p>FPR=0,05 significa que 5% de los negativos reales son marcados positivos.</p></section>
+        <section><h4>Conexiones</h4><p>ROC · specificity · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir FPR con 1−precision. Son denominadores distintos.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="intercepto β₀" data-cat="Interpretación" data-index="25">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Intercepto β₀</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Score o log-odds cuando todos los predictores numéricos valen cero y las variables categóricas están en su referencia. Su interpretación sustantiva depende de si ese punto cero es plausible.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>logit(p₀)=β₀</div></section>
+        <section><h4>Intuición</h4><p>Fija el nivel base sobre el que actúan los demás coeficientes.</p></section>
+        <section><h4>Ejemplo</h4><p>Si β₀=−2, el riesgo base es σ(−2)≈0,119.</p></section>
+        <section><h4>Conexiones</h4><p>Score lineal · logit · centramiento.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Dar una interpretación económica fuerte al intercepto cuando X=0 carece de sentido.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="interacción" data-cat="Interpretación" data-index="26">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Interacción</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Término que permite que el efecto de un predictor dependa del nivel de otro. Rompe la idea de un único efecto β₁ aplicable a todos los valores de X₂.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z=…+β₁X₁+β₂X₂+β₃X₁X₂</div></section>
+        <section><h4>Intuición</h4><p>El efecto de X₁ sobre el logit pasa a ser β₁+β₃X₂.</p></section>
+        <section><h4>Ejemplo</h4><p>El impacto del ingreso sobre default puede depender del nivel de deuda/ingreso.</p></section>
+        <section><h4>Conexiones</h4><p>Efectos marginales · especificación · no linealidad.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar β₁ aislado como “efecto total de X₁” cuando existe interacción.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="k-fold cross-validation" data-cat="Validación" data-index="27">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">K-Fold Cross-Validation</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Procedimiento que divide el conjunto de desarrollo en K bloques. En cada iteración se entrena con K−1 folds y se valida con el restante; cada fold es validation exactamente una vez.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>K entrenamientos → K métricas → media ± dispersión</div></section>
+        <section><h4>Intuición</h4><p>Reduce la dependencia de una sola partición y permite observar estabilidad.</p></section>
+        <section><h4>Ejemplo</h4><p>Con K=5 se realizan cinco entrenamientos diferentes.</p></section>
+        <section><h4>Conexiones</h4><p>Cross-validation · test final · tuning.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Realizar preprocesamientos usando todo el dataset antes de crear los folds; eso puede generar leakage.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="leakage (fuga de información)" data-cat="Validación" data-index="28">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Leakage (fuga de información)</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Uso, directo o indirecto, de información que no estaría disponible al momento real de predecir o que pertenece al conjunto de validación/test durante el entrenamiento.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>No es una fórmula; es una violación del diseño experimental</div></section>
+        <section><h4>Intuición</h4><p>El modelo “ve el futuro” o información reservada y parece mejor de lo que realmente será.</p></section>
+        <section><h4>Ejemplo</h4><p>Estandarizar usando media y desvío calculados con train+test antes de evaluar.</p></section>
+        <section><h4>Conexiones</h4><p>Train/validation/test · cross-validation · pipeline.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Creer que leakage solo ocurre si se incluye explícitamente la variable objetivo.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="likelihood (verosimilitud)" data-cat="Entrenamiento" data-index="29">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Likelihood (verosimilitud)</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Función que mide cuán compatibles son los parámetros del modelo con los resultados observados. En regresión logística combina las probabilidades asignadas por el modelo a cada resultado real.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>L(β)=∏ p_i^{y_i}(1−p_i)^{1−y_i}</div></section>
+        <section><h4>Intuición</h4><p>Un buen conjunto de coeficientes hace alta la probabilidad conjunta de lo que efectivamente se observó.</p></section>
+        <section><h4>Ejemplo</h4><p>Si un caso positivo recibe p=0,9 y otro negativo p=0,8, sus contribuciones son 0,9 y 0,2 respectivamente.</p></section>
+        <section><h4>Conexiones</h4><p>Máxima verosimilitud · log-likelihood · log-loss.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretarla como la probabilidad de que β sea verdadero. No lo es.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="log-likelihood" data-cat="Entrenamiento" data-index="30">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Log-Likelihood</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Logaritmo de la likelihood. Convierte el producto de contribuciones individuales en una suma, facilitando cálculo, optimización y estabilidad numérica.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>ℓ(β)=Σ[y_i ln p_i +(1−y_i)ln(1−p_i)]</div></section>
+        <section><h4>Intuición</h4><p>Maximizar log-likelihood equivale a maximizar likelihood porque el logaritmo es monotónico.</p></section>
+        <section><h4>Ejemplo</h4><p>Productos de muchas probabilidades pueden ser extremadamente pequeños; trabajar con sumas de logaritmos evita underflow numérico.</p></section>
+        <section><h4>Conexiones</h4><p>Likelihood · log-loss · MLE.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Olvidar el signo: log-loss es el negativo de la log-likelihood promedio.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="logit" data-cat="Fundamentos" data-index="31">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Logit</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Transformación que lleva una probabilidad entre 0 y 1 a toda la recta real. En regresión logística, el logit de la probabilidad se modela como combinación lineal de los predictores.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>logit(p)=ln[p/(1−p)] = z</div></section>
+        <section><h4>Intuición</h4><p>Permite relacionar linealmente X con una magnitud sin límites, mientras p permanece entre 0 y 1.</p></section>
+        <section><h4>Ejemplo</h4><p>p=0,5 → logit=0; p=0,8 → logit≈1,386; p=0,2 → logit≈−1,386.</p></section>
+        <section><h4>Conexiones</h4><p>Odds · score lineal · sigmoide.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir logit con log(p).</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="log-transformación" data-cat="Especificación" data-index="32">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Log-transformación</span>
+          <span class="cat-badge">Especificación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Transformación de un predictor positivo mediante log(X), útil cuando cambios relativos son más relevantes que cambios absolutos o cuando la relación con el logit muestra rendimientos decrecientes.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z=…+β log(X)</div></section>
+        <section><h4>Intuición</h4><p>Pasar de 1 a 2 tiene mayor impacto transformado que pasar de 100 a 101.</p></section>
+        <section><h4>Ejemplo</h4><p>Ingresos, tamaño de empresa o montos monetarios suelen evaluarse también en escala logarítmica.</p></section>
+        <section><h4>Conexiones</h4><p>No linealidad · especificación · efecto marginal.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Aplicar log a valores cero o negativos sin tratamiento adecuado.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="máxima verosimilitud (mle)" data-cat="Entrenamiento" data-index="33">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Máxima Verosimilitud (MLE)</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Criterio de estimación que elige los coeficientes β que maximizan la likelihood de los resultados observados. En regresión logística estándar es el fundamento del ajuste.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>β̂ = arg max_β L(β) = arg min_β [−ℓ(β)]</div></section>
+        <section><h4>Intuición</h4><p>Busca parámetros que hagan tan plausibles como sea posible los 0 y 1 efectivamente observados.</p></section>
+        <section><h4>Ejemplo</h4><p>Los optimizadores numéricos ajustan β iterativamente hasta reducir el gradiente de la pérdida.</p></section>
+        <section><h4>Conexiones</h4><p>Likelihood · log-likelihood · log-loss.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Pensar que máxima verosimilitud garantiza generalización fuera de muestra.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="matriz de confusión" data-cat="Métricas" data-index="34">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Matriz de confusión</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Tabla 2×2 que cruza clase real y clase predicha. Organiza los resultados en TP, TN, FP y FN y es la base de muchas métricas de clasificación.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Filas/columnas según convención; siempre verificar qué eje es real y cuál predicho</div></section>
+        <section><h4>Intuición</h4><p>Muestra qué tipo de aciertos y errores produce el threshold actual.</p></section>
+        <section><h4>Ejemplo</h4><p>Al bajar c suelen aumentar TP y FP, mientras disminuyen FN y TN.</p></section>
+        <section><h4>Conexiones</h4><p>Accuracy · precision · recall · specificity · F1.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Comparar matrices de confusión obtenidas con distintos tamaños de muestra sin normalizar o contextualizar.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="multicolinealidad" data-cat="Entrenamiento" data-index="35">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Multicolinealidad</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que dos o más predictores están altamente relacionados entre sí. Puede inflar la varianza de los coeficientes y volver inestable su interpretación, aunque el desempeño predictivo no siempre se deteriore de la misma forma.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>No hay una única medida; puede evaluarse con correlaciones, VIF y estructura del diseño</div></section>
+        <section><h4>Intuición</h4><p>El modelo tiene dificultad para decidir qué predictor recibe qué parte del efecto.</p></section>
+        <section><h4>Ejemplo</h4><p>Ingresos mensuales e ingresos anuales casi duplicados en la misma especificación.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización L2 · inferencia · estabilidad.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Eliminar automáticamente variables correlacionadas sin considerar objetivo predictivo, teoría y regularización.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="multinomial logistic regression" data-cat="Multiclase" data-index="36">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Multinomial Logistic Regression</span>
+          <span class="cat-badge">Multiclase</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Extensión de la regresión logística a una variable objetivo con más de dos clases mutuamente excluyentes. Modela un score por clase y convierte esos scores en probabilidades mediante softmax.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P(Y=j|X)=exp(z_j)/Σ_m exp(z_m)</div></section>
+        <section><h4>Intuición</h4><p>Cada clase compite con las demás por la probabilidad total.</p></section>
+        <section><h4>Ejemplo</h4><p>Clasificar una solicitud en riesgo bajo, medio o alto.</p></section>
+        <section><h4>Conexiones</h4><p>Softmax · entropía · temperatura.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Tratar las probabilidades de cada clase como modelos binarios independientes si se necesita una distribución que sume 1.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="no linealidad en los predictores" data-cat="Especificación" data-index="37">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">No linealidad en los predictores</span>
+          <span class="cat-badge">Especificación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que el logit no cambia linealmente con un predictor. Puede modelarse incorporando transformaciones como X², log(X), splines u otras bases, manteniendo la salida logística.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z=β₀+β₁X+β₂X²+…</div></section>
+        <section><h4>Intuición</h4><p>La regresión logística es lineal en los parámetros, pero no obliga a usar solo X sin transformar.</p></section>
+        <section><h4>Ejemplo</h4><p>El riesgo puede disminuir con experiencia hasta cierto punto y luego estabilizarse.</p></section>
+        <section><h4>Conexiones</h4><p>Término cuadrático · log-transformación · interacción.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Suponer que la sigmoide por sí sola resuelve cualquier no linealidad entre X y el logit.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="odds" data-cat="Fundamentos" data-index="38">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Odds</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cociente entre la probabilidad de que ocurra el evento y la probabilidad de que no ocurra. Toma valores entre 0 e infinito.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Odds = p/(1−p)</div></section>
+        <section><h4>Intuición</h4><p>Odds=3 significa tres posibilidades relativas de evento por cada una de no evento.</p></section>
+        <section><h4>Ejemplo</h4><p>p=0,75 → odds=0,75/0,25=3. p=0,20 → odds=0,25.</p></section>
+        <section><h4>Conexiones</h4><p>Logit · odds ratio · coeficiente β.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir odds=2 con probabilidad=200% o con p=2/3 sin hacer la conversión.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="odds ratio (or)" data-cat="Interpretación" data-index="39">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Odds Ratio (OR)</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Factor multiplicativo sobre las odds asociado a un cambio unitario del predictor. Se obtiene exponenciando el coeficiente logístico.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>OR=e^β</div></section>
+        <section><h4>Intuición</h4><p>OR&gt;1 aumenta odds; OR&lt;1 las reduce; OR=1 indica ausencia de cambio en odds.</p></section>
+        <section><h4>Ejemplo</h4><p>β=0,70 → OR≈2,01: una unidad adicional duplica aproximadamente las odds, no la probabilidad.</p></section>
+        <section><h4>Conexiones</h4><p>Coeficiente β · odds · categoría de referencia.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Decir que OR=2 implica “el doble de probabilidad”.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="overconfidence" data-cat="Calibración" data-index="40">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Overconfidence</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que el modelo produce probabilidades demasiado extremas respecto de las frecuencias observadas. Sus predicciones cercanas a 0 o 1 son más seguras de lo que la evidencia justifica.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Calibration slope frecuentemente < 1 cuando existe exceso de extremidad</div></section>
+        <section><h4>Intuición</h4><p>El modelo “habla con demasiada seguridad”.</p></section>
+        <section><h4>Ejemplo</h4><p>Casos con p̂≈0,90 presentan el evento solo 0,70.</p></section>
+        <section><h4>Conexiones</h4><p>Temperatura · calibración · log-loss.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir sobreconfidence con AUC alto. Son propiedades distintas.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="overfitting" data-cat="Entrenamiento" data-index="41">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Overfitting</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Fenómeno por el cual el modelo captura patrones específicos, ruido o peculiaridades de la muestra de entrenamiento y pierde capacidad de generalizar a datos nuevos.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Se observa como brecha train vs validation/test, no por una única fórmula</div></section>
+        <section><h4>Intuición</h4><p>Memoriza demasiado bien el pasado y generaliza peor.</p></section>
+        <section><h4>Ejemplo</h4><p>Log-loss de train muy baja y log-loss de test claramente mayor.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización · cross-validation · tamaño muestral.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Diagnosticar overfitting solo porque el modelo tiene muchos coeficientes.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="p-value" data-cat="Inferencia" data-index="42">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">p-value</span>
+          <span class="cat-badge">Inferencia</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Probabilidad, bajo una hipótesis nula y un procedimiento estadístico especificado, de observar un estadístico tan extremo o más que el obtenido. En regresión logística se usa frecuentemente para contrastar H₀:β_j=0.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Ej. Wald: z=β̂/SE(β̂)</div></section>
+        <section><h4>Intuición</h4><p>Evalúa compatibilidad de los datos con una hipótesis nula, no la magnitud práctica del efecto.</p></section>
+        <section><h4>Ejemplo</h4><p>Un coeficiente muy pequeño puede tener p&lt;0,05 en una muestra enorme.</p></section>
+        <section><h4>Conexiones</h4><p>Wald · intervalo de confianza · significancia práctica.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar p=0,03 como “97% de probabilidad de que β sea distinto de cero”.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="performance drift" data-cat="Monitoreo" data-index="43">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Performance drift</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Deterioro de métricas de desempeño del modelo a través del tiempo, como AUC, log-loss, Brier, recall o costo. Puede originarse por data drift, prior drift, concept drift o cambios operativos.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Métrica_t comparada con baseline o límites de control</div></section>
+        <section><h4>Intuición</h4><p>Es el síntoma observable de que el modelo ya no funciona igual que durante validación.</p></section>
+        <section><h4>Ejemplo</h4><p>AUC pasa de 0,82 al desplegar a 0,68 seis meses después.</p></section>
+        <section><h4>Conexiones</h4><p>Concept drift · monitoreo · recalibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Esperar a que performance caiga para mirar drift. Algunas señales de distribución aparecen antes.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="population stability index (psi)" data-cat="Monitoreo" data-index="44">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Population Stability Index (PSI)</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Medida de cambio entre dos distribuciones discretizadas, muy usada para monitorear variables y scores. Compara proporciones de referencia y actuales por bin.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>PSI = Σ (q_b−p_b) ln(q_b/p_b)</div></section>
+        <section><h4>Intuición</h4><p>Cuanto mayor el PSI, mayor la diferencia distribucional.</p></section>
+        <section><h4>Ejemplo</h4><p>Reglas orientativas habituales consideran &lt;0,10 cambio pequeño, 0,10–0,25 cambio moderado y &gt;0,25 cambio importante, aunque los umbrales deben validarse en contexto.</p></section>
+        <section><h4>Conexiones</h4><p>Data drift · score drift · monitoreo.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Tratar los cortes 0,10 y 0,25 como leyes universales.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="precision" data-cat="Métricas" data-index="45">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Precision</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de positivos predichos que son realmente positivos. Evalúa la calidad o pureza de las alertas positivas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Precision = TP/(TP+FP)</div></section>
+        <section><h4>Intuición</h4><p>Pregunta: “de todo lo que marqué como positivo, ¿cuánto era verdaderamente positivo?”.</p></section>
+        <section><h4>Ejemplo</h4><p>TP=80 y FP=20 → precision=0,80.</p></section>
+        <section><h4>Conexiones</h4><p>Recall · PR curve · prevalencia.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Olvidar que cambia fuertemente con la prevalencia aun si TPR y FPR se mantienen.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="precision–recall curve (pr)" data-cat="ROC / PR" data-index="46">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Precision–Recall Curve (PR)</span>
+          <span class="cat-badge">ROC / PR</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Curva que representa precision frente a recall al variar el threshold. Resulta especialmente informativa cuando la clase positiva es rara.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>X=Recall; Y=Precision</div></section>
+        <section><h4>Intuición</h4><p>Muestra simultáneamente cuánto del evento detectamos y qué tan limpias son las alertas.</p></section>
+        <section><h4>Ejemplo</h4><p>Al bajar el threshold suele subir recall y caer precision.</p></section>
+        <section><h4>Conexiones</h4><p>PR-AUC · prevalencia · desbalance.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Comparar PR-AUC entre datasets con prevalencias muy distintas sin mencionar esa diferencia.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="predicción vs causalidad" data-cat="Interpretación" data-index="47">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Predicción vs causalidad</span>
+          <span class="cat-badge">Interpretación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Distinción entre estimar correctamente Y a partir de X y afirmar que modificar X causará un cambio en Y. Un modelo predictivo puede explotar asociaciones útiles sin identificar efectos causales.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P(Y|X) predictiva ≠ efecto causal do(X)</div></section>
+        <section><h4>Intuición</h4><p>Predecir quién tiene alto riesgo no implica saber qué intervención reducirá ese riesgo.</p></section>
+        <section><h4>Ejemplo</h4><p>Una variable puede ser excelente predictor de default porque resume contexto socioeconómico, sin ser una palanca causal manipulable.</p></section>
+        <section><h4>Conexiones</h4><p>Efectos marginales · interpretación · diseño causal.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Presentar coeficientes o efectos marginales de un modelo observacional como causalidad automática.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="prevalencia / base rate" data-cat="Métricas" data-index="48">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Prevalencia / Base rate</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de positivos reales en la población. Afecta fuertemente métricas como precision y el baseline de la curva PR.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Prevalencia = (TP+FN)/N</div></section>
+        <section><h4>Intuición</h4><p>Un evento raro genera muchas oportunidades de falsas alarmas porque existen muchos más negativos.</p></section>
+        <section><h4>Ejemplo</h4><p>Con prevalencia 1%, incluso FPR=2% puede producir más FP que TP.</p></section>
+        <section><h4>Conexiones</h4><p>Precision · PR curve · prior drift.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Comparar precision entre contextos con prevalencias distintas como si fueran directamente equivalentes.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="prior drift" data-cat="Monitoreo" data-index="49">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Prior drift</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cambio en la distribución marginal de la variable objetivo P(Y), es decir, en la prevalencia del evento. Puede ocurrir aunque P(X|Y) o el ranking del modelo cambien poco.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P_t(Y) ≠ P_0(Y)</div></section>
+        <section><h4>Intuición</h4><p>El evento se vuelve más o menos frecuente en la población actual.</p></section>
+        <section><h4>Ejemplo</h4><p>Una recesión puede aumentar la tasa de default general.</p></section>
+        <section><h4>Conexiones</h4><p>Prevalencia · calibración · monitoreo.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Suponer que AUC necesariamente cambia cuando cambia la prevalencia.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="probabilidad predicha" data-cat="Fundamentos" data-index="50">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Probabilidad predicha</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Estimación p̂=P(Y=1|X) producida por el modelo. En regresión logística se obtiene aplicando la sigmoide al score lineal.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>p̂ = σ(Xβ)</div></section>
+        <section><h4>Intuición</h4><p>Es una cantidad continua entre 0 y 1; contiene más información que una clase binaria.</p></section>
+        <section><h4>Ejemplo</h4><p>p̂=0,72 significa que el modelo asigna 72% de probabilidad al evento bajo su especificación y datos.</p></section>
+        <section><h4>Conexiones</h4><p>Sigmoide · calibración · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretarla como probabilidad “verdadera” sin validar calibración y estabilidad.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="pr-auc / average precision" data-cat="ROC / PR" data-index="51">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">PR-AUC / Average Precision</span>
+          <span class="cat-badge">ROC / PR</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Resumen del rendimiento sobre la curva precision–recall. Es especialmente útil para comparar modelos en tareas con positivos raros, aunque su escala depende de la prevalencia.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Área o promedio ponderado de precision a medida que cambia recall</div></section>
+        <section><h4>Intuición</h4><p>Premia que el modelo mantenga alta precision mientras recupera una gran fracción de positivos.</p></section>
+        <section><h4>Ejemplo</h4><p>Una PR-AUC de 0,40 puede ser excelente si la prevalencia base es 0,01.</p></section>
+        <section><h4>Conexiones</h4><p>PR curve · precision · recall · prevalencia.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretarla con los mismos puntos de referencia absolutos que ROC-AUC.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="recall / sensitivity / tpr" data-cat="Métricas" data-index="52">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Recall / Sensitivity / TPR</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de positivos reales que el modelo identifica correctamente. Se denomina también sensibilidad o true positive rate.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Recall = TP/(TP+FN)</div></section>
+        <section><h4>Intuición</h4><p>Pregunta: “de todos los positivos reales, ¿cuántos detecté?”.</p></section>
+        <section><h4>Ejemplo</h4><p>TP=90 y FN=10 → recall=0,90.</p></section>
+        <section><h4>Conexiones</h4><p>F1 · ROC · FN · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Maximizar recall sin considerar el aumento de FP y los costos asociados.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="regularización" data-cat="Entrenamiento" data-index="53">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Regularización</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Modificación de la función objetivo que penaliza la complejidad del modelo, típicamente el tamaño de sus coeficientes. Busca reducir varianza y mejorar generalización.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Loss_total = LogLoss + λ·Penalty(β)</div></section>
+        <section><h4>Intuición</h4><p>Acepta algo más de sesgo en train para evitar coeficientes excesivos o inestables.</p></section>
+        <section><h4>Ejemplo</h4><p>Con muchos predictores correlacionados, L2 puede estabilizar los coeficientes.</p></section>
+        <section><h4>Conexiones</h4><p>L1 · L2 · overfitting · cross-validation.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Pensar que mayor λ siempre mejora el modelo. Puede causar underfitting.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="regularización l1 (lasso)" data-cat="Entrenamiento" data-index="54">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Regularización L1 (Lasso)</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Penalización basada en la suma de valores absolutos de los coeficientes. Favorece soluciones dispersas y puede llevar coeficientes exactamente a cero.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Penalty_L1 = λ Σ|β_j|</div></section>
+        <section><h4>Intuición</h4><p>Puede actuar como mecanismo de selección de variables.</p></section>
+        <section><h4>Ejemplo</h4><p>Variables de ruido pueden quedar con β=0 cuando λ aumenta.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización · sparsity · selección de variables.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Suponer que el conjunto de variables seleccionadas será estable ante predictores muy correlacionados.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="regularización l2 (ridge)" data-cat="Entrenamiento" data-index="55">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Regularización L2 (Ridge)</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Penalización basada en la suma de cuadrados de los coeficientes. Contrae coeficientes grandes suavemente y suele mejorar estabilidad bajo multicolinealidad.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Penalty_L2 = λ Σβ_j²</div></section>
+        <section><h4>Intuición</h4><p>Distribuye el peso entre predictores correlacionados en lugar de forzar muchos a cero.</p></section>
+        <section><h4>Ejemplo</h4><p>Dos variables similares pueden conservar coeficientes moderados en vez de que una desaparezca.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización · multicolinealidad · overfitting.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar coeficientes regularizados con los mismos procedimientos inferenciales estándar sin considerar el método de estimación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="roc curve" data-cat="ROC / PR" data-index="56">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">ROC Curve</span>
+          <span class="cat-badge">ROC / PR</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Curva que muestra TPR frente a FPR a medida que se recorre todo el rango de thresholds. Describe el trade-off entre detectar positivos y generar falsas alarmas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>X=FPR; Y=TPR</div></section>
+        <section><h4>Intuición</h4><p>Cada punto de la ROC corresponde a una política de threshold distinta.</p></section>
+        <section><h4>Ejemplo</h4><p>Bajar c suele mover el punto hacia arriba y hacia la derecha: más TP pero también más FP.</p></section>
+        <section><h4>Conexiones</h4><p>AUC · threshold · TPR · FPR.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Elegir un threshold solo mirando ROC sin incorporar costos, prevalencia o restricciones operativas.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="score lineal / linear predictor" data-cat="Fundamentos" data-index="57">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Score lineal / Linear predictor</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Combinación lineal de intercepto y predictores antes de aplicar la sigmoide. Puede tomar cualquier valor real y coincide con el logit de la probabilidad en regresión logística.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z=β₀+β₁x₁+…+β_kx_k</div></section>
+        <section><h4>Intuición</h4><p>Es la escala natural en la que los coeficientes se suman.</p></section>
+        <section><h4>Ejemplo</h4><p>z=2 implica p≈0,881; z=−2 implica p≈0,119.</p></section>
+        <section><h4>Conexiones</h4><p>Logit · sigmoide · frontera de decisión.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Tratar z como probabilidad. No está restringido a [0,1].</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="separación completa / cuasi-completa" data-cat="Entrenamiento" data-index="58">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Separación completa / cuasi-completa</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Problema que aparece cuando una combinación de predictores separa perfectamente o casi perfectamente las clases. En máxima verosimilitud no penalizada algunos coeficientes pueden crecer sin límite.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Existe un hiperplano que clasifica perfectamente Y</div></section>
+        <section><h4>Intuición</h4><p>El optimizador puede intentar hacer probabilidades cada vez más cercanas a 0 y 1 aumentando |β|.</p></section>
+        <section><h4>Ejemplo</h4><p>Una variable que vale siempre &gt;0 para positivos y &lt;0 para negativos.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización · convergencia · inferencia.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar coeficientes enormes como evidencia sustantiva sin revisar separación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="sigmoide / función logística" data-cat="Fundamentos" data-index="59">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Sigmoide / Función logística</span>
+          <span class="cat-badge">Fundamentos</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Función que transforma cualquier score real z en una probabilidad entre 0 y 1. Es monotónica y tiene máxima pendiente alrededor de p=0,5.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>σ(z)=1/(1+e^(−z))</div></section>
+        <section><h4>Intuición</h4><p>Convierte una escala sin límites en una escala probabilística.</p></section>
+        <section><h4>Ejemplo</h4><p>z=0 → p=0,5; z=2 → p≈0,881; z=−2 → p≈0,119.</p></section>
+        <section><h4>Conexiones</h4><p>Score lineal · logit · efecto marginal.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Pensar que la sigmoide vuelve lineal la relación entre X y p.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="significancia estadística vs relevancia práctica" data-cat="Inferencia" data-index="60">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Significancia estadística vs relevancia práctica</span>
+          <span class="cat-badge">Inferencia</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>La significancia estadística evalúa evidencia contra una hipótesis nula; la relevancia práctica evalúa si la magnitud del efecto importa en el problema real. Son dimensiones distintas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Puede haber p<0,05 con OR≈1,01 en muestras grandes</div></section>
+        <section><h4>Intuición</h4><p>Un efecto muy preciso puede ser demasiado pequeño para cambiar decisiones.</p></section>
+        <section><h4>Ejemplo</h4><p>Un predictor reduce el riesgo de 20,00% a 19,85%: estadísticamente detectable, pero quizá irrelevante para la política.</p></section>
+        <section><h4>Conexiones</h4><p>p-value · intervalo de confianza · odds ratio.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usar p&lt;0,05 como criterio automático de importancia.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="softmax" data-cat="Multiclase" data-index="61">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Softmax</span>
+          <span class="cat-badge">Multiclase</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Función que transforma un conjunto de scores reales en una distribución de probabilidades que suma 1. Es la extensión natural de la normalización logística para clasificación multiclase.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>p_j = exp(z_j)/Σ_m exp(z_m)</div></section>
+        <section><h4>Intuición</h4><p>Cada clase compite por una fracción del total de probabilidad.</p></section>
+        <section><h4>Ejemplo</h4><p>Scores 2,1,0 producen aproximadamente 0,665; 0,245; 0,090.</p></section>
+        <section><h4>Conexiones</h4><p>Multinomial logistic regression · temperatura · entropía.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Calcular exp(z) directamente con scores muy grandes sin estabilización numérica; se usa z−max(z).</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="specificity (especificidad)" data-cat="Métricas" data-index="62">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Specificity (especificidad)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proporción de negativos reales correctamente identificados como negativos. Mide la capacidad de evitar falsas alarmas dentro de la clase negativa.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Specificity = TN/(TN+FP) = 1−FPR</div></section>
+        <section><h4>Intuición</h4><p>Pregunta: “de todos los negativos reales, ¿cuántos reconocí correctamente?”.</p></section>
+        <section><h4>Ejemplo</h4><p>TN=950 y FP=50 → specificity=0,95.</p></section>
+        <section><h4>Conexiones</h4><p>FPR · ROC · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir specificity con precision negativa o con accuracy.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="standard error (se)" data-cat="Inferencia" data-index="63">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Standard Error (SE)</span>
+          <span class="cat-badge">Inferencia</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Estimación de la incertidumbre muestral de un coeficiente. Resume cuánto variaría β̂ si repitiéramos el procedimiento de muestreo bajo condiciones similares.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Wald z = β̂/SE(β̂)</div></section>
+        <section><h4>Intuición</h4><p>Un coeficiente grande con SE aún mayor puede ser estadísticamente impreciso.</p></section>
+        <section><h4>Ejemplo</h4><p>β̂=0,50 y SE=0,10 implica mucha más precisión que β̂=0,50 y SE=0,60.</p></section>
+        <section><h4>Conexiones</h4><p>Wald · intervalo de confianza · p-value.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir SE del coeficiente con desviación estándar del predictor.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="stratified split" data-cat="Validación" data-index="64">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Stratified split</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Partición de datos que intenta preservar la proporción de clases en train, validation y test. Es especialmente útil con clases poco frecuentes.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>P(Y=1) aproximadamente constante entre particiones</div></section>
+        <section><h4>Intuición</h4><p>Evita que un split aleatorio deje muy pocos positivos en alguna partición.</p></section>
+        <section><h4>Ejemplo</h4><p>Con prevalencia 2%, un split estratificado mantiene aproximadamente ese 2% en cada conjunto.</p></section>
+        <section><h4>Conexiones</h4><p>Desbalance · train/test · K-fold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Creer que estratificar elimina todos los problemas de distribución o dependencia temporal.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="temperatura" data-cat="Calibración" data-index="65">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Temperatura</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Parámetro que divide los logits antes de aplicar sigmoide o softmax. Controla cuán extremas o suaves son las probabilidades sin necesariamente cambiar el ranking.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>softmax(z/T) o σ(z/T)</div></section>
+        <section><h4>Intuición</h4><p>T&lt;1 aumenta confianza; T&gt;1 comprime probabilidades hacia una distribución más uniforme.</p></section>
+        <section><h4>Ejemplo</h4><p>En softmax, la clase ganadora puede seguir siendo la misma mientras su probabilidad pasa de 0,90 a 0,60.</p></section>
+        <section><h4>Conexiones</h4><p>Softmax · calibración · overconfidence.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usarla para corregir ranking deficiente. Temperatura recalibra escala; no crea discriminación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="término cuadrático" data-cat="Especificación" data-index="66">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Término cuadrático</span>
+          <span class="cat-badge">Especificación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Transformación X² incorporada como predictor adicional para permitir curvatura en la relación entre X y el logit.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z=β₀+β₁X+β₂X²</div></section>
+        <section><h4>Intuición</h4><p>El efecto de X cambia con el nivel de X.</p></section>
+        <section><h4>Ejemplo</h4><p>El riesgo puede ser alto en valores muy bajos y muy altos, y menor en la zona media.</p></section>
+        <section><h4>Conexiones</h4><p>No linealidad · efecto marginal · especificación.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar β₁ aisladamente sin considerar β₂.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="threshold / umbral de decisión" data-cat="Decisión" data-index="67">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Threshold / Umbral de decisión</span>
+          <span class="cat-badge">Decisión</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Valor c utilizado para convertir una probabilidad en una clase. Si p̂≥c se predice 1; en caso contrario, 0. Es una decisión operativa separada del entrenamiento del modelo.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>ŷ = I(p̂ ≥ c)</div></section>
+        <section><h4>Intuición</h4><p>Cambiar c modifica el balance entre FP y FN sin modificar β.</p></section>
+        <section><h4>Ejemplo</h4><p>Bajar c de 0,50 a 0,30 suele aumentar recall y disminuir specificity.</p></section>
+        <section><h4>Conexiones</h4><p>Matriz de confusión · ROC · costos.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Adoptar c=0,5 por costumbre sin justificarlo.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="true negative (tn)" data-cat="Métricas" data-index="68">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">True Negative (TN)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Caso realmente negativo clasificado correctamente como negativo.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Real=0, Predicho=0</div></section>
+        <section><h4>Intuición</h4><p>Es un acierto sobre la clase negativa.</p></section>
+        <section><h4>Ejemplo</h4><p>Cliente buen pagador aprobado como bajo riesgo.</p></section>
+        <section><h4>Conexiones</h4><p>Specificity · accuracy · matriz de confusión.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Olvidar que “negativo” y “positivo” son convenciones del problema y deben definirse.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="true positive (tp)" data-cat="Métricas" data-index="69">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">True Positive (TP)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Caso realmente positivo clasificado correctamente como positivo.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Real=1, Predicho=1</div></section>
+        <section><h4>Intuición</h4><p>Es un evento detectado correctamente.</p></section>
+        <section><h4>Ejemplo</h4><p>Fraude real marcado como fraude.</p></section>
+        <section><h4>Conexiones</h4><p>Recall · precision · matriz de confusión.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Suponer que TP siempre representa algo “bueno”; depende de qué evento se haya codificado como 1.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="train / validation / test" data-cat="Validación" data-index="70">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Train / Validation / Test</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Separación conceptual de datos para tres funciones diferentes: train ajusta parámetros; validation ayuda a elegir hiperparámetros o especificaciones; test estima el desempeño final sobre datos no utilizados en decisiones de modelado.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Train → aprender · Validation → elegir · Test → evaluar</div></section>
+        <section><h4>Intuición</h4><p>Cuantas más decisiones se toman mirando un conjunto, menos independiente queda ese conjunto.</p></section>
+        <section><h4>Ejemplo</h4><p>80% development con 5-fold CV y 20% test final reservado.</p></section>
+        <section><h4>Conexiones</h4><p>Cross-validation · leakage · tuning.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Reutilizar repetidamente el test hasta elegir el mejor modelo y luego llamarlo “test final”.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="tuning / selección de hiperparámetros" data-cat="Validación" data-index="71">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Tuning / selección de hiperparámetros</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proceso de elegir configuraciones que no se estiman directamente como coeficientes del modelo, por ejemplo λ de regularización, transformaciones o thresholds operativos.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Elegir configuración usando validation/CV, no test</div></section>
+        <section><h4>Intuición</h4><p>También es una forma de aprendizaje y por eso necesita datos separados de la evaluación final.</p></section>
+        <section><h4>Ejemplo</h4><p>Seleccionar λ que minimiza log-loss promedio de cross-validation.</p></section>
+        <section><h4>Conexiones</h4><p>K-fold · regularización · leakage.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Elegir hiperparámetros usando el test y luego reportar esa misma métrica como evaluación imparcial.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="underconfidence" data-cat="Calibración" data-index="72">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Underconfidence</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que el modelo produce probabilidades demasiado cercanas al centro, generalmente 0,5, en comparación con las frecuencias observadas. El modelo es menos contundente de lo que la evidencia justificaría.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Puede asociarse a calibration slope > 1 en ciertas parametrizaciones</div></section>
+        <section><h4>Intuición</h4><p>El modelo “habla con demasiada cautela”.</p></section>
+        <section><h4>Ejemplo</h4><p>Casos con p̂≈0,65 presentan el evento cerca de 0,85.</p></section>
+        <section><h4>Conexiones</h4><p>Temperatura · calibración · softmax.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Asumir que probabilidades moderadas siempre significan buena calibración.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="underfitting" data-cat="Entrenamiento" data-index="73">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Underfitting</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que el modelo es demasiado simple o está excesivamente regularizado y no captura patrones relevantes ni siquiera en entrenamiento.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Train y test con pérdidas altas y similares</div></section>
+        <section><h4>Intuición</h4><p>El modelo tiene demasiado sesgo.</p></section>
+        <section><h4>Ejemplo</h4><p>λ muy alto contrae incluso coeficientes de variables verdaderamente informativas.</p></section>
+        <section><h4>Conexiones</h4><p>Regularización · bias-variance · overfitting.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir underfitting con una mala partición de test aislada.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="wald test" data-cat="Inferencia" data-index="74">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Wald test</span>
+          <span class="cat-badge">Inferencia</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Contraste frecuente para evaluar hipótesis sobre un coeficiente utilizando la estimación y su error estándar. Bajo condiciones regulares, el estadístico se aproxima a una normal estándar.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>z = (β̂−β₀)/SE(β̂)</div></section>
+        <section><h4>Intuición</h4><p>Compara cuánto se aleja el coeficiente estimado de la hipótesis nula en unidades de incertidumbre.</p></section>
+        <section><h4>Ejemplo</h4><p>β̂=0,60, SE=0,15 → z=4,0.</p></section>
+        <section><h4>Conexiones</h4><p>p-value · intervalo de confianza · SE.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confiar ciegamente en Wald con separación, muestras pequeñas o estimaciones inestables.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="intervalo de confianza" data-cat="Inferencia" data-index="75">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Intervalo de confianza</span>
+          <span class="cat-badge">Inferencia</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Rango construido mediante un procedimiento que, bajo supuestos y repetición muestral, cubriría el verdadero parámetro con una frecuencia determinada, típicamente 95%. Para odds ratios suele exponenciarse el intervalo del coeficiente.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>IC aproximado β: β̂ ± 1,96·SE; IC_OR = exp(IC_β)</div></section>
+        <section><h4>Intuición</h4><p>Informa magnitud compatible con los datos y precisión, no solo un sí/no de significancia.</p></section>
+        <section><h4>Ejemplo</h4><p>β̂=0,40, SE=0,10 → IC95%≈[0,204;0,596].</p></section>
+        <section><h4>Conexiones</h4><p>SE · Wald · odds ratio.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Decir que “hay 95% de probabilidad de que el parámetro fijo esté dentro” bajo la interpretación frecuentista clásica.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="class imbalance (desbalance de clases)" data-cat="Métricas" data-index="76">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Class imbalance (desbalance de clases)</span>
+          <span class="cat-badge">Métricas</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Situación en la que una clase es mucho más frecuente que la otra. Cambia la utilidad de ciertas métricas y puede exigir estrategias de evaluación, muestreo o ponderación.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Ej.: prevalencia positiva = 1%</div></section>
+        <section><h4>Intuición</h4><p>Un clasificador trivial puede lograr alta accuracy simplemente prediciendo la clase mayoritaria.</p></section>
+        <section><h4>Ejemplo</h4><p>990 negativos y 10 positivos: siempre predecir 0 produce 99% accuracy y 0% recall.</p></section>
+        <section><h4>Conexiones</h4><p>PR curve · class weights · prevalence.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Corregirlo automáticamente con oversampling sin evaluar cómo afecta calibración y validación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="class weights" data-cat="Entrenamiento" data-index="77">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Class weights</span>
+          <span class="cat-badge">Entrenamiento</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Ponderaciones diferentes asignadas a las clases dentro de la función de pérdida. Permiten que errores sobre una clase influyan más en el entrenamiento.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Weighted loss = Σ w_{y_i}·loss_i</div></section>
+        <section><h4>Intuición</h4><p>Hace que el optimizador “preste más atención” a una clase.</p></section>
+        <section><h4>Ejemplo</h4><p>Asignar mayor peso a positivos raros puede mejorar recall.</p></section>
+        <section><h4>Conexiones</h4><p>Desbalance · costos · threshold.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Confundir class weights con una estimación correcta de costos o con calibración.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="cost matrix (matriz de costos)" data-cat="Decisión" data-index="78">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Cost matrix (matriz de costos)</span>
+          <span class="cat-badge">Decisión</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Representación de los costos o utilidades asociados a TP, TN, FP y FN. Permite pasar de métricas puramente estadísticas a decisiones económicas u operativas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Costo total = C_TP·TP + C_TN·TN + C_FP·FP + C_FN·FN</div></section>
+        <section><h4>Intuición</h4><p>Dos modelos con la misma accuracy pueden tener costos muy distintos.</p></section>
+        <section><h4>Ejemplo</h4><p>En crédito, un FN puede costar mucho más que un FP si aprobar un default es muy caro.</p></section>
+        <section><h4>Conexiones</h4><p>Threshold · expected loss · policy.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usar costos arbitrarios sin validar su significado económico real.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="expected loss / costo esperado" data-cat="Decisión" data-index="79">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Expected loss / costo esperado</span>
+          <span class="cat-badge">Decisión</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Costo promedio esperado de una acción, ponderando resultados posibles por sus probabilidades. Es una forma de convertir una predicción probabilística en una decisión racional bajo costos conocidos.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>EL(a)=Σ_y P(y|x)·C(a,y)</div></section>
+        <section><h4>Intuición</h4><p>No alcanza con saber qué clase es más probable; importa qué cuesta equivocarse.</p></section>
+        <section><h4>Ejemplo</h4><p>Puede ser óptimo rechazar con p(default)=0,20 si el costo de un default es extremadamente alto.</p></section>
+        <section><h4>Conexiones</h4><p>Cost matrix · threshold · decision policy.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Optimizar costo esperado ignorando restricciones legales, fairness o capacidad operativa.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="decision policy" data-cat="Decisión" data-index="80">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Decision policy</span>
+          <span class="cat-badge">Decisión</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Conjunto de reglas que transforman predicciones en acciones. Puede incluir thresholds, zonas de revisión, límites regulatorios, costos, capacidad operativa y excepciones humanas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Modelo → p̂; Política → acción</div></section>
+        <section><h4>Intuición</h4><p>El modelo estima; la organización decide.</p></section>
+        <section><h4>Ejemplo</h4><p>p&lt;0,15 aprobar; 0,15≤p&lt;0,30 revisar; p≥0,30 rechazo.</p></section>
+        <section><h4>Conexiones</h4><p>Threshold · costos · gobernanza.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Atribuir al modelo decisiones que en realidad pertenecen a una política de negocio.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="calibration intercept" data-cat="Calibración" data-index="81">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Calibration intercept</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Parámetro de recalibración que detecta desplazamiento sistemático del riesgo promedio. Un intercepto distinto de cero sugiere subestimación o sobreestimación global.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>logit(Y) ≈ α + 1·logit(p̂)</div></section>
+        <section><h4>Intuición</h4><p>Corrige que todas las probabilidades estén desplazadas hacia arriba o abajo.</p></section>
+        <section><h4>Ejemplo</h4><p>Si el evento se vuelve más frecuente, puede ser necesario aumentar el intercepto manteniendo el ranking.</p></section>
+        <section><h4>Conexiones</h4><p>Prior drift · calibración · recalibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Usarlo como solución completa cuando también cambió la pendiente o la discriminación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="calibration slope" data-cat="Calibración" data-index="82">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Calibration slope</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Pendiente obtenida al relacionar resultados observados con el logit de las predicciones. Evalúa si las probabilidades son demasiado extremas o demasiado comprimidas.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>logit(Y) ≈ α + γ·logit(p̂)</div></section>
+        <section><h4>Intuición</h4><p>γ≈1 es ideal; γ&lt;1 suele sugerir predicciones demasiado extremas.</p></section>
+        <section><h4>Ejemplo</h4><p>Un modelo sobreajustado puede mostrar slope 0,7 al validarse externamente.</p></section>
+        <section><h4>Conexiones</h4><p>Overconfidence · recalibración · Brier.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Interpretar slope sin revisar también el intercepto y la discriminación.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="model monitoring" data-cat="Monitoreo" data-index="83">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Model monitoring</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Proceso continuo de seguimiento de un modelo una vez desplegado. Debe abarcar inputs, scores, prevalencia, métricas de performance, calibración, decisiones y estabilidad operacional.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>No existe una única métrica: requiere un conjunto de indicadores</div></section>
+        <section><h4>Intuición</h4><p>Validar una vez no garantiza que el modelo siga siendo válido meses después.</p></section>
+        <section><h4>Ejemplo</h4><p>Panel mensual con PSI, AUC, Brier, ECE, event rate y tasa de decisiones.</p></section>
+        <section><h4>Conexiones</h4><p>Data drift · performance drift · concept drift.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Monitorear solo accuracy o solo PSI.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="external validation" data-cat="Validación" data-index="84">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">External validation</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Evaluación del modelo en una población, institución, periodo o entorno distinto del usado para desarrollo. Mide transportabilidad y robustez más allá de la muestra original.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Desarrollo en población A → evaluación en población B</div></section>
+        <section><h4>Intuición</h4><p>Pregunta si el modelo funciona cuando cambia el contexto.</p></section>
+        <section><h4>Ejemplo</h4><p>Modelo entrenado con clientes de 2024 y validado en otra región o entidad.</p></section>
+        <section><h4>Conexiones</h4><p>Temporal validation · drift · calibración.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Llamar “externa” a una partición aleatoria del mismo dataset.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="temporal validation" data-cat="Validación" data-index="85">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Temporal validation</span>
+          <span class="cat-badge">Validación</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Validación que respeta el orden temporal: el modelo se entrena con datos del pasado y se evalúa en un periodo posterior. Es crucial cuando se espera evolución de población o comportamiento.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Train: t≤T · Test: t>T</div></section>
+        <section><h4>Intuición</h4><p>Simula mejor el uso real futuro que un split aleatorio cuando existe dependencia temporal.</p></section>
+        <section><h4>Ejemplo</h4><p>Entrenar con 2023–2025 y evaluar en 2026.</p></section>
+        <section><h4>Conexiones</h4><p>Drift · model monitoring · leakage.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Mezclar observaciones futuras en train mediante una partición aleatoria.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="score drift" data-cat="Monitoreo" data-index="86">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Score drift</span>
+          <span class="cat-badge">Monitoreo</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Cambio en la distribución de scores o probabilidades predichas a lo largo del tiempo. Puede surgir por cambios en X aun si los coeficientes permanecen congelados.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>Distribución p̂_t comparada con p̂_0</div></section>
+        <section><h4>Intuición</h4><p>El modelo empieza a asignar riesgos distintos a la población actual.</p></section>
+        <section><h4>Ejemplo</h4><p>La media de p̂ pasa de 0,18 a 0,31 y aumenta PSI del score.</p></section>
+        <section><h4>Conexiones</h4><p>Data drift · PSI · prior drift.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Concluir que existe concept drift solo porque cambió la distribución del score.</p></section>
+      </div>
+    </details>
+
+    <details class="term-card" data-term="recalibración" data-cat="Calibración" data-index="87">
+      <summary>
+        <div class="summary-left">
+          <span class="term-title">Recalibración</span>
+          <span class="cat-badge">Calibración</span>
+        </div>
+        <span class="chev">＋</span>
+      </summary>
+      <div class="term-body">
+        <section><h4>Definición desarrollada</h4><p>Ajuste posterior de las probabilidades de un modelo sin necesariamente reestimar todos sus coeficientes predictivos. Puede corregir intercepto, pendiente o aplicar técnicas como temperature scaling.</p></section>
+        <section class="formula-box"><h4>Fórmula / relación clave</h4><div>logit(p_cal)=α+γ·logit(p_original)</div></section>
+        <section><h4>Intuición</h4><p>Conserva parte o todo el ranking, pero corrige el significado probabilístico.</p></section>
+        <section><h4>Ejemplo</h4><p>Un modelo mantiene AUC 0,84 pero sobreestima riesgo; recalibrar puede reducir Brier y ECE.</p></section>
+        <section><h4>Conexiones</h4><p>Calibration slope · intercept · temperatura.</p></section>
+        <section class="warning-box"><h4>Error frecuente</h4><p>Recalibrar cuando el verdadero problema es concept drift severo y pérdida de discriminación.</p></section>
+      </div>
+    </details>
+</section>
+<div id="empty" class="card empty">No se encontraron conceptos con ese filtro.</div>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+  const terms = [{"term": "Accuracy (exactitud)", "cat": "Métricas", "definition": "Proporción de observaciones clasificadas correctamente sobre el total. Resume en un único número los verdaderos positivos y verdaderos negativos, pero no distingue qué tipo de error está cometiendo el modelo.", "formula": "Accuracy = (TP + TN) / (TP + TN + FP + FN)", "intuition": "Responde: «¿qué porcentaje de decisiones fueron correctas?». Es útil cuando las clases tienen frecuencias similares y los costos de FP y FN no son muy diferentes.", "example": "Si sobre 1.000 casos hay 420 TP y 480 TN, la accuracy es (420+480)/1000 = 90%. Sin embargo, con 990 negativos y solo 10 positivos, un modelo que siempre predice 0 tendría 99% de accuracy y sería inútil para detectar la clase positiva.", "connections": "Matriz de confusión · desbalance de clases · threshold · precision · recall · F1.", "pitfall": "Usarla como única métrica en eventos raros. Una accuracy alta puede ocultar recall igual a cero."}, {"term": "AUC (Area Under the ROC Curve)", "cat": "Métricas", "definition": "Área bajo la curva ROC. Mide la capacidad de discriminación del modelo a través de todos los thresholds posibles. Puede interpretarse como la probabilidad de que un positivo elegido al azar reciba un score mayor que un negativo elegido al azar.", "formula": "0.5 ≈ azar; 1.0 = ranking perfecto", "intuition": "AUC no pregunta si las probabilidades son correctas en valor absoluto; pregunta si el modelo ordena bien los casos de menor a mayor riesgo.", "example": "Dos modelos pueden tener AUC 0,85 aunque uno prediga 0,20 y 0,40 y otro 0,60 y 0,95 para los mismos casos, siempre que conserven el mismo ranking.", "connections": "ROC · TPR · FPR · discriminación · calibración.", "pitfall": "Confundir AUC alto con probabilidades bien calibradas o con un threshold óptimo."}, {"term": "Bernoulli", "cat": "Fundamentos", "definition": "Distribución probabilística para una variable aleatoria binaria Y∈{0,1}. En regresión logística se asume que, condicionalmente a X, cada observación sigue una Bernoulli con probabilidad pᵢ de tomar el valor 1.", "formula": "P(Y=y)=p^y(1-p)^(1-y)", "intuition": "Cada observación aporta una probabilidad p si ocurre el evento y 1−p si no ocurre.", "example": "Si el modelo asigna p=0,80 a un cliente y finalmente Y=1, la contribución de ese caso a la likelihood es 0,80. Si Y=0, sería 0,20.", "connections": "Likelihood · máxima verosimilitud · log-loss.", "pitfall": "Pensar que Bernoulli implica que todas las observaciones tienen la misma p. En regresión logística, cada caso puede tener una p diferente según X."}, {"term": "Brier Score", "cat": "Calibración", "definition": "Error cuadrático medio de las probabilidades predichas frente a los resultados binarios observados. Evalúa simultáneamente la cercanía de las probabilidades a los resultados y, por tanto, la calidad probabilística global.", "formula": "Brier = (1/n) Σ (pᵢ − yᵢ)²", "intuition": "Penaliza que una probabilidad esté lejos de lo que finalmente ocurrió. Cuanto menor, mejor.", "example": "Para y=1: una predicción p=0,90 aporta (0,90−1)²=0,01; una p=0,20 aporta 0,64.", "connections": "Calibración · log-loss · discriminación · calibration plot.", "pitfall": "Comparar Brier Scores entre poblaciones con prevalencias muy distintas sin contexto."}, {"term": "Calibración", "cat": "Calibración", "definition": "Propiedad según la cual las probabilidades predichas representan frecuencias observadas. Un modelo está bien calibrado si, aproximadamente, entre los casos con p̂=0,30 el evento ocurre 30% de las veces.", "formula": "Ideal: E[Y | p̂≈p] ≈ p", "intuition": "La discriminación dice quién tiene más riesgo; la calibración dice si 30% realmente significa cerca de 30%.", "example": "Un modelo puede ordenar perfectamente clientes de menor a mayor riesgo, pero asignar 0,90 donde el evento ocurre solo 0,55. Discrimina bien y calibra mal.", "connections": "Calibration plot · Brier · ECE · AUC · temperatura.", "pitfall": "Suponer que un AUC alto garantiza buena calibración."}, {"term": "Calibration plot (reliability diagram)", "cat": "Calibración", "definition": "Gráfico que compara, por grupos de probabilidad, la probabilidad media predicha con la frecuencia observada del evento. La diagonal de 45° representa calibración perfecta.", "formula": "Eje X: p̂ media del bin · Eje Y: frecuencia observada", "intuition": "Si los puntos están por encima de la diagonal, el modelo subestima el riesgo; si están por debajo, lo sobreestima.", "example": "En un bin con p̂ media 0,40 y frecuencia real 0,55, el modelo está subestimando el evento en ese rango.", "connections": "Calibración · ECE · Brier · overconfidence.", "pitfall": "Interpretar bins con muy pocas observaciones como evidencia fuerte. El tamaño de cada grupo importa."}, {"term": "Categoría de referencia", "cat": "Interpretación", "definition": "Nivel de una variable categórica que no recibe dummy propia y funciona como base de comparación. Los coeficientes de las demás categorías expresan diferencias en log-odds respecto de esa referencia, manteniendo constantes las demás variables.", "formula": "Ej.: z=β₀+β₁D_Autónomo+β₂D_Monotributista", "intuition": "Si “Empleado” es referencia, β₁ indica cuánto cambia el logit de “Autónomo” respecto de “Empleado”.", "example": "β_Autónomo=0,50 implica OR=e^0,50≈1,65 frente a la categoría Empleado.", "connections": "Dummy · odds ratio · coeficiente β.", "pitfall": "Interpretar el coeficiente de una dummy sin mencionar cuál es la categoría de referencia."}, {"term": "Clasificación binaria", "cat": "Fundamentos", "definition": "Problema predictivo en el que la variable objetivo tiene dos resultados posibles, habitualmente codificados como 0 y 1. La regresión logística modela la probabilidad condicional de pertenecer a la clase 1.", "formula": "Y∈{0,1}; p(X)=P(Y=1|X)", "intuition": "Primero se estima una probabilidad; luego una regla de decisión puede convertirla en una clase.", "example": "Default/no default, fraude/no fraude, churn/no churn, compra/no compra.", "connections": "Regresión logística · probabilidad predicha · threshold.", "pitfall": "Confundir la probabilidad estimada con la clase final. La clase depende del threshold."}, {"term": "Coeficiente β", "cat": "Interpretación", "definition": "Parámetro que mide el cambio en el log-odds asociado a un aumento unitario del predictor correspondiente, manteniendo las demás variables constantes. Su efecto sobre la probabilidad no es constante porque la sigmoide es no lineal.", "formula": "Δlogit(p)=βⱼ·Δxⱼ", "intuition": "β trabaja en escala logit, no directamente en puntos porcentuales de probabilidad.", "example": "β=0,70 significa que una unidad adicional multiplica las odds por e^0,70≈2,01, pero no duplica necesariamente la probabilidad.", "connections": "Logit · odds ratio · efecto marginal.", "pitfall": "Decir “β=0,7 aumenta la probabilidad en 70%”. Esa interpretación es incorrecta."}, {"term": "Concept drift", "cat": "Monitoreo", "definition": "Cambio en la relación condicional P(Y|X). Significa que la asociación entre predictores y resultado que el modelo aprendió deja de ser estable, aunque las variables de entrada puedan tener distribuciones similares.", "formula": "P_t(Y|X) ≠ P_0(Y|X)", "intuition": "El mundo cambió de manera que los mismos X ya no implican el mismo riesgo.", "example": "Un patrón de comportamiento que antes anticipaba default deja de hacerlo después de un cambio regulatorio o macroeconómico.", "connections": "Data drift · prior drift · performance drift · monitoreo.", "pitfall": "Intentar detectarlo solo con PSI de las variables. Puede haber concept drift sin cambios grandes en P(X)."}, {"term": "Cross-Entropy / Log-Loss", "cat": "Entrenamiento", "definition": "Función de pérdida probabilística usada en clasificación logística. Penaliza las predicciones según la probabilidad asignada a la clase realmente observada y castiga con mucha fuerza los errores confiados.", "formula": "−[y ln(p)+(1−y)ln(1−p)]", "intuition": "No solo importa acertar la clase; importa cuán razonable era la probabilidad.", "example": "Con y=1, p=0,90 produce pérdida ≈0,105; p=0,51 produce ≈0,673; p=0,01 produce ≈4,605.", "connections": "Máxima verosimilitud · log-likelihood · calibración.", "pitfall": "Confundir log-loss con tasa de error 0/1. Dos casos clasificados igual pueden tener pérdidas muy distintas."}, {"term": "Cross-Validation", "cat": "Validación", "definition": "Familia de procedimientos que reutilizan distintas particiones del conjunto de desarrollo para entrenar y validar repetidamente. Su objetivo es estimar desempeño y estabilidad con menor dependencia de una única división aleatoria.", "formula": "Promedio CV = (1/K) Σ métrica_k", "intuition": "En vez de preguntar “¿qué pasó en este único validation set?”, pregunta “¿qué ocurre en varias particiones razonables?”.", "example": "En 5-fold CV cada observación funciona una vez como validation y cuatro veces dentro del entrenamiento.", "connections": "K-fold · train/validation/test · tuning.", "pitfall": "Incluir el test final dentro de la cross-validation y luego reportarlo como evaluación independiente."}, {"term": "Data drift", "cat": "Monitoreo", "definition": "Cambio en la distribución de los predictores o del score entre la población actual y una población de referencia. Se refiere a P(X), no necesariamente al vínculo entre X e Y.", "formula": "P_t(X) ≠ P_0(X)", "intuition": "Los casos que llegan al modelo ya no “se parecen” a los que vio durante desarrollo.", "example": "La proporción de clientes de altos ingresos aumenta, o la distribución de deuda/ingreso se desplaza.", "connections": "PSI · concept drift · monitoreo.", "pitfall": "Concluir automáticamente que hay pérdida de performance. Puede existir data drift y AUC estable."}, {"term": "Decision boundary (frontera de decisión)", "cat": "Decisión", "definition": "Conjunto de puntos del espacio de predictores para los cuales la probabilidad estimada coincide exactamente con el threshold. En dos variables y un modelo lineal en el logit, la frontera es una línea.", "formula": "β₀+β₁x₁+β₂x₂ = logit(c)", "intuition": "Separa regiones del espacio que la política clasifica como 0 o 1.", "example": "Con c=0,5, logit(c)=0 y la frontera satisface z=0.", "connections": "Threshold · score lineal · sigmoide.", "pitfall": "Creer que cambiar el threshold reentrena el modelo. Solo desplaza la frontera operativa."}, {"term": "Discriminación", "cat": "Métricas", "definition": "Capacidad de un modelo para asignar scores mayores a los casos que finalmente presentan el evento que a los que no lo presentan. Es una propiedad de ranking, no de exactitud probabilística.", "formula": "Frecuentemente resumida por ROC-AUC", "intuition": "Pregunta “¿quién tiene más riesgo?” y no “¿cuánto riesgo exactamente?”.", "example": "Un modelo puede identificar correctamente el orden de riesgo pero asignar probabilidades demasiado altas.", "connections": "AUC · ROC · calibración.", "pitfall": "Usar discriminación como sinónimo de calibración."}, {"term": "Dummy variable", "cat": "Interpretación", "definition": "Variable indicadora, usualmente 0/1, utilizada para representar niveles de una variable categórica dentro de un modelo numérico. Para K categorías se usan típicamente K−1 dummies más una categoría de referencia.", "formula": "D=1 si pertenece a la categoría; D=0 en caso contrario", "intuition": "Permite desplazar el logit para grupos diferentes.", "example": "D_Autónomo=1 para autónomos y 0 para el resto, tomando Empleado como referencia.", "connections": "Categoría de referencia · interacción · odds ratio.", "pitfall": "Incluir K dummies y un intercepto para K categorías, generando multicolinealidad perfecta."}, {"term": "ECE (Expected Calibration Error)", "cat": "Calibración", "definition": "Resumen de la discrepancia entre probabilidades predichas y frecuencias observadas, usualmente agrupando casos en bins. Pondera la diferencia absoluta de cada bin por su tamaño.", "formula": "ECE = Σ_b (n_b/n) |acc_b − conf_b|", "intuition": "Cuanto más cerca de cero, más alineadas están predicciones y frecuencias observadas.", "example": "Si un grupo representa 20% de los casos, predice 0,70 y observa 0,60, aporta 0,20×0,10=0,02 al ECE.", "connections": "Calibration plot · Brier · temperatura.", "pitfall": "Tomarlo como una medida completamente independiente de la elección de bins."}, {"term": "Efecto marginal", "cat": "Interpretación", "definition": "Cambio local de la probabilidad predicha ante una variación infinitesimal de un predictor continuo. En la regresión logística simple muestra explícitamente que el efecto sobre p depende tanto de β como del nivel inicial de p.", "formula": "∂p/∂xⱼ = βⱼ p(1−p)", "intuition": "La misma β puede tener impacto fuerte cerca de p=0,5 y mucho menor cerca de p=0 o p=1.", "example": "Con β=1 y p=0,5, el efecto marginal es 0,25; con p=0,1 es 0,09.", "connections": "Coeficiente β · sigmoide · AME.", "pitfall": "Tratar el efecto marginal como constante para todos los individuos."}, {"term": "Efecto marginal promedio (AME)", "cat": "Interpretación", "definition": "Promedio de los efectos marginales individuales calculados para cada observación. Resume el impacto típico de un predictor sobre la probabilidad en la muestra, preservando la no linealidad del modelo.", "formula": "AME_j = (1/n) Σ β_j p_i(1−p_i)", "intuition": "En lugar de evaluar el efecto en un caso artificial “promedio”, promedia los efectos sobre los casos reales.", "example": "Si los individuos tienen riesgos muy distintos, los efectos marginales también difieren; AME resume esa distribución.", "connections": "Efecto marginal · probabilidad predicha.", "pitfall": "Interpretarlo como efecto causal si el diseño del estudio no identifica causalidad."}, {"term": "Entropía", "cat": "Multiclase", "definition": "Medida de incertidumbre de una distribución de probabilidades. En clasificación multiclase aumenta cuando las probabilidades están repartidas entre varias clases y disminuye cuando una clase concentra casi toda la masa.", "formula": "H(p)=−Σ_j p_j ln(p_j)", "intuition": "Una predicción 0,98/0,01/0,01 tiene poca incertidumbre; 0,34/0,33/0,33 tiene mucha.", "example": "Softmax puede mantener la misma clase ganadora y, al subir la temperatura, aumentar la entropía.", "connections": "Softmax · temperatura · confianza.", "pitfall": "Confundir alta entropía con error seguro. Indica incertidumbre, no necesariamente clasificación incorrecta."}, {"term": "Error de clasificación", "cat": "Métricas", "definition": "Indicador 0/1 de si una clase predicha coincide o no con la clase real. Depende del threshold y pierde información sobre la confianza probabilística.", "formula": "I(ŷ ≠ y)", "intuition": "Dos predicciones p=0,51 y p=0,99 pueden ser ambas correctas con c=0,5, aunque su confianza sea muy distinta.", "example": "Por eso el error 0/1 y log-loss responden preguntas diferentes.", "connections": "Threshold · accuracy · log-loss.", "pitfall": "Optimizar solo error de clasificación cuando las probabilidades se usan para decisiones posteriores."}, {"term": "False Negative (FN)", "cat": "Métricas", "definition": "Caso realmente positivo que el modelo clasifica como negativo. Es un evento que el sistema no detecta.", "formula": "Real=1, Predicho=0", "intuition": "Representa una omisión.", "example": "En credit scoring: un cliente que finalmente entra en default pero fue aprobado como bajo riesgo.", "connections": "Recall · matriz de confusión · costo FN.", "pitfall": "Asumir que FN y FP tienen el mismo costo económico o social."}, {"term": "False Positive (FP)", "cat": "Métricas", "definition": "Caso realmente negativo que el modelo clasifica como positivo. Es una falsa alarma.", "formula": "Real=0, Predicho=1", "intuition": "El sistema marca un evento que no ocurrió.", "example": "En credit scoring: rechazar como alto riesgo a un cliente que hubiera pagado correctamente.", "connections": "Precision · specificity · costo FP.", "pitfall": "Evaluarlo sin considerar la prevalencia: con muchísimos negativos, una FPR pequeña puede generar muchos FP."}, {"term": "F1 Score", "cat": "Métricas", "definition": "Media armónica entre precision y recall. Premia modelos que mantienen ambas métricas razonablemente altas y cae fuertemente si una de ellas es baja.", "formula": "F1 = 2·Precision·Recall / (Precision+Recall)", "intuition": "Es útil cuando interesa equilibrar detección de positivos y calidad de las alertas.", "example": "Precision=0,80 y Recall=0,50 producen F1≈0,615.", "connections": "Precision · recall · threshold · desbalance.", "pitfall": "Usarlo automáticamente sin justificar por qué precision y recall deberían tener el mismo peso."}, {"term": "FPR (False Positive Rate)", "cat": "ROC / PR", "definition": "Proporción de negativos reales que son clasificados erróneamente como positivos. Es el eje horizontal de la curva ROC.", "formula": "FPR = FP / (FP + TN) = 1 − Specificity", "intuition": "Mide la tasa de falsas alarmas dentro de la población negativa.", "example": "FPR=0,05 significa que 5% de los negativos reales son marcados positivos.", "connections": "ROC · specificity · threshold.", "pitfall": "Confundir FPR con 1−precision. Son denominadores distintos."}, {"term": "Intercepto β₀", "cat": "Interpretación", "definition": "Score o log-odds cuando todos los predictores numéricos valen cero y las variables categóricas están en su referencia. Su interpretación sustantiva depende de si ese punto cero es plausible.", "formula": "logit(p₀)=β₀", "intuition": "Fija el nivel base sobre el que actúan los demás coeficientes.", "example": "Si β₀=−2, el riesgo base es σ(−2)≈0,119.", "connections": "Score lineal · logit · centramiento.", "pitfall": "Dar una interpretación económica fuerte al intercepto cuando X=0 carece de sentido."}, {"term": "Interacción", "cat": "Interpretación", "definition": "Término que permite que el efecto de un predictor dependa del nivel de otro. Rompe la idea de un único efecto β₁ aplicable a todos los valores de X₂.", "formula": "z=…+β₁X₁+β₂X₂+β₃X₁X₂", "intuition": "El efecto de X₁ sobre el logit pasa a ser β₁+β₃X₂.", "example": "El impacto del ingreso sobre default puede depender del nivel de deuda/ingreso.", "connections": "Efectos marginales · especificación · no linealidad.", "pitfall": "Interpretar β₁ aislado como “efecto total de X₁” cuando existe interacción."}, {"term": "K-Fold Cross-Validation", "cat": "Validación", "definition": "Procedimiento que divide el conjunto de desarrollo en K bloques. En cada iteración se entrena con K−1 folds y se valida con el restante; cada fold es validation exactamente una vez.", "formula": "K entrenamientos → K métricas → media ± dispersión", "intuition": "Reduce la dependencia de una sola partición y permite observar estabilidad.", "example": "Con K=5 se realizan cinco entrenamientos diferentes.", "connections": "Cross-validation · test final · tuning.", "pitfall": "Realizar preprocesamientos usando todo el dataset antes de crear los folds; eso puede generar leakage."}, {"term": "Leakage (fuga de información)", "cat": "Validación", "definition": "Uso, directo o indirecto, de información que no estaría disponible al momento real de predecir o que pertenece al conjunto de validación/test durante el entrenamiento.", "formula": "No es una fórmula; es una violación del diseño experimental", "intuition": "El modelo “ve el futuro” o información reservada y parece mejor de lo que realmente será.", "example": "Estandarizar usando media y desvío calculados con train+test antes de evaluar.", "connections": "Train/validation/test · cross-validation · pipeline.", "pitfall": "Creer que leakage solo ocurre si se incluye explícitamente la variable objetivo."}, {"term": "Likelihood (verosimilitud)", "cat": "Entrenamiento", "definition": "Función que mide cuán compatibles son los parámetros del modelo con los resultados observados. En regresión logística combina las probabilidades asignadas por el modelo a cada resultado real.", "formula": "L(β)=∏ p_i^{y_i}(1−p_i)^{1−y_i}", "intuition": "Un buen conjunto de coeficientes hace alta la probabilidad conjunta de lo que efectivamente se observó.", "example": "Si un caso positivo recibe p=0,9 y otro negativo p=0,8, sus contribuciones son 0,9 y 0,2 respectivamente.", "connections": "Máxima verosimilitud · log-likelihood · log-loss.", "pitfall": "Interpretarla como la probabilidad de que β sea verdadero. No lo es."}, {"term": "Log-Likelihood", "cat": "Entrenamiento", "definition": "Logaritmo de la likelihood. Convierte el producto de contribuciones individuales en una suma, facilitando cálculo, optimización y estabilidad numérica.", "formula": "ℓ(β)=Σ[y_i ln p_i +(1−y_i)ln(1−p_i)]", "intuition": "Maximizar log-likelihood equivale a maximizar likelihood porque el logaritmo es monotónico.", "example": "Productos de muchas probabilidades pueden ser extremadamente pequeños; trabajar con sumas de logaritmos evita underflow numérico.", "connections": "Likelihood · log-loss · MLE.", "pitfall": "Olvidar el signo: log-loss es el negativo de la log-likelihood promedio."}, {"term": "Logit", "cat": "Fundamentos", "definition": "Transformación que lleva una probabilidad entre 0 y 1 a toda la recta real. En regresión logística, el logit de la probabilidad se modela como combinación lineal de los predictores.", "formula": "logit(p)=ln[p/(1−p)] = z", "intuition": "Permite relacionar linealmente X con una magnitud sin límites, mientras p permanece entre 0 y 1.", "example": "p=0,5 → logit=0; p=0,8 → logit≈1,386; p=0,2 → logit≈−1,386.", "connections": "Odds · score lineal · sigmoide.", "pitfall": "Confundir logit con log(p)."}, {"term": "Log-transformación", "cat": "Especificación", "definition": "Transformación de un predictor positivo mediante log(X), útil cuando cambios relativos son más relevantes que cambios absolutos o cuando la relación con el logit muestra rendimientos decrecientes.", "formula": "z=…+β log(X)", "intuition": "Pasar de 1 a 2 tiene mayor impacto transformado que pasar de 100 a 101.", "example": "Ingresos, tamaño de empresa o montos monetarios suelen evaluarse también en escala logarítmica.", "connections": "No linealidad · especificación · efecto marginal.", "pitfall": "Aplicar log a valores cero o negativos sin tratamiento adecuado."}, {"term": "Máxima Verosimilitud (MLE)", "cat": "Entrenamiento", "definition": "Criterio de estimación que elige los coeficientes β que maximizan la likelihood de los resultados observados. En regresión logística estándar es el fundamento del ajuste.", "formula": "β̂ = arg max_β L(β) = arg min_β [−ℓ(β)]", "intuition": "Busca parámetros que hagan tan plausibles como sea posible los 0 y 1 efectivamente observados.", "example": "Los optimizadores numéricos ajustan β iterativamente hasta reducir el gradiente de la pérdida.", "connections": "Likelihood · log-likelihood · log-loss.", "pitfall": "Pensar que máxima verosimilitud garantiza generalización fuera de muestra."}, {"term": "Matriz de confusión", "cat": "Métricas", "definition": "Tabla 2×2 que cruza clase real y clase predicha. Organiza los resultados en TP, TN, FP y FN y es la base de muchas métricas de clasificación.", "formula": "Filas/columnas según convención; siempre verificar qué eje es real y cuál predicho", "intuition": "Muestra qué tipo de aciertos y errores produce el threshold actual.", "example": "Al bajar c suelen aumentar TP y FP, mientras disminuyen FN y TN.", "connections": "Accuracy · precision · recall · specificity · F1.", "pitfall": "Comparar matrices de confusión obtenidas con distintos tamaños de muestra sin normalizar o contextualizar."}, {"term": "Multicolinealidad", "cat": "Entrenamiento", "definition": "Situación en la que dos o más predictores están altamente relacionados entre sí. Puede inflar la varianza de los coeficientes y volver inestable su interpretación, aunque el desempeño predictivo no siempre se deteriore de la misma forma.", "formula": "No hay una única medida; puede evaluarse con correlaciones, VIF y estructura del diseño", "intuition": "El modelo tiene dificultad para decidir qué predictor recibe qué parte del efecto.", "example": "Ingresos mensuales e ingresos anuales casi duplicados en la misma especificación.", "connections": "Regularización L2 · inferencia · estabilidad.", "pitfall": "Eliminar automáticamente variables correlacionadas sin considerar objetivo predictivo, teoría y regularización."}, {"term": "Multinomial Logistic Regression", "cat": "Multiclase", "definition": "Extensión de la regresión logística a una variable objetivo con más de dos clases mutuamente excluyentes. Modela un score por clase y convierte esos scores en probabilidades mediante softmax.", "formula": "P(Y=j|X)=exp(z_j)/Σ_m exp(z_m)", "intuition": "Cada clase compite con las demás por la probabilidad total.", "example": "Clasificar una solicitud en riesgo bajo, medio o alto.", "connections": "Softmax · entropía · temperatura.", "pitfall": "Tratar las probabilidades de cada clase como modelos binarios independientes si se necesita una distribución que sume 1."}, {"term": "No linealidad en los predictores", "cat": "Especificación", "definition": "Situación en la que el logit no cambia linealmente con un predictor. Puede modelarse incorporando transformaciones como X², log(X), splines u otras bases, manteniendo la salida logística.", "formula": "z=β₀+β₁X+β₂X²+…", "intuition": "La regresión logística es lineal en los parámetros, pero no obliga a usar solo X sin transformar.", "example": "El riesgo puede disminuir con experiencia hasta cierto punto y luego estabilizarse.", "connections": "Término cuadrático · log-transformación · interacción.", "pitfall": "Suponer que la sigmoide por sí sola resuelve cualquier no linealidad entre X y el logit."}, {"term": "Odds", "cat": "Fundamentos", "definition": "Cociente entre la probabilidad de que ocurra el evento y la probabilidad de que no ocurra. Toma valores entre 0 e infinito.", "formula": "Odds = p/(1−p)", "intuition": "Odds=3 significa tres posibilidades relativas de evento por cada una de no evento.", "example": "p=0,75 → odds=0,75/0,25=3. p=0,20 → odds=0,25.", "connections": "Logit · odds ratio · coeficiente β.", "pitfall": "Confundir odds=2 con probabilidad=200% o con p=2/3 sin hacer la conversión."}, {"term": "Odds Ratio (OR)", "cat": "Interpretación", "definition": "Factor multiplicativo sobre las odds asociado a un cambio unitario del predictor. Se obtiene exponenciando el coeficiente logístico.", "formula": "OR=e^β", "intuition": "OR>1 aumenta odds; OR<1 las reduce; OR=1 indica ausencia de cambio en odds.", "example": "β=0,70 → OR≈2,01: una unidad adicional duplica aproximadamente las odds, no la probabilidad.", "connections": "Coeficiente β · odds · categoría de referencia.", "pitfall": "Decir que OR=2 implica “el doble de probabilidad”."}, {"term": "Overconfidence", "cat": "Calibración", "definition": "Situación en la que el modelo produce probabilidades demasiado extremas respecto de las frecuencias observadas. Sus predicciones cercanas a 0 o 1 son más seguras de lo que la evidencia justifica.", "formula": "Calibration slope frecuentemente < 1 cuando existe exceso de extremidad", "intuition": "El modelo “habla con demasiada seguridad”.", "example": "Casos con p̂≈0,90 presentan el evento solo 0,70.", "connections": "Temperatura · calibración · log-loss.", "pitfall": "Confundir sobreconfidence con AUC alto. Son propiedades distintas."}, {"term": "Overfitting", "cat": "Entrenamiento", "definition": "Fenómeno por el cual el modelo captura patrones específicos, ruido o peculiaridades de la muestra de entrenamiento y pierde capacidad de generalizar a datos nuevos.", "formula": "Se observa como brecha train vs validation/test, no por una única fórmula", "intuition": "Memoriza demasiado bien el pasado y generaliza peor.", "example": "Log-loss de train muy baja y log-loss de test claramente mayor.", "connections": "Regularización · cross-validation · tamaño muestral.", "pitfall": "Diagnosticar overfitting solo porque el modelo tiene muchos coeficientes."}, {"term": "p-value", "cat": "Inferencia", "definition": "Probabilidad, bajo una hipótesis nula y un procedimiento estadístico especificado, de observar un estadístico tan extremo o más que el obtenido. En regresión logística se usa frecuentemente para contrastar H₀:β_j=0.", "formula": "Ej. Wald: z=β̂/SE(β̂)", "intuition": "Evalúa compatibilidad de los datos con una hipótesis nula, no la magnitud práctica del efecto.", "example": "Un coeficiente muy pequeño puede tener p<0,05 en una muestra enorme.", "connections": "Wald · intervalo de confianza · significancia práctica.", "pitfall": "Interpretar p=0,03 como “97% de probabilidad de que β sea distinto de cero”."}, {"term": "Performance drift", "cat": "Monitoreo", "definition": "Deterioro de métricas de desempeño del modelo a través del tiempo, como AUC, log-loss, Brier, recall o costo. Puede originarse por data drift, prior drift, concept drift o cambios operativos.", "formula": "Métrica_t comparada con baseline o límites de control", "intuition": "Es el síntoma observable de que el modelo ya no funciona igual que durante validación.", "example": "AUC pasa de 0,82 al desplegar a 0,68 seis meses después.", "connections": "Concept drift · monitoreo · recalibración.", "pitfall": "Esperar a que performance caiga para mirar drift. Algunas señales de distribución aparecen antes."}, {"term": "Population Stability Index (PSI)", "cat": "Monitoreo", "definition": "Medida de cambio entre dos distribuciones discretizadas, muy usada para monitorear variables y scores. Compara proporciones de referencia y actuales por bin.", "formula": "PSI = Σ (q_b−p_b) ln(q_b/p_b)", "intuition": "Cuanto mayor el PSI, mayor la diferencia distribucional.", "example": "Reglas orientativas habituales consideran <0,10 cambio pequeño, 0,10–0,25 cambio moderado y >0,25 cambio importante, aunque los umbrales deben validarse en contexto.", "connections": "Data drift · score drift · monitoreo.", "pitfall": "Tratar los cortes 0,10 y 0,25 como leyes universales."}, {"term": "Precision", "cat": "Métricas", "definition": "Proporción de positivos predichos que son realmente positivos. Evalúa la calidad o pureza de las alertas positivas.", "formula": "Precision = TP/(TP+FP)", "intuition": "Pregunta: “de todo lo que marqué como positivo, ¿cuánto era verdaderamente positivo?”.", "example": "TP=80 y FP=20 → precision=0,80.", "connections": "Recall · PR curve · prevalencia.", "pitfall": "Olvidar que cambia fuertemente con la prevalencia aun si TPR y FPR se mantienen."}, {"term": "Precision–Recall Curve (PR)", "cat": "ROC / PR", "definition": "Curva que representa precision frente a recall al variar el threshold. Resulta especialmente informativa cuando la clase positiva es rara.", "formula": "X=Recall; Y=Precision", "intuition": "Muestra simultáneamente cuánto del evento detectamos y qué tan limpias son las alertas.", "example": "Al bajar el threshold suele subir recall y caer precision.", "connections": "PR-AUC · prevalencia · desbalance.", "pitfall": "Comparar PR-AUC entre datasets con prevalencias muy distintas sin mencionar esa diferencia."}, {"term": "Predicción vs causalidad", "cat": "Interpretación", "definition": "Distinción entre estimar correctamente Y a partir de X y afirmar que modificar X causará un cambio en Y. Un modelo predictivo puede explotar asociaciones útiles sin identificar efectos causales.", "formula": "P(Y|X) predictiva ≠ efecto causal do(X)", "intuition": "Predecir quién tiene alto riesgo no implica saber qué intervención reducirá ese riesgo.", "example": "Una variable puede ser excelente predictor de default porque resume contexto socioeconómico, sin ser una palanca causal manipulable.", "connections": "Efectos marginales · interpretación · diseño causal.", "pitfall": "Presentar coeficientes o efectos marginales de un modelo observacional como causalidad automática."}, {"term": "Prevalencia / Base rate", "cat": "Métricas", "definition": "Proporción de positivos reales en la población. Afecta fuertemente métricas como precision y el baseline de la curva PR.", "formula": "Prevalencia = (TP+FN)/N", "intuition": "Un evento raro genera muchas oportunidades de falsas alarmas porque existen muchos más negativos.", "example": "Con prevalencia 1%, incluso FPR=2% puede producir más FP que TP.", "connections": "Precision · PR curve · prior drift.", "pitfall": "Comparar precision entre contextos con prevalencias distintas como si fueran directamente equivalentes."}, {"term": "Prior drift", "cat": "Monitoreo", "definition": "Cambio en la distribución marginal de la variable objetivo P(Y), es decir, en la prevalencia del evento. Puede ocurrir aunque P(X|Y) o el ranking del modelo cambien poco.", "formula": "P_t(Y) ≠ P_0(Y)", "intuition": "El evento se vuelve más o menos frecuente en la población actual.", "example": "Una recesión puede aumentar la tasa de default general.", "connections": "Prevalencia · calibración · monitoreo.", "pitfall": "Suponer que AUC necesariamente cambia cuando cambia la prevalencia."}, {"term": "Probabilidad predicha", "cat": "Fundamentos", "definition": "Estimación p̂=P(Y=1|X) producida por el modelo. En regresión logística se obtiene aplicando la sigmoide al score lineal.", "formula": "p̂ = σ(Xβ)", "intuition": "Es una cantidad continua entre 0 y 1; contiene más información que una clase binaria.", "example": "p̂=0,72 significa que el modelo asigna 72% de probabilidad al evento bajo su especificación y datos.", "connections": "Sigmoide · calibración · threshold.", "pitfall": "Interpretarla como probabilidad “verdadera” sin validar calibración y estabilidad."}, {"term": "PR-AUC / Average Precision", "cat": "ROC / PR", "definition": "Resumen del rendimiento sobre la curva precision–recall. Es especialmente útil para comparar modelos en tareas con positivos raros, aunque su escala depende de la prevalencia.", "formula": "Área o promedio ponderado de precision a medida que cambia recall", "intuition": "Premia que el modelo mantenga alta precision mientras recupera una gran fracción de positivos.", "example": "Una PR-AUC de 0,40 puede ser excelente si la prevalencia base es 0,01.", "connections": "PR curve · precision · recall · prevalencia.", "pitfall": "Interpretarla con los mismos puntos de referencia absolutos que ROC-AUC."}, {"term": "Recall / Sensitivity / TPR", "cat": "Métricas", "definition": "Proporción de positivos reales que el modelo identifica correctamente. Se denomina también sensibilidad o true positive rate.", "formula": "Recall = TP/(TP+FN)", "intuition": "Pregunta: “de todos los positivos reales, ¿cuántos detecté?”.", "example": "TP=90 y FN=10 → recall=0,90.", "connections": "F1 · ROC · FN · threshold.", "pitfall": "Maximizar recall sin considerar el aumento de FP y los costos asociados."}, {"term": "Regularización", "cat": "Entrenamiento", "definition": "Modificación de la función objetivo que penaliza la complejidad del modelo, típicamente el tamaño de sus coeficientes. Busca reducir varianza y mejorar generalización.", "formula": "Loss_total = LogLoss + λ·Penalty(β)", "intuition": "Acepta algo más de sesgo en train para evitar coeficientes excesivos o inestables.", "example": "Con muchos predictores correlacionados, L2 puede estabilizar los coeficientes.", "connections": "L1 · L2 · overfitting · cross-validation.", "pitfall": "Pensar que mayor λ siempre mejora el modelo. Puede causar underfitting."}, {"term": "Regularización L1 (Lasso)", "cat": "Entrenamiento", "definition": "Penalización basada en la suma de valores absolutos de los coeficientes. Favorece soluciones dispersas y puede llevar coeficientes exactamente a cero.", "formula": "Penalty_L1 = λ Σ|β_j|", "intuition": "Puede actuar como mecanismo de selección de variables.", "example": "Variables de ruido pueden quedar con β=0 cuando λ aumenta.", "connections": "Regularización · sparsity · selección de variables.", "pitfall": "Suponer que el conjunto de variables seleccionadas será estable ante predictores muy correlacionados."}, {"term": "Regularización L2 (Ridge)", "cat": "Entrenamiento", "definition": "Penalización basada en la suma de cuadrados de los coeficientes. Contrae coeficientes grandes suavemente y suele mejorar estabilidad bajo multicolinealidad.", "formula": "Penalty_L2 = λ Σβ_j²", "intuition": "Distribuye el peso entre predictores correlacionados en lugar de forzar muchos a cero.", "example": "Dos variables similares pueden conservar coeficientes moderados en vez de que una desaparezca.", "connections": "Regularización · multicolinealidad · overfitting.", "pitfall": "Interpretar coeficientes regularizados con los mismos procedimientos inferenciales estándar sin considerar el método de estimación."}, {"term": "ROC Curve", "cat": "ROC / PR", "definition": "Curva que muestra TPR frente a FPR a medida que se recorre todo el rango de thresholds. Describe el trade-off entre detectar positivos y generar falsas alarmas.", "formula": "X=FPR; Y=TPR", "intuition": "Cada punto de la ROC corresponde a una política de threshold distinta.", "example": "Bajar c suele mover el punto hacia arriba y hacia la derecha: más TP pero también más FP.", "connections": "AUC · threshold · TPR · FPR.", "pitfall": "Elegir un threshold solo mirando ROC sin incorporar costos, prevalencia o restricciones operativas."}, {"term": "Score lineal / Linear predictor", "cat": "Fundamentos", "definition": "Combinación lineal de intercepto y predictores antes de aplicar la sigmoide. Puede tomar cualquier valor real y coincide con el logit de la probabilidad en regresión logística.", "formula": "z=β₀+β₁x₁+…+β_kx_k", "intuition": "Es la escala natural en la que los coeficientes se suman.", "example": "z=2 implica p≈0,881; z=−2 implica p≈0,119.", "connections": "Logit · sigmoide · frontera de decisión.", "pitfall": "Tratar z como probabilidad. No está restringido a [0,1]."}, {"term": "Separación completa / cuasi-completa", "cat": "Entrenamiento", "definition": "Problema que aparece cuando una combinación de predictores separa perfectamente o casi perfectamente las clases. En máxima verosimilitud no penalizada algunos coeficientes pueden crecer sin límite.", "formula": "Existe un hiperplano que clasifica perfectamente Y", "intuition": "El optimizador puede intentar hacer probabilidades cada vez más cercanas a 0 y 1 aumentando |β|.", "example": "Una variable que vale siempre >0 para positivos y <0 para negativos.", "connections": "Regularización · convergencia · inferencia.", "pitfall": "Interpretar coeficientes enormes como evidencia sustantiva sin revisar separación."}, {"term": "Sigmoide / Función logística", "cat": "Fundamentos", "definition": "Función que transforma cualquier score real z en una probabilidad entre 0 y 1. Es monotónica y tiene máxima pendiente alrededor de p=0,5.", "formula": "σ(z)=1/(1+e^(−z))", "intuition": "Convierte una escala sin límites en una escala probabilística.", "example": "z=0 → p=0,5; z=2 → p≈0,881; z=−2 → p≈0,119.", "connections": "Score lineal · logit · efecto marginal.", "pitfall": "Pensar que la sigmoide vuelve lineal la relación entre X y p."}, {"term": "Significancia estadística vs relevancia práctica", "cat": "Inferencia", "definition": "La significancia estadística evalúa evidencia contra una hipótesis nula; la relevancia práctica evalúa si la magnitud del efecto importa en el problema real. Son dimensiones distintas.", "formula": "Puede haber p<0,05 con OR≈1,01 en muestras grandes", "intuition": "Un efecto muy preciso puede ser demasiado pequeño para cambiar decisiones.", "example": "Un predictor reduce el riesgo de 20,00% a 19,85%: estadísticamente detectable, pero quizá irrelevante para la política.", "connections": "p-value · intervalo de confianza · odds ratio.", "pitfall": "Usar p<0,05 como criterio automático de importancia."}, {"term": "Softmax", "cat": "Multiclase", "definition": "Función que transforma un conjunto de scores reales en una distribución de probabilidades que suma 1. Es la extensión natural de la normalización logística para clasificación multiclase.", "formula": "p_j = exp(z_j)/Σ_m exp(z_m)", "intuition": "Cada clase compite por una fracción del total de probabilidad.", "example": "Scores 2,1,0 producen aproximadamente 0,665; 0,245; 0,090.", "connections": "Multinomial logistic regression · temperatura · entropía.", "pitfall": "Calcular exp(z) directamente con scores muy grandes sin estabilización numérica; se usa z−max(z)."}, {"term": "Specificity (especificidad)", "cat": "Métricas", "definition": "Proporción de negativos reales correctamente identificados como negativos. Mide la capacidad de evitar falsas alarmas dentro de la clase negativa.", "formula": "Specificity = TN/(TN+FP) = 1−FPR", "intuition": "Pregunta: “de todos los negativos reales, ¿cuántos reconocí correctamente?”.", "example": "TN=950 y FP=50 → specificity=0,95.", "connections": "FPR · ROC · threshold.", "pitfall": "Confundir specificity con precision negativa o con accuracy."}, {"term": "Standard Error (SE)", "cat": "Inferencia", "definition": "Estimación de la incertidumbre muestral de un coeficiente. Resume cuánto variaría β̂ si repitiéramos el procedimiento de muestreo bajo condiciones similares.", "formula": "Wald z = β̂/SE(β̂)", "intuition": "Un coeficiente grande con SE aún mayor puede ser estadísticamente impreciso.", "example": "β̂=0,50 y SE=0,10 implica mucha más precisión que β̂=0,50 y SE=0,60.", "connections": "Wald · intervalo de confianza · p-value.", "pitfall": "Confundir SE del coeficiente con desviación estándar del predictor."}, {"term": "Stratified split", "cat": "Validación", "definition": "Partición de datos que intenta preservar la proporción de clases en train, validation y test. Es especialmente útil con clases poco frecuentes.", "formula": "P(Y=1) aproximadamente constante entre particiones", "intuition": "Evita que un split aleatorio deje muy pocos positivos en alguna partición.", "example": "Con prevalencia 2%, un split estratificado mantiene aproximadamente ese 2% en cada conjunto.", "connections": "Desbalance · train/test · K-fold.", "pitfall": "Creer que estratificar elimina todos los problemas de distribución o dependencia temporal."}, {"term": "Temperatura", "cat": "Calibración", "definition": "Parámetro que divide los logits antes de aplicar sigmoide o softmax. Controla cuán extremas o suaves son las probabilidades sin necesariamente cambiar el ranking.", "formula": "softmax(z/T) o σ(z/T)", "intuition": "T<1 aumenta confianza; T>1 comprime probabilidades hacia una distribución más uniforme.", "example": "En softmax, la clase ganadora puede seguir siendo la misma mientras su probabilidad pasa de 0,90 a 0,60.", "connections": "Softmax · calibración · overconfidence.", "pitfall": "Usarla para corregir ranking deficiente. Temperatura recalibra escala; no crea discriminación."}, {"term": "Término cuadrático", "cat": "Especificación", "definition": "Transformación X² incorporada como predictor adicional para permitir curvatura en la relación entre X y el logit.", "formula": "z=β₀+β₁X+β₂X²", "intuition": "El efecto de X cambia con el nivel de X.", "example": "El riesgo puede ser alto en valores muy bajos y muy altos, y menor en la zona media.", "connections": "No linealidad · efecto marginal · especificación.", "pitfall": "Interpretar β₁ aisladamente sin considerar β₂."}, {"term": "Threshold / Umbral de decisión", "cat": "Decisión", "definition": "Valor c utilizado para convertir una probabilidad en una clase. Si p̂≥c se predice 1; en caso contrario, 0. Es una decisión operativa separada del entrenamiento del modelo.", "formula": "ŷ = I(p̂ ≥ c)", "intuition": "Cambiar c modifica el balance entre FP y FN sin modificar β.", "example": "Bajar c de 0,50 a 0,30 suele aumentar recall y disminuir specificity.", "connections": "Matriz de confusión · ROC · costos.", "pitfall": "Adoptar c=0,5 por costumbre sin justificarlo."}, {"term": "True Negative (TN)", "cat": "Métricas", "definition": "Caso realmente negativo clasificado correctamente como negativo.", "formula": "Real=0, Predicho=0", "intuition": "Es un acierto sobre la clase negativa.", "example": "Cliente buen pagador aprobado como bajo riesgo.", "connections": "Specificity · accuracy · matriz de confusión.", "pitfall": "Olvidar que “negativo” y “positivo” son convenciones del problema y deben definirse."}, {"term": "True Positive (TP)", "cat": "Métricas", "definition": "Caso realmente positivo clasificado correctamente como positivo.", "formula": "Real=1, Predicho=1", "intuition": "Es un evento detectado correctamente.", "example": "Fraude real marcado como fraude.", "connections": "Recall · precision · matriz de confusión.", "pitfall": "Suponer que TP siempre representa algo “bueno”; depende de qué evento se haya codificado como 1."}, {"term": "Train / Validation / Test", "cat": "Validación", "definition": "Separación conceptual de datos para tres funciones diferentes: train ajusta parámetros; validation ayuda a elegir hiperparámetros o especificaciones; test estima el desempeño final sobre datos no utilizados en decisiones de modelado.", "formula": "Train → aprender · Validation → elegir · Test → evaluar", "intuition": "Cuantas más decisiones se toman mirando un conjunto, menos independiente queda ese conjunto.", "example": "80% development con 5-fold CV y 20% test final reservado.", "connections": "Cross-validation · leakage · tuning.", "pitfall": "Reutilizar repetidamente el test hasta elegir el mejor modelo y luego llamarlo “test final”."}, {"term": "Tuning / selección de hiperparámetros", "cat": "Validación", "definition": "Proceso de elegir configuraciones que no se estiman directamente como coeficientes del modelo, por ejemplo λ de regularización, transformaciones o thresholds operativos.", "formula": "Elegir configuración usando validation/CV, no test", "intuition": "También es una forma de aprendizaje y por eso necesita datos separados de la evaluación final.", "example": "Seleccionar λ que minimiza log-loss promedio de cross-validation.", "connections": "K-fold · regularización · leakage.", "pitfall": "Elegir hiperparámetros usando el test y luego reportar esa misma métrica como evaluación imparcial."}, {"term": "Underconfidence", "cat": "Calibración", "definition": "Situación en la que el modelo produce probabilidades demasiado cercanas al centro, generalmente 0,5, en comparación con las frecuencias observadas. El modelo es menos contundente de lo que la evidencia justificaría.", "formula": "Puede asociarse a calibration slope > 1 en ciertas parametrizaciones", "intuition": "El modelo “habla con demasiada cautela”.", "example": "Casos con p̂≈0,65 presentan el evento cerca de 0,85.", "connections": "Temperatura · calibración · softmax.", "pitfall": "Asumir que probabilidades moderadas siempre significan buena calibración."}, {"term": "Underfitting", "cat": "Entrenamiento", "definition": "Situación en la que el modelo es demasiado simple o está excesivamente regularizado y no captura patrones relevantes ni siquiera en entrenamiento.", "formula": "Train y test con pérdidas altas y similares", "intuition": "El modelo tiene demasiado sesgo.", "example": "λ muy alto contrae incluso coeficientes de variables verdaderamente informativas.", "connections": "Regularización · bias-variance · overfitting.", "pitfall": "Confundir underfitting con una mala partición de test aislada."}, {"term": "Wald test", "cat": "Inferencia", "definition": "Contraste frecuente para evaluar hipótesis sobre un coeficiente utilizando la estimación y su error estándar. Bajo condiciones regulares, el estadístico se aproxima a una normal estándar.", "formula": "z = (β̂−β₀)/SE(β̂)", "intuition": "Compara cuánto se aleja el coeficiente estimado de la hipótesis nula en unidades de incertidumbre.", "example": "β̂=0,60, SE=0,15 → z=4,0.", "connections": "p-value · intervalo de confianza · SE.", "pitfall": "Confiar ciegamente en Wald con separación, muestras pequeñas o estimaciones inestables."}, {"term": "Intervalo de confianza", "cat": "Inferencia", "definition": "Rango construido mediante un procedimiento que, bajo supuestos y repetición muestral, cubriría el verdadero parámetro con una frecuencia determinada, típicamente 95%. Para odds ratios suele exponenciarse el intervalo del coeficiente.", "formula": "IC aproximado β: β̂ ± 1,96·SE; IC_OR = exp(IC_β)", "intuition": "Informa magnitud compatible con los datos y precisión, no solo un sí/no de significancia.", "example": "β̂=0,40, SE=0,10 → IC95%≈[0,204;0,596].", "connections": "SE · Wald · odds ratio.", "pitfall": "Decir que “hay 95% de probabilidad de que el parámetro fijo esté dentro” bajo la interpretación frecuentista clásica."}, {"term": "Class imbalance (desbalance de clases)", "cat": "Métricas", "definition": "Situación en la que una clase es mucho más frecuente que la otra. Cambia la utilidad de ciertas métricas y puede exigir estrategias de evaluación, muestreo o ponderación.", "formula": "Ej.: prevalencia positiva = 1%", "intuition": "Un clasificador trivial puede lograr alta accuracy simplemente prediciendo la clase mayoritaria.", "example": "990 negativos y 10 positivos: siempre predecir 0 produce 99% accuracy y 0% recall.", "connections": "PR curve · class weights · prevalence.", "pitfall": "Corregirlo automáticamente con oversampling sin evaluar cómo afecta calibración y validación."}, {"term": "Class weights", "cat": "Entrenamiento", "definition": "Ponderaciones diferentes asignadas a las clases dentro de la función de pérdida. Permiten que errores sobre una clase influyan más en el entrenamiento.", "formula": "Weighted loss = Σ w_{y_i}·loss_i", "intuition": "Hace que el optimizador “preste más atención” a una clase.", "example": "Asignar mayor peso a positivos raros puede mejorar recall.", "connections": "Desbalance · costos · threshold.", "pitfall": "Confundir class weights con una estimación correcta de costos o con calibración."}, {"term": "Cost matrix (matriz de costos)", "cat": "Decisión", "definition": "Representación de los costos o utilidades asociados a TP, TN, FP y FN. Permite pasar de métricas puramente estadísticas a decisiones económicas u operativas.", "formula": "Costo total = C_TP·TP + C_TN·TN + C_FP·FP + C_FN·FN", "intuition": "Dos modelos con la misma accuracy pueden tener costos muy distintos.", "example": "En crédito, un FN puede costar mucho más que un FP si aprobar un default es muy caro.", "connections": "Threshold · expected loss · policy.", "pitfall": "Usar costos arbitrarios sin validar su significado económico real."}, {"term": "Expected loss / costo esperado", "cat": "Decisión", "definition": "Costo promedio esperado de una acción, ponderando resultados posibles por sus probabilidades. Es una forma de convertir una predicción probabilística en una decisión racional bajo costos conocidos.", "formula": "EL(a)=Σ_y P(y|x)·C(a,y)", "intuition": "No alcanza con saber qué clase es más probable; importa qué cuesta equivocarse.", "example": "Puede ser óptimo rechazar con p(default)=0,20 si el costo de un default es extremadamente alto.", "connections": "Cost matrix · threshold · decision policy.", "pitfall": "Optimizar costo esperado ignorando restricciones legales, fairness o capacidad operativa."}, {"term": "Decision policy", "cat": "Decisión", "definition": "Conjunto de reglas que transforman predicciones en acciones. Puede incluir thresholds, zonas de revisión, límites regulatorios, costos, capacidad operativa y excepciones humanas.", "formula": "Modelo → p̂; Política → acción", "intuition": "El modelo estima; la organización decide.", "example": "p<0,15 aprobar; 0,15≤p<0,30 revisar; p≥0,30 rechazo.", "connections": "Threshold · costos · gobernanza.", "pitfall": "Atribuir al modelo decisiones que en realidad pertenecen a una política de negocio."}, {"term": "Calibration intercept", "cat": "Calibración", "definition": "Parámetro de recalibración que detecta desplazamiento sistemático del riesgo promedio. Un intercepto distinto de cero sugiere subestimación o sobreestimación global.", "formula": "logit(Y) ≈ α + 1·logit(p̂)", "intuition": "Corrige que todas las probabilidades estén desplazadas hacia arriba o abajo.", "example": "Si el evento se vuelve más frecuente, puede ser necesario aumentar el intercepto manteniendo el ranking.", "connections": "Prior drift · calibración · recalibración.", "pitfall": "Usarlo como solución completa cuando también cambió la pendiente o la discriminación."}, {"term": "Calibration slope", "cat": "Calibración", "definition": "Pendiente obtenida al relacionar resultados observados con el logit de las predicciones. Evalúa si las probabilidades son demasiado extremas o demasiado comprimidas.", "formula": "logit(Y) ≈ α + γ·logit(p̂)", "intuition": "γ≈1 es ideal; γ<1 suele sugerir predicciones demasiado extremas.", "example": "Un modelo sobreajustado puede mostrar slope 0,7 al validarse externamente.", "connections": "Overconfidence · recalibración · Brier.", "pitfall": "Interpretar slope sin revisar también el intercepto y la discriminación."}, {"term": "Model monitoring", "cat": "Monitoreo", "definition": "Proceso continuo de seguimiento de un modelo una vez desplegado. Debe abarcar inputs, scores, prevalencia, métricas de performance, calibración, decisiones y estabilidad operacional.", "formula": "No existe una única métrica: requiere un conjunto de indicadores", "intuition": "Validar una vez no garantiza que el modelo siga siendo válido meses después.", "example": "Panel mensual con PSI, AUC, Brier, ECE, event rate y tasa de decisiones.", "connections": "Data drift · performance drift · concept drift.", "pitfall": "Monitorear solo accuracy o solo PSI."}, {"term": "External validation", "cat": "Validación", "definition": "Evaluación del modelo en una población, institución, periodo o entorno distinto del usado para desarrollo. Mide transportabilidad y robustez más allá de la muestra original.", "formula": "Desarrollo en población A → evaluación en población B", "intuition": "Pregunta si el modelo funciona cuando cambia el contexto.", "example": "Modelo entrenado con clientes de 2024 y validado en otra región o entidad.", "connections": "Temporal validation · drift · calibración.", "pitfall": "Llamar “externa” a una partición aleatoria del mismo dataset."}, {"term": "Temporal validation", "cat": "Validación", "definition": "Validación que respeta el orden temporal: el modelo se entrena con datos del pasado y se evalúa en un periodo posterior. Es crucial cuando se espera evolución de población o comportamiento.", "formula": "Train: t≤T · Test: t>T", "intuition": "Simula mejor el uso real futuro que un split aleatorio cuando existe dependencia temporal.", "example": "Entrenar con 2023–2025 y evaluar en 2026.", "connections": "Drift · model monitoring · leakage.", "pitfall": "Mezclar observaciones futuras en train mediante una partición aleatoria."}, {"term": "Score drift", "cat": "Monitoreo", "definition": "Cambio en la distribución de scores o probabilidades predichas a lo largo del tiempo. Puede surgir por cambios en X aun si los coeficientes permanecen congelados.", "formula": "Distribución p̂_t comparada con p̂_0", "intuition": "El modelo empieza a asignar riesgos distintos a la población actual.", "example": "La media de p̂ pasa de 0,18 a 0,31 y aumenta PSI del score.", "connections": "Data drift · PSI · prior drift.", "pitfall": "Concluir que existe concept drift solo porque cambió la distribución del score."}, {"term": "Recalibración", "cat": "Calibración", "definition": "Ajuste posterior de las probabilidades de un modelo sin necesariamente reestimar todos sus coeficientes predictivos. Puede corregir intercepto, pendiente o aplicar técnicas como temperature scaling.", "formula": "logit(p_cal)=α+γ·logit(p_original)", "intuition": "Conserva parte o todo el ranking, pero corrige el significado probabilístico.", "example": "Un modelo mantiene AUC 0,84 pero sobreestima riesgo; recalibrar puede reducir Brier y ECE.", "connections": "Calibration slope · intercept · temperatura.", "pitfall": "Recalibrar cuando el verdadero problema es concept drift severo y pérdida de discriminación."}];
+  const cards = [...document.querySelectorAll('.term-card')];
+  const search = document.getElementById('searchInput');
+  const counter = document.getElementById('counter');
+  const empty = document.getElementById('empty');
+  let currentCat='all', currentLetter='all';
+
+  function normalize(s) {
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  }
+
+  function applyFilters() {
+    const q=normalize(search.value.trim());
+    let visible=0;
+    cards.forEach(card => {
+      const idx=+card.dataset.index;
+      const t=terms[idx];
+      const hay=normalize([t.term,t.cat,t.definition,t.formula,t.intuition,t.example,t.connections,t.pitfall].join(' '));
+      const okQ=!q || hay.includes(q);
+      const okC=currentCat==='all' || t.cat===currentCat;
+      const okL=currentLetter==='all' || normalize(t.term).startsWith(normalize(currentLetter));
+      const show=okQ&&okC&&okL;
+      card.style.display=show?'':'none';
+      if(show) visible++;
+    });
+    counter.textContent=`${visible} / ${cards.length}`;
+    empty.style.display=visible?'none':'block';
+  }
+
+  search.addEventListener('input',applyFilters);
+
+  document.querySelectorAll('.chip').forEach(btn=>btn.addEventListener('click',()=>{
+    currentCat=btn.dataset.filter;
+    document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b===btn));
+    applyFilters();
+  }));
+  document.querySelectorAll('.az').forEach(btn=>btn.addEventListener('click',()=>{
+    currentLetter=btn.dataset.letter;
+    document.querySelectorAll('.az').forEach(b=>b.classList.toggle('active',b===btn));
+    applyFilters();
+  }));
+
+  document.getElementById('expandBtn').addEventListener('click',()=>cards.filter(c=>c.style.display!=='none').forEach(c=>c.open=true));
+  document.getElementById('collapseBtn').addEventListener('click',()=>cards.forEach(c=>c.open=false));
+
+  document.getElementById('themeBtn').addEventListener('click',()=>{
+    const body=document.body;
+    const next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+    body.setAttribute('data-theme',next);
+    document.getElementById('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro';
+  });
+
+  const studyPanel=document.getElementById('studyPanel');
+  const studyAnswer=document.getElementById('studyAnswer');
+  let studyIndex=0;
+  function loadStudy() {
+    const pool=cards.filter(c=>c.style.display!=='none').map(c=>+c.dataset.index);
+    const use=pool.length?pool:terms.map((_,i)=>i);
+    studyIndex=use[Math.floor(Math.random()*use.length)];
+    const t=terms[studyIndex];
+    document.getElementById('studyCat').textContent=t.cat;
+    document.getElementById('studyTerm').textContent=t.term;
+    studyAnswer.classList.remove('visible');
+    document.getElementById('revealBtn').textContent='Revelar respuesta';
+    studyAnswer.innerHTML=`
+      <p><strong>Definición:</strong> ${t.definition}</p>
+      <p><strong>Fórmula:</strong> ${t.formula}</p>
+      <p><strong>Intuición:</strong> ${t.intuition}</p>
+      <p><strong>Ejemplo:</strong> ${t.example}</p>
+      <p><strong>Error frecuente:</strong> ${t.pitfall}</p>`;
+  }
+  document.getElementById('studyBtn').addEventListener('click',()=>{
+    studyPanel.classList.toggle('visible');
+    if(studyPanel.classList.contains('visible')) {
+      loadStudy();
+      studyPanel.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+  document.getElementById('revealBtn').addEventListener('click',()=>{
+    studyAnswer.classList.toggle('visible');
+    document.getElementById('revealBtn').textContent=studyAnswer.classList.contains('visible')?'Ocultar respuesta':'Revelar respuesta';
+  });
+  document.getElementById('nextStudyBtn').addEventListener('click',loadStudy);
+
+  cards.forEach(card=>{
+    card.addEventListener('toggle',()=>{
+      const chev=card.querySelector('.chev');
+      if(chev) chev.textContent=card.open?'×':'＋';
+    });
+  });
+
+  applyFilters();
+})();
+</script>
+</body>
+</html>

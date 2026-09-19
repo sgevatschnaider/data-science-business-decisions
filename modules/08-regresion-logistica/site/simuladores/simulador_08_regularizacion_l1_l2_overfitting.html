@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador 08 · Regularización L1/L2 y Overfitting</title>
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1830;--panel:rgba(17,31,53,.88);--panel2:#12243b;
+  --text:#eef7ff;--muted:#9fb3c8;--line:#294665;--accent:#35d0ff;--accent2:#8b5cf6;
+  --good:#35d39a;--warn:#ffbf47;--bad:#ff6b7a;--blue:#58a6ff;--white:#fff;
+  --shadow:0 18px 50px rgba(0,0,0,.28);--grid:rgba(159,179,200,.13)
+}
+[data-theme="light"]{
+  --bg:#edf7ff;--bg2:#f8fbff;--panel:rgba(255,255,255,.93);--panel2:#fff;
+  --text:#102033;--muted:#53677e;--line:#c8d7e8;--accent:#008fc7;--accent2:#6d44d8;
+  --good:#0e9b69;--warn:#b77700;--bad:#d63b50;--blue:#2563eb;
+  --shadow:0 16px 44px rgba(50,83,112,.16);--grid:rgba(71,101,128,.11)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(53,208,255,.16),transparent 30%),
+    radial-gradient(circle at 92% 0%,rgba(139,92,246,.17),transparent 32%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  transition:.35s ease
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.58),transparent 92%)
+}
+.topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg2) 78%,transparent);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1500px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d;font-weight:950}
+.brand strong{display:block;font-size:.94rem}.brand span{display:block;color:var(--muted);font-size:.78rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+button{
+  font:inherit;border:1px solid var(--line);color:var(--text);background:var(--panel);
+  border-radius:12px;padding:10px 13px;cursor:pointer;transition:.2s ease;font-weight:760
+}
+button:hover{transform:translateY(-1px);border-color:var(--accent)}
+button.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101d}
+button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+button.active{box-shadow:0 0 0 3px rgba(53,208,255,.16)}
+.wrap{max-width:1500px;margin:auto;padding:26px 18px 48px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;margin-bottom:20px}
+.card,.hero-main,.hero-side{background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+.hero-main{padding:30px}.hero-side{padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.eyebrow{color:var(--accent);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;margin-bottom:9px}
+h1{margin:0;font-size:clamp(2rem,4.5vw,4.4rem);line-height:.98;letter-spacing:-.05em}
+.gradient-text{background:linear-gradient(90deg,var(--accent),#6ee7f9,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);font-size:1.03rem;line-height:1.65;max-width:900px;margin:18px 0 0}
+.formula{border:1px solid var(--line);border-radius:18px;padding:15px 17px;background:linear-gradient(135deg,rgba(53,208,255,.07),rgba(139,92,246,.07))}
+.formula b{display:block;font-size:1.16rem}.formula small{display:block;color:var(--muted);margin-top:5px;line-height:1.42}
+
+.main-grid{display:grid;grid-template-columns:360px minmax(0,1fr);gap:20px}
+.card{padding:20px}.title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.title-row h2{margin:0;font-size:1.08rem}.tag{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:rgba(53,208,255,.07);border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800}
+.controls{display:flex;flex-direction:column;gap:14px}
+.control{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 75%,transparent)}
+.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.control label{font-weight:850}
+.pill{min-width:84px;text-align:center;border-radius:10px;padding:6px 8px;background:rgba(53,208,255,.09);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;accent-color:var(--accent)}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:.72rem;margin-top:5px}
+.hint{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:6px}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:8px}.segment button{padding:12px}.segment button.selected{border-color:var(--accent);background:rgba(53,208,255,.12)}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:8px}.preset-grid button{text-align:left}
+
+.maincol{display:grid;gap:20px}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel2) 74%,transparent)}
+.metric .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:850}
+.metric .v{font-size:clamp(1.12rem,2vw,1.75rem);font-weight:900;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric .s{font-size:.72rem;color:var(--muted);margin-top:5px}
+
+.charts{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+svg{width:100%;height:auto;display:block}
+.gridline{stroke:var(--grid);stroke-width:1}.axis{stroke:var(--line);stroke-width:1}
+.zero{stroke:var(--muted);stroke-width:1.5}.truebar{fill:rgba(159,179,200,.25)}.fitbar-pos{fill:var(--accent)}.fitbar-neg{fill:var(--accent2)}
+.trainline{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.testline{fill:none;stroke:var(--warn);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.currentline{stroke:var(--bad);stroke-width:2;stroke-dasharray:7 7}.dotTrain{fill:var(--accent);stroke:#fff;stroke-width:2}.dotTest{fill:var(--warn);stroke:#fff;stroke-width:2}
+.axis-label{fill:var(--muted);font-size:12px}.chart-label{fill:var(--text);font-size:12px;font-weight:850}
+
+.coef-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.coef-row{border:1px solid var(--line);border-radius:14px;padding:10px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.coef-row .top{display:flex;justify-content:space-between;gap:8px;font-size:.8rem}.coef-row .top span:last-child{font-weight:850}
+.bartrack{height:9px;border-radius:999px;overflow:hidden;background:rgba(127,140,160,.13);margin-top:7px;position:relative}
+.bartrack::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.coefbar{position:absolute;top:0;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.coefbar.neg{background:linear-gradient(90deg,var(--bad),var(--accent2))}
+
+.trade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.state{border:1px solid var(--line);border-radius:18px;padding:16px;background:color-mix(in srgb,var(--panel2) 72%,transparent)}
+.state .small{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:850}
+.state .big{font-size:1.7rem;font-weight:950;margin:7px 0}.state .mini{font-size:.8rem;color:var(--muted);line-height:1.45}
+.state.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+
+.interpret{border:1px solid var(--line);border-radius:18px;padding:16px;line-height:1.65;color:var(--muted);background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.05))}
+.interpret strong{color:var(--text)}
+.eq{border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(135deg,rgba(53,208,255,.05),rgba(139,92,246,.04));line-height:1.55;font-weight:800}
+.eq small{display:block;color:var(--muted);font-weight:500;margin-top:5px}
+
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.concept{border:1px solid var(--line);border-radius:16px;padding:14px;background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.concept b{display:block;margin-bottom:5px}.concept span{color:var(--muted);font-size:.84rem;line-height:1.5}
+
+.status{display:inline-flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px rgba(53,211,154,.12)}
+.dot.warn{background:var(--warn);box-shadow:0 0 0 5px rgba(255,191,71,.12)}
+.dot.bad{background:var(--bad);box-shadow:0 0 0 5px rgba(255,107,122,.12)}
+
+.footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px}
+
+@media(max-width:1250px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1150px){.hero,.charts{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:1fr}.trade-grid,.concepts{grid-template-columns:1fr}.coef-list{grid-template-columns:1fr}.brand span{display:none}.actions button{padding:8px 10px;font-size:.82rem}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">λ</div>
+      <div><strong>Simulador 08 · Regresión Logística</strong><span>Regularización L1/L2, generalización y overfitting</span></div>
+    </div>
+    <div class="actions">
+      <button id="themeBtn">☀️ Tema claro</button>
+      <button id="exampleBtn">Ejemplo guiado</button>
+      <button id="resetBtn">Restablecer</button>
+      <button class="primary" id="playBtn">▶ Simulación dinámica</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Machine Learning · Generalización</div>
+    <h1>Regularización, <span class="gradient-text">L1/L2 y Overfitting</span></h1>
+    <p class="subtitle">
+      Este laboratorio entrena una regresión logística real sobre datos sintéticos.
+      Cambia la intensidad de regularización y observa cómo se modifican los coeficientes,
+      la pérdida y el rendimiento fuera de muestra. La pregunta central es:
+      <strong>¿cuándo simplificar el modelo mejora su capacidad de generalizar?</strong>
+    </p>
+  </div>
+  <aside class="hero-side">
+    <div class="formula"><b>L2 / Ridge: λ Σ βⱼ²</b><small>Contrae coeficientes grandes de manera suave y estabiliza el modelo.</small></div>
+    <div class="formula"><b>L1 / Lasso: λ Σ |βⱼ|</b><small>Puede llevar coeficientes exactamente a cero y actuar como selección de variables.</small></div>
+    <div class="formula"><b>Train ≠ Test</b><small>Un modelo muy flexible puede ajustar muy bien entrenamiento y rendir peor en datos nuevos.</small></div>
+  </aside>
+</section>
+
+<section class="main-grid">
+<aside class="card">
+  <div class="title-row"><h2>Controles de entrenamiento</h2><span class="tag">Modelo real</span></div>
+  <div class="controls">
+
+    <div class="control">
+      <div class="control-head"><label>Tipo de penalización</label><span class="pill" id="penaltyVal">L2</span></div>
+      <div class="segment">
+        <button type="button" id="l2Btn" class="selected">L2 · Ridge</button>
+        <button type="button" id="l1Btn">L1 · Lasso</button>
+      </div>
+      <div class="hint">L2 reduce todos los coeficientes; L1 puede anular variables completas.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="lambda">Intensidad λ</label><span class="pill" id="lambdaVal">0.10</span></div>
+      <input id="lambda" type="range" min="0" max="1.5" step="0.02" value="0.10">
+      <div class="range-labels"><span>0</span><span>0.75</span><span>1.50</span></div>
+      <div class="hint">λ=0 deja el modelo sin penalización. Valores altos fuerzan mayor contracción.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="trainSize">Tamaño de train</label><span class="pill" id="trainVal">120</span></div>
+      <input id="trainSize" type="range" min="50" max="320" step="10" value="120">
+      <div class="range-labels"><span>50</span><span>180</span><span>320</span></div>
+      <div class="hint">Con pocas observaciones, las variables de ruido pueden producir coeficientes inestables.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label for="noise">Ruido del problema</label><span class="pill" id="noiseVal">Medio</span></div>
+      <input id="noise" type="range" min="0" max="2" step="1" value="1">
+      <div class="range-labels"><span>Bajo</span><span>Medio</span><span>Alto</span></div>
+      <div class="hint">Más ruido hace más difícil separar señal real de asociaciones accidentales.</div>
+    </div>
+
+    <div class="control">
+      <div class="control-head"><label>Escenarios rápidos</label><span class="pill">λ</span></div>
+      <div class="preset-grid">
+        <button id="overfitBtn">Sin regularización · riesgo de overfitting</button>
+        <button id="balancedBtn">Regularización moderada</button>
+        <button id="underfitBtn">Regularización fuerte · underfitting</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="maincol">
+<section class="metrics">
+  <div class="metric"><div class="k">Accuracy train</div><div class="v" id="accTrain">—</div><div class="s">ajuste interno</div></div>
+  <div class="metric"><div class="k">Accuracy test</div><div class="v" id="accTest">—</div><div class="s">generalización</div></div>
+  <div class="metric"><div class="k">Log-Loss train</div><div class="v" id="lossTrain">—</div><div class="s">menor es mejor</div></div>
+  <div class="metric"><div class="k">Log-Loss test</div><div class="v" id="lossTest">—</div><div class="s">fuera de muestra</div></div>
+  <div class="metric"><div class="k">Coeficientes ≈ 0</div><div class="v" id="zeros">—</div><div class="s">selección / contracción</div></div>
+  <div class="metric"><div class="k">Diagnóstico</div><div class="v status" id="diagnostic"><span class="dot"></span><span>—</span></div><div class="s">train vs test</div></div>
+</section>
+
+<section class="charts">
+  <div class="card">
+    <div class="title-row"><h2>Coeficientes estimados</h2><span class="tag">señal vs ruido</span></div>
+    <svg id="coefChart" viewBox="0 0 900 560">
+      <g id="coefGrid"></g>
+      <line id="zeroLine" class="zero" x1="450" x2="450" y1="55" y2="510"></line>
+      <g id="trueBars"></g>
+      <g id="fitBars"></g>
+      <g id="coefLabels"></g>
+    </svg>
+    <div class="coef-list" id="coefList"></div>
+  </div>
+
+  <div class="card">
+    <div class="title-row"><h2>Curva de generalización</h2><span class="tag">λ → desempeño</span></div>
+    <svg id="perfChart" viewBox="0 0 760 560">
+      <g id="perfGrid"></g>
+      <line class="axis" x1="70" y1="480" x2="700" y2="480"></line>
+      <line class="axis" x1="70" y1="60" x2="70" y2="480"></line>
+      <path id="trainPath" class="trainline"></path>
+      <path id="testPath" class="testline"></path>
+      <line id="currentLine" class="currentline" y1="60" y2="480"></line>
+      <circle id="trainDot" class="dotTrain" r="8"></circle>
+      <circle id="testDot" class="dotTest" r="8"></circle>
+      <g id="perfLabels"></g>
+      <text x="510" y="96" class="chart-label">Train log-loss</text>
+      <text x="510" y="121" fill="var(--warn)" font-size="12" font-weight="850">Test log-loss</text>
+    </svg>
+    <div class="interpret" id="curveText"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Underfitting ↔ buen equilibrio ↔ Overfitting</h2><span class="tag">Lectura conceptual</span></div>
+  <div class="trade-grid">
+    <div class="state" id="overfitState">
+      <div class="small">Regularización débil</div>
+      <div class="big">Overfitting</div>
+      <div class="mini">Coeficientes grandes o inestables. Train puede verse muy bien, pero test empeora.</div>
+    </div>
+    <div class="state" id="balanceState">
+      <div class="small">Regularización intermedia</div>
+      <div class="big">Equilibrio</div>
+      <div class="mini">Se reduce varianza sin destruir demasiada señal útil. Puede mejorar el desempeño fuera de muestra.</div>
+    </div>
+    <div class="state" id="underfitState">
+      <div class="small">Regularización fuerte</div>
+      <div class="big">Underfitting</div>
+      <div class="mini">El modelo se simplifica demasiado y pierde capacidad para representar la señal real.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Interpretación automática</h2><span class="tag">Modelo entrenado</span></div>
+  <div class="interpret" id="interpret"></div>
+  <div class="eq" id="formulaBox" style="margin-top:12px"></div>
+</section>
+
+<section class="card">
+  <div class="title-row"><h2>Qué observar</h2><span class="tag">Ideas clave</span></div>
+  <div class="concepts">
+    <div class="concept"><b>1 · Regularizar introduce sesgo para reducir varianza</b><span>El objetivo no es maximizar el ajuste en train, sino lograr un modelo más estable en observaciones nuevas.</span></div>
+    <div class="concept"><b>2 · L1 y L2 no hacen exactamente lo mismo</b><span>L2 suele mantener todos los predictores con coeficientes pequeños; L1 puede producir una solución dispersa con varios β exactamente en cero.</span></div>
+    <div class="concept"><b>3 · Más regularización no siempre es mejor</b><span>Si λ es excesivo, incluso las variables verdaderamente informativas se contraen demasiado y aparece underfitting.</span></div>
+  </div>
+</section>
+</div>
+</section>
+
+<div class="footer">Material elaborado por el profesor Sergio Gevatschnaider</div>
+</main>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+
+const lambdaEl=$('lambda'), trainSizeEl=$('trainSize'), noiseEl=$('noise');
+let penalty='l2';
+let fullTrain=[],testData=[];
+const P=12;
+const trueBeta=[1.65,-1.45,1.20,.90,0,0,0,0,0,0,0,0];
+const names=['X₁','X₂','X₃','X₄','X₅','X₆','X₇','X₈','X₉','X₁₀','X₁₁','X₁₂'];
+
+function mulberry32(seed){
+  return function(){
+    let t=seed+=0x6D2B79F5;
+    t=Math.imul(t^t>>>15,t|1);
+    t^=t+Math.imul(t^t>>>7,t|61);
+    return ((t^t>>>14)>>>0)/4294967296;
+  }
+}
+const rng=mulberry32(138721);
+function gauss(){
+  let u=0,v=0;
+  while(u===0)u=rng();
+  while(v===0)v=rng();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function logistic(z){
+  if(z>35)return 1;
+  if(z<-35)return 0;
+  return 1/(1+Math.exp(-z));
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function pct(v){return (100*v).toFixed(1)+'%'}
+function fmt(v,d=3){return Number(v).toFixed(d).replace('-', '−')}
+function signed(v,d=2){return (v>=0?'+':'−')+Math.abs(v).toFixed(d)}
+
+function generateData(){
+  fullTrain=[];testData=[];
+  const noiseScale=[.45,.85,1.30][+noiseEl.value];
+
+  function one(i,isTest){
+    const x=[];
+    const base=gauss();
+    for(let j=0;j<P;j++){
+      let val=gauss();
+      // correlated nuisance variables make instability visible in small samples
+      if(j===4) val=.78*base+.45*gauss();
+      if(j===5) val=.72*base+.50*gauss();
+      if(j===6) val=.68*x[0]+.55*gauss();
+      if(j===7) val=.65*x[1]+.58*gauss();
+      x.push(val);
+    }
+    let z=-.20;
+    for(let j=0;j<P;j++) z+=trueBeta[j]*x[j];
+    z+=noiseScale*gauss();
+    // mild dataset shift in test to make generalization meaningful
+    if(isTest) z+=.08*x[2]-.05*x[0];
+    const p=logistic(z);
+    const y=rng()<p?1:0;
+    return {x,y};
+  }
+  for(let i=0;i<320;i++)fullTrain.push(one(i,false));
+  for(let i=0;i<260;i++)testData.push(one(i,true));
+}
+
+function trainModel(data,lambda,pen){
+  let b=new Array(P).fill(0),intercept=0;
+  const lr=.105;
+  const iters=300;
+  const n=data.length;
+
+  for(let it=0;it<iters;it++){
+    let gi=0;
+    const g=new Array(P).fill(0);
+    for(const o of data){
+      let z=intercept;
+      for(let j=0;j<P;j++)z+=b[j]*o.x[j];
+      const pr=logistic(z);
+      const e=pr-o.y;
+      gi+=e;
+      for(let j=0;j<P;j++)g[j]+=e*o.x[j];
+    }
+    intercept-=lr*gi/n;
+
+    if(pen==='l2'){
+      for(let j=0;j<P;j++){
+        const grad=g[j]/n + 2*lambda*b[j];
+        b[j]-=lr*grad;
+      }
+    }else{
+      // proximal gradient for L1
+      for(let j=0;j<P;j++){
+        let v=b[j]-lr*(g[j]/n);
+        const t=lr*lambda;
+        b[j]=Math.sign(v)*Math.max(0,Math.abs(v)-t);
+      }
+    }
+  }
+  return {b,intercept};
+}
+
+function evaluate(model,data){
+  let correct=0,ll=0;
+  for(const o of data){
+    let z=model.intercept;
+    for(let j=0;j<P;j++)z+=model.b[j]*o.x[j];
+    const p=clamp(logistic(z),1e-10,1-1e-10);
+    const pred=p>=.5?1:0;
+    if(pred===o.y)correct++;
+    ll+=-(o.y*Math.log(p)+(1-o.y)*Math.log(1-p));
+  }
+  return {acc:correct/data.length,loss:ll/data.length};
+}
+
+function currentTrainingData(){
+  return fullTrain.slice(0,+trainSizeEl.value);
+}
+
+function fit(lambda=+lambdaEl.value){
+  const train=currentTrainingData();
+  const model=trainModel(train,lambda,penalty);
+  const tr=evaluate(model,train),te=evaluate(model,testData);
+  return {model,tr,te};
+}
+
+function drawCoef(model){
+  const maxAbs=Math.max(2.2,...model.b.map(v=>Math.abs(v)),...trueBeta.map(v=>Math.abs(v)));
+  const cx=450,scale=320/maxAbs;
+  let grid='',trueH='',fitH='',labels='';
+
+  for(let k=-2;k<=2;k++){
+    const val=k*maxAbs/2;
+    const x=cx+val*scale;
+    grid+=`<line class="gridline" x1="${x}" x2="${x}" y1="55" y2="510"></line>`;
+    labels+=`<text x="${x-18}" y="535" class="axis-label">${val.toFixed(1)}</text>`;
+  }
+
+  for(let j=0;j<P;j++){
+    const y=70+j*36;
+    const tv=trueBeta[j],fv=model.b[j];
+    const tx=Math.min(cx,cx+tv*scale),tw=Math.abs(tv*scale);
+    const fx=Math.min(cx,cx+fv*scale),fw=Math.abs(fv*scale);
+    trueH+=`<rect class="truebar" x="${tx}" y="${y-10}" width="${tw}" height="9" rx="4"></rect>`;
+    fitH+=`<rect class="${fv>=0?'fitbar-pos':'fitbar-neg'}" x="${fx}" y="${y+2}" width="${fw}" height="10" rx="5"></rect>`;
+    labels+=`<text x="18" y="${y+8}" class="chart-label">${names[j]}</text>`;
+  }
+  labels+=`<text x="710" y="535" class="axis-label">coeficiente β</text>`;
+  $('coefGrid').innerHTML=grid;$('trueBars').innerHTML=trueH;$('fitBars').innerHTML=fitH;$('coefLabels').innerHTML=labels;
+
+  let list='';
+  for(let j=0;j<P;j++){
+    const v=model.b[j];
+    const rel=clamp(Math.abs(v)/maxAbs,0,1);
+    const left=v>=0?50:50-rel*50;
+    const width=rel*50;
+    list+=`<div class="coef-row">
+      <div class="top"><span>${names[j]} ${j<4?'<span style="color:var(--good)">· señal</span>':'<span style="color:var(--muted)">· ruido</span>'}</span><span>${signed(v,3)}</span></div>
+      <div class="bartrack"><div class="coefbar ${v<0?'neg':''}" style="left:${left}%;width:${width}%"></div></div>
+    </div>`;
+  }
+  $('coefList').innerHTML=list;
+}
+
+function buildPerfAxes(){
+  let g='',l='';
+  const x0=70,y0=60,W=630,H=420;
+  for(let i=0;i<=5;i++){
+    const x=x0+i*W/5;
+    const lam=1.5*i/5;
+    g+=`<line class="gridline" x1="${x}" x2="${x}" y1="60" y2="480"></line>`;
+    l+=`<text x="${x-10}" y="505" class="axis-label">${lam.toFixed(1)}</text>`;
+  }
+  for(let i=0;i<=5;i++){
+    const y=y0+i*H/5;
+    g+=`<line class="gridline" x1="70" x2="700" y1="${y}" y2="${y}"></line>`;
+  }
+  l+=`<text x="650" y="535" class="axis-label">λ</text><text x="14" y="75" class="axis-label">log-loss</text>`;
+  $('perfGrid').innerHTML=g;$('perfLabels').innerHTML=l;
+}
+
+function perfCurve(){
+  const vals=[];
+  for(let i=0;i<=24;i++){
+    const lam=1.5*i/24;
+    const r=fit(lam);
+    vals.push({lam,tr:r.tr.loss,te:r.te.loss});
+  }
+  const losses=vals.flatMap(v=>[v.tr,v.te]);
+  const lo=Math.min(...losses)*.92,hi=Math.max(...losses)*1.08;
+  const x0=70,y0=60,W=630,H=420;
+  const sx=lam=>x0+lam/1.5*W;
+  const sy=loss=>y0+(hi-loss)/(hi-lo)*H;
+  const trainPath=vals.map((v,i)=>(i?'L':'M')+sx(v.lam).toFixed(1)+','+sy(v.tr).toFixed(1)).join('');
+  const testPath=vals.map((v,i)=>(i?'L':'M')+sx(v.lam).toFixed(1)+','+sy(v.te).toFixed(1)).join('');
+  $('trainPath').setAttribute('d',trainPath);$('testPath').setAttribute('d',testPath);
+
+  const c=+lambdaEl.value,current=fit(c),cx=sx(c),cyTr=sy(current.tr.loss),cyTe=sy(current.te.loss);
+  $('currentLine').setAttribute('x1',cx);$('currentLine').setAttribute('x2',cx);
+  $('trainDot').setAttribute('cx',cx);$('trainDot').setAttribute('cy',cyTr);
+  $('testDot').setAttribute('cx',cx);$('testDot').setAttribute('cy',cyTe);
+
+  const best=vals.reduce((a,b)=>b.te<a.te?b:a,vals[0]);
+  $('curveText').innerHTML=`La curva amarilla representa la pérdida en <strong>test</strong>. En esta simulación, su mínimo aproximado aparece cerca de <strong>λ = ${best.lam.toFixed(2)}</strong>. La ubicación exacta cambia con tamaño muestral, ruido y tipo de penalización.`;
+  return {current,best};
+}
+
+function update(){
+  $('lambdaVal').textContent=(+lambdaEl.value).toFixed(2);
+  $('trainVal').textContent=trainSizeEl.value;
+  $('noiseVal').textContent=['Bajo','Medio','Alto'][+noiseEl.value];
+  $('penaltyVal').textContent=penalty.toUpperCase();
+  $('l1Btn').classList.toggle('selected',penalty==='l1');
+  $('l2Btn').classList.toggle('selected',penalty==='l2');
+
+  const result=perfCurve();
+  const {model,tr,te}=result.current;
+  drawCoef(model);
+
+  $('accTrain').textContent=pct(tr.acc);$('accTest').textContent=pct(te.acc);
+  $('lossTrain').textContent=tr.loss.toFixed(3);$('lossTest').textContent=te.loss.toFixed(3);
+
+  const zeroThreshold=penalty==='l1'?.015:.08;
+  const zeroCount=model.b.filter(v=>Math.abs(v)<zeroThreshold).length;
+  $('zeros').textContent=`${zeroCount}/${P}`;
+
+  const gap=te.loss-tr.loss;
+  const lam=+lambdaEl.value;
+  let diag='Equilibrio',cls='dot',where='balance';
+  if(lam<.08 && gap>.09){diag='Overfitting';cls='dot bad';where='overfit'}
+  else if(lam>.85 || (te.loss>.78 && tr.loss>.74)){diag='Underfitting';cls='dot warn';where='underfit'}
+  else if(gap>.13){diag='Overfitting';cls='dot bad';where='overfit'}
+  $('diagnostic').innerHTML=`<span class="${cls}"></span><span>${diag}</span>`;
+
+  $('overfitState').classList.toggle('active',where==='overfit');
+  $('balanceState').classList.toggle('active',where==='balance');
+  $('underfitState').classList.toggle('active',where==='underfit');
+
+  const noiseCoeffs=model.b.slice(4);
+  const noiseMagnitude=noiseCoeffs.reduce((s,v)=>s+Math.abs(v),0);
+  const signalMagnitude=model.b.slice(0,4).reduce((s,v)=>s+Math.abs(v),0);
+
+  let expl='';
+  if(penalty==='l1'){
+    expl=`Con penalización <strong>L1</strong> y λ=<strong>${lam.toFixed(2)}</strong>, el algoritmo aplica una contracción tipo soft-thresholding. Por eso algunos coeficientes pueden quedar exactamente o prácticamente en cero.`;
+  }else{
+    expl=`Con penalización <strong>L2</strong> y λ=<strong>${lam.toFixed(2)}</strong>, los coeficientes se contraen de forma continua. En general permanecen distintos de cero, pero con menor magnitud.`;
+  }
+  expl+=` El modelo usa <strong>${trainSizeEl.value}</strong> observaciones de entrenamiento. La log-loss pasa de <strong>${tr.loss.toFixed(3)}</strong> en train a <strong>${te.loss.toFixed(3)}</strong> en test.`;
+  if(noiseMagnitude>signalMagnitude*.65) expl+=` Las variables de ruido todavía acumulan una magnitud importante, señal de posible inestabilidad.`;
+  else expl+=` La mayor parte de la magnitud de los coeficientes queda concentrada en las variables con señal real.`;
+  $('interpret').innerHTML=expl;
+
+  $('formulaBox').innerHTML=penalty==='l2'
+    ? `Objetivo: minimizar <strong>Log-Loss + λ Σ βⱼ²</strong><small>La penalización cuadrática encarece coeficientes grandes y suele mejorar estabilidad ante multicolinealidad.</small>`
+    : `Objetivo: minimizar <strong>Log-Loss + λ Σ |βⱼ|</strong><small>La penalización absoluta favorece soluciones dispersas: varias variables pueden quedar excluidas del modelo.</small>`;
+}
+
+lambdaEl.addEventListener('input',update);
+trainSizeEl.addEventListener('input',update);
+noiseEl.addEventListener('input',()=>{generateData();update()});
+$('l2Btn').addEventListener('click',()=>{stop();penalty='l2';update()});
+$('l1Btn').addEventListener('click',()=>{stop();penalty='l1';update()});
+
+$('overfitBtn').addEventListener('click',()=>{stop();penalty='l2';lambdaEl.value=0;trainSizeEl.value=60;noiseEl.value=2;generateData();update()});
+$('balancedBtn').addEventListener('click',()=>{stop();penalty='l2';lambdaEl.value=.18;trainSizeEl.value=140;noiseEl.value=1;generateData();update()});
+$('underfitBtn').addEventListener('click',()=>{stop();penalty='l2';lambdaEl.value=1.25;trainSizeEl.value=140;noiseEl.value=1;generateData();update()});
+$('exampleBtn').addEventListener('click',()=>{stop();penalty='l1';lambdaEl.value=.16;trainSizeEl.value=100;noiseEl.value=1;generateData();update()});
+$('resetBtn').addEventListener('click',()=>{stop();penalty='l2';lambdaEl.value=.10;trainSizeEl.value=120;noiseEl.value=1;generateData();update()});
+$('themeBtn').addEventListener('click',()=>{
+  const body=document.body,next=body.getAttribute('data-theme')==='dark'?'light':'dark';
+  body.setAttribute('data-theme',next);
+  $('themeBtn').textContent=next==='dark'?'☀️ Tema claro':'🌙 Tema oscuro'
+});
+
+let anim=false,raf=null,dir=1,last=0;
+function animate(ts){
+  if(!anim)return;
+  if(ts-last>110){
+    let v=+lambdaEl.value+dir*.03;
+    if(v>=1.45){v=1.45;dir=-1}
+    if(v<=.01){v=.01;dir=1}
+    lambdaEl.value=v.toFixed(2);update();last=ts;
+  }
+  raf=requestAnimationFrame(animate);
+}
+function stop(){
+  anim=false;
+  if(raf)cancelAnimationFrame(raf);
+  $('playBtn').textContent='▶ Simulación dinámica';
+  $('playBtn').classList.remove('active')
+}
+$('playBtn').addEventListener('click',()=>{
+  if(anim)stop();
+  else{
+    anim=true;
+    $('playBtn').textContent='⏸ Pausar simulación';
+    $('playBtn').classList.add('active');
+    raf=requestAnimationFrame(animate)
+  }
+});
+
+generateData();
+buildPerfAxes();
+update();
+})();
+</script>
+</body>
+</html>
