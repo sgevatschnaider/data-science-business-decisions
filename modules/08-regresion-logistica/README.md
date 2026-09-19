@@ -16,6 +16,7 @@ La regresión logística produce probabilidades. La decisión operativa requiere
 | Presentación 01 · Fundamentos de clasificación | [Visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/presentacion-01.html) |
 | Presentación 02 · Interpretación, validación y decisiones | [Visor](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/presentacion-02.html) |
 | Laboratorio · 14 simulaciones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/simulacion.html) |
+| Colab de simulaciones | [Abrir](https://colab.research.google.com/drive/1uLPm6Uaaba5qEnMcta2bg5SMiM-G9AeT?usp=sharing) |
 | Guía completa de simulaciones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/guia.html) |
 | Cuestionario avanzado · 30 preguntas | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/cuestionario.html) |
 | Glosario avanzado | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/08-regresion-logistica/glosario.html) |
