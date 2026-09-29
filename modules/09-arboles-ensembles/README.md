@@ -57,3 +57,12 @@ Comparación entre árbol podado, Random Forest y boosting, con curvas de aprend
 ## Autoría
 
 Material elaborado por el profesor Sergio Gevatschnaider.
+
+
+## Presentaciones completas
+
+- [PPT 01: Árboles y CART, 41 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-01.html)
+- [PPT 02: Bagging y Random Forest, 36 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-02.html)
+- [PPT 03: Boosting, interpretación y decisión, 35 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-03.html)
+
+Los visores permiten autoplay, pantalla completa y descargas. La fuente se conserva en `modules/09-arboles-ensembles/site/` y este paso la publica después del generador general.

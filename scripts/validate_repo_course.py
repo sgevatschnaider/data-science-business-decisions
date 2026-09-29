@@ -142,8 +142,24 @@ def validate_content_counts_with_custom_modules() -> None:
             if resource not in index:
                 base.error(f"Módulo 08: recurso {resource} ausente del portal")
 
+    # Módulo 09: primera tanda de presentaciones y portal.
+    discard("Módulo 09: total de recursos inconsistente")
+    m09 = ROOT / "modules/09-arboles-ensembles/site"
+    for resource in ("index.html", "styles.css", "presentaciones.js",
+                     "presentacion-01.html", "presentacion-02.html", "presentacion-03.html"):
+        require(m09 / resource, "Módulo 09")
+    for number, count in ((1, 41), (2, 36), (3, 35)):
+        page = require(m09 / f"presentacion-{number:02d}.html", "Módulo 09")
+        if page and f'data-slide-count="{count}"' not in page:
+            base.error(f"Módulo 09: cantidad de diapositivas incorrecta en PPT {number:02d}")
+        for suffix in ("pptx", "pdf"):
+            require_path = m09 / "presentaciones" / f"ppt{number:02d}.{suffix}"
+            if not require_path.is_file():
+                base.error(f"Módulo 09: falta descarga {require_path.name}")
+
 base.validate_visible_content = validate_visible_content_with_original_m08
 base.validate_content_counts = validate_content_counts_with_custom_modules
 
 if __name__ == "__main__":
     raise SystemExit(base.main())
+

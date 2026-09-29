@@ -152,6 +152,12 @@ Un recorrido integral para diseñar una evaluación honesta: separar entrenamien
 [![Cuestionario M06](https://img.shields.io/badge/Cuestionario-10%20preguntas-1d4ed8?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/cuestionario.html)
 [![Glosario M06](https://img.shields.io/badge/Glosario-90%20conceptos-4f46e5?style=for-the-badge)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/06-validacion-modelos/glosario.html)
 
+## Árboles, Random Forest y ensembles · aula de clase
+
+Tres presentaciones completas con visores, autoplay, pantalla completa y descargas en PowerPoint y PDF.
+
+[Portal M09](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/index.html) · [PPT 01: Árboles y CART](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-01.html) · [PPT 02: Bagging y Random Forest](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-02.html) · [PPT 03: Boosting, interpretación y decisión](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-03.html)
+
 ## Acceso directo
 
 Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
@@ -239,3 +245,4 @@ Para uso académico, consultá los metadatos de [CITATION.cff](CITATION.cff).
 ## Licencias
 
 Los materiales educativos se distribuyen bajo Creative Commons Attribution-NonCommercial 4.0 International. El código fuente se distribuye bajo licencia MIT. Consultá [LICENSE.md](LICENSE.md).
+

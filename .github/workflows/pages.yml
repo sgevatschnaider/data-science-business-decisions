@@ -44,6 +44,9 @@ jobs:
       - name: Publicar Módulo 08 avanzado
         run: python scripts/publish_module08.py
 
+      - name: Publicar Módulo 09 presentaciones
+        run: python scripts/publish_module09.py
+
       - name: Validar contenido
         run: python scripts/validate_repo_course.py
 
@@ -66,3 +69,4 @@ jobs:
       - name: Publicar sitio
         id: deployment
         uses: actions/deploy-pages@v5.0.0
+
