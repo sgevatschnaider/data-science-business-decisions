@@ -237,6 +237,8 @@ def validate_visible_content() -> None:
             continue
         text = path.read_text(encoding="utf-8")
         editorial_text = re.sub(r'url\("data:[^"]+"\)', "", text)
+        # Los bytes de imágenes no son texto editorial: pueden contener v2 por azar.
+        editorial_text = re.sub(r"data:image/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/=]+", "", editorial_text)
         if forbidden_label.search(editorial_text):
             error(f"Etiqueta editorial no permitida en {path.relative_to(ROOT)}")
         if emoji.search(text):
@@ -358,3 +360,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

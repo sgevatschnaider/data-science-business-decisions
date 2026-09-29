@@ -62,6 +62,8 @@ def require(path: Path, label: str) -> str:
 def validate_visible_content_with_original_m08() -> None:
     ORIGINAL_VISIBLE_CONTENT()
     protected = (
+        # Catálogo original M09: se preserva hasta integrar la siguiente tanda.
+        "modules/09-arboles-ensembles/site/simulacion.html",
         "modules/08-regresion-logistica/site/simuladores/",
         "modules/08-regresion-logistica/site/glosario.html",
         "modules/08-regresion-logistica/site/cuestionario.html",
