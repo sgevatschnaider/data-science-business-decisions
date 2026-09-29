@@ -62,6 +62,9 @@ def require(path: Path, label: str) -> str:
 def validate_visible_content_with_original_m08() -> None:
     ORIGINAL_VISIBLE_CONTENT()
     protected = (
+        "modules/09-arboles-ensembles/site/simuladores/",
+        "docs/modulos/09-arboles-ensembles/simuladores/",
+        "docs/modulos/09-arboles-ensembles/simulacion.html",
         # Catálogo original M09: se preserva hasta integrar la siguiente tanda.
         "modules/09-arboles-ensembles/site/simulacion.html",
         "modules/08-regresion-logistica/site/simuladores/",
@@ -144,7 +147,7 @@ def validate_content_counts_with_custom_modules() -> None:
             if resource not in index:
                 base.error(f"Módulo 08: recurso {resource} ausente del portal")
 
-    # Módulo 09: primera tanda de presentaciones y portal.
+    # Módulo 09: presentaciones completas y simulaciones originales.
     discard("Módulo 09: total de recursos inconsistente")
     m09 = ROOT / "modules/09-arboles-ensembles/site"
     for resource in ("index.html", "styles.css", "presentaciones.js",
@@ -159,9 +162,26 @@ def validate_content_counts_with_custom_modules() -> None:
             if not require_path.is_file():
                 base.error(f"Módulo 09: falta descarga {require_path.name}")
 
+    hub = require(m09 / "simulacion.html", "Módulo 09")
+    if 'data-simulation-count="16"' not in hub:
+        base.error("Módulo 09: el catálogo no declara las 16 simulaciones")
+    simulations = sorted((m09 / "simuladores").glob("simulador_[0-9][0-9]_*.html"))
+    if len(simulations) != 16:
+        base.error(f"Módulo 09: hay {len(simulations)} simulaciones; se requieren 16")
+    for number, simulation in enumerate(simulations, start=1):
+        if not simulation.name.startswith(f"simulador_{number:02d}_"):
+            base.error("Módulo 09: secuencia incompleta de simulaciones")
+        if f"simuladores/{simulation.name}" not in hub:
+            base.error(f"Módulo 09: el catálogo no enlaza {simulation.name}")
+        content = simulation.read_text(encoding="utf-8")
+        if len(content.encode("utf-8")) < 15000 or "<script>" not in content:
+            base.error(f"Módulo 09: simulación original incompleta: {simulation.name}")
+        published = ROOT / "docs/modulos/09-arboles-ensembles/simuladores" / simulation.name
+        if not published.is_file() or published.read_bytes() != simulation.read_bytes():
+            base.error(f"Módulo 09: publicación diferente de la fuente: {simulation.name}")
+
 base.validate_visible_content = validate_visible_content_with_original_m08
 base.validate_content_counts = validate_content_counts_with_custom_modules
 
 if __name__ == "__main__":
     raise SystemExit(base.main())
-

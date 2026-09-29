@@ -45,8 +45,10 @@ jobs:
       - name: Validar curso
         run: python scripts/validate_repo_course.py
 
+      - name: Probar controles de las 16 simulaciones M09
+        run: node scripts/check_module09_simulations.cjs
+
       - name: Ejecutar laboratorios
         env:
           MPLBACKEND: Agg
         run: python scripts/execute_notebooks.py
-

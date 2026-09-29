@@ -58,7 +58,6 @@ Comparación entre árbol podado, Random Forest y boosting, con curvas de aprend
 
 Material elaborado por el profesor Sergio Gevatschnaider.
 
-
 ## Presentaciones completas
 
 - [PPT 01: Árboles y CART, 41 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-01.html)
@@ -66,3 +65,26 @@ Material elaborado por el profesor Sergio Gevatschnaider.
 - [PPT 03: Boosting, interpretación y decisión, 35 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-03.html)
 
 Los visores permiten autoplay, pantalla completa y descargas. La fuente se conserva en `modules/09-arboles-ensembles/site/` y este paso la publica después del generador general.
+
+## Laboratorio de 16 simulaciones
+
+[Abrir el catálogo completo](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simulacion.html)
+
+| Simulación | Acceso |
+|---|---|
+| Simulador 01 · Split óptimo e impureza Gini | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_01_split_gini.html) |
+| Simulador 02 · Gini vs. Entropía | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_02_gini_entropia.html) |
+| Simulador 03 · Árbol ↔ particiones 2D | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_03_arbol_particiones_2d.html) |
+| Simulador 04 · Profundidad y overfitting | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_04_profundidad_overfitting.html) |
+| Simulador 05 · Poda costo-complejidad | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_05_poda_ccp_alpha.html) |
+| Simulador 06 · Inestabilidad de un árbol | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_06_inestabilidad_arbol.html) |
+| Simulador 07 · Bootstrap y Out-of-Bag | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_07_bootstrap_oob.html) |
+| Simulador 08 · Bagging | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_08_bagging.html) |
+| Simulador 09 · Bagging vs. Random Forest | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_09_random_forest.html) |
+| Simulador 10 · Número de árboles y error OOB | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_10_numero_arboles_oob.html) |
+| Simulador 11 · max_features y correlación | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_11_max_features_correlacion.html) |
+| Simulador 12 · MDI vs. permutation importance | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_12_feature_importance.html) |
+| Simulador 13 · Variables correlacionadas | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_13_variables_correlacionadas.html) |
+| Simulador 14 · PDP e ICE | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_14_pdp_ice.html) |
+| Simulador 15 · Gradient Boosting | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_15_boosting.html) |
+| Simulador 16 · Decision Lab: modelo, threshold y costos | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_16_decision_lab.html) |
