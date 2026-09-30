@@ -65,8 +65,11 @@ def validate_visible_content_with_original_m08() -> None:
         "modules/09-arboles-ensembles/site/simuladores/",
         "docs/modulos/09-arboles-ensembles/simuladores/",
         "docs/modulos/09-arboles-ensembles/simulacion.html",
-        # Catálogo original M09: se preserva hasta integrar la siguiente tanda.
         "modules/09-arboles-ensembles/site/simulacion.html",
+        "modules/09-arboles-ensembles/site/glosario.html",
+        "modules/09-arboles-ensembles/site/cuestionario.html",
+        "docs/modulos/09-arboles-ensembles/glosario.html",
+        "docs/modulos/09-arboles-ensembles/cuestionario.html",
         "modules/08-regresion-logistica/site/simuladores/",
         "modules/08-regresion-logistica/site/glosario.html",
         "modules/08-regresion-logistica/site/cuestionario.html",
@@ -151,8 +154,40 @@ def validate_content_counts_with_custom_modules() -> None:
     discard("Módulo 09: total de recursos inconsistente")
     m09 = ROOT / "modules/09-arboles-ensembles/site"
     for resource in ("index.html", "styles.css", "presentaciones.js",
-                     "presentacion-01.html", "presentacion-02.html", "presentacion-03.html"):
-        require(m09 / resource, "Módulo 09")
+                     "presentacion-01.html", "presentacion-02.html", "presentacion-03.html",
+                     "guia.html", "glosario.html", "cuestionario.html",
+                     "estudio.js", "estudio.css", "glosario.js", "cuestionario.js"):
+        source = m09 / resource
+        require(source, "Módulo 09")
+        published = ROOT / "docs/modulos/09-arboles-ensembles" / resource
+        if source.is_file() and (not published.is_file() or source.read_bytes() != published.read_bytes()):
+            base.error(f"Módulo 09: publicación diferente de la fuente: {resource}")
+    import re
+    from html import unescape
+    glossary = require(m09 / "glosario.html", "Módulo 09")
+    quiz = require(m09 / "cuestionario.html", "Módulo 09")
+    for content, css_class, expected, marker in (
+        (glossary, "term-card", 109, 'data-term-count="109"'),
+        (quiz, "qcard", 60, 'data-question-count="60"'),
+    ):
+        cards = re.findall(r'<article\b[^>]*class="[^"]*\b' + css_class + r'\b[^\"]*"', content)
+        if len(cards) != expected or marker not in content:
+            base.error(f"Módulo 09: se requieren {expected} fichas completas de {css_class}")
+        if content.count("<details") != expected:
+            base.error(f"Módulo 09: faltan explicaciones completas de {css_class}")
+        ids = set(re.findall(r'\bid="([^\"]+)"', content))
+        for fragment in re.findall(r'href="#([^\"]+)"', content):
+            if unescape(fragment) not in ids:
+                base.error(f"Módulo 09: enlace interno inexistente: #{fragment}")
+    pdf = m09 / "guia/guia-simulaciones.pdf"
+    published_pdf = ROOT / "docs/modulos/09-arboles-ensembles/guia/guia-simulaciones.pdf"
+    if not pdf.is_file() or not published_pdf.is_file() or pdf.read_bytes() != published_pdf.read_bytes():
+        base.error("Módulo 09: la guía PDF no está publicada íntegramente")
+    guide = require(m09 / "guia.html", "Módulo 09")
+    index = require(m09 / "index.html", "Módulo 09")
+    for resource in ("guia.html", "glosario.html", "cuestionario.html", "simulacion.html"):
+        if f'href="{resource}"' not in index:
+            base.error(f"Módulo 09: falta acceso a {resource} en el portal")
     for number, count in ((1, 41), (2, 36), (3, 35)):
         page = require(m09 / f"presentacion-{number:02d}.html", "Módulo 09")
         if page and f'data-slide-count="{count}"' not in page:
@@ -173,6 +208,8 @@ def validate_content_counts_with_custom_modules() -> None:
             base.error("Módulo 09: secuencia incompleta de simulaciones")
         if f"simuladores/{simulation.name}" not in hub:
             base.error(f"Módulo 09: el catálogo no enlaza {simulation.name}")
+        if f"simuladores/{simulation.name}" not in guide:
+            base.error(f"Módulo 09: la guía no enlaza {simulation.name}")
         content = simulation.read_text(encoding="utf-8")
         if len(content.encode("utf-8")) < 15000 or "<script>" not in content:
             base.error(f"Módulo 09: simulación original incompleta: {simulation.name}")

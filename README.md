@@ -161,6 +161,8 @@ Tres presentaciones completas con visores, autoplay, pantalla completa y descarg
 
 [16 simulaciones M09](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simulacion.html): árboles y CART (01–06), bagging y Random Forest (07–11), interpretación, boosting y decisión (12–16).
 
+[Guía M09: 38 páginas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/guia.html) · [Glosario M09: 109 conceptos](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/glosario.html) · [Cuestionario M09: 60 preguntas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/cuestionario.html)
+
 ## Acceso directo
 
 Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.

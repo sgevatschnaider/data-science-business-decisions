@@ -1,0 +1,19 @@
+/* Navegación y controles accesibles para los materiales docentes completos. */
+:root {color-scheme:dark;--study-header-height:90px}
+[data-theme="light"] {color-scheme:light}
+.topin {flex-wrap:wrap}
+.toolbar {top:var(--study-header-height)}
+.term-card,.qcard {scroll-margin-top:calc(var(--study-header-height) + 130px)}
+.revealBtn {display:none;margin:0 18px 12px}
+.flash .revealBtn {display:inline-flex}
+.flash .term-card:not(.revealed) .core {visibility:hidden;filter:none}
+.flash .term-card:not(.revealed) .termDetails {display:none}
+.flash .term-card.revealed .core {visibility:visible}
+.studyHelp {color:var(--muted);font-size:.85rem;line-height:1.6}
+.qcard:focus {outline:2px solid var(--accent);outline-offset:4px}
+@media(max-width:620px) {.toolbar {position:static}.term-card,.qcard {scroll-margin-top:calc(var(--study-header-height) + 15px)}}
+@media print {
+ .revealBtn,.studyHelp {display:none!important}
+ .flash .term-card .core {visibility:visible!important;filter:none!important}
+ .flash .term-card .termDetails,.focusmode .qcard:not(.hidden) {display:block!important}
+}

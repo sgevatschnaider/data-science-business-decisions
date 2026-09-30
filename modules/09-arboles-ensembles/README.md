@@ -88,3 +88,11 @@ Los visores permiten autoplay, pantalla completa y descargas. La fuente se conse
 | Simulador 14 · PDP e ICE | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_14_pdp_ice.html) |
 | Simulador 15 · Gradient Boosting | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_15_boosting.html) |
 | Simulador 16 · Decision Lab: modelo, threshold y costos | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/simuladores/simulador_16_decision_lab.html) |
+
+## Guía, glosario y cuestionario completos
+
+- [Guía integral de las 16 simulaciones, 38 páginas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/guia.html): visor, descarga del PDF e índice que conecta cada capítulo con su laboratorio.
+- [Glosario razonado, 109 conceptos](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/glosario.html): búsqueda, filtros, tarjetas y seguimiento de conceptos aprendidos.
+- [Cuestionario razonado, 60 preguntas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/cuestionario.html): respuestas-guía, dificultad, modo examen y seguimiento de repaso.
+
+Ruta sugerida: presentación → guía y simulación → glosario → cuestionario. El progreso de estudio se conserva en el navegador utilizado.
