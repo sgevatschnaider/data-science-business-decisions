@@ -99,7 +99,7 @@ Ruta sugerida: presentación → guía y simulación → glosario → cuestionar
 
 ## Videos complementarios
 
-[![Videos M09](https://img.shields.io/badge/Videos-9%20complementarios-b91c1c?style=flat-square&logo=youtube&logoColor=white)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html)
+[![Videos M09](site/videos-badge.svg)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html)
 
 Nueve videos con análisis de pertinencia, fragmentos sugeridos y enlaces a los simuladores. Cuatro centrales (árboles, poda, Random Forest y Gradient Boosting); tres puentes (sesgo–varianza, AdaBoost y regresión); XGBoost como ampliación e introducción opcional en español.
 

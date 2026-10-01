@@ -157,7 +157,7 @@ def validate_content_counts_with_custom_modules() -> None:
                      "presentacion-01.html", "presentacion-02.html", "presentacion-03.html",
                      "guia.html", "glosario.html", "cuestionario.html",
                      "estudio.js", "estudio.css", "glosario.js", "cuestionario.js",
-                     "videos.html", "videos.css", "videos.js"):
+                     "videos.html", "videos.css", "videos.js", "videos-badge.svg"):
         source = m09 / resource
         require(source, "Módulo 09")
         published = ROOT / "docs/modulos/09-arboles-ensembles" / resource
