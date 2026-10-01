@@ -156,7 +156,8 @@ def validate_content_counts_with_custom_modules() -> None:
     for resource in ("index.html", "styles.css", "presentaciones.js",
                      "presentacion-01.html", "presentacion-02.html", "presentacion-03.html",
                      "guia.html", "glosario.html", "cuestionario.html",
-                     "estudio.js", "estudio.css", "glosario.js", "cuestionario.js"):
+                     "estudio.js", "estudio.css", "glosario.js", "cuestionario.js",
+                     "videos.html", "videos.css", "videos.js"):
         source = m09 / resource
         require(source, "Módulo 09")
         published = ROOT / "docs/modulos/09-arboles-ensembles" / resource
@@ -185,7 +186,7 @@ def validate_content_counts_with_custom_modules() -> None:
         base.error("Módulo 09: la guía PDF no está publicada íntegramente")
     guide = require(m09 / "guia.html", "Módulo 09")
     index = require(m09 / "index.html", "Módulo 09")
-    for resource in ("guia.html", "glosario.html", "cuestionario.html", "simulacion.html"):
+    for resource in ("guia.html", "glosario.html", "cuestionario.html", "simulacion.html", "videos.html"):
         if f'href="{resource}"' not in index:
             base.error(f"Módulo 09: falta acceso a {resource} en el portal")
     for number, count in ((1, 41), (2, 36), (3, 35)):

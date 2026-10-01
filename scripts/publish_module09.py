@@ -7,7 +7,8 @@ TARGET = Path('docs/modulos/09-arboles-ensembles')
 REQUIRED = ('index.html', 'styles.css', 'presentaciones.js',
             'presentacion-01.html', 'presentacion-02.html', 'presentacion-03.html',
             'simulacion.html', 'guia.html', 'glosario.html', 'cuestionario.html',
-            'estudio.js', 'estudio.css', 'glosario.js', 'cuestionario.js')
+            'estudio.js', 'estudio.css', 'glosario.js', 'cuestionario.js',
+            'videos.html', 'videos.css', 'videos.js')
 
 
 def main():
@@ -77,7 +78,22 @@ def main():
     if '[Guía M09: 38 páginas]' not in text:
         section = f'[Guía M09: 38 páginas]({prefix}guia.html) · [Glosario M09: 109 conceptos]({prefix}glosario.html) · [Cuestionario M09: 60 preguntas]({prefix}cuestionario.html)\n\n'
         readme.write_text(text.replace('## Acceso directo', section + '## Acceso directo'), encoding='utf-8')
-    print('Módulo 09: aula completa publicada; 3 presentaciones, 16 simulaciones, guía de 38 páginas, 109 conceptos y 60 preguntas.')
+    # Reconstruir el botón de videos cuando el generador regenera los README.
+    badge = f'[![Videos M09](https://img.shields.io/badge/Videos-9%20complementarios-b91c1c?style=flat-square&logo=youtube&logoColor=white)]({prefix}videos.html)'
+    text = readme.read_text(encoding='utf-8')
+    lines = text.splitlines(keepends=True)
+    for i, line in enumerate(lines):
+        if line.startswith('| 09 |') and f'{prefix}videos.html' not in line:
+            lines[i] = line.rstrip().removesuffix('|').rstrip() + ' ' + badge + ' |\n'
+    readme.write_text(''.join(lines), encoding='utf-8')
+    text = module_readme.read_text(encoding='utf-8')
+    marker = '## Videos complementarios'
+    if marker not in text:
+        section = '\n' + marker + '\n\n' + badge + '\n\n'
+        section += 'Nueve videos con análisis de pertinencia, fragmentos sugeridos y enlaces a los simuladores. Cuatro centrales (árboles, poda, Random Forest y Gradient Boosting); tres puentes (sesgo–varianza, AdaBoost y regresión); XGBoost como ampliación e introducción opcional en español.\n\n'
+        section += 'Los horarios son sugerencias docentes, no capítulos oficiales verificados. Los enlaces directos comienzan en el tiempo indicado; pausa al final del tramo. El visor solicita inicio y fin y mantiene un acceso alternativo a YouTube.\n'
+        module_readme.write_text(text + section, encoding='utf-8')
+    print('Módulo 09: aula completa publicada; 3 presentaciones, 16 simulaciones, guía de 38 páginas, 109 conceptos, 60 preguntas y 9 videos complementarios.')
 
 
 if __name__ == '__main__':

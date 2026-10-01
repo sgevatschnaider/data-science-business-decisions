@@ -96,3 +96,11 @@ Los visores permiten autoplay, pantalla completa y descargas. La fuente se conse
 - [Cuestionario razonado, 60 preguntas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/cuestionario.html): respuestas-guía, dificultad, modo examen y seguimiento de repaso.
 
 Ruta sugerida: presentación → guía y simulación → glosario → cuestionario. El progreso de estudio se conserva en el navegador utilizado.
+
+## Videos complementarios
+
+[![Videos M09](https://img.shields.io/badge/Videos-9%20complementarios-b91c1c?style=flat-square&logo=youtube&logoColor=white)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html)
+
+Nueve videos con análisis de pertinencia, fragmentos sugeridos y enlaces a los simuladores. Cuatro centrales (árboles, poda, Random Forest y Gradient Boosting); tres puentes (sesgo–varianza, AdaBoost y regresión); XGBoost como ampliación e introducción opcional en español.
+
+Los horarios son sugerencias docentes, no capítulos oficiales verificados. Los enlaces directos comienzan en el tiempo indicado; pausa al final del tramo. El visor solicita inicio y fin y mantiene un acceso alternativo a YouTube.
