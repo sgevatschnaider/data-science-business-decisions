@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="112" height="20" viewBox="0 0 112 20" role="img" aria-labelledby="title">
-  <title id="title">Videos: 9 videos complementarios del Módulo 09</title>
+  <title id="title">Videos: 14 videos complementarios del Módulo 09</title>
   <rect width="48" height="20" fill="#555"/>
   <rect x="48" width="64" height="20" fill="#b91c1c"/>
   <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
     <text x="24" y="15" fill="#010101" fill-opacity=".3">Videos</text>
     <text x="24" y="14">Videos</text>
-    <text x="80" y="15" fill="#010101" fill-opacity=".3">9 videos</text>
-    <text x="80" y="14">9 videos</text>
+    <text x="80" y="15" fill="#010101" fill-opacity=".3">14 videos</text>
+    <text x="80" y="14">14 videos</text>
   </g>
 </svg>

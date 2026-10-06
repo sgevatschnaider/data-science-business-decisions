@@ -94,12 +94,25 @@ def main():
     marker = '## Videos complementarios'
     if marker not in text:
         section = '\n' + marker + '\n\n' + module_badge + '\n\n'
-        section += 'Nueve videos con análisis de pertinencia, fragmentos sugeridos y enlaces a los simuladores. Cuatro centrales (árboles, poda, Random Forest y Gradient Boosting); tres puentes (sesgo–varianza, AdaBoost y regresión); XGBoost como ampliación e introducción opcional en español.\n\n'
+        section += 'Catorce videos con análisis de pertinencia y enlaces a las presentaciones y simuladores. La ruta del jueves 8/10 integra el PPT 02, el complemento de Boosting/XGBoost del PPT 03 y videos de bootstrap, Random Forest, MDI, permutation importance y boosting para clasificación.\n\n'
         section += 'Los horarios son sugerencias docentes, no capítulos oficiales verificados. Los enlaces directos comienzan en el tiempo indicado; pausa al final del tramo. El visor solicita inicio y fin y mantiene un acceso alternativo a YouTube.\n'
         module_readme.write_text(text + section, encoding='utf-8')
     else:
         module_readme.write_text(text, encoding='utf-8')
-    print('Módulo 09: aula completa publicada; 3 presentaciones, 16 simulaciones, guía de 38 páginas, 109 conceptos, 60 preguntas y 9 videos complementarios.')
+    # Conservar la ruta del jueves también después de regenerar el README.
+    class_section = '''## Clase del jueves 8/10/2026
+
+- [PPT y videos de la clase](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/index.html#jueves-08-10)
+- [PPT 02 descargable: Bagging y Random Forest](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentaciones/ppt02.pptx)
+- [PPT 03 descargable: complemento de Boosting/XGBoost, diapositivas 3–13](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentaciones/ppt03.pptx)
+- [Ruta de videos del jueves](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html#ruta-jueves)
+
+'''
+    text = module_readme.read_text(encoding='utf-8')
+    if '## Clase del jueves 8/10/2026' not in text:
+        text = text.replace('## Presentaciones completas', class_section + '## Presentaciones completas')
+    module_readme.write_text(text, encoding='utf-8')
+    print('Módulo 09: aula completa publicada; 3 presentaciones, 16 simulaciones, guía de 38 páginas, 109 conceptos, 60 preguntas y 14 videos complementarios.')
 
 
 if __name__ == '__main__':

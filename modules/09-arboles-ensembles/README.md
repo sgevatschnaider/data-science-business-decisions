@@ -58,6 +58,13 @@ Comparación entre árbol podado, Random Forest y boosting, con curvas de aprend
 
 Material elaborado por el profesor Sergio Gevatschnaider.
 
+## Clase del jueves 8/10/2026
+
+- [PPT y videos de la clase](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/index.html#jueves-08-10)
+- [PPT 02 descargable: Bagging y Random Forest](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentaciones/ppt02.pptx)
+- [PPT 03 descargable: complemento de Boosting/XGBoost, diapositivas 3–13](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentaciones/ppt03.pptx)
+- [Ruta de videos del jueves](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html#ruta-jueves)
+
 ## Presentaciones completas
 
 - [PPT 01: Árboles y CART, 41 diapositivas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/presentacion-01.html)
@@ -101,6 +108,6 @@ Ruta sugerida: presentación → guía y simulación → glosario → cuestionar
 
 [![Videos M09](site/videos-badge.svg)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/videos.html)
 
-Nueve videos con análisis de pertinencia, fragmentos sugeridos y enlaces a los simuladores. Cuatro centrales (árboles, poda, Random Forest y Gradient Boosting); tres puentes (sesgo–varianza, AdaBoost y regresión); XGBoost como ampliación e introducción opcional en español.
+Catorce videos con análisis de pertinencia y enlaces a las presentaciones y simuladores. La ruta del jueves 8/10 integra el PPT 02, el complemento de Boosting/XGBoost del PPT 03 y videos de bootstrap, Random Forest, MDI, permutation importance y boosting para clasificación.
 
 Los horarios son sugerencias docentes, no capítulos oficiales verificados. Los enlaces directos comienzan en el tiempo indicado; pausa al final del tramo. El visor solicita inicio y fin y mantiene un acceso alternativo a YouTube.
