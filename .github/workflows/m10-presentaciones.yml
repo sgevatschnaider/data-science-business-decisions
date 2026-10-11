@@ -65,12 +65,30 @@ jobs:
               assert len(PdfReader(pdf).pages)==n,(pdf,'pdf count')
               print(f'OK {name}: {n} PPTX slides / PDF pages')
           PY
+      - name: Crear paquete descargable con los seis archivos
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          root=Path('docs/modulos/10-clustering/presentaciones')
+          names=['M10_01_PCA_Clase_Completa','M10_02_KMeans_Clase_Completa','M10_03_Jerarquico_Clase_Completa']
+          path=root/'M10_PCA_KMeans_Clustering_Presentaciones.zip'
+          with ZipFile(path,'w',compression=ZIP_DEFLATED,compresslevel=6) as z:
+              for name in names:
+                  for ext in ('pptx','pdf'):
+                      f=root/(name+'.'+ext)
+                      z.write(f,f.name)
+          with ZipFile(path) as z:
+              assert len(z.namelist())==6
+          print('ZIP completo:',path, path.stat().st_size,'bytes')
+          PY
       - name: Publicar documentos generados en main
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/modulos/10-clustering/presentaciones/*.pdf docs/modulos/10-clustering/presentaciones/*.pptx
+          git add docs/modulos/10-clustering/presentaciones/*.pdf docs/modulos/10-clustering/presentaciones/*.pptx docs/modulos/10-clustering/presentaciones/*.zip
           if ! git diff --cached --quiet; then
             git commit -m 'M10: publicar 91 diapositivas en PowerPoint y PDF'
+            git pull --rebase origin main
             git push
           fi
