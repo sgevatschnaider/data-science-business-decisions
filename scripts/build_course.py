@@ -2016,13 +2016,14 @@ def root_module_resource_links(module: dict) -> str:
         links = [
             ("Guía", module_url(module, "guia.html"), "guide", "91 diapositivas"),
             ("14 simulaciones", module_url(module, "simulacion.html"), "simulation", "Abrir"),
-            ("Videos", module_url(module, "videos.html"), "dashboard", "14 recursos"),
             ("Glosario", module_url(module, "glosario.html"), "reference", "132 conceptos"),
             ("Cuestionario", module_url(module, "cuestionario.html"), "assessment", "128 preguntas"),
             ("Visor", module_url(module, "visor-integrado.html"), "dashboard", "14 laboratorios"),
             ("Colab", notebook_url(module), "colab", "Abrir"),
         ]
-        return " ".join(readme_resource_button(*link) for link in links)
+        buttons = " ".join(readme_resource_button(*link) for link in links)
+        videos = f"[![Videos M10](docs/modulos/10-clustering/videos-badge.svg)]({module_url(module, 'videos.html')})"
+        return f"{buttons} {videos}"
     if module["id"] == "06":
         pptx_url = (
             f"{REPO_URL}/raw/refs/heads/main/docs/modulos/"

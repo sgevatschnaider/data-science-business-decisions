@@ -2051,7 +2051,7 @@ MODULES = [
             "index.html", "simulacion.html", "simuladores", "visor-integrado.html",
             "guia.html", "guia.css", "guia.js",
             "glosario.html", "cuestionario.html",
-            "videos.html", "videos.css", "videos.js",
+            "videos.html", "videos.css", "videos.js", "videos-badge.svg",
         ],
         "title": "PCA, K-Means y clustering jerárquico",
         "short_title": "Clustering",

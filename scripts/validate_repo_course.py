@@ -294,6 +294,18 @@ def validate_content_counts_with_m10_laboratories():
             base.error(f"Módulo 10: {filename} no conserva controles de estudio")
 
 
+    # La tabla visible del README debe mostrar la misma insignia que el Módulo 09.
+    readme_file = ROOT / "README.md"
+    badge = m10 / "videos-badge.svg"
+    if not badge.is_file() or "Videos: 14 videos complementarios del Módulo 10" not in badge.read_text(encoding="utf-8"):
+        base.error("Módulo 10: falta el distintivo SVG de 14 videos")
+    if readme_file.is_file():
+        m10_row = next((line for line in readme_file.read_text(encoding="utf-8").splitlines()
+                        if line.startswith("| 10 |")), "")
+        if ('docs/modulos/10-clustering/videos-badge.svg' not in m10_row or
+            'modulos/10-clustering/videos.html' not in m10_row):
+            base.error("Módulo 10: falta el botón Videos · 14 videos en la fila 10 del README")
+
     # Videoteca M10: 14 piezas independientes, vinculadas a PPT y laboratorios.
     videos_page = m10 / "videos.html"
     videos_css = m10 / "videos.css"
