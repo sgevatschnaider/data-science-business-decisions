@@ -21,6 +21,7 @@
     b.addEventListener('click',()=>select(i));
     b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();select((i+(e.key==='ArrowRight'?1:2))%3,true);}});
   });
+  document.querySelectorAll('[data-m10g-open]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();select(Number(a.dataset.m10gOpen));document.getElementById('lectura').scrollIntoView({behavior:'smooth',block:'start'});}));
   const index=Number(location.hash.match(/^#clase-([123])$/)?.[1]||1)-1;
   select(index);
 })();
