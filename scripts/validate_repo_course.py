@@ -66,6 +66,8 @@ def validate_visible_content_with_original_m08() -> None:
         "docs/modulos/09-arboles-ensembles/simuladores/",
         "docs/modulos/10-clustering/simuladores/",
         "docs/modulos/10-clustering/visor-integrado.html",
+        "docs/modulos/10-clustering/glosario.html",
+        "docs/modulos/10-clustering/cuestionario.html",
         "docs/modulos/09-arboles-ensembles/simulacion.html",
         "modules/09-arboles-ensembles/site/simulacion.html",
         "modules/09-arboles-ensembles/site/glosario.html",
@@ -260,6 +262,35 @@ def validate_content_counts_with_m10_laboratories():
             base.error(f"Módulo 10: {name} tiene dependencias externas; debe ser autónomo")
         if 'href="../simulacion.html"' not in content:
             base.error(f"Módulo 10: falta el regreso al catálogo desde {name}")
+
+
+    # Guías ampliadas M10: mayor profundidad que el M09 y HTML autosuficiente.
+    for filename, expected, element, marker in (
+        ("glosario.html", 132, "article", 'data-term-count="132"'),
+        ("cuestionario.html", 128, "article", 'data-question-count="128"'),
+    ):
+        path = m10 / filename
+        if not path.is_file():
+            base.error(f"Módulo 10: falta la guía desarrollada {filename}")
+            continue
+        source = path.read_text(encoding="utf-8")
+        import re
+        cards = re.findall(r'<article\s+class="card"\b', source)
+        # Count cards more robustly regardless of attribute order.
+        count = source.count('<article class="card"')
+        detailed = source.count("<details>")
+        if count != expected or detailed != expected or marker not in source:
+            base.error(f"Módulo 10: {filename} debe tener {expected} fichas y respuestas desarrolladas (detectadas {count}/{detailed})")
+        if "<style>" not in source or "<script>" not in source:
+            base.error(f"Módulo 10: {filename} no contiene CSS y JS autónomos")
+        if "Material elaborado por el profesor Sergio Gevatschnaider" not in source:
+            base.error(f"Módulo 10: {filename} falta atribución docente")
+        if f'href="{filename}"' not in index:
+            base.error(f"Módulo 10: índice principal no enlaza {filename}")
+        if 'href="guia.html"' not in source or 'href="simulacion.html"' not in source:
+            base.error(f"Módulo 10: {filename} carece de navegación al material de clase")
+        if not all(token in source for token in ('id="search"', 'id="themeBtn"', 'id="progressbar"')):
+            base.error(f"Módulo 10: {filename} no conserva controles de estudio")
 
 
 base.validate_visible_content = validate_visible_content_with_original_m08

@@ -2012,6 +2012,16 @@ def readme_resource_button(
 
 
 def root_module_resource_links(module: dict) -> str:
+    if module["id"] == "10":
+        links = [
+            ("Guía", module_url(module, "guia.html"), "guide", "91 diapositivas"),
+            ("14 simulaciones", module_url(module, "simulacion.html"), "simulation", "Abrir"),
+            ("Glosario", module_url(module, "glosario.html"), "reference", "132 conceptos"),
+            ("Cuestionario", module_url(module, "cuestionario.html"), "assessment", "128 preguntas"),
+            ("Visor", module_url(module, "visor-integrado.html"), "dashboard", "14 laboratorios"),
+            ("Colab", notebook_url(module), "colab", "Abrir"),
+        ]
+        return " ".join(readme_resource_button(*link) for link in links)
     if module["id"] == "06":
         pptx_url = (
             f"{REPO_URL}/raw/refs/heads/main/docs/modulos/"
@@ -2302,6 +2312,26 @@ def root_readme() -> str:
     validation_classroom = "\n        ".join(
         validation_classroom_readme(MODULES_BY_ID["06"]).splitlines()
     )
+    m10_classroom = "\n        ".join(
+        f"""
+        ## Módulo 10 · PCA, K-Means y clustering jerárquico
+
+        Material de estudio universitario completo: **91 diapositivas**, **14 laboratorios interactivos**,
+        **132 conceptos desarrollados** y **128 preguntas abiertas con respuestas razonadas**.
+        Todos los recursos se abren desde GitHub Pages sin instalar software adicional.
+
+        **1 · Guía y presentaciones:** [Abrir guía con 3 visores y descargas]({PAGES_URL}/modulos/10-clustering/guia.html).
+
+        **2 · Laboratorios:** [14 simulaciones con tema claro/oscuro]({PAGES_URL}/modulos/10-clustering/simulacion.html)
+        · [visor integrado]({PAGES_URL}/modulos/10-clustering/visor-integrado.html).
+
+        **3 · Guías para estudiar:**
+        [Glosario razonado: 132 conceptos]({PAGES_URL}/modulos/10-clustering/glosario.html)
+        · [Cuestionario razonado: 128 preguntas]({PAGES_URL}/modulos/10-clustering/cuestionario.html).
+
+        [Portal principal del Módulo 10]({PAGES_URL}/modulos/10-clustering/index.html).
+        """.splitlines()
+    )
     study_guide = "\n        ".join(study_guide_readme().splitlines())
     return dedent(
         f"""
@@ -2339,6 +2369,8 @@ def root_readme() -> str:
         {transformation_classroom}
 
         {validation_classroom}
+
+        {m10_classroom}
 
         ## Acceso directo
 

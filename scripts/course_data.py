@@ -2050,6 +2050,7 @@ MODULES = [
         "custom_page_files": [
             "index.html", "simulacion.html", "simuladores", "visor-integrado.html",
             "guia.html", "guia.css", "guia.js",
+            "glosario.html", "cuestionario.html",
         ],
         "title": "PCA, K-Means y clustering jerárquico",
         "short_title": "Clustering",
