@@ -11,9 +11,10 @@ Diagnosticar completitud, validez, consistencia, duplicados y mecanismos de ause
 | Recurso | Acceso |
 |---|---|
 | Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/index.html) |
-| Diapositivas 01 · Calidad de datos y decisiones | [Abrir](https://docs.google.com/presentation/d/1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/view?usp=sharing) |
-| Diapositivas 02 · Missing Data: MCAR, MAR y MNAR | [Abrir](https://docs.google.com/presentation/d/1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/view?usp=sharing) |
-| Diapositivas 03 · Imputación, pipelines y efecto sobre modelos | [Abrir](https://docs.google.com/presentation/d/1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/view?usp=sharing) |
+| Guía de las tres presentaciones · 30 diapositivas | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/guia-presentaciones.html) |
+| Diapositivas 01 · Calidad de datos y decisiones | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/presentacion-01.html) |
+| Diapositivas 02 · Missing Data: MCAR, MAR y MNAR | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/presentacion-02.html) |
+| Diapositivas 03 · Imputación, pipelines y efecto sobre modelos | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/presentacion-03.html) |
 | Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/02-calidad-datos/simulacion.html) |
 | Colab 01 · Calidad de datos | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/02-calidad-datos.ipynb) |
 | Colab 02 · Missing Data: marco conceptual | [Abrir](https://colab.research.google.com/drive/1_ldjrvEBsIlo3_GvoKJ3tUXdmjG_Nvq2?usp=sharing) |

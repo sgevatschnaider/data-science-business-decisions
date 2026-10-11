@@ -372,6 +372,58 @@ def validate_content_counts_with_m10_laboratories():
                 break
 
 
+    # M02: visores sin autorización de Drive para las 30 diapositivas.
+    m02_root = ROOT / "docs/modulos/02-calidad-datos"
+    index_m02 = m02_root / "index.html"
+    guide_m02 = m02_root / "guia-presentaciones.html"
+    common_css = m02_root / "presentaciones.css"
+    common_js = m02_root / "presentaciones.js"
+    expected_pdf = (
+        "M02_01_Calidad_Datos.pdf",
+        "M02_02_MCAR_MAR_MNAR.pdf",
+        "M02_03_Imputacion_Pipelines.pdf",
+    )
+    for target in (index_m02, guide_m02, common_css, common_js):
+        if not target.is_file():
+            base.error(f"Módulo 02: falta el archivo de presentación {target.name}")
+    if index_m02.is_file():
+        html = index_m02.read_text(encoding="utf-8")
+        if "docs.google.com/presentation/" in html:
+            base.error("Módulo 02: quedan enlaces a Slides que solicitan permisos")
+        if 'href="guia-presentaciones.html"' not in html:
+            base.error("Módulo 02: falta acceso a la guía de presentaciones")
+        for number in range(1, 4):
+            if f'href="presentacion-0{number}.html"' not in html:
+                base.error(f"Módulo 02: falta enlace al visor {number}")
+    if guide_m02.is_file():
+        html = guide_m02.read_text(encoding="utf-8")
+        if 'id="pdf"' not in html or 'id="theme"' not in html:
+            base.error("Módulo 02: la guía no ofrece lector PDF y cambio de tema")
+        for filename in expected_pdf:
+            if filename not in html:
+                base.error(f"Módulo 02: guía sin documento {filename}")
+        if "docs.google.com/presentation/" in html:
+            base.error("Módulo 02: guía depende de enlaces a Google Slides")
+    if common_js.is_file():
+        js = common_js.read_text(encoding="utf-8")
+        for control in ("M02_DECK", "getDocument", "slideRange", "btnFullscreen", "btnGrid"):
+            if control not in js:
+                base.error(f"Módulo 02: visor sin control funcional {control}")
+    for i, filename in enumerate(expected_pdf, 1):
+        page = m02_root / f"presentacion-0{i}.html"
+        pdf = m02_root / "presentaciones" / filename
+        if not page.is_file():
+            base.error(f"Módulo 02: falta visor {i}")
+            continue
+        html = page.read_text(encoding="utf-8")
+        if f"presentaciones/{filename}" not in html or 'slides:10' not in html:
+            base.error(f"Módulo 02: visor {i} no apunta al PDF de diez láminas")
+        if "docs.google.com/presentation/" in html:
+            base.error(f"Módulo 02: visor {i} exige permisos Drive")
+        if not pdf.is_file() or pdf.stat().st_size < 300_000 or not pdf.read_bytes().startswith(b"%PDF"):
+            base.error(f"Módulo 02: PDF ausente o inválido {filename}")
+
+
 base.validate_visible_content = validate_visible_content_with_original_m08
 base.validate_content_counts = validate_content_counts_with_m10_laboratories
 

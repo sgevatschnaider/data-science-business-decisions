@@ -437,6 +437,11 @@ MODULES = [
         "id": "02",
         "slug": "02-calidad-datos",
         "unit": "I",
+        "custom_page_files": [
+            "index.html", "guia-presentaciones.html",
+            "presentacion-01.html", "presentacion-02.html", "presentacion-03.html",
+            "presentaciones.css", "presentaciones.js", "presentaciones",
+        ],
         "title": "Calidad de datos y valores faltantes",
         "short_title": "Calidad y faltantes",
         "summary": (
@@ -557,8 +562,8 @@ MODULES = [
             {
                 "label": "Diapositivas 01 · Calidad de datos y decisiones",
                 "url": (
-                    "https://docs.google.com/presentation/d/"
-                    "1CAvqHS1RNvTdth7VzIxJ1fzm82NA8smheyvRh_PerkM/view?usp=sharing"
+                    "https://sgevatschnaider.github.io/data-science-business-decisions/"
+                    "modulos/02-calidad-datos/presentacion-01.html"
                 ),
                 "description": (
                     "Dimensiones de calidad, reglas de negocio, gobernanza, "
@@ -578,8 +583,8 @@ MODULES = [
             {
                 "label": "Diapositivas 02 · Missing Data: MCAR, MAR y MNAR",
                 "url": (
-                    "https://docs.google.com/presentation/d/"
-                    "1ejHnIv-QppNEq1mcEKFA_F_euYJFFJFkrbggV6LubM8/view?usp=sharing"
+                    "https://sgevatschnaider.github.io/data-science-business-decisions/"
+                    "modulos/02-calidad-datos/presentacion-02.html"
                 ),
                 "description": (
                     "Ausencia estructural, mecanismos de faltantes, patrones, "
@@ -601,8 +606,8 @@ MODULES = [
                     "Diapositivas 03 · Imputación, pipelines y efecto sobre modelos"
                 ),
                 "url": (
-                    "https://docs.google.com/presentation/d/"
-                    "1hfBu_-gMoQaNWPyiY41OmWw9Zi3U1IMFmX6eEvpB0KY/view?usp=sharing"
+                    "https://sgevatschnaider.github.io/data-science-business-decisions/"
+                    "modulos/02-calidad-datos/presentacion-03.html"
                 ),
                 "description": (
                     "Estrategias de tratamiento, leakage, indicadores de ausencia, "
