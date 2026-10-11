@@ -11,6 +11,14 @@ Curso abierto de ciencia de datos, machine learning e inteligencia artificial or
 </p>
 <p align="center"><sub>Animación procedente del <a href="https://github.com/sgevatschnaider/data-science-for-business-models">repositorio original</a>, fijada a una revisión estable.</sub></p>
 
+## Guía de estudio de Ciencia de Datos II
+
+**110 preguntas con respuestas desarrolladas:** 100 sobre los temas del parcial y 10 complementarias sobre autoencoders. Incluye ejercicios resueltos, fórmulas, figuras e índice navegable.
+
+[Descargar la guía completa en PDF](docs/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf) · [Leer las preguntas y respuestas](assessments/guia-ciencia-datos-ii/guia-110-preguntas.md)
+
+Material elaborado por el profesor Sergio Gevatschnaider. Segundo cuatrimestre de 2026.
+
 ## Propósito
 
 El recorrido conecta cinco preguntas:
