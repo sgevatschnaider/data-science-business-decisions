@@ -175,6 +175,9 @@ Tres presentaciones completas y reproducibles (**91 diapositivas, con notas doce
 | **02 · K-Means** · 31 diapositivas | [Ver presentación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentacion-02.html) | [Abrir PDF](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentaciones/M10_02_KMeans_Clase_Completa.pdf) | [Descargar PPTX](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_02_KMeans_Clase_Completa.pptx) |
 | **03 · Clustering jerárquico** · 31 diapositivas | [Ver presentación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentacion-03.html) | [Abrir PDF](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentaciones/M10_03_Jerarquico_Clase_Completa.pdf) | [Descargar PPTX](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_03_Jerarquico_Clase_Completa.pptx) |
 
+
+[**Descargar paquete M10: 3 PPTX + 3 PDF en ZIP**](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_PCA_KMeans_Clustering_Presentaciones.zip)
+
 **2 · Exploración y estudio**
 
 [Portal M10](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/index.html) · [Simulación M10 existente](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/simulacion.html) · [Glosario actual](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/glosario.html) · [Cuestionario actual](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/cuestionario.html).
