@@ -27,6 +27,8 @@ PAGES_URL = (
 REPO_URL = (
     f"https://github.com/{COURSE['owner']}/{COURSE['repository']}"
 )
+STUDY_GUIDE_PDF = "guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf"
+STUDY_GUIDE_URL = f"{PAGES_URL}/{STUDY_GUIDE_PDF}"
 ORIGINAL_REPO_URL = (
     f"https://github.com/{COURSE['owner']}/data-science-for-business-models"
 )
@@ -389,7 +391,7 @@ def home_page() -> str:
               <div class="button-row">
                 <a class="button primary" href="#recorrido">Comenzar el recorrido</a>
                 <a class="button secondary" href="programa.html">Ver programa</a>
-                <a class="button tertiary" href="guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf" download>Guía Ciencia de Datos II (PDF)</a>
+                <a class="button tertiary" href="{STUDY_GUIDE_PDF}">Abrir guía del parcial (PDF)</a>
               </div>
               <p class="hero-note">Sin instalación para las simulaciones. Notebooks listos para Colab.</p>
             </div>
@@ -459,6 +461,25 @@ def home_page() -> str:
           </label>
           <p class="search-status" role="status" aria-live="polite" data-module-count>15 módulos disponibles</p>
           {''.join(unit_sections)}
+        </section>
+        <section id="guia-ciencia-de-datos-ii" class="container study-guide-panel" aria-labelledby="study-guide-title">
+          <div class="study-guide-copy">
+            <p class="eyebrow">16 · Guía de estudio para el parcial</p>
+            <h2 id="study-guide-title">Ciencia de Datos II</h2>
+            <p class="study-guide-lead">Todo el repaso, en una guía de preguntas y respuestas completamente desarrolladas.</p>
+            <ul class="study-guide-facts" aria-label="Contenido de la guía">
+              <li><strong>100</strong><span>preguntas del parcial</span></li>
+              <li><strong>10</strong><span>sobre autoencoders</span></li>
+              <li><strong>74</strong><span>páginas de estudio</span></li>
+            </ul>
+            <p class="study-guide-author">Material elaborado por el profesor <strong>Sergio Gevatschnaider</strong>.</p>
+          </div>
+          <div class="study-guide-actions">
+            <span class="study-guide-format">PDF · 110 preguntas</span>
+            <a class="button primary study-guide-open" href="{STUDY_GUIDE_PDF}">Abrir guía en PDF <span aria-hidden="true">→</span></a>
+            <p>Ejercicios resueltos, fórmulas, gráficos e índice navegable.</p>
+            <a class="study-guide-source" href="{REPO_URL}/blob/main/assessments/guia-ciencia-datos-ii/guia-110-preguntas.md">Leer preguntas y respuestas en GitHub</a>
+          </div>
         </section>
         <section class="container callout-panel">
           <div>
@@ -2229,6 +2250,35 @@ def validation_classroom_readme(module: dict) -> str:
     ).strip()
 
 
+def study_guide_readme() -> str:
+    return dedent(
+        f"""
+        ## 16 · Guía de estudio para el parcial — Ciencia de Datos II
+
+        [![Ciencia de Datos II: 110 preguntas desarrolladas. Abrir guía en PDF.](docs/guias/guia-ciencia-datos-ii-banner.svg)]({STUDY_GUIDE_URL})
+
+        **Un repaso completo para preparar el parcial:** 100 preguntas de los temas del examen y 10 complementarias sobre autoencoders, con respuestas desarrolladas hasta el final.
+
+        | Temas del parcial | Complemento | Material de estudio |
+        |:---|:---|:---|
+        | **100 preguntas** · EDA, faltantes, outliers, transformaciones, regresión lineal, correlación, métricas, validación cruzada, series de tiempo, regresión logística, árboles, Random Forest y clustering | **10 preguntas** · Autoencoders | **74 páginas** · Ejercicios resueltos, fórmulas, gráficos e índice navegable |
+
+        [![Abrir guía en PDF](docs/guias/abrir-guia-pdf.svg)]({STUDY_GUIDE_URL})
+
+        También podés [leer las preguntas y respuestas en GitHub](assessments/guia-ciencia-datos-ii/guia-110-preguntas.md).
+
+        *Material elaborado por el profesor Sergio Gevatschnaider · Segundo cuatrimestre de 2026.*
+        """
+    ).strip()
+
+
+def study_guide_table_row() -> str:
+    return (
+        "| **16** | **Guía de estudio · Ciencia de Datos II**<br>Repaso del parcial + autoencoders | "
+        f"[![Abrir guía en PDF](docs/guias/abrir-guia-pdf.svg)]({STUDY_GUIDE_URL}) |"
+    )
+
+
 def root_readme() -> str:
     module_rows = "\n        ".join(
         (
@@ -2252,6 +2302,7 @@ def root_readme() -> str:
     validation_classroom = "\n        ".join(
         validation_classroom_readme(MODULES_BY_ID["06"]).splitlines()
     )
+    study_guide = "\n        ".join(study_guide_readme().splitlines())
     return dedent(
         f"""
         # {COURSE['title']}
@@ -2266,14 +2317,6 @@ def root_readme() -> str:
           <img src="{ORIGINAL_GIF_URL}" alt="Ciencia de datos aplicada a modelos de negocio" width="620">
         </p>
         <p align="center"><sub>Animación procedente del <a href="{ORIGINAL_REPO_URL}">repositorio original</a>, fijada a una revisión estable.</sub></p>
-
-        ## Guía de estudio de Ciencia de Datos II
-
-        **110 preguntas con respuestas desarrolladas:** 100 sobre los temas del parcial y 10 complementarias sobre autoencoders. Incluye ejercicios resueltos, fórmulas, figuras e índice navegable.
-
-        [Descargar la guía completa en PDF](docs/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf) · [Leer las preguntas y respuestas](assessments/guia-ciencia-datos-ii/guia-110-preguntas.md)
-
-        Material elaborado por el profesor Sergio Gevatschnaider. Segundo cuatrimestre de 2026.
 
         ## Propósito
 
@@ -2312,9 +2355,12 @@ def root_readme() -> str:
 
         La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
 
-        | Módulo | Contenido | Recursos |
+        | Módulo / recurso | Contenido | Recursos |
         |---:|---|---|
         {module_rows}
+        {study_guide_table_row()}
+
+        {study_guide}
 
         ## Organización del repositorio
 

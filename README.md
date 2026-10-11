@@ -11,14 +11,6 @@ Curso abierto de ciencia de datos, machine learning e inteligencia artificial or
 </p>
 <p align="center"><sub>Animación procedente del <a href="https://github.com/sgevatschnaider/data-science-for-business-models">repositorio original</a>, fijada a una revisión estable.</sub></p>
 
-## Guía de estudio de Ciencia de Datos II
-
-**110 preguntas con respuestas desarrolladas:** 100 sobre los temas del parcial y 10 complementarias sobre autoencoders. Incluye ejercicios resueltos, fórmulas, figuras e índice navegable.
-
-[Descargar la guía completa en PDF](docs/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf) · [Leer las preguntas y respuestas](assessments/guia-ciencia-datos-ii/guia-110-preguntas.md)
-
-Material elaborado por el profesor Sergio Gevatschnaider. Segundo cuatrimestre de 2026.
-
 ## Propósito
 
 El recorrido conecta cinco preguntas:
@@ -186,7 +178,7 @@ Cada módulo contiene una guía principal, una simulación sin instalación, un 
 
 La síntesis conceptual y sus criterios de uso están documentados en [Marco estratégico de decisión](references/marco-estrategico-decision.md).
 
-| Módulo | Contenido | Recursos |
+| Módulo / recurso | Contenido | Recursos |
 |---:|---|---|
 | 00 | Orientación, Python y flujo de trabajo | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/00-orientacion-python/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/00-orientacion-python.ipynb) |
 | 01 | Problema de negocio, EDA y visualización | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/simulacion.html) [![Dashboard](https://img.shields.io/badge/Dashboard-Abrir-d97706?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/dashboard.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/01-eda-negocio/glosario.html) [![Colab 01](https://img.shields.io/badge/Colab%2001-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/drive/14Vm6DoayZcSnJLpkQpJ_YVciStuR7k5F?usp=sharing) [![Colab 02](https://img.shields.io/badge/Colab%2002-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/drive/1ZJl2btb9W-EKz7yFvE1Gur0dU5AdVdOk?usp=sharing) |
@@ -203,6 +195,23 @@ La síntesis conceptual y sus criterios de uso están documentados en [Marco est
 | 12 | Programación lineal y analítica prescriptiva | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/12-optimizacion.ipynb) |
 | 13 | Interpretabilidad, equidad y ciclo de vida | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/13-ia-responsable/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/13-ia-responsable.ipynb) |
 | 14 | Proyecto integrador de decisión | [![Guía](https://img.shields.io/badge/Gu%C3%ADa-Abrir-0f766e?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/index.html) [![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Abrir-0891b2?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/simulacion.html) [![Cuestionario](https://img.shields.io/badge/Cuestionario-Abrir-1d4ed8?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/cuestionario.html) [![Glosario](https://img.shields.io/badge/Glosario-Abrir-4f46e5?style=flat-square)](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/14-proyecto-integrador/glosario.html) [![Colab](https://img.shields.io/badge/Colab-Abrir-f9ab00?style=flat-square&logo=googlecolab&logoColor=202124)](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/14-proyecto-integrador.ipynb) |
+| **16** | **Guía de estudio · Ciencia de Datos II**<br>Repaso del parcial + autoencoders | [![Abrir guía en PDF](docs/guias/abrir-guia-pdf.svg)](https://sgevatschnaider.github.io/data-science-business-decisions/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf) |
+
+## 16 · Guía de estudio para el parcial — Ciencia de Datos II
+
+[![Ciencia de Datos II: 110 preguntas desarrolladas. Abrir guía en PDF.](docs/guias/guia-ciencia-datos-ii-banner.svg)](https://sgevatschnaider.github.io/data-science-business-decisions/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf)
+
+**Un repaso completo para preparar el parcial:** 100 preguntas de los temas del examen y 10 complementarias sobre autoencoders, con respuestas desarrolladas hasta el final.
+
+| Temas del parcial | Complemento | Material de estudio |
+|:---|:---|:---|
+| **100 preguntas** · EDA, faltantes, outliers, transformaciones, regresión lineal, correlación, métricas, validación cruzada, series de tiempo, regresión logística, árboles, Random Forest y clustering | **10 preguntas** · Autoencoders | **74 páginas** · Ejercicios resueltos, fórmulas, gráficos e índice navegable |
+
+[![Abrir guía en PDF](docs/guias/abrir-guia-pdf.svg)](https://sgevatschnaider.github.io/data-science-business-decisions/guias/Ciencia_de_Datos_II_Guia_110_Preguntas.pdf)
+
+También podés [leer las preguntas y respuestas en GitHub](assessments/guia-ciencia-datos-ii/guia-110-preguntas.md).
+
+*Material elaborado por el profesor Sergio Gevatschnaider · Segundo cuatrimestre de 2026.*
 
 ## Organización del repositorio
 

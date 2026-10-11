@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-labelledby="title desc">
+  <title id="title">Ciencia de Datos II · Abrir guía en PDF</title>
+  <desc id="desc">Recurso 16. Guía de estudio de 74 páginas: 100 preguntas del parcial y 10 sobre autoencoders, con respuestas desarrolladas y ejercicios resueltos. Profesor Sergio Gevatschnaider.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#082f49"/><stop offset="1" stop-color="#0b4948"/>
+    </linearGradient>
+    <linearGradient id="accent"><stop stop-color="#5eead4"/><stop offset="1" stop-color="#a7f3d0"/></linearGradient>
+    <clipPath id="bounds"><rect width="960" height="320" rx="20"/></clipPath>
+  </defs>
+  <g clip-path="url(#bounds)">
+    <rect width="960" height="320" fill="url(#bg)"/>
+    <circle cx="926" cy="318" r="204" fill="#5eead4" opacity=".055"/>
+    <circle cx="917" cy="-21" r="143" fill="none" stroke="#5eead4" stroke-width="1" opacity=".13"/>
+    <path d="M697 0v320" stroke="#b6ece6" opacity=".1"/>
+    <rect x="0" y="0" width="7" height="320" fill="url(#accent)"/>
+    <text x="36" y="42" fill="#99f6e4" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700" letter-spacing="1.4">16 / GUÍA DE ESTUDIO PARA EL PARCIAL</text>
+    <text x="34" y="100" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="700">Ciencia de Datos II</text>
+    <text x="36" y="132" fill="#d4e7ed" font-family="Arial,Helvetica,sans-serif" font-size="17">Preguntas, respuestas desarrolladas y ejercicios resueltos.</text>
+    <rect x="36" y="157" width="236" height="41" rx="9" fill="#ffffff" opacity=".09"/>
+    <text x="52" y="183" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700">100 · Temas del parcial</text>
+    <rect x="284" y="157" width="216" height="41" rx="9" fill="#ffffff" opacity=".09"/>
+    <text x="300" y="183" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700">10 · Autoencoders</text>
+    <rect x="36" y="220" width="288" height="55" rx="11" fill="url(#accent)"/>
+    <path d="M54 234h13l6 6v21H54z M67 234v7h6 M59 246h9 M59 251h9" fill="none" stroke="#082f49" stroke-width="1.8" stroke-linejoin="round"/>
+    <text x="88" y="254" fill="#082f49" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700">Abrir guía en PDF</text>
+    <path d="M293 247h14m-6-6 6 6-6 6" fill="none" stroke="#082f49" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="36" y="302" fill="#c7e2e5" font-family="Arial,Helvetica,sans-serif" font-size="14">Material elaborado por el profesor Sergio Gevatschnaider</text>
+    <rect x="730" y="57" width="198" height="207" rx="16" fill="#ffffff" opacity=".065" stroke="#d4ffff" stroke-opacity=".3"/>
+    <text x="829" y="131" text-anchor="middle" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="66" font-weight="700">110</text>
+    <text x="829" y="160" text-anchor="middle" fill="#99f6e4" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700">PREGUNTAS</text>
+    <path d="M761 178h136" stroke="#b8e9e6" opacity=".3"/>
+    <text x="829" y="209" text-anchor="middle" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="18">74 páginas · PDF</text>
+    <text x="829" y="237" text-anchor="middle" fill="#c7e2e5" font-family="Arial,Helvetica,sans-serif" font-size="14">Índice navegable</text>
+  </g>
+</svg>
