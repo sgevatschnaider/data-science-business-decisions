@@ -2047,6 +2047,7 @@ MODULES = [
         "id": "10",
         "slug": "10-clustering",
         "unit": "III",
+        "custom_notebook": True,  # Notebook integral: 76 celdas, no regenerar como plantilla mínima.
         "custom_page_files": [
             "index.html", "simulacion.html", "simuladores", "visor-integrado.html",
             "guia.html", "guia.css", "guia.js",

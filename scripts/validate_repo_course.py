@@ -340,6 +340,38 @@ def validate_content_counts_with_m10_laboratories():
                 base.error(f"Módulo 10: {document_name} no enlaza la videoteca")
 
 
+    # Notebook M10: exigir el laboratorio integral y su protección ante regeneración.
+    import json
+    notebook_file = ROOT / "notebooks/10-clustering.ipynb"
+    if not notebook_file.is_file():
+        base.error("Módulo 10: falta notebooks/10-clustering.ipynb")
+    else:
+        notebook = json.loads(notebook_file.read_text(encoding="utf-8"))
+        cells = notebook.get("cells", [])
+        code_cells = [cell for cell in cells if cell.get("cell_type") == "code"]
+        full_text = "\n".join("".join(cell.get("source", [])) for cell in cells)
+        if len(cells) < 76 or len(code_cells) < 32:
+            base.error(f"Módulo 10: el Colab integral requiere 76 celdas y 32 de código; contiene {len(cells)} y {len(code_cells)}")
+        for concept in (
+            "Criterio de éxito", "Registro de decisión", "bootstrap_stability",
+            "SVD", "PCA", "KMeans", "linkage", "dendrogram", "fcluster",
+            "silhouette_score", "DBSCAN", "make_customers", "panel_experimento",
+            "joblib.dump", "assert checks['Aprobada'].all()",
+        ):
+            if concept not in full_text:
+                base.error(f"Módulo 10: falta un bloque indispensable del Colab: {concept}")
+        m10 = next((m for m in base.MODULES if m["id"] == "10"), None)
+        if not m10 or m10.get("custom_notebook") is not True:
+            base.error("Módulo 10: el generador no protege el Colab integral con custom_notebook")
+        index = (ROOT / "docs/modulos/10-clustering/index.html").read_text(encoding="utf-8")
+        if "Abrir Colab integral · 76 celdas" not in index:
+            base.error("Módulo 10: falta acceso destacado al Colab integral en el módulo")
+        for cell in code_cells:
+            if cell.get("outputs") or cell.get("execution_count") is not None:
+                base.error("Módulo 10: el notebook publicado debe estar limpio y ser reproducible")
+                break
+
+
 base.validate_visible_content = validate_visible_content_with_original_m08
 base.validate_content_counts = validate_content_counts_with_m10_laboratories
 
