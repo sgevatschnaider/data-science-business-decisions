@@ -1,0 +1,76 @@
+name: M10 · Generar presentaciones docentes
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/modulos/10-clustering/presentaciones/fuentes/**'
+      - '.github/workflows/m10-presentaciones.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Python y bibliotecas matemáticas
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar motor de presentación y PDF
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-impress fonts-dejavu-core
+          python -m pip install --disable-pip-version-check numpy matplotlib scipy scikit-learn
+          npm install --no-save --prefix docs/modulos/10-clustering/presentaciones/fuentes pptxgenjs@3.12.0
+      - name: Reconstruir los 33 gráficos didácticos y los tres PPTX
+        run: |
+          set -euo pipefail
+          ROOT=docs/modulos/10-clustering/presentaciones
+          mkdir -p "$ROOT/fuentes/assets"
+          python "$ROOT/fuentes/make_charts.py"
+          node "$ROOT/fuentes/build_decks.js"
+          ls -lh "$ROOT"/*.pptx
+      - name: Exportar PDF de las tres presentaciones
+        run: |
+          set -euo pipefail
+          ROOT=docs/modulos/10-clustering/presentaciones
+          libreoffice -env:UserInstallation=file:///tmp/m10-lo-$(date +%s) --headless --convert-to pdf --outdir "$ROOT" "$ROOT"/*.pptx
+          test "$(find "$ROOT" -maxdepth 1 -type f -name '*.pdf' | wc -l)" -eq 3
+          test "$(find "$ROOT" -maxdepth 1 -type f -name '*.pptx' | wc -l)" -eq 3
+      - name: Verificar que los seis documentos abran y tengan 91 páginas
+        run: |
+          python -m pip install --disable-pip-version-check pypdf python-pptx
+          python - <<'PY'
+          from pathlib import Path
+          from pptx import Presentation
+          from pypdf import PdfReader
+          r=Path('docs/modulos/10-clustering/presentaciones')
+          expected={'M10_01_PCA_Clase_Completa':29,'M10_02_KMeans_Clase_Completa':31,'M10_03_Jerarquico_Clase_Completa':31}
+          for name,n in expected.items():
+              ppt=r/(name+'.pptx');pdf=r/(name+'.pdf')
+              assert ppt.is_file() and pdf.is_file(),(ppt,pdf)
+              assert len(Presentation(ppt).slides)==n,(ppt,'pptx count')
+              assert len(PdfReader(pdf).pages)==n,(pdf,'pdf count')
+              print(f'OK {name}: {n} PPTX slides / PDF pages')
+          PY
+      - name: Publicar documentos generados en main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/modulos/10-clustering/presentaciones/*.pdf docs/modulos/10-clustering/presentaciones/*.pptx
+          if ! git diff --cached --quiet; then
+            git commit -m 'M10: publicar 91 diapositivas en PowerPoint y PDF'
+            git push
+          fi
