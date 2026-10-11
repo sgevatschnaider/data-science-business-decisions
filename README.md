@@ -163,6 +163,26 @@ Tres presentaciones completas con visores, autoplay, pantalla completa y descarg
 
 [Guía M09: 38 páginas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/guia.html) · [Glosario M09: 109 conceptos](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/glosario.html) · [Cuestionario M09: 60 preguntas](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/09-arboles-ensembles/cuestionario.html)
 
+## Módulo 10 · PCA, K-Means y clustering jerárquico · aula de clase
+
+Tres presentaciones completas y reproducibles (**91 diapositivas, con notas docentes**) con visores en GitHub Pages, navegación por diapositiva, miniaturas, reproducción automática, pantalla completa y acceso a los originales en PowerPoint y PDF.
+
+**1 · Presentaciones y descargas**
+
+| Clase | Abrir visor | PDF (lectura) | PowerPoint (editable) |
+|---|---|---|---|
+| **01 · PCA** · 29 diapositivas | [Ver presentación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentacion-01.html) | [Abrir PDF](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentaciones/M10_01_PCA_Clase_Completa.pdf) | [Descargar PPTX](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_01_PCA_Clase_Completa.pptx) |
+| **02 · K-Means** · 31 diapositivas | [Ver presentación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentacion-02.html) | [Abrir PDF](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentaciones/M10_02_KMeans_Clase_Completa.pdf) | [Descargar PPTX](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_02_KMeans_Clase_Completa.pptx) |
+| **03 · Clustering jerárquico** · 31 diapositivas | [Ver presentación](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentacion-03.html) | [Abrir PDF](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/presentaciones/M10_03_Jerarquico_Clase_Completa.pdf) | [Descargar PPTX](https://github.com/sgevatschnaider/data-science-business-decisions/raw/refs/heads/main/docs/modulos/10-clustering/presentaciones/M10_03_Jerarquico_Clase_Completa.pptx) |
+
+**2 · Exploración y estudio**
+
+[Portal M10](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/index.html) · [Simulación M10 existente](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/simulacion.html) · [Glosario actual](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/glosario.html) · [Cuestionario actual](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/10-clustering/cuestionario.html).
+
+**3 · Reproducibilidad y próximas etapas**
+
+Los scripts de producción y los gráficos reproducibles se encuentran en [presentaciones/fuentes](docs/modulos/10-clustering/presentaciones/fuentes/). Las **14 simulaciones sincronizadas S01–S14**, el glosario ampliado y el cuestionario completo se incorporarán cuando se desarrolle la etapa correspondiente; no se presentan como terminados.
+
 ## Acceso directo
 
 Cada módulo contiene una guía principal, una simulación sin instalación, un cuestionario con corrección inmediata, un glosario con buscador y uno o más notebooks ejecutables en Google Colab. Los módulos ampliados pueden incorporar presentaciones y laboratorios complementarios manteniendo la misma secuencia pedagógica.
