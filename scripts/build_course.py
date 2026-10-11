@@ -2016,6 +2016,7 @@ def root_module_resource_links(module: dict) -> str:
         links = [
             ("Guía", module_url(module, "guia.html"), "guide", "91 diapositivas"),
             ("14 simulaciones", module_url(module, "simulacion.html"), "simulation", "Abrir"),
+            ("Videos", module_url(module, "videos.html"), "dashboard", "14 recursos"),
             ("Glosario", module_url(module, "glosario.html"), "reference", "132 conceptos"),
             ("Cuestionario", module_url(module, "cuestionario.html"), "assessment", "128 preguntas"),
             ("Visor", module_url(module, "visor-integrado.html"), "dashboard", "14 laboratorios"),
@@ -2322,10 +2323,10 @@ def root_readme() -> str:
 
         **1 · Guía y presentaciones:** [Abrir guía con 3 visores y descargas]({PAGES_URL}/modulos/10-clustering/guia.html).
 
-        **2 · Laboratorios:** [14 simulaciones con tema claro/oscuro]({PAGES_URL}/modulos/10-clustering/simulacion.html)
+        **2 · Videos:** [14 videos complementarios ligados a las 91 diapositivas]({PAGES_URL}/modulos/10-clustering/videos.html)\n\n        **3 · Laboratorios:** [14 simulaciones con tema claro/oscuro]({PAGES_URL}/modulos/10-clustering/simulacion.html)
         · [visor integrado]({PAGES_URL}/modulos/10-clustering/visor-integrado.html).
 
-        **3 · Guías para estudiar:**
+        **4 · Guías para estudiar:**
         [Glosario razonado: 132 conceptos]({PAGES_URL}/modulos/10-clustering/glosario.html)
         · [Cuestionario razonado: 128 preguntas]({PAGES_URL}/modulos/10-clustering/cuestionario.html).
 

@@ -68,6 +68,7 @@ def validate_visible_content_with_original_m08() -> None:
         "docs/modulos/10-clustering/visor-integrado.html",
         "docs/modulos/10-clustering/glosario.html",
         "docs/modulos/10-clustering/cuestionario.html",
+        "docs/modulos/10-clustering/videos.html",
         "docs/modulos/09-arboles-ensembles/simulacion.html",
         "modules/09-arboles-ensembles/site/simulacion.html",
         "modules/09-arboles-ensembles/site/glosario.html",
@@ -291,6 +292,40 @@ def validate_content_counts_with_m10_laboratories():
             base.error(f"Módulo 10: {filename} carece de navegación al material de clase")
         if not all(token in source for token in ('id="search"', 'id="themeBtn"', 'id="progressbar"')):
             base.error(f"Módulo 10: {filename} no conserva controles de estudio")
+
+
+    # Videoteca M10: 14 piezas independientes, vinculadas a PPT y laboratorios.
+    videos_page = m10 / "videos.html"
+    videos_css = m10 / "videos.css"
+    videos_js = m10 / "videos.js"
+    for video_asset in (videos_page, videos_css, videos_js):
+        if not video_asset.is_file():
+            base.error(f"Módulo 10: falta videoteca {video_asset.name}")
+    if videos_page.is_file() and videos_css.is_file() and videos_js.is_file():
+        html = videos_page.read_text(encoding="utf-8")
+        js = videos_js.read_text(encoding="utf-8")
+        import re
+        cards = re.findall(r'<article id="video-[PKH]\d{2}" class="video-card\b', html)
+        ids = re.findall(r'data-video="([A-Za-z0-9_-]{11})"', html)
+        if len(cards) != 14 or len(ids) != 14 or len(set(ids)) != 14:
+            base.error(f"Módulo 10: videoteca incompleta (tarjetas={len(cards)}, videos={len(ids)})")
+        for name, n in (("pca", 5), ("kmeans", 5), ("jerarquico", 4)):
+            if len(re.findall(r'<article id="video-[PKH]\d{2}" class="video-card ' + name + '"', html)) != n:
+                base.error(f"Módulo 10: ruta audiovisual {name} debe contener {n} videos")
+        for token in ('id="reproductor"', 'id="searchVideos"', 'id="themeToggle"',
+                      'id="progressFill"', 'href="guia.html"', 'href="simulacion.html"',
+                      'href="presentaciones/M10_01_PCA_Clase_Completa.pdf#',
+                      'href="presentaciones/M10_02_KMeans_Clase_Completa.pdf#',
+                      'href="presentaciones/M10_03_Jerarquico_Clase_Completa.pdf#'):
+            if token not in html:
+                base.error(f"Módulo 10: falta control o referencia de video: {token}")
+        if "youtube-nocookie.com/embed/" not in js or "playerBox.replaceChildren(frame)" not in js:
+            base.error("Módulo 10: no funciona el reproductor diferido")
+        if "searchParams.set('end'," in js or 'searchParams.set("end",' in js:
+            base.error("Módulo 10: el reproductor no debe cortar los videos antes del final")
+        for document_name in ("index.html", "guia.html"):
+            if 'href="videos.html"' not in (m10 / document_name).read_text(encoding="utf-8"):
+                base.error(f"Módulo 10: {document_name} no enlaza la videoteca")
 
 
 base.validate_visible_content = validate_visible_content_with_original_m08
