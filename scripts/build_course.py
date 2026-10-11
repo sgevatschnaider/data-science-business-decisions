@@ -2082,10 +2082,14 @@ def root_module_resource_links(module: dict) -> str:
         )
         for index, resource in enumerate(notebook_resources(module), start=1)
     )
-    return " ".join(
-        readme_resource_button(*link)
-        for link in links
-    )
+    badges = " ".join(readme_resource_button(*link) for link in links)
+    if module["id"] == "09":
+        original_badge = (
+            "[![Videos M09](modules/09-arboles-ensembles/site/videos-badge.svg)]"
+            f"({module_url(module, 'videos.html')})"
+        )
+        return f"{badges} {original_badge}"
+    return badges
 
 
 def eda_classroom_readme(module: dict) -> str:
