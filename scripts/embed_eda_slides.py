@@ -323,6 +323,10 @@ def replace_first_after(text: str, anchor: str, old: str, new: str) -> str:
 
 def integrate_module(module: dict) -> None:
     target = module["target"]
+    # El M02 usa tres visores PDF públicos propios; no reinsertar los antiguos iframes privados de Slides.
+    if "02-calidad-datos" in target.parts:
+        print("Módulo 02: visores PDF independientes, no se integra Google Slides.")
+        return
     text = target.read_text(encoding="utf-8")
 
     # Idempotencia por módulo: un visor existente no impide procesar el siguiente.
