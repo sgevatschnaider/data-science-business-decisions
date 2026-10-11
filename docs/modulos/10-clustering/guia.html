@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Guía de estudio del Módulo 10: tres presentaciones sobre PCA, K-Means y clustering jerárquico, con lectura PDF integrada y descargas PowerPoint.">
+  <meta name="author" content="Sergio Gevatschnaider">
+  <meta name="theme-color" content="#082f49">
+  <title>Guía de estudio · Módulo 10 | Datos y Decisiones</title>
+  <link rel="stylesheet" href="../../assets/css/course.css">
+  <link rel="stylesheet" href="guia.css">
+</head>
+<body class="module-page" data-module-id="10" data-page-kind="guide">
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
+      <span class="brand-mark" aria-hidden="true">DD</span>
+      <span><strong>Datos y Decisiones</strong><small>Ciencia de datos aplicada</small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menú</button>
+    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
+      <a href="../../index.html">Inicio</a>
+      <a href="index.html">Módulo 10</a>
+      <a href="../../programa.html">Programa</a>
+      <a href="simulacion.html">Simulación actual</a>
+      <button class="theme-toggle" type="button" aria-label="Cambiar tema">Tema</button>
+    </nav>
+  </div>
+</header>
+<main id="contenido">
+  <section class="m10g-hero">
+    <div class="container">
+      <p class="m10g-crumb"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 10</a> / Guía de estudio</p>
+      <span class="m10g-eyebrow">UNIDAD III · RECURSO 01 · GUÍA COMPLETA</span>
+      <h1>Guía de estudio: PCA, K-Means y clustering jerárquico</h1>
+      <p class="m10g-subtitle">El recorrido conceptual del Módulo 10 en tres clases secuenciadas. Leé las diapositivas sin salir del navegador, abrí sus visores de clase o descargá los originales editables para estudiar y preparar las prácticas.</p>
+      <div class="m10g-metrics">
+        <span><strong>91</strong> diapositivas</span><span><strong>3</strong> clases</span><span><strong>3</strong> PDF de lectura</span><span><strong>3</strong> PowerPoint editables</span><span>Notas del presentador en PPTX</span>
+      </div>
+      <div class="m10g-hero-buttons">
+        <a class="m10g-link primary" href="#lectura">▶ Leer la guía en pantalla</a>
+        <a class="m10g-link" href="presentaciones/M10_PCA_KMeans_Clustering_Presentaciones.zip" download>↓ Descargar guía completa (ZIP)</a>
+        <a class="m10g-link" href="index.html">← Volver al Módulo 10</a>
+      </div>
+    </div>
+  </section>
+  <div class="container m10g-content">
+    <section aria-labelledby="m10g-plan">
+      <h2 id="m10g-plan" class="m10g-section-title">Itinerario de estudio de las tres clases</h2>
+      <p class="m10g-lead">El orden propuesto es deliberado: primero comprender qué representación del dato se conserva; después construir agrupamientos mediante centroides; finalmente analizar las relaciones entre observaciones a diferentes niveles de granularidad.</p>
+      <div class="m10g-grid">
+        <article class="m10g-card">
+          <div class="m10g-card-head"><span class="m10g-number">CLASE 01 · 29 DIAPOSITIVAS</span><h3>PCA</h3><p>Reducir dimensionalidad sin confundir proyección y agrupamiento.</p></div>
+          <div class="m10g-card-body">
+            <p><strong>Preguntas que orientan la lectura</strong></p>
+            <ul>
+              <li>¿Por qué centrar y escalar cambia los componentes?</li>
+              <li>¿Cómo se interpretan autovectores, loadings, scores y varianza explicada?</li>
+              <li>¿Qué se pierde al proyectar y cuándo PCA mejora una decisión?</li>
+            </ul>
+            <div class="m10g-card-actions">
+              <a href="#clase-1" data-m10g-open="0">Leer PDF aquí</a>
+              <a href="presentacion-01.html">Visor de clase</a>
+              <a href="presentaciones/M10_01_PCA_Clase_Completa.pdf" download>PDF ↓</a>
+              <a href="presentaciones/M10_01_PCA_Clase_Completa.pptx" download>PPTX ↓</a>
+            </div>
+          </div>
+        </article>
+        <article class="m10g-card">
+          <div class="m10g-card-head"><span class="m10g-number">CLASE 02 · 31 DIAPOSITIVAS</span><h3>K-Means</h3><p>Segmentar con centroides y comprobar estabilidad y utilidad de los grupos.</p></div>
+          <div class="m10g-card-body">
+            <p><strong>Preguntas que orientan la lectura</strong></p>
+            <ul>
+              <li>¿Qué optimiza la inercia y cómo funciona el algoritmo de Lloyd?</li>
+              <li>¿Por qué importan K, la inicialización, la escala y los outliers?</li>
+              <li>¿Qué aportan silhouette, elbow y comparación de semillas?</li>
+            </ul>
+            <div class="m10g-card-actions">
+              <a href="#clase-2" data-m10g-open="1">Leer PDF aquí</a>
+              <a href="presentacion-02.html">Visor de clase</a>
+              <a href="presentaciones/M10_02_KMeans_Clase_Completa.pdf" download>PDF ↓</a>
+              <a href="presentaciones/M10_02_KMeans_Clase_Completa.pptx" download>PPTX ↓</a>
+            </div>
+          </div>
+        </article>
+        <article class="m10g-card">
+          <div class="m10g-card-head"><span class="m10g-number">CLASE 03 · 31 DIAPOSITIVAS</span><h3>Clustering jerárquico</h3><p>Construir dendrogramas y evaluar cómo las reglas de unión determinan la partición.</p></div>
+          <div class="m10g-card-body">
+            <p><strong>Preguntas que orientan la lectura</strong></p>
+            <ul>
+              <li>¿Qué distancia separa grupos y por qué importa el linkage?</li>
+              <li>¿En qué se distinguen single, complete, average y Ward?</li>
+              <li>¿Qué significa cortar un dendrograma y validar los segmentos?</li>
+            </ul>
+            <div class="m10g-card-actions">
+              <a href="#clase-3" data-m10g-open="2">Leer PDF aquí</a>
+              <a href="presentacion-03.html">Visor de clase</a>
+              <a href="presentaciones/M10_03_Jerarquico_Clase_Completa.pdf" download>PDF ↓</a>
+              <a href="presentaciones/M10_03_Jerarquico_Clase_Completa.pptx" download>PPTX ↓</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="m10g-reader" id="lectura" aria-labelledby="m10g-lector">
+      <div class="m10g-reader-top">
+        <span class="m10g-eyebrow">LECTURA INTEGRADA</span>
+        <h2 id="m10g-lector">Leé las presentaciones sin descargarlas</h2>
+        <p>Elegí una clase: el documento se abre directamente en el visor PDF del navegador. También podés usar el visor de diapositivas dedicado, que dispone de controles de avance y pantalla completa.</p>
+      </div>
+      <div class="m10g-tabs" role="tablist" aria-label="Elegir una de las tres clases">
+        <button type="button" role="tab" data-m10g-tab="0" aria-selected="true" aria-controls="m10g-frame" tabindex="0">01 · PCA</button>
+        <button type="button" role="tab" data-m10g-tab="1" aria-selected="false" aria-controls="m10g-frame" tabindex="-1">02 · K-Means</button>
+        <button type="button" role="tab" data-m10g-tab="2" aria-selected="false" aria-controls="m10g-frame" tabindex="-1">03 · Jerárquico</button>
+      </div>
+      <div class="m10g-doc-tools">
+        <strong id="m10g-reader-title">PCA · Análisis de Componentes Principales · 29 diapositivas</strong>
+        <div class="m10g-doc-actions">
+          <a id="m10g-reader-visor" href="presentacion-01.html">↗ Visor de diapositivas</a>
+          <a id="m10g-reader-pdf" href="presentaciones/M10_01_PCA_Clase_Completa.pdf" target="_blank" rel="noopener">↗ Abrir PDF</a>
+          <a id="m10g-reader-ppt" href="presentaciones/M10_01_PCA_Clase_Completa.pptx" download>↓ PowerPoint</a>
+        </div>
+      </div>
+      <iframe id="m10g-frame" class="m10g-pdf-frame" title="Lectura PDF: PCA" src="presentaciones/M10_01_PCA_Clase_Completa.pdf#page=1&view=FitH" loading="lazy"></iframe>
+      <p class="m10g-pdf-fallback">Si tu navegador no muestra el PDF integrado, usá «Abrir PDF» o «Visor de diapositivas». Las dos opciones funcionan sin instalar programas.</p>
+    </section>
+    <section class="m10g-tips" aria-label="Cómo estudiar y autoevaluarse">
+      <article class="m10g-tip">
+        <h2>Cómo trabajar con la guía</h2>
+        <ol>
+          <li><strong>Conceptualizá:</strong> identificá el problema, la variable que cambia y el supuesto de cada método.</li>
+          <li><strong>Leé los gráficos:</strong> explicá qué representa cada eje y cómo se interpreta la figura.</li>
+          <li><strong>Confrontá alternativas:</strong> relacioná PCA, K-Means y clustering jerárquico sin tratarlos como métodos equivalentes.</li>
+          <li><strong>Transferí a una decisión:</strong> justificá escala, número de segmentos, estabilidad y acción de negocio.</li>
+        </ol>
+      </article>
+      <article class="m10g-tip">
+        <h2>Antes de pasar a las simulaciones</h2>
+        <ul>
+          <li>Explicar por qué la escala puede dominar una distancia.</li>
+          <li>Justificar cuándo conviene reducir dimensionalidad.</li>
+          <li>Describir una iteración de K-Means.</li>
+          <li>Interpretar un dendrograma y elegir un corte defendible.</li>
+          <li>Proponer validaciones que vayan más allá de la estética del gráfico.</li>
+        </ul>
+      </article>
+    </section>
+    <div class="m10g-next"><strong>Próxima etapa:</strong> desarrollaremos las simulaciones interactivas vinculadas con los conceptos y gráficos de esta guía cuando se solicite. El glosario y cuestionario ampliados se abordarán después, sin adelantar su publicación.</div>
+    <div class="m10g-footer">
+      <a href="index.html">← Índice del Módulo 10</a>
+      <a href="glosario.html">Glosario actual</a>
+      <a href="cuestionario.html">Cuestionario actual</a>
+      <a href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/10-clustering.ipynb">Notebook de laboratorio →</a>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container footer-grid"><div><strong>Ciencia de Datos para Decisiones de Negocio</strong><p>Material elaborado por el profesor Sergio Gevatschnaider.</p></div><div><a href="../../programa.html">Programa</a><a href="../../accesibilidad.html">Accesibilidad</a><a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a></div></div></footer>
+<script src="../../assets/js/course-data.js"></script>
+<script src="../../assets/js/site.js"></script>
+<script src="guia.js" defer></script>
+</body>
+</html>
