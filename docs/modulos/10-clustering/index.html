@@ -8,6 +8,19 @@
   <meta name="theme-color" content="#082f49">
   <title>PCA, K-Means y clustering jerárquico | Datos y Decisiones</title>
   <link rel="stylesheet" href="../../assets/css/course.css">
+<style>
+/* Galería de simulaciones M10: estilos aislados del tema principal. */
+.m10-lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:22px 0}
+.m10-lab-card{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-sm)}
+.m10-lab-card .m10-lab-label{font-size:.74rem;color:var(--teal);font-weight:800;letter-spacing:.08em}
+.m10-lab-card h3{font-size:1.2rem;margin:0;line-height:1.25;color:var(--ink)}
+.m10-lab-card p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;margin:0 0 5px}
+.m10-lab-card a{font-size:.88rem;color:var(--teal);font-weight:800;text-decoration:none;margin-top:auto}
+.m10-lab-card a:hover{text-decoration:underline}
+.m10-lab-actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.m10-lab-strap{padding:14px 17px;border-radius:12px;background:var(--surface-alt);border-left:4px solid var(--teal);font-size:.9rem;color:var(--ink-soft)}
+@media(max-width:850px){.m10-lab-grid{grid-template-columns:1fr}}
+</style>
 </head>
         <body class="module-page" data-module-id="10" data-page-kind="index">
           <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -65,6 +78,7 @@
             <nav aria-label="Secciones del módulo">
               <a href="#indice">Índice interactivo</a>
               <a href="guia.html">Guía de estudio · 91 diapositivas</a>
+              <a href="#simulaciones">14 simulaciones interactivas</a>
               <a href="#resultados">Resultados</a>
               <a href="#conceptos">Conceptos</a>
               <a href="#profundizacion">Profundización</a>
@@ -86,7 +100,7 @@
             <caption>Índice interactivo del módulo</caption>
             <thead><tr><th>Recurso</th><th>Acceso</th></tr></thead>
             <tbody><tr><th scope="row">Guía de estudio · PCA, K-Means y jerárquico (91 diapositivas)</th><td><a class="table-link" href="guia.html">Abrir guía de estudio</a></td></tr>
-<tr><th scope="row">Simulación interactiva</th><td><a class="table-link" href="simulacion.html">Abrir recurso</a></td></tr>
+<tr><th scope="row">Simulaciones interactivas · 14 laboratorios (PCA, K-Means y jerárquico)</th><td><a class="table-link" href="simulacion.html">Abrir 14 simulaciones</a></td></tr>
 <tr><th scope="row">Cuestionario</th><td><a class="table-link" href="cuestionario.html">Abrir recurso</a></td></tr>
 <tr><th scope="row">Glosario</th><td><a class="table-link" href="glosario.html">Abrir recurso</a></td></tr>
 <tr><th scope="row">Notebook en Colab</th><td><a class="table-link" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/10-clustering.ipynb">Abrir recurso</a></td></tr></tbody>
@@ -100,7 +114,7 @@
 </label>
 <label class="progress-item">
   <input type="checkbox" data-progress-item="10:simulacion">
-  <span><strong>Simulación</strong><small>Explorar parámetros y resultados</small></span>
+  <span><strong>14 simulaciones</strong><small>4 PCA · 5 K-Means · 5 clustering jerárquico</small></span>
 </label>
 <label class="progress-item">
   <input type="checkbox" data-progress-item="10:notebook">
@@ -114,6 +128,39 @@
   <input type="checkbox" data-progress-item="10:glosario">
   <span><strong>Glosario</strong><small>Consolidar vocabulario</small></span>
 </label></div>
+            </section>
+            <section id="simulaciones" class="content-section" aria-labelledby="m10-lab-title">
+              <div class="section-heading">
+                <p class="eyebrow">Laboratorio avanzado · Módulo 10</p>
+                <h2 id="m10-lab-title">14 simulaciones: experimentar, observar y decidir</h2>
+                <p>Como en el Módulo 09, cada laboratorio se abre en una página independiente, con gráficos dinámicos, navegación anterior/siguiente y tema claro u oscuro. La guía de estudio y las presentaciones siguen disponibles.</p>
+              </div>
+              <div class="m10-lab-grid">
+                <article class="m10-lab-card">
+                  <span class="m10-lab-label">01 — 04 · 4 LABORATORIOS</span>
+                  <h3>PCA y geometría de la varianza</h3>
+                  <p>Rotación de componentes, escalado, reconstrucción, biplots y observaciones atípicas.</p>
+                  <a href="simuladores/S01.html">Abrir primera simulación PCA →</a>
+                </article>
+                <article class="m10-lab-card">
+                  <span class="m10-lab-label">05 — 09 · 5 LABORATORIOS</span>
+                  <h3>K-Means y validación de segmentos</h3>
+                  <p>Arrastrar centroides, iteraciones de Lloyd, k-means++, silhouette y sensibilidad a la escala.</p>
+                  <a href="simuladores/S05.html">Abrir primera simulación K-Means →</a>
+                </article>
+                <article class="m10-lab-card">
+                  <span class="m10-lab-label">10 — 14 · 5 LABORATORIOS</span>
+                  <h3>Clustering jerárquico y dendrogramas</h3>
+                  <p>Matrices de distancia, fusiones, reglas de linkage, altura de corte y estabilidad.</p>
+                  <a href="simuladores/S10.html">Abrir primera simulación jerárquica →</a>
+                </article>
+              </div>
+              <div class="m10-lab-actions">
+                <a class="button primary" href="simulacion.html">▶ Abrir catálogo de las 14 simulaciones</a>
+                <a class="button secondary" href="visor-integrado.html">Ver las 14 en un solo visor</a>
+                <a class="button tertiary" href="guia.html">Consultar la guía de estudio</a>
+              </div>
+              <p class="m10-lab-strap">Las simulaciones son interactivas: permiten variar parámetros, ejecutar y pausar, comparar escenarios y exportar evidencias. No requieren Colab ni instalaciones.</p>
             </section>
             <section id="resultados" class="content-section">
               <p class="eyebrow">Al completar el módulo</p>
@@ -185,7 +232,8 @@
 <li><span>03</span>Comparar K, linkage y sensibilidad a inicialización.</li>
 <li><span>04</span>Nombrar perfiles con evidencia y proponer acciones.</li></ol>
               <div class="button-row">
-                <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/10-clustering.ipynb">Abrir notebook en Colab</a>
+                <a class="button primary" href="simulacion.html">Explorar las 14 simulaciones</a>
+                 <a class="button primary" href="https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/10-clustering.ipynb">Abrir notebook en Colab</a>
                 <a class="button secondary" href="cuestionario.html">Resolver cuestionario</a>
               </div>
             </section>

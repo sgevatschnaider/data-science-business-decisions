@@ -2047,6 +2047,10 @@ MODULES = [
         "id": "10",
         "slug": "10-clustering",
         "unit": "III",
+        "custom_page_files": [
+            "index.html", "simulacion.html", "simuladores", "visor-integrado.html",
+            "guia.html", "guia.css", "guia.js",
+        ],
         "title": "PCA, K-Means y clustering jerárquico",
         "short_title": "Clustering",
         "summary": (

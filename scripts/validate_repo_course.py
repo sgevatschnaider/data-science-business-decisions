@@ -218,8 +218,50 @@ def validate_content_counts_with_custom_modules() -> None:
         if not published.is_file() or published.read_bytes() != simulation.read_bytes():
             base.error(f"Módulo 09: publicación diferente de la fuente: {simulation.name}")
 
+def validate_content_counts_with_m10_laboratories():
+    validate_content_counts_with_custom_modules()
+
+    m10 = ROOT / "docs/modulos/10-clustering"
+    hub_file = m10 / "simulacion.html"
+    index_file = m10 / "index.html"
+    guide_file = m10 / "guia.html"
+    viewer_file = m10 / "visor-integrado.html"
+    if not hub_file.is_file() or not index_file.is_file() or not guide_file.is_file():
+        base.error("Módulo 10: falta el catálogo, el índice o la guía de estudio")
+        return
+
+    hub = hub_file.read_text(encoding="utf-8")
+    index = index_file.read_text(encoding="utf-8")
+    guide = guide_file.read_text(encoding="utf-8")
+    if 'href="simulacion.html"' not in index or 'id="simulaciones"' not in index:
+        base.error("Módulo 10: el índice no permite acceder al laboratorio de 14 simulaciones")
+    if 'href="simulacion.html"' not in guide:
+        base.error("Módulo 10: la guía no enlaza las 14 simulaciones")
+    if not viewer_file.is_file() or "M10" not in viewer_file.read_text(encoding="utf-8"):
+        base.error("Módulo 10: falta el visor integrado")
+    simulations = sorted((m10 / "simuladores").glob("S[0-9][0-9].html"))
+    if len(simulations) != 14:
+        base.error(f"Módulo 10: hay {len(simulations)} simulaciones; se requieren 14")
+    for number in range(1, 15):
+        name = f"S{number:02}.html"
+        path = m10 / "simuladores" / name
+        if f'href="simuladores/{name}"' not in hub:
+            base.error(f"Módulo 10: el catálogo no enlaza {name}")
+        if not path.is_file():
+            base.error(f"Módulo 10: falta el laboratorio {name}")
+            continue
+        content = path.read_text(encoding="utf-8")
+        for marker in ('id="m10-embedded-css"', "window.M10Lab", 'data-action="theme"'):
+            if marker not in content:
+                base.error(f"Módulo 10: {name} no conserva el diseño/motor/autonomía ({marker})")
+        if "<script src=" in content or '<link rel="stylesheet"' in content:
+            base.error(f"Módulo 10: {name} tiene dependencias externas; debe ser autónomo")
+        if 'href="../simulacion.html"' not in content:
+            base.error(f"Módulo 10: falta el regreso al catálogo desde {name}")
+
+
 base.validate_visible_content = validate_visible_content_with_original_m08
-base.validate_content_counts = validate_content_counts_with_custom_modules
+base.validate_content_counts = validate_content_counts_with_m10_laboratories
 
 if __name__ == "__main__":
     raise SystemExit(base.main())
