@@ -1,0 +1,277 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 12 /Kids [ 4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R 24 0 R 26 0 R ] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 596 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 1/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Decoder relacional) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Cada tipo r puede tener parametros propios para reconstruir enlaces sin asumir igual) Tj ET
+BT /F1 21 Tf 55 331 Td (semantica.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Aij???=sigmoid\(zi^TRr zj\)) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 544 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 2/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Decoder relacional) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Ecuacion central y supuestos. Interpretar entradas, dimensiones y salidas.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Aij???=sigmoid\(zi^TRr zj\)) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 577 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 3/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Decoder relacional) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Aplicacion docente: contrastar modelos, validar metricas y explicar limitaciones.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Hipotesis -> Simulacion A/B -> Validacion -> Decision) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 645 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 4/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Ejemplo WERC 2026) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Actores sinteticos IA A, IA B, IA C, Nube, Chips y Centro I+D forman una red) Tj ET
+BT /F1 21 Tf 55 331 Td (hipotetica. Las aristas no describen contratos reales.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Simulacion didactica: no datos observados) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 557 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 5/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Ejemplo WERC 2026) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Ecuacion central y supuestos. Interpretar entradas, dimensiones y salidas.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Simulacion didactica: no datos observados) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 576 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 6/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Ejemplo WERC 2026) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Aplicacion docente: contrastar modelos, validar metricas y explicar limitaciones.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Hipotesis -> Simulacion A/B -> Validacion -> Decision) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 673 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 7/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (La hipotesis Reina Roja) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (La competencia puede exigir adaptacion continua; el embedding estatico no identifica) Tj ET
+BT /F1 21 Tf 55 331 Td (esa dinamica. Se necesita un proceso temporal y supuestos de evolucion.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Grafo estatico != ecuaciones dinamicas) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 560 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 8/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (La hipotesis Reina Roja) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Ecuacion central y supuestos. Interpretar entradas, dimensiones y salidas.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Grafo estatico != ecuaciones dinamicas) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 582 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 9/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (La hipotesis Reina Roja) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Aplicacion docente: contrastar modelos, validar metricas y explicar limitaciones.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Hipotesis -> Simulacion A/B -> Validacion -> Decision) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 653 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 10/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Desarrollo empirico) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Recopilar relaciones verificadas y fechadas, crear varios tipos de aristas, entrenar) Tj ET
+BT /F1 21 Tf 55 331 Td (modelos y evaluar su evolucion frente a baselines.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Redes temporales + prueba fuera de muestra) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+24 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 25 0 R >>
+endobj
+25 0 obj
+<< /Length 561 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 11/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Desarrollo empirico) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Ecuacion central y supuestos. Interpretar entradas, dimensiones y salidas.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Redes temporales + prueba fuera de muestra) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+26 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /Font << /F1 3 0 R >> >> /Contents 27 0 R >>
+endobj
+27 0 obj
+<< /Length 579 >>
+stream
+0.039 0.125 0.204 rg 0 0 960 540 re f
+0.373 0.894 0.765 rg
+BT /F1 13 Tf 55 500 Td (DATOS Y DECISIONES / MODULO undefined / DIAPOSITIVA 12/12) Tj ET
+1.000 1.000 1.000 rg
+BT /F1 34 Tf 55 435 Td (Desarrollo empirico) Tj ET
+0.871 0.961 0.973 rg
+BT /F1 21 Tf 55 363 Td (Aplicacion docente: contrastar modelos, validar metricas y explicar limitaciones.) Tj ET
+0.373 0.894 0.765 rg
+BT /F1 19 Tf 55 205 Td (Hipotesis -> Simulacion A/B -> Validacion -> Decision) Tj ET
+0.627 0.769 0.824 rg
+BT /F1 13 Tf 55 38 Td (Sergio Gevatschnaider - Ciencia de Datos para Decisiones de Negocio) Tj ET
+endstream
+endobj
+xref
+0 28
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000193 00000 n 
+0000000290 00000 n 
+0000000416 00000 n 
+0000001062 00000 n 
+0000001188 00000 n 
+0000001782 00000 n 
+0000001908 00000 n 
+0000002535 00000 n 
+0000002663 00000 n 
+0000003359 00000 n 
+0000003487 00000 n 
+0000004095 00000 n 
+0000004223 00000 n 
+0000004850 00000 n 
+0000004978 00000 n 
+0000005702 00000 n 
+0000005830 00000 n 
+0000006441 00000 n 
+0000006569 00000 n 
+0000007202 00000 n 
+0000007330 00000 n 
+0000008034 00000 n 
+0000008162 00000 n 
+0000008774 00000 n 
+0000008902 00000 n 
+trailer
+<< /Size 28 /Root 1 0 R >>
+startxref
+9532
+%%EOF
