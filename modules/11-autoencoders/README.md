@@ -21,4 +21,9 @@ Curso Ciencia de Datos para Decisiones de Negocio · Sergio Gevatschnaider.
 | Videoteca y bibliografía | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-autoencoders/videos.html) |
 | Notebook Python | [Ver](../../notebooks/11-autoencoders.ipynb) |
 
-Las presentaciones online están desarrolladas en HTML para funcionar en GitHub Pages. No deben confundirse con archivos PPTX editables. Los laboratorios incorporan datos sintéticos con advertencias metodológicas.
+Las presentaciones se ofrecen en visores HTML y también como archivos PPTX editables y PDF descargables. Los laboratorios incorporan datos sintéticos con advertencias metodológicas.
+
+## Presentaciones descargables
+- Clase 1: [PPTX](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_01.pptx) · [PDF](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_01.pdf)
+- Clase 2: [PPTX](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_02.pptx) · [PDF](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_02.pdf)
+- Clase 3: [PPTX](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_03.pptx) · [PDF](../../docs/modulos/11-autoencoders/presentaciones/M11_AE_03.pdf)
