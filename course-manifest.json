@@ -1,10 +1,10 @@
 {
   "course": "Ciencia de Datos para Decisiones de Negocio",
-  "modules": 15,
+  "modules": 17,
   "simulations": 15,
   "questions": 105,
   "glossary_terms": 150,
-  "notebooks": 15,
+  "notebooks": 17,
   "module_slugs": [
     "00-orientacion-python",
     "01-eda-negocio",
@@ -17,9 +17,29 @@
     "08-regresion-logistica",
     "09-arboles-ensembles",
     "10-clustering",
+    "11-autoencoders",
+    "11-graph-autoencoders",
     "11-redes-neuronales",
     "12-optimizacion",
     "13-ia-responsable",
     "14-proyecto-integrador"
-  ]
+  ],
+  "new_module_resources": {
+    "11-autoencoders": {
+      "slide_viewers": 3,
+      "slide_count": 36,
+      "interactive_labs": 14,
+      "glossary_terms": 75,
+      "developed_questions": 160,
+      "notebook": "notebooks/11-autoencoders.ipynb"
+    },
+    "11-graph-autoencoders": {
+      "slide_viewers": 3,
+      "slide_count": 36,
+      "interactive_labs": 14,
+      "glossary_terms": 82,
+      "developed_questions": 174,
+      "notebook": "notebooks/11-graph-autoencoders.ipynb"
+    }
+  }
 }
