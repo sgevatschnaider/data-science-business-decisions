@@ -81,7 +81,7 @@ function aeGeom(){let noise=n(a.querySelector('#noise').value);a.querySelector('
 let mx=pts.reduce((s,p)=>s+p[0],0)/pts.length,my=pts.reduce((s,p)=>s+p[1],0)/pts.length,vx=0,vy=0,cov=0;
 pts.forEach(p=>{vx+=(p[0]-mx)**2;vy+=(p[1]-my)**2;cov+=(p[0]-mx)*(p[1]-my)});let angle=.5*Math.atan2(2*cov,vx-vy),cs=Math.cos(angle),sn=Math.sin(angle);
 let linear=pts.map(p=>{let z=(p[0]-mx)*cs+(p[1]-my)*sn;return[mx+z*cs,my+z*sn]});
-let nonlin=pts.map(p=>{let t=cl(Math.atan2(p[0]/2,p[1]),-1.1,1.1);return[2*Math.sin(t),Math.cos(t)]});
+let nonlin=pts.map(p=>{let best=[0,0],dist=Infinity;for(let k=0;k<=440;k++){let t=-1.1+2.2*k/440,q=[2*Math.sin(t),Math.cos(t)],d=(p[0]-q[0])**2+(p[1]-q[1])**2;if(d<dist){dist=d;best=q}}return best});
 let mse=rec=>pts.reduce((s,p,i)=>s+(p[0]-rec[i][0])**2+(p[1]-rec[i][1])**2,0)/(2*pts.length);
 a.querySelector('#pmse').textContent=fix(mse(linear));a.querySelector('#cmse').textContent=fix(mse(nonlin));curve(a.querySelector('canvas').getContext('2d'),pts,a.querySelector('#model').value==='pca'?linear:nonlin,'#f08b53');}
 a.querySelector('#noise').oninput=aeGeom;a.querySelector('#model').onchange=aeGeom;aeGeom();
