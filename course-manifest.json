@@ -31,7 +31,11 @@
       "interactive_labs": 14,
       "glossary_terms": 75,
       "developed_questions": 160,
-      "notebook": "notebooks/11-autoencoders.ipynb"
+      "notebook": "notebooks/11-autoencoders.ipynb",
+      "advanced_html_slides": 72,
+      "advanced_mathematical_topics": 12,
+      "advanced_visual_labs": 3,
+      "masterclass_url": "docs/modulos/11-autoencoders/masterclass.html"
     },
     "11-graph-autoencoders": {
       "slide_viewers": 3,
@@ -39,7 +43,11 @@
       "interactive_labs": 14,
       "glossary_terms": 82,
       "developed_questions": 174,
-      "notebook": "notebooks/11-graph-autoencoders.ipynb"
+      "notebook": "notebooks/11-graph-autoencoders.ipynb",
+      "advanced_html_slides": 72,
+      "advanced_mathematical_topics": 12,
+      "advanced_visual_labs": 3,
+      "masterclass_url": "docs/modulos/11-graph-autoencoders/masterclass.html"
     }
   }
 }
