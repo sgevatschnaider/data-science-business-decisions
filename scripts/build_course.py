@@ -39,8 +39,21 @@ ORIGINAL_GIF_URL = (
 )
 
 
+# These four overview documents were curated after two independent modules
+# (11.1 and 11.2) were added. Preserve the live indexed version so automatic
+# Pages builds do not silently delete modules or restore obsolete numbering.
+# During --check, copy the same curated source into the temporary build.
+CURATED_OVERVIEWS = {"README.md", "docs/index.html", "docs/programa.html", "course-manifest.json"}
+
+
 def write(relative_path: str, content: str) -> None:
     path = ROOT / relative_path
+    preserved = SOURCE_ROOT / relative_path
+    if relative_path in CURATED_OVERVIEWS and preserved.is_file():
+        if path.resolve() != preserved.resolve():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(preserved, path)
+        return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content.rstrip() + "\n", encoding="utf-8")
 
