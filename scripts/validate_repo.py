@@ -68,12 +68,19 @@ def validate_manifest() -> None:
         error("Falta course-manifest.json")
         return
     data = json.loads(path.read_text(encoding="utf-8"))
+    # Two independently curated extra teaching modules (11.1, 11.2) have
+    # standalone notebooks. They extend, rather than replace, the core syllabus.
+    extras = [
+        slug for slug in ("11-autoencoders", "11-graph-autoencoders")
+        if (ROOT / "modules" / slug / "README.md").is_file()
+        and (ROOT / "notebooks" / (slug + ".ipynb")).is_file()
+    ]
     expected = {
-        "modules": len(MODULES),
+        "modules": len(MODULES) + len(extras),
         "simulations": len(MODULES),
         "questions": sum(len(module["quiz"]) for module in MODULES),
         "glossary_terms": sum(len(module["glossary"]) for module in MODULES),
-        "notebooks": len(MODULES),
+        "notebooks": len(MODULES) + len(extras),
     }
     for key, value in expected.items():
         if data.get(key) != value:
