@@ -30,7 +30,7 @@ const GAE=[
 ['Decisión financiera y validación ex ante','La predicción útil requiere ranking accionable, baseline, mantenimiento y gobernanza; un AUC mayor no basta.','Valor esperado=TP·B − FP·C − costo operativo','TP: enlaces acertados; FP: alertas falsas; B y C: valores monetarios asumidos y auditables.','Priorizar qué relaciones analizar en due diligence, sin automatizar decisiones de inversión.','Holdout temporal, AP@k, comparación con heurísticas y análisis de costos.','Embedding no es señal de compra/venta ni estimación del precio bursátil.']
 ];
 const cfg=document.body.dataset.track==='gae'?{id:'gae',short:'11.2',name:'Graph Autoencoders',lead:'De la matriz de adyacencia a la predicción de enlaces, redes multinivel y protocolos sin leakage.',topics:GAE}:{id:'ae',short:'11.1',name:'Autoencoders',lead:'Compresión no lineal, entrenamiento por gradientes, reconstrucción y comparación rigurosa con PCA.',topics:AE};
-const base='../';const app=document.getElementById('academy');let slides=[],active=0;
+const base='./';const app=document.getElementById('academy');let slides=[],active=0;
 const stages=['Concepto','Ecuación','Símbolos','Ejemplo numérico','Validación','Error frecuente'];
 const choice=()=>'<div class="btnbar"><a class="btn primary" href="#presentaciones">Abrir visor de 72 diapositivas</a><a class="btn" href="#laboratorios">Laboratorios visuales</a><a class="btn" href="#teoria">Desarrollo matemático</a><a class="btn" href="'+base+'index.html">Volver al módulo 11.'+(cfg.id==='ae'?'1':'2')+'</a></div>';
 document.title='Masterclass '+cfg.short+' · '+cfg.name+' | Datos y Decisiones';
@@ -108,5 +108,5 @@ function leak(){let visible=c.querySelector('#leak').value==='visible',ed=visibl
 c.querySelector('#leak').onchange=leak;leak();
 }
 document.querySelector('#disclaimer').textContent='Los gráficos y cálculos son actividades didácticas con datos o parámetros sintéticos. Solo el experimento de gradiente AE ejecuta un paso real de ajuste; los otros modelos geométricos y embeddings se presentan como demostraciones, no como redes entrenadas o evidencia empírica.';
-show(0);
+const preset=new URLSearchParams(location.search).get('clase');show(['1','2','3'].includes(preset)?(Number(preset)-1)*24:0);
 })();
