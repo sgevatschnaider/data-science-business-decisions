@@ -6,6 +6,12 @@ Curso Ciencia de Datos para Decisiones de Negocio · Sergio Gevatschnaider.
 
 ¿Cuándo justifica un autoencoder su mayor complejidad frente a PCA y cómo validar su generalización?
 
+## Ampliación académica: 72 diapositivas HTML y 3 laboratorios avanzados
+
+[**Abrir masterclass ampliada · 11.1**](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-autoencoders/masterclass.html). Contiene 12 desarrollos conceptuales con ecuaciones explicadas, ejemplos numéricos, controles interactivos, una comparación PCA–manifold con proyector geométrico ideal (sin confundirlo con un AE entrenado), un entrenamiento escalar real con gradientes y decisión por umbrales.
+
+Los 3 visores clásicos de 12 diapositivas por clase y sus PPTX/PDF siguen disponibles, pero **son material distinto** del nuevo visor HTML de 72 diapositivas. El notebook ahora separa train/validación/test, comprueba derivadas y agrega ejercicios de denoising, variedad curva y alertas.
+
 ## Recursos interactivos
 
 | Recurso | Acceso |
