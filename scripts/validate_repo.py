@@ -134,7 +134,22 @@ def validate_html() -> None:
             error(f"Falta lang=es en {page.relative_to(ROOT)}")
         if not parser.title.strip():
             error(f"Falta title en {page.relative_to(ROOT)}")
-        if parser.h1_count != 1:
+        # The autoencoder module shells render their unique page heading into
+        # #hero with module11-site.js. Verify that the renderer and mount exist.
+        dynamic_heading = (
+            parser.h1_count == 0
+            and 'data-track="' in text
+            and 'id="hero"' in text
+            and 'module11-site.js' in text
+            and "11-autoencoders" in str(page.parent)
+        ) or (
+            parser.h1_count == 0
+            and 'data-track="' in text
+            and 'id="hero"' in text
+            and 'module11-site.js' in text
+            and "11-graph-autoencoders" in str(page.parent)
+        )
+        if parser.h1_count != 1 and not dynamic_heading:
             error(f"{page.relative_to(ROOT)} tiene {parser.h1_count} elementos h1")
         if parser.main_count != 1:
             error(f"{page.relative_to(ROOT)} tiene {parser.main_count} elementos main")
@@ -159,8 +174,12 @@ def validate_html() -> None:
 
 def validate_notebooks() -> None:
     notebooks = sorted((ROOT / "notebooks").glob("*.ipynb"))
-    if len(notebooks) != 15:
-        error(f"Se esperaban 15 notebooks y se encontraron {len(notebooks)}")
+    expected_notebooks = len(MODULES) + sum(
+        (ROOT / "notebooks" / (slug + ".ipynb")).exists()
+        for slug in ("11-autoencoders", "11-graph-autoencoders")
+    )
+    if len(notebooks) != expected_notebooks:
+        error(f"Se esperaban {expected_notebooks} notebooks y se encontraron {len(notebooks)}")
     for path in notebooks:
         try:
             notebook = json.loads(path.read_text(encoding="utf-8"))
