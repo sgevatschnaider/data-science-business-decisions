@@ -6,21 +6,21 @@ Comprender neuronas, activaciones, backpropagation y regularización, con un map
 
 ¿Cuándo la capacidad de aprender representaciones justifica mayor complejidad, datos y costo computacional?
 
-## Índice interactivo
+## Experiencia principal · UCA 5/11/2026
 
-| Recurso | Acceso |
-|---|---|
-| Guía principal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/index.html) |
-| Simulación interactiva | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
-| Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/cuestionario.html) |
-| Glosario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/glosario.html) |
-| Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/11-redes-neuronales.ipynb) |
-| TensorFlow Playground | [Abrir](https://playground.tensorflow.org/) |
-| Laboratorio RNN | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/simulacion.html) |
-| Laboratorio NLP | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/nlp-lab.html) |
-| Laboratorio Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-lab.html) |
-| Preguntas Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-preguntas.html) |
-| Glosario Transformer | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/11-redes-neuronales/transformer-glosario.html) |
+- [Portada integrada](../../docs/modulos/11-redes-neuronales/experiencia/index.html)
+- [Fundamentos: 51 diapositivas, ruta esencial de 28](../../docs/modulos/11-redes-neuronales/experiencia/ppt-1-fundamentos/reader.html)
+- [RNN/LSTM: 34 diapositivas](../../docs/modulos/11-redes-neuronales/experiencia/ppt-2-rnn-lstm/reader.html)
+- [Laboratorios de fundamentos](../../docs/modulos/11-redes-neuronales/experiencia/ppt-1-fundamentos/lab.html) y [memoria LSTM](../../docs/modulos/11-redes-neuronales/experiencia/ppt-2-rnn-lstm/lab.html)
+- [Videos](../../docs/modulos/11-redes-neuronales/experiencia/ppt-1-fundamentos/videos.html) y [guía docente](../../docs/modulos/11-redes-neuronales/experiencia/ppt-1-fundamentos/guide.html)
+- [Notebook reproducible](../../notebooks/11-redes-neuronales.ipynb)
+- PPTX editables y PDF sincronizados: `experiencia/ppt-*/downloads/`.
+
+El programa conserva **Módulo 12** como número visible. `11-redes-neuronales` sigue siendo el identificador de carpeta. La clase principal dura 150 minutos y RNN/LSTM queda como ampliación.
+
+Se preservan [cuestionario](../../docs/modulos/11-redes-neuronales/cuestionario.html), [glosario](../../docs/modulos/11-redes-neuronales/glosario.html), [NLP](../../docs/modulos/11-redes-neuronales/nlp-lab.html), [Transformer](../../docs/modulos/11-redes-neuronales/transformer-lab.html) y sus preguntas/glosarios. `simulacion.html` es un índice de compatibilidad con los cinco laboratorios nuevos.
+
+Los ejemplos y experimentos son sintéticos. La utilidad de churn es un proxy con efectividad supuesta, no retención incremental medida. Ver los informes dentro de `experiencia/informes/`.
 
 ## Resultados de aprendizaje
 
@@ -64,3 +64,9 @@ Experimento controlado de arquitectura y regularización, comparación con basel
 ## Autoría
 
 Material elaborado por el profesor Sergio Gevatschnaider.
+
+## Recursos complementarios
+
+- [TensorFlow Playground](https://playground.tensorflow.org/)
+- [Preguntas Transformer](../../docs/modulos/11-redes-neuronales/transformer-preguntas.html)
+- [Glosario Transformer](../../docs/modulos/11-redes-neuronales/transformer-glosario.html)

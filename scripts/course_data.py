@@ -2184,6 +2184,9 @@ MODULES = [
     {
         "id": "11",
         "slug": "11-redes-neuronales",
+        "custom_page_files": ["index.html", "simulacion.html", "experiencia"],
+        "custom_module_readme": True,
+        "custom_notebook": True,
         "unit": "III",
         "title": "Redes neuronales y arquitecturas modernas",
         "short_title": "Redes neuronales",

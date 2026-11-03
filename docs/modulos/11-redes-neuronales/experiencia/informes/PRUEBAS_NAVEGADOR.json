@@ -1,0 +1,90 @@
+{
+  "checks": [
+    {
+      "lab": "01_perceptron.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "lab": "02_activaciones.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "lab": "03_gradiente.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "lab": "04_umbral.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "lab": "05_memoria_lstm.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "reader": "ppt-1-fundamentos",
+      "slides": 51,
+      "passed": true,
+      "keyboard": true,
+      "search": true,
+      "fullscreen": true,
+      "notes": true,
+      "mobile": true
+    },
+    {
+      "reader": "ppt-2-rnn-lstm",
+      "slides": 34,
+      "passed": true,
+      "keyboard": true,
+      "search": true,
+      "fullscreen": true,
+      "notes": true,
+      "mobile": true
+    }
+  ],
+  "errors": []
+}
