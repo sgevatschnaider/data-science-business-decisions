@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import {sceneKinds,drawScene} from './scenes.mjs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 const artifactEntry=process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES?pathToFileURL(path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES,'@oai/artifact-tool/dist/artifact_tool.mjs')).href:'@oai/artifact-tool';
@@ -9,7 +10,7 @@ const workspace=path.resolve(root,'..');
 const base=path.join(root,'docs/modulos/11-redes-neuronales/experiencia');
 const data=JSON.parse(await fs.readFile(path.join(import.meta.dirname,'decks.json'),'utf8'));
 const {finalizePresentation,applyPresentationChartFont}=await import(pathToFileURL('/root/.codex/skills/builtins/presentations/container_tools/artifact_tool_utils.mjs').href);
-const C={bg:'#091321',fg:'#F0F5FA',muted:'#B9C7D8',a:'#55E3D1',b:'#B8A3FF',c:'#FFC77B',line:'#4D617B'};
+const C={bg:'#050b14',fg:'#f3f8ff',muted:'#a9bad0',a:'#2bd4e8',b:'#8a70ff',c:'#f3b94c',line:'#28435f'};
 function text(s,value,x,y,w,h,size=28,color=C.fg,bold=false){
  const sh=s.shapes.add({geometry:'textbox',name:value.slice(0,35),position:{left:x,top:y,width:w,height:h},fill:'none',line:{style:'solid',fill:'none',width:0}});
  sh.text=value;sh.text.style={fontSize:size,typeface:'DejaVu Sans',color,bold,verticalAlignment:'top',wrap:'square',autoFit:'none',insets:0};return sh;
@@ -74,7 +75,7 @@ function diagram(s,v,n){
  if(v==='utility'){text(s,'Beneficio supuesto',780,245,440,60,30,C.a,true);text(s,'TP × q × B',780,315,440,65,38,C.a);text(s,'Costo de todos los contactos',780,415,440,70,27,C.c,true);text(s,'(TP + FP) × C',780,505,440,65,38,C.c);return;}
  if(v==='batches'){for(let j=0;j<5;j++){text(s,String(j+1),800+j*75,315,60,60,34,C.a,true);}text(s,'Un lote por actualización',785,430,430,75,30,C.muted);text(s,'Todos los lotes: una época',785,520,430,75,27,C.c);return;}
  if(v==='metrics'){plot(s,['0','.2','.4','.6','.8','1'],[{name:'ROC ilustrativa',values:[0,.6,.78,.88,.96,1]},{name:'Referencia',values:[0,.2,.4,.6,.8,1]}],'TPR','FPR');return;}
- text(s,v==='compare'?'Comparación con evidencia':'Datos → modelo → política',780,260,440,100,35,C.a,true);text(s,'Mismo protocolo\nCosto explícito\nValidación separada',780,405,440,160,30,C.muted);
+ text(s,v==='compare'?'Comparación con evidencia':'Datos → modelo → política',780,260,440,100,35,C.a,true);text(s,n.body.slice(0,2).join('\n\n'),780,390,440,195,24,C.muted);
 }
 
 for(const d of data){
@@ -86,11 +87,17 @@ for(const d of data){
   text(s,'UCA · CIENCIAS DE DATOS II',64,25,650,30,17,C.a,true);
   text(s,n.essential?'RUTA ESENCIAL':'AMPLIACIÓN',990,25,230,30,15,C.muted);
   text(s,n.title,64,cover?115:80,cover?685:1150,cover?200:115,cover?64:40,C.fg,true);
+  const fullScene=sceneKinds.has(n.visual);
   const has=!!n.visual;const width=has?650:1130;
   let y=cover?355:210;
+  if(fullScene){
+   if(n.equation)text(s,n.equation.split('\n')[0],64,178,1150,58,26,C.a,true);
+   drawScene(s,n,{text,line,node,C,font:applyPresentationChartFont});
+  }else{
   if(n.equation){const lines=n.equation.split('\n').length;const h=Math.max(65,lines*38);text(s,n.equation,64,y,width,h,has?27:31,C.a,true);y+=h+25;}
   for(const b of n.body){text(s,b,64,y,cover?670:width,cover?54:67,cover?25:25,C.muted);y+=cover?65:78;}
   if(has)diagram(s,n.visual,n);
+  }
   if(!cover){line(s,64,620,1216,620,'#31435B',1);text(s,n.question,64,641,1140,45,23,C.c);}
   text(s,'Sergio Gevatschnaider · '+(d.slug.includes('fundamentos')?'Fundamentos':'RNN / LSTM'),64,696,750,20,12,C.muted);
   text(s,String(n.number).padStart(2,'0')+' / '+d.slides.length,1120,690,100,25,16,C.muted);

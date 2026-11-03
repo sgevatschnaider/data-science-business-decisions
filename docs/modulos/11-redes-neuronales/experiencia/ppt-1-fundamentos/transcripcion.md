@@ -535,17 +535,17 @@ Repeticiones del mismo cliente requieren agrupamiento
 
 
 
-## 33 · Curvas de generalización
+## 33 · Capacidad y generalización
 
-Curvas de generalización
+Capacidad y generalización
 
-La pérdida de train puede seguir bajando
+El grado controla flexibilidad del modelo.
 
-Un deterioro de validación alerta sobre sobreajuste
+Train puede mejorar mientras validación empeora.
 
-La curva es esquemática, no un resultado medido
+Curvas calculadas sobre datos sintéticos, semilla 42.
 
-
+J = MSE_train + λ‖w‖²
 
 ¿Una pérdida train más baja implica un mejor modelo?
 

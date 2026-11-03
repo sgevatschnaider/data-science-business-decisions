@@ -1,6 +1,6 @@
 """Exporta los PPTX finales con LibreOffice y deriva de esos PDF las imágenes web."""
 from pathlib import Path
-import json,subprocess,tempfile,hashlib
+import json,subprocess,tempfile,hashlib,shutil
 import fitz
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[2]
@@ -10,7 +10,8 @@ manifest={}
 for deck in decks:
  folder=BASE/deck['slug'];ppt=folder/'downloads'/(deck['slug']+'.pptx')
  with tempfile.TemporaryDirectory(prefix='uca-nn-lo-') as temp:
-  subprocess.run(['soffice','-env:UserInstallation='+Path(temp).as_uri(),'--headless','--convert-to','pdf','--outdir',str(ppt.parent),str(ppt)],check=True)
+  subprocess.run(['soffice','-env:UserInstallation='+Path(temp).as_uri(),'--headless','--convert-to','pdf','--outdir',temp,str(ppt)],check=True)
+  shutil.copyfile(Path(temp)/(deck['slug']+'.pdf'),ppt.with_suffix('.pdf'))
  pdf=ppt.with_suffix('.pdf');doc=fitz.open(pdf)
  assert len(doc)==len(deck['slides']),(pdf,len(doc))
  for i,page in enumerate(doc):

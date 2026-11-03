@@ -9,6 +9,11 @@ Este deck amplía la clase de fundamentos. El objetivo es calcular estados tempo
 Pregunta: ¿Cuándo puede importar el orden?
 Respuesta orientativa: Cuando el significado o el resultado dependen de observaciones previas.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 02 · El orden puede contener información
@@ -17,6 +22,11 @@ Una fila tabular también puede contener rezagos diseñados. La diferencia no es
 
 Pregunta: ¿Podemos modelar una serie con un árbol?
 Respuesta orientativa: Sí, construyendo rezagos y un protocolo temporal correcto.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -27,6 +37,11 @@ Con serie 10,12,11,14,15, una primera entrada contiene 10,12,11,14 y el objetivo
 Pregunta: ¿La venta de t+1 puede estar en Xₜ?
 Respuesta orientativa: No, porque aún no existe cuando emitimos el pronóstico.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 04 · Formas de entrada y salida
@@ -35,6 +50,11 @@ Definir batch, longitud y número de atributos por paso. Las API pueden usar bat
 
 Pregunta: ¿Qué representa la dimensión temporal de una ventana?
 Respuesta orientativa: La secuencia ordenada de observaciones por ejemplo.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -45,6 +65,11 @@ h no es una copia literal de todo el pasado. Es una representación de dimensió
 Pregunta: ¿Aumentar de 10 a 20 pasos duplica parámetros?
 Respuesta orientativa: No si se reutilizan las mismas matrices. Aumenta cómputo y activaciones de entrenamiento.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 06 · RNN desplegada en el tiempo
@@ -53,6 +78,11 @@ El despliegue convierte la recurrencia finita en un grafo acíclico para una sec
 
 Pregunta: ¿Qué pasaría si cada paso tuviera pesos distintos?
 Respuesta orientativa: Cambiaría el modelo y perderíamos el esquema habitual de pesos compartidos.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -63,6 +93,11 @@ Algunas bibliotecas separan sesgos de entrada y recurrente: su conteo será mayo
 Pregunta: ¿Por qué aparece m²?
 Respuesta orientativa: Por todas las conexiones del estado anterior al nuevo estado oculto.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 08 · Forward de una RNN escalar
@@ -71,6 +106,11 @@ El segundo estado depende del primero. Estos parámetros están fijados a mano p
 
 Pregunta: ¿Cuánto vale h₂ si Wₕ=0?
 Respuesta orientativa: Cero con x₂=0 y b=0.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -81,6 +121,11 @@ Una suma y un promedio producen escalas de gradiente distintas. Definir la reduc
 Pregunta: ¿Dos pérdidas con igual mínimo pueden generar pasos distintos?
 Respuesta orientativa: Sí, si difieren por un factor de escala y mantenemos η.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 10 · BPTT aplica la regla de la cadena
@@ -89,6 +134,11 @@ BPTT significa backpropagation through time. El parámetro compartido recibe la 
 
 Pregunta: ¿BPTT necesita un optimizador especial?
 Respuesta orientativa: No. Calcula gradientes que pueden usar SGD, Adam u otros optimizadores.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -99,6 +149,11 @@ La fórmula corresponde a tanh aplicada componente a componente con vectores col
 Pregunta: ¿Por qué tanh saturada puede dificultar el aprendizaje?
 Respuesta orientativa: Porque 1−h² se acerca a cero y reduce la sensibilidad local.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 12 · Vanishing y exploding gradients
@@ -107,6 +162,11 @@ Son productos hipotéticos, no métricas de una RNN entrenada. Una dependencia e
 
 Pregunta: ¿Una dependencia larga exige siempre recordar literalmente cada dato?
 Respuesta orientativa: No. Puede bastar un resumen adecuado, pero aprenderlo puede ser difícil.
+
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
 
 
 
@@ -117,6 +177,11 @@ Respuesta orientativa: No. Puede bastar un resumen adecuado, pero aprenderlo pue
 Pregunta: ¿Truncar a 20 pasos permite atribuir directamente una pérdida a 100 pasos atrás?
 Respuesta orientativa: No por el grafo truncado, aunque el estado pueda transportar información.
 
+Desarrollo conceptual: Una RNN aplica la misma transición en varios instantes. El estado sintetiza información del pasado; durante entrenamiento, la pérdida asigna responsabilidad a usos repetidos de los mismos pesos.
+Desplegar la recurrencia muestra el grafo del forward. BPTT aplica la regla de la cadena sobre ese grafo y suma contribuciones de parámetros compartidos. Los productos de Jacobianos explican la atenuación o amplificación de gradientes.
+Ejemplo: Con estado inicial cero, Wₓ=1, Wₕ=0,5 y entradas 1,0, se obtiene h₁=0,761594 y h₂=0,363399. Una ventana de cuatro observaciones para predecir la siguiente conserva el orden y excluye esa etiqueta futura de los atributos.
+Error frecuente: Mantener un estado entre segmentos no significa conservar todo el grafo de gradientes. BPTT truncada corta caminos de atribución aunque el estado se transporte.
+
 
 
 ## 14 · LSTM agrega memoria controlada
@@ -125,6 +190,11 @@ LSTM introduce un camino aditivo de memoria. Las compuertas son vectores aprendi
 
 Pregunta: ¿Por qué se necesitan c y h?
 Respuesta orientativa: Separan la memoria interna de la parte expuesta a la salida y al siguiente cálculo de gates.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -135,6 +205,11 @@ Mantener la convención de concatenación en las tres compuertas y el candidato.
 Pregunta: ¿Qué implica fₜ=0 en una componente?
 Respuesta orientativa: Elimina la contribución directa de esa componente de cₜ₋₁ a cₜ en ese paso.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 16 · Entrada y contenido candidato
@@ -143,6 +218,11 @@ g no es una cuarta sigmoide. Su rango (−1,1) permite escribir contenido firmad
 
 Pregunta: ¿Abrir i siempre aumenta c?
 Respuesta orientativa: No. Depende del signo de g y del estado anterior.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -153,6 +233,11 @@ c no pasa obligatoriamente por tanh al actualizarse, por eso puede acumular magn
 Pregunta: ¿Puede c=2 aunque g esté entre −1 y 1?
 Respuesta orientativa: Sí, por acumulación de memoria previa.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 18 · Compuerta de salida y estado oculto
@@ -161,6 +246,11 @@ Con o cercano a cero, h puede ser pequeño aunque c tenga magnitud grande. Eso n
 
 Pregunta: ¿o=0 obliga a c=0?
 Respuesta orientativa: No. Fuerza h=0 en ese paso, pero c puede conservar información.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -171,6 +261,11 @@ Es la variante estándar sin peepholes ni proyección. Otras variantes cambian l
 Pregunta: ¿Cuáles son los parámetros entrenables?
 Respuesta orientativa: Las matrices y sesgos de cada gate y del candidato, además de la capa de salida.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 20 · Ejemplo: conservar y escribir
@@ -179,6 +274,11 @@ Los gates están fijados a mano. Podrían obtenerse con logits logit(0,9), logit
 
 Pregunta: ¿Cuánto vale cₜ si i=0?
 Respuesta orientativa: 0,72.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -189,6 +289,11 @@ El valor exacto se obtiene con la misma función usada en las pruebas. Diferenci
 Pregunta: ¿Qué memoria ve la capa de salida si o baja?
 Respuesta orientativa: Una versión más atenuada mediante h, no necesariamente una celda borrada.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 22 · Persistencia con gates constantes
@@ -197,6 +302,11 @@ Vida media = ln(0,5)/ln(f), para 0<f<1. Como c₁=0,5, después de unos 6,58 int
 
 Pregunta: ¿Qué sucede si f=1 y no llega más contenido?
 Respuesta orientativa: c permanece constante en este modelo.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -207,6 +317,11 @@ Evitar la simplificación de afirmar que toda la derivada de una LSTM siempre es
 Pregunta: ¿LSTM elimina todo vanishing gradient?
 Respuesta orientativa: No. Lo mitiga en ciertos caminos y condiciones, pero aún requiere diseño y entrenamiento adecuados.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 24 · Laboratorio: retener, alternar, sobrescribir
@@ -215,6 +330,11 @@ La trayectoria se revela paso a paso. Controles manuales para f, i, o y paso tem
 
 Pregunta: ¿Qué diferencia observás al cerrar o en vez de cerrar f?
 Respuesta orientativa: Cerrar o oculta la memoria en h; cerrar f elimina su contribución previa en c.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -225,6 +345,11 @@ La cuenta asume un único vector de sesgo por transformación, sin proyección n
 Pregunta: ¿La longitud de la secuencia aparece en P?
 Respuesta orientativa: No. Sí afecta cómputo y memoria de activaciones.
 
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
+
 
 
 ## 26 · GRU: una alternativa con menos compuertas
@@ -233,6 +358,11 @@ Esta ecuación elige z como proporción del candidato. Otras bibliotecas usan z 
 
 Pregunta: ¿Qué conserva el pasado en esta convención?
 Respuesta orientativa: 1−z.
+
+Desarrollo conceptual: La memoria interna c y el estado visible h cumplen funciones distintas. Una compuerta puede conservar contenido que otra decide no exponer.
+f escala la memoria anterior; i regula la escritura del candidato g; o regula cuánto de tanh(c) aparece en h. Los gates de una LSTM completa dependen de la entrada y del estado anterior. El laboratorio fija gates para aislar el mecanismo.
+Ejemplo: Con c previo 0,8, f=0,9, i=0,2 y g=−0,5: retención 0,72, escritura −0,10, memoria nueva 0,62. Con o=0,75, el estado expuesto es 0,413346. Cada contribución aparece por separado en el nuevo diagrama.
+Error frecuente: Cerrar la salida o no borra automáticamente c. La derivada directa con gates fijos es f, pero el gradiente total de una LSTM incorpora también las rutas que pasan por los gates.
 
 
 
@@ -243,6 +373,11 @@ Comparar con criterios de longitud, dimensión, datos y hardware. RNN procesa un
 Pregunta: ¿La atención recibe el orden temporal sin posición ni máscara?
 Respuesta orientativa: No de la forma requerida para distinguir el orden en el Transformer estándar.
 
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
+
 
 
 ## 28 · Costo y paralelización dependen del uso
@@ -251,6 +386,11 @@ Estas son escalas simplificadas de capas y omiten constantes, batches y componen
 
 Pregunta: ¿Una menor complejidad asintótica garantiza menos latencia para T pequeño?
 Respuesta orientativa: No. Constantes, hardware y paralelización pueden dominar.
+
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
 
 
 
@@ -261,6 +401,11 @@ Las ventanas de evaluación pueden usar observaciones del pasado inmediato si ya
 Pregunta: ¿Una ventana test puede contener valores de train?
 Respuesta orientativa: Sí como historial conocido, siempre que ninguna observación futura al origen se filtre.
 
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
+
 
 
 ## 30 · Walk-forward
@@ -269,6 +414,11 @@ La ventana expansiva retiene todo el pasado; la móvil descarta lo más antiguo.
 
 Pregunta: ¿Por qué un split aleatorio puede sobreestimar calidad temporal?
 Respuesta orientativa: Permite que entrenamiento vea períodos posteriores a los que intenta predecir.
+
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
 
 
 
@@ -279,6 +429,11 @@ El período s debe corresponder a la frecuencia y al patrón, por ejemplo 7 para
 Pregunta: ¿Qué baseline exigirías para demanda diaria con patrón semanal?
 Respuesta orientativa: Como mínimo, el ingenuo estacional de siete días.
 
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
+
 
 
 ## 32 · MAE, RMSE y límites de MAPE
@@ -287,6 +442,11 @@ e=ŷ−y. WAPE=Σ|e|/Σ|y| también es indefinida si el denominador es cero y pu
 
 Pregunta: ¿Cómo reportarías MAPE si hay y=0?
 Respuesta orientativa: No como un porcentaje válido sin una regla explícita. Preferir MAE/RMSE o métricas escaladas apropiadas.
+
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
 
 
 
@@ -297,6 +457,11 @@ El notebook incluye una celda LSTM CPU opcional con semilla fija y entrenamiento
 Pregunta: ¿Qué entregar además del score?
 Respuesta orientativa: Fechas de corte, ventanas, transformaciones, versiones, baseline y costo de cómputo.
 
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
+
 
 
 ## 34 · Defensa final y respuestas
@@ -305,3 +470,8 @@ Ejercicio 1: con c previo 0,8, f=0,9, i=0,2 y g=−0,5, c=0,62. Ejercicio 2: con
 
 Pregunta: ¿Adoptarías LSTM si la mejora media es pequeña y varía de signo por período?
 Respuesta orientativa: Revisar incertidumbre y costo. Esa evidencia puede ser insuficiente para justificar adopción.
+
+Desarrollo conceptual: Un pronóstico solo es útil si usa información que existía en su fecha de emisión. Comparar modelos exige los mismos orígenes, horizontes, datos conocidos y reglas de reentrenamiento.
+El walk-forward reproduce orígenes sucesivos con ventanas expansivas o móviles. Las transformaciones se ajustan dentro de cada entrenamiento. El baseline estacional usa la observación del mismo período del ciclo anterior.
+Ejemplo: El notebook usa 420 días sintéticos, ventanas de 28, entrenamiento antes del día 300, validación 300–359 y test 360–419. Los orígenes 300,320,340 producen bloques de validación de 14 pronósticos de un paso. La LSTM pierde frente al baseline y se conserva ese resultado.
+Error frecuente: Una evaluación de un paso con pasado observado no es un pronóstico de 60 pasos sin nuevas observaciones. MAPE tampoco es una métrica válida sin aclaraciones cuando el valor real es cero.
