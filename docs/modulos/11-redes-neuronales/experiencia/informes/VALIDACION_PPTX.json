@@ -1,0 +1,148 @@
+{
+  "ppt-1-fundamentos": {
+    "finalSha256": "268433ba83cc637d840569971454308ddd0532c81adec3343df272cd06bc0f64",
+    "byteCount": 297242,
+    "packageIntegrity": {
+      "chart_count": 11,
+      "claim_boundary": "Structural package checks only; no slide text, notes, formulas, chart values, or native PowerPoint execution were inspected.",
+      "finding_count": 0,
+      "findings": [],
+      "notes_parts_skipped": 51,
+      "relationship_part_count": 123,
+      "slide_count": 51,
+      "status": "pass",
+      "exitCode": 0,
+      "findingCount": 0,
+      "warnings": []
+    },
+    "presentationLayout": {
+      "finding_count": 0,
+      "findings": [],
+      "font_policy": {
+        "checked_text_script_count": 780,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "DejaVu Sans"
+        ],
+        "observed_font_use_counts": {
+          "DejaVu Sans": 780
+        },
+        "passed": true,
+        "performed": true
+      },
+      "slide_count": 51,
+      "slide_size_in": [
+        13.3333,
+        7.5
+      ],
+      "warning_count": 0,
+      "warnings": [],
+      "exitCode": 0,
+      "findingCount": 0,
+      "fontPolicy": {
+        "checked_text_script_count": 780,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "DejaVu Sans"
+        ],
+        "observed_font_use_counts": {
+          "DejaVu Sans": 780
+        },
+        "passed": true,
+        "performed": true
+      }
+    },
+    "fontSelection": {
+      "basis": "design",
+      "approvedFamilies": [
+        "DejaVu Sans"
+      ],
+      "scriptFonts": {},
+      "referenceSha256": null,
+      "referenceFontsVerifiedInEncodedText": false,
+      "checked_text_script_count": 780,
+      "native_font_rendering_verified": false,
+      "observed_font_families": [
+        "DejaVu Sans"
+      ],
+      "observed_font_use_counts": {
+        "DejaVu Sans": 780
+      },
+      "passed": true,
+      "performed": true
+    }
+  },
+  "ppt-2-rnn-lstm": {
+    "finalSha256": "ecd97d04b2fda4b4049468a66f45a73a9a4fe9f61582fe993a1a38177dd6de60",
+    "byteCount": 198642,
+    "packageIntegrity": {
+      "chart_count": 4,
+      "claim_boundary": "Structural package checks only; no slide text, notes, formulas, chart values, or native PowerPoint execution were inspected.",
+      "finding_count": 0,
+      "findings": [],
+      "notes_parts_skipped": 34,
+      "relationship_part_count": 82,
+      "slide_count": 34,
+      "status": "pass",
+      "exitCode": 0,
+      "findingCount": 0,
+      "warnings": []
+    },
+    "presentationLayout": {
+      "finding_count": 0,
+      "findings": [],
+      "font_policy": {
+        "checked_text_script_count": 514,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "DejaVu Sans"
+        ],
+        "observed_font_use_counts": {
+          "DejaVu Sans": 514
+        },
+        "passed": true,
+        "performed": true
+      },
+      "slide_count": 34,
+      "slide_size_in": [
+        13.3333,
+        7.5
+      ],
+      "warning_count": 0,
+      "warnings": [],
+      "exitCode": 0,
+      "findingCount": 0,
+      "fontPolicy": {
+        "checked_text_script_count": 514,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "DejaVu Sans"
+        ],
+        "observed_font_use_counts": {
+          "DejaVu Sans": 514
+        },
+        "passed": true,
+        "performed": true
+      }
+    },
+    "fontSelection": {
+      "basis": "design",
+      "approvedFamilies": [
+        "DejaVu Sans"
+      ],
+      "scriptFonts": {},
+      "referenceSha256": null,
+      "referenceFontsVerifiedInEncodedText": false,
+      "checked_text_script_count": 514,
+      "native_font_rendering_verified": false,
+      "observed_font_families": [
+        "DejaVu Sans"
+      ],
+      "observed_font_use_counts": {
+        "DejaVu Sans": 514
+      },
+      "passed": true,
+      "performed": true
+    }
+  }
+}

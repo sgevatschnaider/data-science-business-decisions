@@ -1,0 +1,47 @@
+{
+  "code_cells": 7,
+  "all_passed": true,
+  "churn": [
+    {
+      "modelo": "Log\u00edstica",
+      "umbral_validaci\u00f3n": 0.15,
+      "ROC_AUC_test": 0.8540808784711225,
+      "AP_test": 0.5119081334332254,
+      "TP": 20,
+      "FP": 37,
+      "FN": 13,
+      "TN": 250,
+      "contactos": 57,
+      "utilidad_proxy": 515.0
+    },
+    {
+      "modelo": "MLP",
+      "umbral_validaci\u00f3n": 0.1,
+      "ROC_AUC_test": 0.8972653362897265,
+      "AP_test": 0.6306490153317975,
+      "TP": 24,
+      "FP": 41,
+      "FN": 9,
+      "TN": 246,
+      "contactos": 65,
+      "utilidad_proxy": 635.0000000000001
+    }
+  ],
+  "demand": [
+    {
+      "modelo": "Ingenuo estacional s=7",
+      "MAE": 3.4850648917248117,
+      "RMSE": 4.363055446399291
+    },
+    {
+      "modelo": "Ridge con 28 rezagos",
+      "MAE": 2.695531191498396,
+      "RMSE": 3.2943637477110705
+    },
+    {
+      "modelo": "LSTM 8 unidades",
+      "MAE": 6.054323457563964,
+      "RMSE": 7.252669285697238
+    }
+  ]
+}

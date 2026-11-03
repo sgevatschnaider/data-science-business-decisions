@@ -1,0 +1,46 @@
+[
+  {
+    "id": "rnn",
+    "title": "Recurrent Neural Networks (RNNs), Clearly Explained!!!",
+    "channel": "StatQuest with Josh Starmer",
+    "url": "https://www.youtube.com/watch?v=AsNTP8Kwu80",
+    "slides": [
+      5,
+      6,
+      8,
+      10,
+      11,
+      12,
+      13
+    ],
+    "objective": "Entender pesos compartidos y gradientes temporales",
+    "question": "¿Por qué aparecen productos de derivadas?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  },
+  {
+    "id": "lstm",
+    "title": "Long Short-Term Memory (LSTM), Clearly Explained",
+    "channel": "StatQuest with Josh Starmer",
+    "url": "https://www.youtube.com/watch?v=YCzL96nL7j0",
+    "slides": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "objective": "Distinguir c, h y compuertas",
+    "question": "¿Cerrar o borra la memoria c?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  }
+]

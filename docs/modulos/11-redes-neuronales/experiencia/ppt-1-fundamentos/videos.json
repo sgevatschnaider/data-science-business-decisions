@@ -1,0 +1,75 @@
+[
+  {
+    "id": "nn",
+    "title": "But what is a neural network? | Deep learning chapter 1",
+    "channel": "3Blue1Brown",
+    "url": "https://www.youtube.com/watch?v=aircAruvnKk",
+    "slides": [
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "objective": "Reconocer pesos, capas y representaciones",
+    "question": "¿Qué aprende cada capa?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  },
+  {
+    "id": "gd",
+    "title": "Gradient descent, how neural networks learn | Deep Learning Chapter 2",
+    "channel": "3Blue1Brown",
+    "url": "https://www.youtube.com/watch?v=IHZwWFHWa-w",
+    "slides": [
+      19,
+      24,
+      26,
+      27,
+      30
+    ],
+    "objective": "Relacionar pérdida y actualización",
+    "question": "¿Cómo afecta η a la trayectoria?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  },
+  {
+    "id": "bp",
+    "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+    "channel": "3Blue1Brown",
+    "url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U",
+    "slides": [
+      18,
+      21,
+      22,
+      23,
+      25
+    ],
+    "objective": "Separar sensibilidad y actualización",
+    "question": "¿Qué hace backprop y qué hace el optimizador?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  },
+  {
+    "id": "calc",
+    "title": "Backpropagation calculus | Deep Learning Chapter 4",
+    "channel": "3Blue1Brown",
+    "url": "https://www.youtube.com/watch?v=tIeHLnjs5U8",
+    "slides": [
+      21,
+      22,
+      23,
+      25
+    ],
+    "objective": "Descomponer la regla de la cadena",
+    "question": "¿Dónde aparece x en ∂L/∂w?",
+    "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+    "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+    "embed": false
+  }
+]

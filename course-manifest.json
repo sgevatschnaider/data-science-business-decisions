@@ -48,6 +48,22 @@
       "advanced_mathematical_topics": 12,
       "advanced_visual_labs": 3,
       "masterclass_url": "docs/modulos/11-graph-autoencoders/masterclass.html"
+    },
+    "11-redes-neuronales": {
+      "slide_viewers": 2,
+      "slide_count": 85,
+      "decks": {
+        "fundamentos": 51,
+        "rnn_lstm": 34
+      },
+      "essential_fundamentals_slides": 28,
+      "interactive_labs": 5,
+      "videos": 6,
+      "pptx": 2,
+      "pdf": 2,
+      "notebook": "notebooks/11-redes-neuronales.ipynb",
+      "entry": "docs/modulos/11-redes-neuronales/experiencia/index.html",
+      "visible_module_number": "12"
     }
   }
 }

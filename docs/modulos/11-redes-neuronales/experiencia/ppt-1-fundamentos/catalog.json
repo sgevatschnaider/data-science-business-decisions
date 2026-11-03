@@ -1,0 +1,1682 @@
+{
+  "slug": "ppt-1-fundamentos",
+  "title": "Redes neuronales: fundamentos y decisiones",
+  "essential": [
+    1,
+    2,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12,
+    13,
+    15,
+    18,
+    19,
+    22,
+    23,
+    24,
+    26,
+    30,
+    31,
+    33,
+    37,
+    38,
+    40,
+    42,
+    43,
+    44,
+    48,
+    51
+  ],
+  "slides": [
+    {
+      "id": "ppt-1-fundamentos-01",
+      "number": 1,
+      "title": "Redes neuronales",
+      "body": [
+        "Fundamentos, aprendizaje y decisiones de negocio",
+        "Ciencias de Datos II · UCA",
+        "Sergio Gevatschnaider · 5 de noviembre de 2026"
+      ],
+      "equation": "",
+      "visual": "network",
+      "notes": "Abrir con la decisión de retención: disponemos de datos previos, un presupuesto de contacto y un resultado futuro. Una red aprende una función a partir de ejemplos. El éxito de entrenamiento será una parte de la evidencia, no el criterio final de adopción. La clase principal usa las 28 diapositivas esenciales, con pausas para laboratorio. RNN y LSTM quedan en el segundo deck.\n\nPregunta: ¿Qué debería mejorar una red para justificar su uso?\nRespuesta orientativa: La decisión fuera de muestra, considerando costos, estabilidad y comparación con un baseline.",
+      "question": "¿Qué debería mejorar una red para justificar su uso?",
+      "answer": "La decisión fuera de muestra, considerando costos, estabilidad y comparación con un baseline.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 1,
+      "essential": true,
+      "image": "slides/es/01.webp",
+      "transcript": "Redes neuronales\n\nFundamentos, aprendizaje y decisiones de negocio\n\nCiencias de Datos II · UCA\n\nSergio Gevatschnaider · 5 de noviembre de 2026\n\n\n\n¿Qué debería mejorar una red para justificar su uso?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-02",
+      "number": 2,
+      "title": "La decisión de retención",
+      "body": [
+        "Unidad: cliente al cierre de un mes",
+        "Objetivo: abandono en los próximos 30 días",
+        "Acción: ofrecer una intervención con presupuesto limitado"
+      ],
+      "equation": "",
+      "visual": "decision",
+      "notes": "Fijar una fecha de corte para cada fila. Las variables deben estar disponibles en esa fecha. Definir abandono operativo y una ventana futura observable. Un score de riesgo ayuda a priorizar, pero no prueba que la oferta evite el abandono. Registrar quién decide y cuál es la capacidad de contacto.\n\nPregunta: ¿Una cancelación ya confirmada puede ser una variable predictora?\nRespuesta orientativa: No, si la decisión debía tomarse antes de esa confirmación: introduce información del resultado.",
+      "question": "¿Una cancelación ya confirmada puede ser una variable predictora?",
+      "answer": "No, si la decisión debía tomarse antes de esa confirmación: introduce información del resultado.",
+      "sources": [
+        {
+          "label": "scikit-learn, Common pitfalls, §11.2: data leakage",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 2,
+      "essential": true,
+      "image": "slides/es/02.webp",
+      "transcript": "La decisión de retención\n\nUnidad: cliente al cierre de un mes\n\nObjetivo: abandono en los próximos 30 días\n\nAcción: ofrecer una intervención con presupuesto limitado\n\n\n\n¿Una cancelación ya confirmada puede ser una variable predictora?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-03",
+      "number": 3,
+      "title": "Resultados de aprendizaje",
+      "body": [
+        "Calcular una predicción y un gradiente",
+        "Explicar capas, activaciones y parámetros",
+        "Defender una política con evidencia de validación"
+      ],
+      "equation": "",
+      "visual": "",
+      "notes": "Solicitar una explicación verbal de cada símbolo. Al final, cada grupo deberá mostrar el cálculo de una actualización, identificar una fuga de información y justificar un umbral bajo restricciones. La precisión verbal importa: backpropagation calcula derivadas y el optimizador actualiza parámetros.\n\nPregunta: ¿Qué evidencia distinguiría comprensión de repetición de fórmulas?\nRespuesta orientativa: Poder anticipar el signo de una actualización y explicar cuándo una mejora predictiva no cambia una decisión.",
+      "question": "¿Qué evidencia distinguiría comprensión de repetición de fórmulas?",
+      "answer": "Poder anticipar el signo de una actualización y explicar cuándo una mejora predictiva no cambia una decisión.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 3,
+      "essential": false,
+      "image": "slides/es/03.webp",
+      "transcript": "Resultados de aprendizaje\n\nCalcular una predicción y un gradiente\n\nExplicar capas, activaciones y parámetros\n\nDefender una política con evidencia de validación\n\n\n\n¿Qué evidencia distinguiría comprensión de repetición de fórmulas?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-04",
+      "number": 4,
+      "title": "Ruta de clase: 9:30 a 12:00",
+      "body": [
+        "9:30–10:15 · decisión, neurona, XOR y activaciones",
+        "10:15–11:05 · forward, pérdidas y backpropagation",
+        "11:05–12:00 · generalización, churn y defensa"
+      ],
+      "equation": "",
+      "visual": "timeline",
+      "notes": "Usar el filtro Ruta esencial del visor. Reservar 12 minutos para el laboratorio de perceptrón, 10 para gradiente y 13 para umbral. La guía distribuye 150 minutos sin agregar una segunda exposición completa de RNN/LSTM. Las slides de ampliación sirven para consultas y trabajo posterior.\n\nPregunta: ¿Qué pregunta conecta los tres bloques?\nRespuesta orientativa: Cómo pasar de una función aprendida a una decisión confiable.",
+      "question": "¿Qué pregunta conecta los tres bloques?",
+      "answer": "Cómo pasar de una función aprendida a una decisión confiable.",
+      "sources": [
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 4,
+      "essential": true,
+      "image": "slides/es/04.webp",
+      "transcript": "Ruta de clase: 9:30 a 12:00\n\n9:30–10:15 · decisión, neurona, XOR y activaciones\n\n10:15–11:05 · forward, pérdidas y backpropagation\n\n11:05–12:00 · generalización, churn y defensa\n\n\n\n¿Qué pregunta conecta los tres bloques?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-05",
+      "number": 5,
+      "title": "Cuándo conviene una solución simple",
+      "body": [
+        "Pocos ejemplos o etiquetas poco confiables",
+        "Exigencias estrictas de interpretación o latencia",
+        "Baselines tabulares que ya cumplen el objetivo"
+      ],
+      "equation": "",
+      "visual": "compare",
+      "notes": "No existe un tamaño mínimo universal para deep learning. Importan señal, dimensionalidad, preentrenamiento y costo del error. Una regresión logística o un árbol con atributos apropiados puede ser suficiente. Comparar modelos con el mismo protocolo y recursos de ajuste, evitando elegir arquitectura por moda.\n\nPregunta: ¿Más datos garantizan que una red supere a un árbol?\nRespuesta orientativa: No. Hay que medir desempeño, costos y estabilidad en el problema concreto.",
+      "question": "¿Más datos garantizan que una red supere a un árbol?",
+      "answer": "No. Hay que medir desempeño, costos y estabilidad en el problema concreto.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 2,
+      "essential": false,
+      "image": "slides/es/05.webp",
+      "transcript": "Cuándo conviene una solución simple\n\nPocos ejemplos o etiquetas poco confiables\n\nExigencias estrictas de interpretación o latencia\n\nBaselines tabulares que ya cumplen el objetivo\n\n\n\n¿Más datos garantizan que una red supere a un árbol?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-06",
+      "number": 6,
+      "title": "Regresión logística como baseline",
+      "body": [
+        "Un score afín se transforma en una probabilidad modelada",
+        "La frontera con umbral 0,5 es un hiperplano",
+        "La calibración debe comprobarse fuera de entrenamiento"
+      ],
+      "equation": "z = wᵀx + b\np = σ(z) = 1 / (1 + exp(−z))",
+      "visual": "sigmoid",
+      "notes": "La neurona sigmoide sin capas ocultas comparte la forma funcional de la regresión logística binaria. Esto no vuelve idénticos los algoritmos de ajuste, regularización o calibración usados por todas las implementaciones. Un cambio de umbral desplaza la frontera, pero no la convierte en no lineal respecto de x.\n\nPregunta: ¿Qué agrega una capa oculta a esta función?\nRespuesta orientativa: Transformaciones de atributos que pueden construir fronteras no lineales.",
+      "question": "¿Qué agrega una capa oculta a esta función?",
+      "answer": "Transformaciones de atributos que pueden construir fronteras no lineales.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 5,
+      "essential": true,
+      "image": "slides/es/06.webp",
+      "transcript": "Regresión logística como baseline\n\nUn score afín se transforma en una probabilidad modelada\n\nLa frontera con umbral 0,5 es un hiperplano\n\nLa calibración debe comprobarse fuera de entrenamiento\n\nz = wᵀx + b\np = σ(z) = 1 / (1 + exp(−z))\n\n¿Qué agrega una capa oculta a esta función?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-07",
+      "number": 7,
+      "title": "Entradas, pesos, sesgo y activación",
+      "body": [
+        "x contiene atributos medibles",
+        "w y b son parámetros aprendidos",
+        "φ transforma la suma ponderada"
+      ],
+      "equation": "z = w₁x₁ + w₂x₂ + b\na = φ(z)",
+      "visual": "neuron",
+      "notes": "Los pesos representan sensibilidad condicionada al resto de la función y a la escala de las variables. No equivalen automáticamente a importancia causal. El sesgo permite desplazar la frontera sin modificar la orientación. Distinguir el parámetro entrenable de un hiperparámetro como learning rate.\n\nPregunta: ¿Cambiar la unidad de x cambia la interpretación de w?\nRespuesta orientativa: Sí. Por eso escalar variables y documentar unidades es parte del pipeline.",
+      "question": "¿Cambiar la unidad de x cambia la interpretación de w?",
+      "answer": "Sí. Por eso escalar variables y documentar unidades es parte del pipeline.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 6,
+      "essential": true,
+      "image": "slides/es/07.webp",
+      "transcript": "Entradas, pesos, sesgo y activación\n\nx contiene atributos medibles\n\nw y b son parámetros aprendidos\n\nφ transforma la suma ponderada\n\nz = w₁x₁ + w₂x₂ + b\na = φ(z)\n\n¿Cambiar la unidad de x cambia la interpretación de w?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-08",
+      "number": 8,
+      "title": "Inferencia: un cálculo verificable",
+      "body": [
+        "x₁ = 0,8 y x₂ = 0,4",
+        "w₁ = 1, w₂ = −0,5 y b = −0,1",
+        "Con umbral 0,5, la clase predicha es 1"
+      ],
+      "equation": "z = 0,8 − 0,2 − 0,1 = 0,5\np = σ(0,5) = 0,622459",
+      "visual": "numeric",
+      "notes": "Todas las cifras de este ejemplo son didácticas. Resolver primero la suma y luego la activación. Una salida 0,622459 pertenece al modelo y no constituye por sí sola una frecuencia observada ni una garantía individual. En inferencia se mantienen los pesos fijos.\n\nPregunta: ¿Qué ocurre si b baja a −0,6?\nRespuesta orientativa: z pasa a 0 y p a 0,5. Con la convención p≥0,5 sigue prediciendo clase 1.",
+      "question": "¿Qué ocurre si b baja a −0,6?",
+      "answer": "z pasa a 0 y p a 0,5. Con la convención p≥0,5 sigue prediciendo clase 1.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 7,
+      "essential": true,
+      "image": "slides/es/08.webp",
+      "transcript": "Inferencia: un cálculo verificable\n\nx₁ = 0,8 y x₂ = 0,4\n\nw₁ = 1, w₂ = −0,5 y b = −0,1\n\nCon umbral 0,5, la clase predicha es 1\n\nz = 0,8 − 0,2 − 0,1 = 0,5\np = σ(0,5) = 0,622459\n\n¿Qué ocurre si b baja a −0,6?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-09",
+      "number": 9,
+      "title": "Una frontera lineal",
+      "body": [
+        "El signo de wᵀx+b separa dos semiespacios",
+        "La regla del perceptrón corrige errores de clasificación",
+        "Convergencia: datos separables y condiciones de aprendizaje apropiadas"
+      ],
+      "equation": "ŷ = 1[z ≥ 0]\nw ← w + η(y−ŷ)x",
+      "visual": "boundary",
+      "notes": "El perceptrón usa una salida umbral, no una probabilidad. La actualización se aplica sobre errores y también incluye b ← b+η(y−ŷ). La garantía clásica de convergencia requiere separabilidad y un conjunto finito con entradas acotadas. No trasladar esa garantía a XOR.\n\nPregunta: ¿Qué cambia el sesgo?\nRespuesta orientativa: La posición de la frontera. Los pesos determinan su orientación.",
+      "question": "¿Qué cambia el sesgo?",
+      "answer": "La posición de la frontera. Los pesos determinan su orientación.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 8,
+      "essential": true,
+      "image": "slides/es/09.webp",
+      "transcript": "Una frontera lineal\n\nEl signo de wᵀx+b separa dos semiespacios\n\nLa regla del perceptrón corrige errores de clasificación\n\nConvergencia: datos separables y condiciones de aprendizaje apropiadas\n\nŷ = 1[z ≥ 0]\nw ← w + η(y−ŷ)x\n\n¿Qué cambia el sesgo?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-10",
+      "number": 10,
+      "title": "XOR exige una representación distinta",
+      "body": [
+        "(0,0) y (1,1) pertenecen a la clase 0",
+        "(1,0) y (0,1) pertenecen a la clase 1",
+        "Ninguna recta separa las clases en las entradas originales"
+      ],
+      "equation": "XOR(0,0)=0   XOR(0,1)=1\nXOR(1,0)=1   XOR(1,1)=0",
+      "visual": "xor",
+      "notes": "El laboratorio usa los cuatro puntos canónicos para que la limitación sea inequívoca. La falta de convergencia de una neurona no implica un error del software. Dibujar la envolvente de cada clase ayuda a ver la imposibilidad de separarlas linealmente. Un modelo con atributos diseñados a mano también podría resolver XOR.\n\nPregunta: ¿Basta con entrenar más épocas un perceptrón?\nRespuesta orientativa: No. La clase de funciones del modelo no contiene una solución perfecta para XOR.",
+      "question": "¿Basta con entrenar más épocas un perceptrón?",
+      "answer": "No. La clase de funciones del modelo no contiene una solución perfecta para XOR.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 8,
+      "essential": true,
+      "image": "slides/es/10.webp",
+      "transcript": "XOR exige una representación distinta\n\n(0,0) y (1,1) pertenecen a la clase 0\n\n(1,0) y (0,1) pertenecen a la clase 1\n\nNinguna recta separa las clases en las entradas originales\n\nXOR(0,0)=0   XOR(0,1)=1\nXOR(1,0)=1   XOR(1,1)=0\n\n¿Basta con entrenar más épocas un perceptrón?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-11",
+      "number": 11,
+      "title": "XOR con dos unidades ReLU",
+      "body": [
+        "Una unidad detecta suma superior a cero",
+        "La segunda corrige cuando ambas entradas están activas",
+        "Ejemplo constructivo con salida exacta sobre los cuatro puntos"
+      ],
+      "equation": "h₁ = ReLU(x₁+x₂)\nh₂ = ReLU(x₁+x₂−1)\nŷ = h₁ − 2h₂",
+      "visual": "network",
+      "notes": "Para entradas binarias: suma 0 produce salida 0, suma 1 produce 1, suma 2 produce 0. Es una construcción de capacidad, no una trayectoria de entrenamiento ni una salida probabilística. Los pesos podrían aprenderse, pero la existencia de una solución no asegura que todo optimizador la encuentre.\n\nPregunta: ¿Cuánto vale la salida para (1,1)?\nRespuesta orientativa: h₁=2, h₂=1 y salida=0.",
+      "question": "¿Cuánto vale la salida para (1,1)?",
+      "answer": "h₁=2, h₂=1 y salida=0.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 9,
+      "essential": false,
+      "image": "slides/es/11.webp",
+      "transcript": "XOR con dos unidades ReLU\n\nUna unidad detecta suma superior a cero\n\nLa segunda corrige cuando ambas entradas están activas\n\nEjemplo constructivo con salida exacta sobre los cuatro puntos\n\nh₁ = ReLU(x₁+x₂)\nh₂ = ReLU(x₁+x₂−1)\nŷ = h₁ − 2h₂\n\n¿Cuánto vale la salida para (1,1)?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-12",
+      "number": 12,
+      "title": "Dimensiones y parámetros de un MLP",
+      "body": [
+        "Dos entradas, tres unidades ocultas y una salida",
+        "W₁: 3×2, b₁: 3, W₂: 1×3, b₂: 1",
+        "Cada conexión y cada sesgo agrega un parámetro"
+      ],
+      "equation": "Parámetros = 3·2 + 3 + 1·3 + 1 = 13",
+      "visual": "network",
+      "notes": "Usar vectores columna para mantener coherencia. h=φ(W₁x+b₁) tiene dimensión 3 y la salida tiene dimensión 1. No contar las activaciones como parámetros. Si un framework usa matrices transpuestas o dos vectores de sesgo, su representación puede cambiar sin invalidar esta convención.\n\nPregunta: ¿Cuántos parámetros tiene una capa d→m con sesgo?\nRespuesta orientativa: m·d+m. La salida siguiente agrega sus propios pesos y sesgos.",
+      "question": "¿Cuántos parámetros tiene una capa d→m con sesgo?",
+      "answer": "m·d+m. La salida siguiente agrega sus propios pesos y sesgos.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 9,
+      "essential": true,
+      "image": "slides/es/12.webp",
+      "transcript": "Dimensiones y parámetros de un MLP\n\nDos entradas, tres unidades ocultas y una salida\n\nW₁: 3×2, b₁: 3, W₂: 1×3, b₂: 1\n\nCada conexión y cada sesgo agrega un parámetro\n\nParámetros = 3·2 + 3 + 1·3 + 1 = 13\n\n¿Cuántos parámetros tiene una capa d→m con sesgo?",
+      "labs": [
+        "labs/01_perceptron.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-13",
+      "number": 13,
+      "title": "La no linealidad cambia la capacidad",
+      "body": [
+        "Dos capas afines sin activación colapsan en una",
+        "La profundidad por sí sola no introduce no linealidad",
+        "Las activaciones permiten representaciones por regiones"
+      ],
+      "equation": "W₂(W₁x+b₁)+b₂ = Ax+c",
+      "visual": "compare",
+      "notes": "A=W₂W₁ y c=W₂b₁+b₂. Llamamos afín a la transformación con sesgo. La simplificación demuestra por qué una red de muchas capas afines sigue teniendo frontera lineal si la salida es logística. La capacidad adicional necesita activaciones o mecanismos no lineales.\n\nPregunta: ¿Qué ocurre si todas las capas ocultas usan identidad?\nRespuesta orientativa: La composición sigue siendo afín.",
+      "question": "¿Qué ocurre si todas las capas ocultas usan identidad?",
+      "answer": "La composición sigue siendo afín.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 10,
+      "essential": true,
+      "image": "slides/es/13.webp",
+      "transcript": "La no linealidad cambia la capacidad\n\nDos capas afines sin activación colapsan en una\n\nLa profundidad por sí sola no introduce no linealidad\n\nLas activaciones permiten representaciones por regiones\n\nW₂(W₁x+b₁)+b₂ = Ax+c\n\n¿Qué ocurre si todas las capas ocultas usan identidad?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": [
+        "nn"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-14",
+      "number": 14,
+      "title": "Sigmoide: salida acotada y saturación",
+      "body": [
+        "Rango: (0,1)",
+        "Derivada máxima: 0,25 en z=0",
+        "En los extremos la sensibilidad se aproxima a cero"
+      ],
+      "equation": "σ(z) = 1/(1+e⁻ᶻ)\nσ′(z) = σ(z)(1−σ(z))",
+      "visual": "sigmoid",
+      "notes": "Una sigmoide permite parametrizar una probabilidad binaria, pero el valor requiere validación de calibración. Su uso repetido en capas profundas puede atenuar gradientes. El límite máximo 0,25 se verifica completando el cuadrado p(1−p)=0,25−(p−0,5)².\n\nPregunta: ¿Cuál es la derivada en z=0?\nRespuesta orientativa: 0,25.",
+      "question": "¿Cuál es la derivada en z=0?",
+      "answer": "0,25.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 10,
+      "essential": false,
+      "image": "slides/es/14.webp",
+      "transcript": "Sigmoide: salida acotada y saturación\n\nRango: (0,1)\n\nDerivada máxima: 0,25 en z=0\n\nEn los extremos la sensibilidad se aproxima a cero\n\nσ(z) = 1/(1+e⁻ᶻ)\nσ′(z) = σ(z)(1−σ(z))\n\n¿Cuál es la derivada en z=0?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-15",
+      "number": 15,
+      "title": "ReLU, tanh y Leaky ReLU",
+      "body": [
+        "tanh se centra en cero, pero también satura",
+        "ReLU mantiene pendiente 1 en el lado positivo",
+        "Leaky ReLU conserva una pendiente α en el lado negativo"
+      ],
+      "equation": "tanh′(z) = 1−tanh²(z)\nReLU(z)=max(0,z),  φ′(z)=1[z>0]\nLeaky(z)=max(αz,z), 0<α<1",
+      "visual": "activations",
+      "notes": "ReLU no es derivable en cero. Los motores adoptan una convención, frecuentemente cero, y el laboratorio lo informa. Una unidad que permanece en el lado negativo puede no recibir gradiente. Leaky ReLU reduce esa situación, sin garantizar mejor desempeño en todos los casos. Comparar valores y derivadas en el laboratorio.\n\nPregunta: ¿Una activación con salida grande tiene siempre derivada grande?\nRespuesta orientativa: No. tanh puede aproximarse a 1 mientras su derivada se aproxima a 0.",
+      "question": "¿Una activación con salida grande tiene siempre derivada grande?",
+      "answer": "No. tanh puede aproximarse a 1 mientras su derivada se aproxima a 0.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 11,
+      "essential": true,
+      "image": "slides/es/15.webp",
+      "transcript": "ReLU, tanh y Leaky ReLU\n\ntanh se centra en cero, pero también satura\n\nReLU mantiene pendiente 1 en el lado positivo\n\nLeaky ReLU conserva una pendiente α en el lado negativo\n\ntanh′(z) = 1−tanh²(z)\nReLU(z)=max(0,z),  φ′(z)=1[z>0]\nLeaky(z)=max(αz,z), 0<α<1\n\n¿Una activación con salida grande tiene siempre derivada grande?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-16",
+      "number": 16,
+      "title": "Salida según el objetivo",
+      "body": [
+        "Binaria: una sigmoide y BCE",
+        "Multiclase exclusiva: softmax y entropía cruzada",
+        "Regresión: identidad y una pérdida adecuada al ruido"
+      ],
+      "equation": "softmax(z)ₖ = exp(zₖ−m) / Σⱼexp(zⱼ−m)\nm = maxⱼ zⱼ",
+      "visual": "",
+      "notes": "Restar el máximo evita desbordes sin cambiar el cociente. Softmax corresponde a clases mutuamente excluyentes y sus probabilidades suman uno. Para etiquetas múltiples simultáneas suelen usarse sigmoides independientes. La identidad permite regresión sin acotar el rango de salida.\n\nPregunta: ¿Dos etiquetas que pueden coexistir requieren softmax?\nRespuesta orientativa: No necesariamente. Sigmoides por etiqueta modelan un problema multietiqueta.",
+      "question": "¿Dos etiquetas que pueden coexistir requieren softmax?",
+      "answer": "No necesariamente. Sigmoides por etiqueta modelan un problema multietiqueta.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 11,
+      "essential": false,
+      "image": "slides/es/16.webp",
+      "transcript": "Salida según el objetivo\n\nBinaria: una sigmoide y BCE\n\nMulticlase exclusiva: softmax y entropía cruzada\n\nRegresión: identidad y una pérdida adecuada al ruido\n\nsoftmax(z)ₖ = exp(zₖ−m) / Σⱼexp(zⱼ−m)\nm = maxⱼ zⱼ\n\n¿Dos etiquetas que pueden coexistir requieren softmax?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-17",
+      "number": 17,
+      "title": "Laboratorio de activaciones",
+      "body": [
+        "Escenario 1: recorrer z entre −6 y 6",
+        "Escenario 2: observar saturación",
+        "Escenario 3: cruzar el punto no derivable de ReLU"
+      ],
+      "equation": "",
+      "visual": "exercise",
+      "notes": "Antes de iniciar la simulación automática, pedir una predicción sobre las derivadas. El recorrido cambia z realmente y recalcula la función seleccionada. Pausar cerca de cero y comparar tanh, ReLU y sigmoide. Las unidades de z y la activación son adimensionales en este ejemplo.\n\nPregunta: ¿Qué se pierde al observar solo la curva de activación?\nRespuesta orientativa: La sensibilidad local que participa en backpropagation.",
+      "question": "¿Qué se pierde al observar solo la curva de activación?",
+      "answer": "La sensibilidad local que participa en backpropagation.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 26,
+      "essential": false,
+      "image": "slides/es/17.webp",
+      "transcript": "Laboratorio de activaciones\n\nEscenario 1: recorrer z entre −6 y 6\n\nEscenario 2: observar saturación\n\nEscenario 3: cruzar el punto no derivable de ReLU\n\n\n\n¿Qué se pierde al observar solo la curva de activación?",
+      "labs": [
+        "labs/02_activaciones.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-18",
+      "number": 18,
+      "title": "Forward propagation",
+      "body": [
+        "Las entradas pasan por las capas con pesos fijos",
+        "El entrenamiento agrega una pérdida y sus derivadas",
+        "La inferencia termina en la predicción"
+      ],
+      "equation": "h = φ(W₁x+b₁)\nz₂ = W₂h+b₂\np = σ(z₂)",
+      "visual": "flow",
+      "notes": "Distinguir el grafo de cálculo de la arquitectura dibujada. Cada nodo conserva lo necesario para derivar luego. El forward es el mismo tipo de evaluación en entrenamiento e inferencia, pero capas como dropout cambian de modo. Señalar explícitamente el modo de evaluación al implementar.\n\nPregunta: ¿El forward cambia los pesos?\nRespuesta orientativa: No. El paso del optimizador realiza la actualización.",
+      "question": "¿El forward cambia los pesos?",
+      "answer": "No. El paso del optimizador realiza la actualización.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 12,
+      "essential": true,
+      "image": "slides/es/18.webp",
+      "transcript": "Forward propagation\n\nLas entradas pasan por las capas con pesos fijos\n\nEl entrenamiento agrega una pérdida y sus derivadas\n\nLa inferencia termina en la predicción\n\nh = φ(W₁x+b₁)\nz₂ = W₂h+b₂\np = σ(z₂)\n\n¿El forward cambia los pesos?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "bp"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-19",
+      "number": 19,
+      "title": "BCE para clasificación binaria",
+      "body": [
+        "Penaliza probabilidades incompatibles con y",
+        "Usa logaritmo natural y promedia sobre ejemplos",
+        "La implementación con logits mejora estabilidad numérica"
+      ],
+      "equation": "L = −[y·ln(p)+(1−y)·ln(1−p)]\ny=1, p=0,622459: L=0,474077",
+      "visual": "bce",
+      "notes": "La BCE deriva de la verosimilitud Bernoulli bajo las hipótesis del modelo. Una probabilidad de 0 para un evento observado genera pérdida infinita en teoría. Para cálculo estable usar logits con logaddexp o BCEWithLogitsLoss. No confundir esta pérdida con accuracy ni beneficio de una campaña.\n\nPregunta: ¿Qué pérdida tiene un acierto con probabilidad 0,5?\nRespuesta orientativa: −ln(0,5)=0,693147, cualquiera sea la etiqueta binaria observada.",
+      "question": "¿Qué pérdida tiene un acierto con probabilidad 0,5?",
+      "answer": "−ln(0,5)=0,693147, cualquiera sea la etiqueta binaria observada.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 13,
+      "essential": true,
+      "image": "slides/es/19.webp",
+      "transcript": "BCE para clasificación binaria\n\nPenaliza probabilidades incompatibles con y\n\nUsa logaritmo natural y promedia sobre ejemplos\n\nLa implementación con logits mejora estabilidad numérica\n\nL = −[y·ln(p)+(1−y)·ln(1−p)]\ny=1, p=0,622459: L=0,474077\n\n¿Qué pérdida tiene un acierto con probabilidad 0,5?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "gd"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-20",
+      "number": 20,
+      "title": "MSE para regresión",
+      "body": [
+        "Penaliza más los errores grandes",
+        "Se expresa en unidades al cuadrado",
+        "RMSE devuelve la escala original del objetivo"
+      ],
+      "equation": "MSE = (1/n) Σᵢ(ŷᵢ−yᵢ)²\ny=10, ŷ=8: error²=4",
+      "visual": "numeric",
+      "notes": "MSE resulta natural con errores Gaussianos de varianza constante si se interpreta por máxima verosimilitud. No es la única elección y puede resultar sensible a atípicos. En el ejemplo, si y mide unidades vendidas, MSE mide unidades². La BCE se elige por el objetivo binario del caso churn.\n\nPregunta: ¿Cambiar la unidad monetaria altera MSE?\nRespuesta orientativa: Sí. Multiplicar y por k multiplica MSE por k².",
+      "question": "¿Cambiar la unidad monetaria altera MSE?",
+      "answer": "Sí. Multiplicar y por k multiplica MSE por k².",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 13,
+      "essential": false,
+      "image": "slides/es/20.webp",
+      "transcript": "MSE para regresión\n\nPenaliza más los errores grandes\n\nSe expresa en unidades al cuadrado\n\nRMSE devuelve la escala original del objetivo\n\nMSE = (1/n) Σᵢ(ŷᵢ−yᵢ)²\ny=10, ŷ=8: error²=4\n\n¿Cambiar la unidad monetaria altera MSE?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-21",
+      "number": 21,
+      "title": "El grafo de una neurona logística",
+      "body": [
+        "Un ejemplo: x=2, y=1, w=0,3 y b=−0,1",
+        "Primero se calcula z, luego p y después L",
+        "Derivaremos respecto de w y b"
+      ],
+      "equation": "z=0,5   p=0,622459   L=0,474077",
+      "visual": "flow",
+      "notes": "Elegimos una sola entrada para que toda la derivación pueda verificarse a mano. La secuencia es z=wx+b, p=σ(z), L=−ln(p). El código de pruebas usa diferencias finitas para comprobar las derivadas. No mezclar estos x y w con el ejemplo previo de dos variables.\n\nPregunta: ¿Qué valores deben guardarse para la derivación?\nRespuesta orientativa: x, y, p y los parámetros del forward. Para este caso no es necesario reconstruir toda la pérdida.",
+      "question": "¿Qué valores deben guardarse para la derivación?",
+      "answer": "x, y, p y los parámetros del forward. Para este caso no es necesario reconstruir toda la pérdida.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 16,
+      "essential": false,
+      "image": "slides/es/21.webp",
+      "transcript": "El grafo de una neurona logística\n\nUn ejemplo: x=2, y=1, w=0,3 y b=−0,1\n\nPrimero se calcula z, luego p y después L\n\nDerivaremos respecto de w y b\n\nz=0,5   p=0,622459   L=0,474077\n\n¿Qué valores deben guardarse para la derivación?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "bp",
+        "calc"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-22",
+      "number": 22,
+      "title": "Regla de la cadena",
+      "body": [
+        "Cada derivada local mide una sensibilidad",
+        "El producto conecta w con la pérdida",
+        "En redes ramificadas se suman contribuciones"
+      ],
+      "equation": "∂L/∂w = (∂L/∂p)(∂p/∂z)(∂z/∂w)",
+      "visual": "chain",
+      "notes": "Con BCE y sigmoide, ∂L/∂p=(p−y)/(p(1−p)), ∂p/∂z=p(1−p), ∂z/∂w=x. La cancelación algebraica conduce a (p−y)x. Las derivadas corresponden a un ejemplo sin regularización. Para un batch se promedian según la reducción de la pérdida.\n\nPregunta: ¿Por qué se suman gradientes cuando un parámetro tiene varios caminos?\nRespuesta orientativa: Porque la pérdida depende del parámetro por todos esos caminos, según la regla de derivación total.",
+      "question": "¿Por qué se suman gradientes cuando un parámetro tiene varios caminos?",
+      "answer": "Porque la pérdida depende del parámetro por todos esos caminos, según la regla de derivación total.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 16,
+      "essential": true,
+      "image": "slides/es/22.webp",
+      "transcript": "Regla de la cadena\n\nCada derivada local mide una sensibilidad\n\nEl producto conecta w con la pérdida\n\nEn redes ramificadas se suman contribuciones\n\n∂L/∂w = (∂L/∂p)(∂p/∂z)(∂z/∂w)\n\n¿Por qué se suman gradientes cuando un parámetro tiene varios caminos?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "bp",
+        "calc"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-23",
+      "number": 23,
+      "title": "Backpropagation: resultado numérico",
+      "body": [
+        "p−y = −0,377541",
+        "∂L/∂w = (p−y)x = −0,755081",
+        "∂L/∂b = p−y = −0,377541"
+      ],
+      "equation": "∂L/∂z = p−y\n∇L = (−0,755081, −0,377541)",
+      "visual": "numeric",
+      "notes": "Un gradiente negativo indica que aumentar el parámetro reduce la pérdida localmente. Los valores se calcularon con precisión completa antes de redondear. Backpropagation termina en estas derivadas: aún no se actualizaron los pesos. Una comprobación numérica central usa ε=10⁻⁵.\n\nPregunta: ¿Por qué el gradiente de w duplica al de b?\nRespuesta orientativa: Porque x=2 y ∂z/∂w=x, mientras ∂z/∂b=1.",
+      "question": "¿Por qué el gradiente de w duplica al de b?",
+      "answer": "Porque x=2 y ∂z/∂w=x, mientras ∂z/∂b=1.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 16,
+      "essential": true,
+      "image": "slides/es/23.webp",
+      "transcript": "Backpropagation: resultado numérico\n\np−y = −0,377541\n\n∂L/∂w = (p−y)x = −0,755081\n\n∂L/∂b = p−y = −0,377541\n\n∂L/∂z = p−y\n∇L = (−0,755081, −0,377541)\n\n¿Por qué el gradiente de w duplica al de b?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "bp",
+        "calc"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-24",
+      "number": 24,
+      "title": "Una actualización de descenso",
+      "body": [
+        "Con η=0,1: w pasa a 0,375508",
+        "b pasa a −0,062246",
+        "El nuevo forward reduce la BCE a aproximadamente 0,4069"
+      ],
+      "equation": "wₙᵤₑᵥₒ = w−η·∂L/∂w\nbₙᵤₑᵥₒ = b−η·∂L/∂b",
+      "visual": "descent",
+      "notes": "El nuevo logit es 0,688770 y la pérdida exacta se verifica por código. La mejora en este ejemplo y con este paso no prueba convergencia global ni mejora de validación. Repetir con una tasa distinta permite distinguir cálculo de gradientes y elección del tamaño de paso.\n\nPregunta: ¿En qué dirección se movieron ambos parámetros?\nRespuesta orientativa: Aumentaron porque sus gradientes eran negativos.",
+      "question": "¿En qué dirección se movieron ambos parámetros?",
+      "answer": "Aumentaron porque sus gradientes eran negativos.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 15,
+      "essential": true,
+      "image": "slides/es/24.webp",
+      "transcript": "Una actualización de descenso\n\nCon η=0,1: w pasa a 0,375508\n\nb pasa a −0,062246\n\nEl nuevo forward reduce la BCE a aproximadamente 0,4069\n\nwₙᵤₑᵥₒ = w−η·∂L/∂w\nbₙᵤₑᵥₒ = b−η·∂L/∂b\n\n¿En qué dirección se movieron ambos parámetros?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "gd"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-25",
+      "number": 25,
+      "title": "Backpropagation en una capa oculta",
+      "body": [
+        "El error de salida se transporta por los pesos",
+        "La derivada de la activación modula la señal",
+        "Un producto externo construye el gradiente de W"
+      ],
+      "equation": "δ₂ = p−y\nδ₁ = (W₂ᵀδ₂) ⊙ φ′(z₁)\n∂L/∂W₁ = δ₁xᵀ",
+      "visual": "network",
+      "notes": "Para salida binaria escalar con BCE y sigmoide, δ₂ es escalar. δ₁ tiene tantas componentes como unidades ocultas. Las dimensiones verifican el cálculo: δ₁xᵀ es m×d. El símbolo ⊙ denota producto componente a componente. Los sesgos reciben δ y los batches agregan sus gradientes.\n\nPregunta: ¿Qué dimensión tiene el gradiente de W₁?\nRespuesta orientativa: La misma que W₁: m×d.",
+      "question": "¿Qué dimensión tiene el gradiente de W₁?",
+      "answer": "La misma que W₁: m×d.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 16,
+      "essential": false,
+      "image": "slides/es/25.webp",
+      "transcript": "Backpropagation en una capa oculta\n\nEl error de salida se transporta por los pesos\n\nLa derivada de la activación modula la señal\n\nUn producto externo construye el gradiente de W\n\nδ₂ = p−y\nδ₁ = (W₂ᵀδ₂) ⊙ φ′(z₁)\n∂L/∂W₁ = δ₁xᵀ\n\n¿Qué dimensión tiene el gradiente de W₁?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "bp",
+        "calc"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-26",
+      "number": 26,
+      "title": "Learning rate y estabilidad",
+      "body": [
+        "Paso pequeño: avance lento",
+        "Paso intermedio: descenso estable en este ejemplo",
+        "Paso excesivo: oscilación o divergencia"
+      ],
+      "equation": "L(w)=½(w−2)²\nwₜ₊₁−2 = (1−η)(wₜ−2)",
+      "visual": "lr",
+      "notes": "Para esta parábola, la convergencia exige 0<η<2. η=2 oscila sin contraer y η>2 diverge. El laboratorio ofrece además BCE logística. La condición de esta parábola no se traslada como constante universal a todas las redes: depende de la curvatura de la función.\n\nPregunta: ¿Qué sucede con η=1 en esta parábola?\nRespuesta orientativa: Llega al mínimo w=2 en un paso, usando el gradiente exacto.",
+      "question": "¿Qué sucede con η=1 en esta parábola?",
+      "answer": "Llega al mínimo w=2 en un paso, usando el gradiente exacto.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 15,
+      "essential": true,
+      "image": "slides/es/26.webp",
+      "transcript": "Learning rate y estabilidad\n\nPaso pequeño: avance lento\n\nPaso intermedio: descenso estable en este ejemplo\n\nPaso excesivo: oscilación o divergencia\n\nL(w)=½(w−2)²\nwₜ₊₁−2 = (1−η)(wₜ−2)\n\n¿Qué sucede con η=1 en esta parábola?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "gd"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-27",
+      "number": 27,
+      "title": "Mini-batch, iteración y época",
+      "body": [
+        "Mini-batch: ejemplos para estimar un gradiente",
+        "Iteración: una actualización",
+        "Época: recorrido del conjunto de entrenamiento"
+      ],
+      "equation": "n=1.000, batch=100\n10 actualizaciones por época",
+      "visual": "batches",
+      "notes": "El conteo supone que se usan todos los ejemplos exactamente una vez por época. Si n no es divisible por el batch, aparece un último lote menor o una política drop_last. En datos temporales hay que distinguir barajar ventanas de entrenamiento de filtrar futuro a una ventana.\n\nPregunta: ¿Cinco épocas equivalen a cinco actualizaciones?\nRespuesta orientativa: Solo en entrenamiento full-batch. En este ejemplo son 50 actualizaciones.",
+      "question": "¿Cinco épocas equivalen a cinco actualizaciones?",
+      "answer": "Solo en entrenamiento full-batch. En este ejemplo son 50 actualizaciones.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        }
+      ],
+      "original": 17,
+      "essential": false,
+      "image": "slides/es/27.webp",
+      "transcript": "Mini-batch, iteración y época\n\nMini-batch: ejemplos para estimar un gradiente\n\nIteración: una actualización\n\nÉpoca: recorrido del conjunto de entrenamiento\n\nn=1.000, batch=100\n10 actualizaciones por época\n\n¿Cinco épocas equivalen a cinco actualizaciones?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "gd"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-28",
+      "number": 28,
+      "title": "Inicialización y escalado",
+      "body": [
+        "Romper simetrías entre unidades",
+        "Mantener una escala razonable de activaciones",
+        "Ajustar transformaciones solo con entrenamiento"
+      ],
+      "equation": "He para ReLU: Var(w) ≈ 2/fan_in",
+      "visual": "compare",
+      "notes": "Inicializar todos los pesos ocultos iguales puede mantener neuronas idénticas durante el entrenamiento. He propone una escala para rectificadores bajo supuestos sobre las entradas y la propagación. No basta para garantizar estabilidad. Estandarizar atributos puede ayudar, siempre ajustando media y escala solo en train.\n\nPregunta: ¿Por qué no estimar el escalado con todo el dataset?\nRespuesta orientativa: Porque usaría información de validación o test para construir el modelo.",
+      "question": "¿Por qué no estimar el escalado con todo el dataset?",
+      "answer": "Porque usaría información de validación o test para construir el modelo.",
+      "sources": [
+        {
+          "label": "He et al. (2015), Delving Deep into Rectifiers, §2.2",
+          "url": "https://arxiv.org/abs/1502.01852"
+        },
+        {
+          "label": "scikit-learn, Common pitfalls, §11.2: data leakage",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        }
+      ],
+      "original": 14,
+      "essential": false,
+      "image": "slides/es/28.webp",
+      "transcript": "Inicialización y escalado\n\nRomper simetrías entre unidades\n\nMantener una escala razonable de activaciones\n\nAjustar transformaciones solo con entrenamiento\n\nHe para ReLU: Var(w) ≈ 2/fan_in\n\n¿Por qué no estimar el escalado con todo el dataset?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-29",
+      "number": 29,
+      "title": "Gradientes que se atenúan o explotan",
+      "body": [
+        "Productos de Jacobianos pueden cambiar mucho de escala",
+        "Saturación limita la señal de aprendizaje",
+        "Inicialización, arquitectura y clipping cumplen papeles distintos"
+      ],
+      "equation": "∂L/∂h₀ contiene productos de ∂hₖ/∂hₖ₋₁",
+      "visual": "gradient",
+      "notes": "La norma del producto depende de matrices y activaciones, no solo del número de capas. Clipping limita magnitudes de gradientes explosivos, pero no recupera automáticamente gradientes pequeños. El segundo deck desarrolla la misma dificultad a través del tiempo y la memoria controlada de LSTM.\n\nPregunta: ¿Clipping resuelve un gradiente casi nulo?\nRespuesta orientativa: No. Solo limita gradientes cuya norma excede el umbral.",
+      "question": "¿Clipping resuelve un gradiente casi nulo?",
+      "answer": "No. Solo limita gradientes cuya norma excede el umbral.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        },
+        {
+          "label": "Goodfellow et al. (2016), cap. 10, §§10.2, 10.5, 10.7, 10.10",
+          "url": "https://www.deeplearningbook.org/contents/rnn.html"
+        }
+      ],
+      "original": 15,
+      "essential": false,
+      "image": "slides/es/29.webp",
+      "transcript": "Gradientes que se atenúan o explotan\n\nProductos de Jacobianos pueden cambiar mucho de escala\n\nSaturación limita la señal de aprendizaje\n\nInicialización, arquitectura y clipping cumplen papeles distintos\n\n∂L/∂h₀ contiene productos de ∂hₖ/∂hₖ₋₁\n\n¿Clipping resuelve un gradiente casi nulo?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-30",
+      "number": 30,
+      "title": "Laboratorio de optimización",
+      "body": [
+        "BCE: aprender w y b con cuatro observaciones",
+        "Cuadrática estable: observar convergencia",
+        "Cuadrática inestable: explicar oscilación y divergencia"
+      ],
+      "equation": "",
+      "visual": "exercise",
+      "notes": "Cada paso calcula gradientes de verdad. Pausar y contrastar números con la regla de actualización. Modificar w, b o η reinicia una trayectoria documentada para no mezclar experimentos. Exportar CSV permite comparar pérdidas por iteración sin atribuir esos valores a una campaña real.\n\nPregunta: ¿Cómo verificarías una derivada implementada?\nRespuesta orientativa: Con diferencias finitas, tolerancia numérica y casos extremos.",
+      "question": "¿Cómo verificarías una derivada implementada?",
+      "answer": "Con diferencias finitas, tolerancia numérica y casos extremos.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 26,
+      "essential": true,
+      "image": "slides/es/30.webp",
+      "transcript": "Laboratorio de optimización\n\nBCE: aprender w y b con cuatro observaciones\n\nCuadrática estable: observar convergencia\n\nCuadrática inestable: explicar oscilación y divergencia\n\n\n\n¿Cómo verificarías una derivada implementada?",
+      "labs": [
+        "labs/03_gradiente.html"
+      ],
+      "videos": [
+        "gd"
+      ]
+    },
+    {
+      "id": "ppt-1-fundamentos-31",
+      "number": 31,
+      "title": "Train, validación y test",
+      "body": [
+        "Train ajusta parámetros y transformaciones",
+        "Validación selecciona arquitectura y umbral",
+        "Test estima desempeño final de la política elegida"
+      ],
+      "equation": "",
+      "visual": "split",
+      "notes": "La separación debe representar el uso real. Agrupar por cliente o respetar el tiempo si hay observaciones repetidas. Mirar test repetidamente para elegir hiperparámetros lo convierte de hecho en validación. Una separación correcta no elimina drift ni garantiza que el próximo período replique el pasado.\n\nPregunta: ¿Dónde elegimos el umbral de retención?\nRespuesta orientativa: En validación, antes de evaluar una única política congelada en test.",
+      "question": "¿Dónde elegimos el umbral de retención?",
+      "answer": "En validación, antes de evaluar una única política congelada en test.",
+      "sources": [
+        {
+          "label": "scikit-learn, Common pitfalls, §11.2: data leakage",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        },
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ],
+      "original": 20,
+      "essential": true,
+      "image": "slides/es/31.webp",
+      "transcript": "Train, validación y test\n\nTrain ajusta parámetros y transformaciones\n\nValidación selecciona arquitectura y umbral\n\nTest estima desempeño final de la política elegida\n\n\n\n¿Dónde elegimos el umbral de retención?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-32",
+      "number": 32,
+      "title": "Fuga de información en churn",
+      "body": [
+        "Ejemplo: usar el motivo de baja para predecir la baja",
+        "Transformaciones y selección de variables dentro del split",
+        "Repeticiones del mismo cliente requieren agrupamiento"
+      ],
+      "equation": "",
+      "visual": "timeline",
+      "notes": "Pedir a cada grupo una tabla con nombre de variable, momento de disponibilidad y transformación. Una promoción futura solo puede usarse si se conocía y estaba fijada al decidir. Una fuga también puede aparecer al ajustar imputación, escalado o selección supervisada sobre todo el dataset.\n\nPregunta: ¿Es suficiente borrar la columna objetivo?\nRespuesta orientativa: No. Otras variables, duplicados o transformaciones pueden revelar indirectamente el resultado.",
+      "question": "¿Es suficiente borrar la columna objetivo?",
+      "answer": "No. Otras variables, duplicados o transformaciones pueden revelar indirectamente el resultado.",
+      "sources": [
+        {
+          "label": "scikit-learn, Common pitfalls, §11.2: data leakage",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        }
+      ],
+      "original": 20,
+      "essential": false,
+      "image": "slides/es/32.webp",
+      "transcript": "Fuga de información en churn\n\nEjemplo: usar el motivo de baja para predecir la baja\n\nTransformaciones y selección de variables dentro del split\n\nRepeticiones del mismo cliente requieren agrupamiento\n\n\n\n¿Es suficiente borrar la columna objetivo?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-33",
+      "number": 33,
+      "title": "Curvas de generalización",
+      "body": [
+        "La pérdida de train puede seguir bajando",
+        "Un deterioro de validación alerta sobre sobreajuste",
+        "La curva es esquemática, no un resultado medido"
+      ],
+      "equation": "",
+      "visual": "overfit",
+      "notes": "Mostrar ambas curvas en la misma escala. La trayectoria ilustrada representa un patrón posible, no un diagnóstico automático de toda divergencia entre curvas. Ruido, cambio de distribución, tamaños de muestra y regularización pueden afectar la comparación. Conservar el mejor checkpoint según una regla previamente definida.\n\nPregunta: ¿Una pérdida train más baja implica un mejor modelo?\nRespuesta orientativa: No. La decisión depende de validación y del costo operativo.",
+      "question": "¿Una pérdida train más baja implica un mejor modelo?",
+      "answer": "No. La decisión depende de validación y del costo operativo.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 7, §§7.1, 7.8, 7.12",
+          "url": "https://www.deeplearningbook.org/contents/regularization.html"
+        }
+      ],
+      "original": 18,
+      "essential": true,
+      "image": "slides/es/33.webp",
+      "transcript": "Curvas de generalización\n\nLa pérdida de train puede seguir bajando\n\nUn deterioro de validación alerta sobre sobreajuste\n\nLa curva es esquemática, no un resultado medido\n\n\n\n¿Una pérdida train más baja implica un mejor modelo?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-34",
+      "number": 34,
+      "title": "L2 y weight decay",
+      "body": [
+        "L2 penaliza pesos grandes en la función objetivo",
+        "El sesgo suele quedar fuera de la penalización",
+        "Con optimizadores adaptativos, L2 y decay desacoplado difieren"
+      ],
+      "equation": "J = L_datos + (λ/2)‖W‖²\n∂J/∂W = ∂L_datos/∂W + λW",
+      "visual": "",
+      "notes": "La equivalencia entre penalización L2 y un factor multiplicativo de pesos se verifica para SGD estándar con convenciones adecuadas. No afirmar equivalencia universal para Adam. λ se selecciona con validación. La penalización reduce capacidad efectiva, pero no corrige una variable con información futura.\n\nPregunta: ¿Qué ocurre al aumentar demasiado λ?\nRespuesta orientativa: Puede aparecer subajuste: la solución penalizada pierde capacidad predictiva.",
+      "question": "¿Qué ocurre al aumentar demasiado λ?",
+      "answer": "Puede aparecer subajuste: la solución penalizada pierde capacidad predictiva.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 7, §§7.1, 7.8, 7.12",
+          "url": "https://www.deeplearningbook.org/contents/regularization.html"
+        },
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        }
+      ],
+      "original": 19,
+      "essential": false,
+      "image": "slides/es/34.webp",
+      "transcript": "L2 y weight decay\n\nL2 penaliza pesos grandes en la función objetivo\n\nEl sesgo suele quedar fuera de la penalización\n\nCon optimizadores adaptativos, L2 y decay desacoplado difieren\n\nJ = L_datos + (λ/2)‖W‖²\n∂J/∂W = ∂L_datos/∂W + λW\n\n¿Qué ocurre al aumentar demasiado λ?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-35",
+      "number": 35,
+      "title": "Dropout",
+      "body": [
+        "Durante entrenamiento elimina activaciones al azar",
+        "Inverted dropout reescala las supervivientes",
+        "Durante inferencia se desactiva la máscara"
+      ],
+      "equation": "h̃ = m ⊙ h / (1−p_drop)\nmⱼ ~ Bernoulli(1−p_drop)",
+      "visual": "network",
+      "notes": "El reescalado conserva la esperanza de cada activación, condicionado a h. No significa que cada red parcial produzca la misma salida ni que cualquier p mejore generalización. Usar los modos train/eval del framework y guardar semilla. Las unidades retiradas aquí son un mecanismo de regularización, no poda permanente.\n\nPregunta: ¿Dropout=0,5 implica eliminar la mitad de los parámetros al exportar?\nRespuesta orientativa: No. La máscara actúa sobre activaciones durante entrenamiento.",
+      "question": "¿Dropout=0,5 implica eliminar la mitad de los parámetros al exportar?",
+      "answer": "No. La máscara actúa sobre activaciones durante entrenamiento.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 7, §§7.1, 7.8, 7.12",
+          "url": "https://www.deeplearningbook.org/contents/regularization.html"
+        }
+      ],
+      "original": 19,
+      "essential": false,
+      "image": "slides/es/35.webp",
+      "transcript": "Dropout\n\nDurante entrenamiento elimina activaciones al azar\n\nInverted dropout reescala las supervivientes\n\nDurante inferencia se desactiva la máscara\n\nh̃ = m ⊙ h / (1−p_drop)\nmⱼ ~ Bernoulli(1−p_drop)\n\n¿Dropout=0,5 implica eliminar la mitad de los parámetros al exportar?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-36",
+      "number": 36,
+      "title": "Early stopping y checkpoints",
+      "body": [
+        "Monitorear una métrica de validación",
+        "Definir paciencia y mejora mínima",
+        "Restaurar el mejor checkpoint al terminar"
+      ],
+      "equation": "",
+      "visual": "overfit",
+      "notes": "Detener después de paciencia épocas sin mejora no significa usar los últimos pesos. Documentar restore_best_weights o cargar explícitamente el checkpoint. No seleccionar la paciencia mirando test. La validación se usa para una decisión más y debe tener tamaño y representatividad suficientes.\n\nPregunta: ¿Qué pesos evaluamos al final?\nRespuesta orientativa: Los del checkpoint elegido con validación según la regla definida.",
+      "question": "¿Qué pesos evaluamos al final?",
+      "answer": "Los del checkpoint elegido con validación según la regla definida.",
+      "sources": [
+        {
+          "label": "Goodfellow et al. (2016), cap. 7, §§7.1, 7.8, 7.12",
+          "url": "https://www.deeplearningbook.org/contents/regularization.html"
+        }
+      ],
+      "original": 18,
+      "essential": false,
+      "image": "slides/es/36.webp",
+      "transcript": "Early stopping y checkpoints\n\nMonitorear una métrica de validación\n\nDefinir paciencia y mejora mínima\n\nRestaurar el mejor checkpoint al terminar\n\n\n\n¿Qué pesos evaluamos al final?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-37",
+      "number": 37,
+      "title": "Desbalance: 95% de accuracy sin detectar bajas",
+      "body": [
+        "Ejemplo sintético: 100 clientes, 5 abandonos",
+        "Predecir siempre “no abandona” acierta 95",
+        "Recall de abandono: 0 de 5"
+      ],
+      "equation": "Accuracy = 95/100 = 95%\nRecall = 0/5 = 0%",
+      "visual": "imbalance",
+      "notes": "La etiqueta positiva es abandono. Un clasificador trivial puede conseguir accuracy alta cuando la prevalencia positiva es baja. No usar este ejemplo para inferir que accuracy siempre carece de utilidad. Comparar con el baseline y reportar métricas alineadas con la acción y con la prevalencia del período.\n\nPregunta: ¿Cuántos clientes de riesgo detectó la política?\nRespuesta orientativa: Ninguno.",
+      "question": "¿Cuántos clientes de riesgo detectó la política?",
+      "answer": "Ninguno.",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 21,
+      "essential": true,
+      "image": "slides/es/37.webp",
+      "transcript": "Desbalance: 95% de accuracy sin detectar bajas\n\nEjemplo sintético: 100 clientes, 5 abandonos\n\nPredecir siempre “no abandona” acierta 95\n\nRecall de abandono: 0 de 5\n\nAccuracy = 95/100 = 95%\nRecall = 0/5 = 0%\n\n¿Cuántos clientes de riesgo detectó la política?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-38",
+      "number": 38,
+      "title": "Matriz de confusión y política",
+      "body": [
+        "Ejemplo sintético con umbral fijo",
+        "TP=3, FP=7, FN=2, TN=88",
+        "Diez contactos para detectar tres de cinco abandonos"
+      ],
+      "equation": "Precision = 3/10 = 0,30\nRecall = 3/5 = 0,60",
+      "visual": "confusion",
+      "notes": "Las filas representan clase real y las columnas decisión. La matriz debe sumar 100. Contactos=TP+FP=10. Los valores aquí son un ejemplo manual y no el resultado del dataset con semilla del laboratorio. Pedir a un alumno que interprete un falso positivo en unidades de contactos y costo.\n\nPregunta: ¿Cuál es la especificidad?\nRespuesta orientativa: TN/(TN+FP)=88/95≈0,9263.",
+      "question": "¿Cuál es la especificidad?",
+      "answer": "TN/(TN+FP)=88/95≈0,9263.",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 21,
+      "essential": true,
+      "image": "slides/es/38.webp",
+      "transcript": "Matriz de confusión y política\n\nEjemplo sintético con umbral fijo\n\nTP=3, FP=7, FN=2, TN=88\n\nDiez contactos para detectar tres de cinco abandonos\n\nPrecision = 3/10 = 0,30\nRecall = 3/5 = 0,60\n\n¿Cuál es la especificidad?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-39",
+      "number": 39,
+      "title": "Precision y recall dependen del umbral",
+      "body": [
+        "Bajar el umbral suele aumentar contactos y recall",
+        "Precision puede subir o bajar según los scores",
+        "Capacidad y costo definen qué intercambio conviene"
+      ],
+      "equation": "Precision = TP/(TP+FP)\nRecall = TP/(TP+FN)",
+      "visual": "decision",
+      "notes": "No afirmar que precision siempre cae al bajar el umbral en cualquier muestra finita. Si no hay positivos predichos, precision queda indefinida salvo convención de reporte. El laboratorio muestra “no definida” en vez de simular una evidencia inexistente. Reportar también cantidades absolutas.\n\nPregunta: ¿Qué métrica cuenta cuántos abandonos quedaron fuera?\nRespuesta orientativa: Recall junto con FN, o tasa de falsos negativos.",
+      "question": "¿Qué métrica cuenta cuántos abandonos quedaron fuera?",
+      "answer": "Recall junto con FN, o tasa de falsos negativos.",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ],
+      "original": 21,
+      "essential": false,
+      "image": "slides/es/39.webp",
+      "transcript": "Precision y recall dependen del umbral\n\nBajar el umbral suele aumentar contactos y recall\n\nPrecision puede subir o bajar según los scores\n\nCapacidad y costo definen qué intercambio conviene\n\nPrecision = TP/(TP+FP)\nRecall = TP/(TP+FN)\n\n¿Qué métrica cuenta cuántos abandonos quedaron fuera?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-40",
+      "number": 40,
+      "title": "ROC-AUC y curva precision-recall",
+      "body": [
+        "ROC compara TPR frente a FPR",
+        "Precision-recall enfoca la clase positiva",
+        "La prevalencia cambia la referencia de precisión"
+      ],
+      "equation": "TPR = TP/(TP+FN)\nFPR = FP/(FP+TN)",
+      "visual": "metrics",
+      "notes": "ROC-AUC resume ordenamiento sobre umbrales y no fija la política final. La average precision (AP) pondera precisiones por incrementos de recall y puede diferir del área trapezoidal PR-AUC. El notebook reporta AP con su nombre correcto. Para scores sin información, la precisión de referencia está ligada a prevalencia. Calibración es una propiedad distinta.\n\nPregunta: ¿Un ROC-AUC mayor garantiza más beneficio a capacidad del 15%?\nRespuesta orientativa: No. Hay que evaluar ese tramo, costos y calibración.",
+      "question": "¿Un ROC-AUC mayor garantiza más beneficio a capacidad del 15%?",
+      "answer": "No. Hay que evaluar ese tramo, costos y calibración.",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ],
+      "original": 21,
+      "essential": true,
+      "image": "slides/es/40.webp",
+      "transcript": "ROC-AUC y curva precision-recall\n\nROC compara TPR frente a FPR\n\nPrecision-recall enfoca la clase positiva\n\nLa prevalencia cambia la referencia de precisión\n\nTPR = TP/(TP+FN)\nFPR = FP/(FP+TN)\n\n¿Un ROC-AUC mayor garantiza más beneficio a capacidad del 15%?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-41",
+      "number": 41,
+      "title": "Calibración y ranking",
+      "body": [
+        "Ranking ordena clientes por score",
+        "Calibración relaciona probabilidades con frecuencias",
+        "Un buen ordenamiento puede coexistir con mala calibración"
+      ],
+      "equation": "P(Y=1 | p≈0,20) ≈ 0,20",
+      "visual": "calibration",
+      "notes": "La frase expresa una propiedad poblacional y aproximada, no una promesa sobre cada cliente. Un diagrama de confiabilidad agrupa scores y compara frecuencia observada. El tamaño de los grupos y la incertidumbre importan. Calibrar con un conjunto aparte o un procedimiento dentro de validación, sin usar test.\n\nPregunta: ¿AUC cambia si aplico una transformación estrictamente creciente al score?\nRespuesta orientativa: El orden se conserva, por lo que ROC-AUC se conserva salvo empates o efectos numéricos.",
+      "question": "¿AUC cambia si aplico una transformación estrictamente creciente al score?",
+      "answer": "El orden se conserva, por lo que ROC-AUC se conserva salvo empates o efectos numéricos.",
+      "sources": [
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ],
+      "original": 23,
+      "essential": false,
+      "image": "slides/es/41.webp",
+      "transcript": "Calibración y ranking\n\nRanking ordena clientes por score\n\nCalibración relaciona probabilidades con frecuencias\n\nUn buen ordenamiento puede coexistir con mala calibración\n\nP(Y=1 | p≈0,20) ≈ 0,20\n\n¿AUC cambia si aplico una transformación estrictamente creciente al score?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-42",
+      "number": 42,
+      "title": "Una utilidad esperada explícita",
+      "body": [
+        "q: probabilidad supuesta de evitar una baja detectada",
+        "B: margen preservado por baja evitada",
+        "C: costo de cada contacto, también para verdaderos positivos"
+      ],
+      "equation": "U_proxy = TP·q·B − (TP+FP)·C",
+      "visual": "utility",
+      "notes": "Este es un proxy didáctico condicionado a una efectividad q, no una estimación causal del resultado de campaña. Asume efecto solo en clientes que habrían abandonado y valor homogéneo. Para beneficio incremental real se requiere experimento o identificación causal apropiada. Corrige el proxy original que solo descontaba costo a FP.\n\nPregunta: ¿Podemos medir q solo con las etiquetas de abandono y los scores?\nRespuesta orientativa: No. Falta información sobre el efecto de intervenir frente a no hacerlo.",
+      "question": "¿Podemos medir q solo con las etiquetas de abandono y los scores?",
+      "answer": "No. Falta información sobre el efecto de intervenir frente a no hacerlo.",
+      "sources": [
+        {
+          "label": "Athey e Imbens (2016), Recursive partitioning for heterogeneous causal effects",
+          "url": "https://www.pnas.org/doi/10.1073/pnas.1510489113"
+        },
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 22,
+      "essential": true,
+      "image": "slides/es/42.webp",
+      "transcript": "Una utilidad esperada explícita\n\nq: probabilidad supuesta de evitar una baja detectada\n\nB: margen preservado por baja evitada\n\nC: costo de cada contacto, también para verdaderos positivos\n\nU_proxy = TP·q·B − (TP+FP)·C\n\n¿Podemos medir q solo con las etiquetas de abandono y los scores?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-43",
+      "number": 43,
+      "title": "Umbral con costo y capacidad",
+      "body": [
+        "Ejemplo manual: TP=3, FP=7",
+        "q=0,4, B=100 UM y C=5 UM por contacto",
+        "U_proxy=3·0,4·100−10·5=70 UM"
+      ],
+      "equation": "Actuar si p·q·B > C\np > C/(q·B) = 0,125",
+      "visual": "numeric",
+      "notes": "El umbral teórico supone p calibrada, efecto q homogéneo y ausencia de restricciones. Con capacidad limitada, elegir los mayores beneficios esperados entre acciones positivas. Las UM son unidades monetarias didácticas. En el laboratorio se puede recorrer el umbral, exportar la curva y ver la matriz en cada paso.\n\nPregunta: ¿Si el presupuesto solo permite dos contactos, basta el umbral 0,125?\nRespuesta orientativa: No. También debe imponerse la capacidad y priorizar utilidad esperada.",
+      "question": "¿Si el presupuesto solo permite dos contactos, basta el umbral 0,125?",
+      "answer": "No. También debe imponerse la capacidad y priorizar utilidad esperada.",
+      "sources": [
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        },
+        {
+          "label": "Athey e Imbens (2016), Recursive partitioning for heterogeneous causal effects",
+          "url": "https://www.pnas.org/doi/10.1073/pnas.1510489113"
+        }
+      ],
+      "original": 22,
+      "essential": true,
+      "image": "slides/es/43.webp",
+      "transcript": "Umbral con costo y capacidad\n\nEjemplo manual: TP=3, FP=7\n\nq=0,4, B=100 UM y C=5 UM por contacto\n\nU_proxy=3·0,4·100−10·5=70 UM\n\nActuar si p·q·B > C\np > C/(q·B) = 0,125\n\n¿Si el presupuesto solo permite dos contactos, basta el umbral 0,125?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-44",
+      "number": 44,
+      "title": "Comparación justa: logística frente a MLP",
+      "body": [
+        "Mismas filas, objetivo, splits y transformaciones",
+        "Selección con validación y presupuesto comparable",
+        "Test final con política congelada y costos documentados"
+      ],
+      "equation": "",
+      "visual": "compare",
+      "notes": "El notebook mide ROC-AUC, AP, matriz y utilidad proxy sobre datos sintéticos con semilla fija. No incluye una tabla de resultados inventados. Repetir con semillas y bootstrap por unidad independiente si se desea estudiar variabilidad. Si el MLP no mejora, conservar la referencia es una conclusión válida.\n\nPregunta: ¿Qué comparación sería injusta?\nRespuesta orientativa: Ajustar el umbral del MLP con test y el de la logística solo con train.",
+      "question": "¿Qué comparación sería injusta?",
+      "answer": "Ajustar el umbral del MLP con test y el de la logística solo con train.",
+      "sources": [
+        {
+          "label": "scikit-learn, Common pitfalls, §11.2: data leakage",
+          "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+        },
+        {
+          "label": "scikit-learn, Model evaluation: clasificación y regresión, §3.4",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ],
+      "original": 23,
+      "essential": true,
+      "image": "slides/es/44.webp",
+      "transcript": "Comparación justa: logística frente a MLP\n\nMismas filas, objetivo, splits y transformaciones\n\nSelección con validación y presupuesto comparable\n\nTest final con política congelada y costos documentados\n\n\n\n¿Qué comparación sería injusta?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-45",
+      "number": 45,
+      "title": "Un score de riesgo no es un efecto causal",
+      "body": [
+        "Clientes de alto riesgo pueden no responder a una oferta",
+        "Medir retención incremental requiere contrafactual",
+        "Un experimento aleatorizado permite estimar el efecto"
+      ],
+      "equation": "E[Y(1)−Y(0) | X=x]",
+      "visual": "decision",
+      "notes": "Y debe definirse consistentemente, por ejemplo retención. La expresión es el efecto promedio condicionado y no es observable a nivel individual porque solo se ve uno de los resultados potenciales. No llamar incremento de retención a una mejora de AUC. El proxy del laboratorio sirve para sensibilidad bajo supuestos explícitos.\n\nPregunta: ¿Podemos atribuir las bajas evitadas al modelo sin grupo de comparación?\nRespuesta orientativa: No con una interpretación causal confiable.",
+      "question": "¿Podemos atribuir las bajas evitadas al modelo sin grupo de comparación?",
+      "answer": "No con una interpretación causal confiable.",
+      "sources": [
+        {
+          "label": "Athey e Imbens (2016), Recursive partitioning for heterogeneous causal effects",
+          "url": "https://www.pnas.org/doi/10.1073/pnas.1510489113"
+        }
+      ],
+      "original": 22,
+      "essential": false,
+      "image": "slides/es/45.webp",
+      "transcript": "Un score de riesgo no es un efecto causal\n\nClientes de alto riesgo pueden no responder a una oferta\n\nMedir retención incremental requiere contrafactual\n\nUn experimento aleatorizado permite estimar el efecto\n\nE[Y(1)−Y(0) | X=x]\n\n¿Podemos atribuir las bajas evitadas al modelo sin grupo de comparación?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-46",
+      "number": 46,
+      "title": "Interpretación, equidad y trazabilidad",
+      "body": [
+        "Inspeccionar errores por segmentos pertinentes",
+        "Documentar datos, versiones, semillas y política",
+        "Monitorear drift y resultados después de adoptar"
+      ],
+      "equation": "",
+      "visual": "decision",
+      "notes": "La explicación de una predicción no prueba causalidad ni equidad. Definir segmentos con justificación y tamaño suficiente. Registrar incertidumbre y evitar exponer información personal. Una model card incluye uso previsto, limitaciones y evaluación. El responsable humano debe poder suspender la política si cambia el contexto.\n\nPregunta: ¿Qué información permitiría reproducir una decisión tomada hoy?\nRespuesta orientativa: Versión de datos y modelo, transformaciones, score, umbral, costos y regla de acción vigentes.",
+      "question": "¿Qué información permitiría reproducir una decisión tomada hoy?",
+      "answer": "Versión de datos y modelo, transformaciones, score, umbral, costos y regla de acción vigentes.",
+      "sources": [
+        {
+          "label": "Mitchell et al. (2019), Model Cards for Model Reporting",
+          "url": "https://arxiv.org/abs/1810.03993"
+        }
+      ],
+      "original": 25,
+      "essential": false,
+      "image": "slides/es/46.webp",
+      "transcript": "Interpretación, equidad y trazabilidad\n\nInspeccionar errores por segmentos pertinentes\n\nDocumentar datos, versiones, semillas y política\n\nMonitorear drift y resultados después de adoptar\n\n\n\n¿Qué información permitiría reproducir una decisión tomada hoy?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-47",
+      "number": 47,
+      "title": "Mapa de arquitecturas",
+      "body": [
+        "MLP: combinaciones de atributos",
+        "CNN: patrones locales en grillas",
+        "RNN/LSTM: estado temporal; Transformer: atención"
+      ],
+      "equation": "",
+      "visual": "architecture",
+      "notes": "Este mapa describe sesgos de arquitectura, no un ranking universal de calidad. CNN puede aplicarse a secuencias y Transformers a datos tabulares. La elección depende del protocolo y costo medidos. El segundo deck desarrolla recurrencia, gates y evaluación temporal, sin desplazar la clase principal de fundamentos.\n\nPregunta: ¿Qué criterio manda al elegir una arquitectura?\nRespuesta orientativa: El tipo de señal, los datos disponibles y la evidencia de mejora en el uso previsto.",
+      "question": "¿Qué criterio manda al elegir una arquitectura?",
+      "answer": "El tipo de señal, los datos disponibles y la evidencia de mejora en el uso previsto.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Goodfellow et al. (2016), cap. 10, §§10.2, 10.5, 10.7, 10.10",
+          "url": "https://www.deeplearningbook.org/contents/rnn.html"
+        },
+        {
+          "label": "Vaswani et al. (2017), Attention Is All You Need, §3 y tabla 1",
+          "url": "https://arxiv.org/abs/1706.03762"
+        }
+      ],
+      "original": 24,
+      "essential": false,
+      "image": "slides/es/47.webp",
+      "transcript": "Mapa de arquitecturas\n\nMLP: combinaciones de atributos\n\nCNN: patrones locales en grillas\n\nRNN/LSTM: estado temporal; Transformer: atención\n\n\n\n¿Qué criterio manda al elegir una arquitectura?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-48",
+      "number": 48,
+      "title": "Actividad: defensa de una política",
+      "body": [
+        "Grupos: elegir baseline y MLP para churn mensual",
+        "Justificar split, métrica y umbral",
+        "Presentar una limitación y una condición de rechazo"
+      ],
+      "equation": "",
+      "visual": "exercise",
+      "notes": "Reservar los últimos minutos para una defensa breve. Una respuesta sólida incluye fecha de corte, train/valid/test, costo por contacto, capacidad y efecto de intervención supuesto. Evaluar claridad del argumento y evidencia, sin premiar complejidad por sí misma. Consultar rúbrica y respuestas en la guía docente.\n\nPregunta: ¿Adoptarían una red con mayor AUC y menor utilidad de validación?\nRespuesta orientativa: No por AUC solamente. Revisar incertidumbre y política; si la desventaja persiste, mantener baseline.",
+      "question": "¿Adoptarían una red con mayor AUC y menor utilidad de validación?",
+      "answer": "No por AUC solamente. Revisar incertidumbre y política; si la desventaja persiste, mantener baseline.",
+      "sources": [
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 27,
+      "essential": true,
+      "image": "slides/es/48.webp",
+      "transcript": "Actividad: defensa de una política\n\nGrupos: elegir baseline y MLP para churn mensual\n\nJustificar split, métrica y umbral\n\nPresentar una limitación y una condición de rechazo\n\n\n\n¿Adoptarían una red con mayor AUC y menor utilidad de validación?",
+      "labs": [
+        "labs/04_umbral.html"
+      ],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-49",
+      "number": 49,
+      "title": "Comprobación de comprensión",
+      "body": [
+        "1. ¿Cuántos parámetros tiene 2→3→1?",
+        "2. ¿Por qué una neurona no resuelve XOR?",
+        "3. ¿Puede una mejor BCE asegurar más retención?"
+      ],
+      "equation": "",
+      "visual": "exercise",
+      "notes": "Dar dos minutos individuales y luego contrastar en parejas. Respuestas: 13 parámetros bajo la convención de sesgo por unidad; XOR no es linealmente separable en las entradas originales; BCE no mide efecto causal ni utilidad de una campaña. Usar las respuestas para detectar confusión entre capacidad, aprendizaje y decisión.\n\nPregunta: ¿Qué concepto une los tres problemas?\nRespuesta orientativa: Cada modelo y cada métrica tienen un alcance concreto que debe explicitarse.",
+      "question": "¿Qué concepto une los tres problemas?",
+      "answer": "Cada modelo y cada métrica tienen un alcance concreto que debe explicitarse.",
+      "sources": [
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 26,
+      "essential": false,
+      "image": "slides/es/49.webp",
+      "transcript": "Comprobación de comprensión\n\n1. ¿Cuántos parámetros tiene 2→3→1?\n\n2. ¿Por qué una neurona no resuelve XOR?\n\n3. ¿Puede una mejor BCE asegurar más retención?\n\n\n\n¿Qué concepto une los tres problemas?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-50",
+      "number": 50,
+      "title": "Material para continuar",
+      "body": [
+        "Lectura: Deep Learning, capítulos 6, 7 y 8",
+        "Videos: intuición, gradiente y backpropagation",
+        "Práctica: notebook y laboratorios reproducibles"
+      ],
+      "equation": "",
+      "visual": "",
+      "notes": "Los seis videos quedan organizados por tema y diapositiva. Se verificaron URLs y metadatos accesibles, con límites expresos sobre reproducción, audio y subtítulos. Los recursos originales ampliados y las preguntas del módulo se conservan como consulta. Repetir el notebook permite observar que una red puede ganar o perder frente al baseline según la muestra.\n\nPregunta: ¿Qué experimento harías antes de usar datos reales?\nRespuesta orientativa: Reproducir un caso sintético con semilla, verificar gradientes y comprobar que el pipeline no usa test para ajuste.",
+      "question": "¿Qué experimento harías antes de usar datos reales?",
+      "answer": "Reproducir un caso sintético con semilla, verificar gradientes y comprobar que el pipeline no usa test para ajuste.",
+      "sources": [
+        {
+          "label": "Goodfellow, Bengio y Courville (2016), Deep Learning, cap. 6, §§6.1–6.5",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html"
+        },
+        {
+          "label": "Goodfellow et al. (2016), cap. 8, §§8.3–8.5",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html"
+        },
+        {
+          "label": "Goodfellow et al. (2016), cap. 7, §§7.1, 7.8, 7.12",
+          "url": "https://www.deeplearningbook.org/contents/regularization.html"
+        }
+      ],
+      "original": 28,
+      "essential": false,
+      "image": "slides/es/50.webp",
+      "transcript": "Material para continuar\n\nLectura: Deep Learning, capítulos 6, 7 y 8\n\nVideos: intuición, gradiente y backpropagation\n\nPráctica: notebook y laboratorios reproducibles\n\n\n\n¿Qué experimento harías antes de usar datos reales?",
+      "labs": [],
+      "videos": []
+    },
+    {
+      "id": "ppt-1-fundamentos-51",
+      "number": 51,
+      "title": "Cierre: evidencia para decidir",
+      "body": [
+        "Una red compone funciones y aprende parámetros",
+        "Backprop calcula gradientes; el optimizador actualiza",
+        "La adopción exige utilidad y generalización verificadas"
+      ],
+      "equation": "",
+      "visual": "network",
+      "notes": "Cerrar retomando el caso inicial. Pedir un compromiso concreto de evaluación: qué baseline, qué separación, qué métrica de negocio y qué condición detendría el despliegue. La clase termina a las 12:00. Las 23 diapositivas de ampliación quedan disponibles para estudio autónomo y preparación del siguiente encuentro.\n\nPregunta: ¿Qué dato falta para pasar de riesgo a retención incremental?\nRespuesta orientativa: Evidencia del efecto de la intervención, idealmente un experimento con grupo de comparación.",
+      "question": "¿Qué dato falta para pasar de riesgo a retención incremental?",
+      "answer": "Evidencia del efecto de la intervención, idealmente un experimento con grupo de comparación.",
+      "sources": [
+        {
+          "label": "Desarrollo y cálculo didáctico propio a partir del material UCA adjunto",
+          "url": null
+        }
+      ],
+      "original": 28,
+      "essential": true,
+      "image": "slides/es/51.webp",
+      "transcript": "Cierre: evidencia para decidir\n\nUna red compone funciones y aprende parámetros\n\nBackprop calcula gradientes; el optimizador actualiza\n\nLa adopción exige utilidad y generalización verificadas\n\n\n\n¿Qué dato falta para pasar de riesgo a retención incremental?",
+      "labs": [],
+      "videos": []
+    }
+  ],
+  "videos": [
+    {
+      "id": "nn",
+      "title": "But what is a neural network? | Deep learning chapter 1",
+      "channel": "3Blue1Brown",
+      "url": "https://www.youtube.com/watch?v=aircAruvnKk",
+      "slides": [
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "objective": "Reconocer pesos, capas y representaciones",
+      "question": "¿Qué aprende cada capa?",
+      "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+      "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+      "embed": false
+    },
+    {
+      "id": "gd",
+      "title": "Gradient descent, how neural networks learn | Deep Learning Chapter 2",
+      "channel": "3Blue1Brown",
+      "url": "https://www.youtube.com/watch?v=IHZwWFHWa-w",
+      "slides": [
+        19,
+        24,
+        26,
+        27,
+        30
+      ],
+      "objective": "Relacionar pérdida y actualización",
+      "question": "¿Cómo afecta η a la trayectoria?",
+      "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+      "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+      "embed": false
+    },
+    {
+      "id": "bp",
+      "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+      "channel": "3Blue1Brown",
+      "url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U",
+      "slides": [
+        18,
+        21,
+        22,
+        23,
+        25
+      ],
+      "objective": "Separar sensibilidad y actualización",
+      "question": "¿Qué hace backprop y qué hace el optimizador?",
+      "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+      "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+      "embed": false
+    },
+    {
+      "id": "calc",
+      "title": "Backpropagation calculus | Deep Learning Chapter 4",
+      "channel": "3Blue1Brown",
+      "url": "https://www.youtube.com/watch?v=tIeHLnjs5U8",
+      "slides": [
+        21,
+        22,
+        23,
+        25
+      ],
+      "objective": "Descomponer la regla de la cadena",
+      "question": "¿Dónde aparece x en ∂L/∂w?",
+      "language": "Recurso original en inglés; pista de audio y subtítulos de la sesión no verificados",
+      "verification": "03/11/2026: título y canal corroborados con YouTube oEmbed. URL consultada. No se verificó reproducción completa, región, audio alternativo ni subtítulos.",
+      "embed": false
+    }
+  ]
+}
