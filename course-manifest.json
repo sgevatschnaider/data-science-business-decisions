@@ -57,13 +57,14 @@
         "rnn_lstm": 34
       },
       "essential_fundamentals_slides": 28,
-      "interactive_labs": 5,
+      "interactive_labs": 7,
       "videos": 6,
       "pptx": 2,
       "pdf": 2,
       "notebook": "notebooks/11-redes-neuronales.ipynb",
       "entry": "docs/modulos/11-redes-neuronales/experiencia/index.html",
-      "visible_module_number": "12"
+      "visible_module_number": "12",
+      "developed_topics": 9
     }
   }
 }

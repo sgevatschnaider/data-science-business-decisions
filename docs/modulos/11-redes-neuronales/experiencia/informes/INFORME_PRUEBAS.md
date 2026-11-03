@@ -19,7 +19,7 @@ Casos: sigmoide estable con logits extremos, BCE, derivadas de activaciones, dif
 
 ## Navegador real
 
-Playwright con Chromium headless 131. Cinco laboratorios y dos visores: PASS, sin excepciones JavaScript. Ver `PRUEBAS_NAVEGADOR.json`.
+Playwright con Chromium headless 131. Siete laboratorios y dos visores: PASS, sin excepciones JavaScript. Ver `PRUEBAS_NAVEGADOR.json`.
 
 Comprobados: autoplay modifica estado, clics repetidos no acumulan timers, pausa/reanudar, paso, reinicio, tres escenarios por laboratorio, velocidad, exportación CSV real, Fullscreen/exit, temas claro/oscuro/alto contraste y persistencia tras recarga. Viewport móvil de 390×844 sin desbordamiento horizontal. Respeto de movimiento reducido mediante menor frecuencia. Visores: anterior/siguiente, Home/End, búsqueda, selección, ruta esencial de 28 slides, recursos contextuales y retorno al mismo slide/ruta. Portadas, guías y páginas de videos abiertas sin errores.
 
@@ -45,4 +45,14 @@ La validación directa de la instantánea sin reconstruir muestra dos faltantes 
 
 Seis URLs, títulos y canales corroborados con YouTube oEmbed. No se descargaron videos. No se verificó reproducción completa, disponibilidad regional, audio alternativo ni subtítulos.
 
-La URL histórica del módulo respondió HTTP 200 antes del cambio. La experiencia nueva está preparada en rama/PR y no se fusiona ni se publica en main sin aprobación. Las URLs nuevas de GitHub Pages son destinos posteriores a la fusión; no se presentan como ya publicadas.
+La experiencia se publica desde main mediante el workflow GitHub Pages. Los ejemplos y sus descargas conservan las URLs del módulo. La revisión visual amplía la entrega inicial con dos laboratorios y nueve temas desarrollados.
+
+## Edición visual basada en Módulo 07
+
+Se analizaron el HTML y CSS publicados de [series de tiempo](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/07-series-tiempo/index.html). La edición adopta fondo azul #050b14, paneles #0d1827/#12243a, cian #2bd4e8, violeta #8a70ff y ámbar #f3b94c. En tema claro se oscurecen los acentos usados como texto.
+
+Se incorporan nueve temas desarrollados, diagramas de cálculo y compuertas, mapas XOR, curvas medidas de capacidad, ROC/PR de una misma cohorte, walk-forward y baseline estacional. Las figuras nativas se conservan editables en los PPTX.
+
+Nuevas comprobaciones: gradientes de la neurona por diferencias finitas, 27 ajustes de Chebyshev/ridge y sus MSE contrastados con NumPy lstsq, cuatro pasos hasta una actualización, overfit observado en la semilla 42 y cierre de o sin borrar c ni retroceder t. PASS. Siete laboratorios, dos lectores y ambas páginas de temas sin errores JavaScript. El flujo completo de construcción del curso y enlaces pasó en copia aislada.
+
+El notebook mantiene sus resultados previos: no se lo volvió a entrenar para esta edición de diseño. No se certifica apertura nativa en Microsoft PowerPoint ni una auditoría WCAG completa.

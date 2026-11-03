@@ -54,6 +54,11 @@ La neurona sigmoide sin capas ocultas comparte la forma funcional de la regresi�
 Pregunta: ¿Qué agrega una capa oculta a esta función?
 Respuesta orientativa: Transformaciones de atributos que pueden construir fronteras no lineales.
 
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
+
 
 
 ## 07 · Entradas, pesos, sesgo y activación
@@ -62,6 +67,11 @@ Los pesos representan sensibilidad condicionada al resto de la función y a la e
 
 Pregunta: ¿Cambiar la unidad de x cambia la interpretación de w?
 Respuesta orientativa: Sí. Por eso escalar variables y documentar unidades es parte del pipeline.
+
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
 
 
 
@@ -72,6 +82,11 @@ Todas las cifras de este ejemplo son didácticas. Resolver primero la suma y lue
 Pregunta: ¿Qué ocurre si b baja a −0,6?
 Respuesta orientativa: z pasa a 0 y p a 0,5. Con la convención p≥0,5 sigue prediciendo clase 1.
 
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
+
 
 
 ## 09 · Una frontera lineal
@@ -80,6 +95,11 @@ El perceptrón usa una salida umbral, no una probabilidad. La actualización se 
 
 Pregunta: ¿Qué cambia el sesgo?
 Respuesta orientativa: La posición de la frontera. Los pesos determinan su orientación.
+
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
 
 
 
@@ -90,6 +110,11 @@ El laboratorio usa los cuatro puntos canónicos para que la limitación sea ineq
 Pregunta: ¿Basta con entrenar más épocas un perceptrón?
 Respuesta orientativa: No. La clase de funciones del modelo no contiene una solución perfecta para XOR.
 
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
+
 
 
 ## 11 · XOR con dos unidades ReLU
@@ -98,6 +123,11 @@ Para entradas binarias: suma 0 produce salida 0, suma 1 produce 1, suma 2 produc
 
 Pregunta: ¿Cuánto vale la salida para (1,1)?
 Respuesta orientativa: h₁=2, h₂=1 y salida=0.
+
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
 
 
 
@@ -108,6 +138,11 @@ Usar vectores columna para mantener coherencia. h=φ(W₁x+b₁) tiene dimensió
 Pregunta: ¿Cuántos parámetros tiene una capa d→m con sesgo?
 Respuesta orientativa: m·d+m. La salida siguiente agrega sus propios pesos y sesgos.
 
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
+
 
 
 ## 13 · La no linealidad cambia la capacidad
@@ -116,6 +151,11 @@ A=W₂W₁ y c=W₂b₁+b₂. Llamamos afín a la transformación con sesgo. La 
 
 Pregunta: ¿Qué ocurre si todas las capas ocultas usan identidad?
 Respuesta orientativa: La composición sigue siendo afín.
+
+Desarrollo conceptual: Una neurona lineal divide el espacio con un hiperplano. Agregar capas con activaciones permite construir nuevas coordenadas: la separación puede ser sencilla en esas coordenadas aunque sea imposible en las entradas originales.
+Para XOR se construyen h₁=ReLU(x₁+x₂), h₂=ReLU(x₁+x₂−1). La salida h₁−2h₂ vale exactamente 0, 1, 1, 0 sobre las cuatro entradas binarias. Es una demostración de capacidad con pesos fijados, no una trayectoria de entrenamiento.
+Ejemplo: (0,0) se transforma en (0,0), las entradas (0,1) y (1,0) coinciden en (1,0), y (1,1) llega a (2,1). En el espacio oculto, h₁−2h₂=0,5 separa las clases. La coincidencia de dos entradas de la misma clase es esperable.
+Error frecuente: Agregar capas afines sin activación mantiene una función afín. Más épocas de un perceptrón tampoco resuelven la imposibilidad geométrica de XOR.
 
 
 
@@ -126,6 +166,11 @@ Una sigmoide permite parametrizar una probabilidad binaria, pero el valor requie
 Pregunta: ¿Cuál es la derivada en z=0?
 Respuesta orientativa: 0,25.
 
+Desarrollo conceptual: La activación determina qué señal entrega una unidad. Su derivada determina cuánto cambia esa señal ante un pequeño cambio de entrada. Una salida cercana a uno puede tener sensibilidad casi nula.
+Sigmoide y tanh saturan en los extremos. ReLU conserva pendiente uno para entradas positivas y cero para negativas. El punto cero no tiene derivada única. Las salidas deben elegirse junto con la tarea y su pérdida.
+Ejemplo: En z=0, la sigmoide vale 0,5 y su derivada 0,25. En z=5, vale aproximadamente 0,9933 y su derivada 0,00665. El laboratorio separa ambas curvas y dibuja la tangente en la activación.
+Error frecuente: Una derivada sigmoide pequeña no implica por sí sola que todo gradiente de salida con BCE sea pequeño: al derivar BCE respecto del logit aparece p−y. En capas ocultas hay otros productos de derivadas.
+
 
 
 ## 15 · ReLU, tanh y Leaky ReLU
@@ -134,6 +179,11 @@ ReLU no es derivable en cero. Los motores adoptan una convención, frecuentement
 
 Pregunta: ¿Una activación con salida grande tiene siempre derivada grande?
 Respuesta orientativa: No. tanh puede aproximarse a 1 mientras su derivada se aproxima a 0.
+
+Desarrollo conceptual: La activación determina qué señal entrega una unidad. Su derivada determina cuánto cambia esa señal ante un pequeño cambio de entrada. Una salida cercana a uno puede tener sensibilidad casi nula.
+Sigmoide y tanh saturan en los extremos. ReLU conserva pendiente uno para entradas positivas y cero para negativas. El punto cero no tiene derivada única. Las salidas deben elegirse junto con la tarea y su pérdida.
+Ejemplo: En z=0, la sigmoide vale 0,5 y su derivada 0,25. En z=5, vale aproximadamente 0,9933 y su derivada 0,00665. El laboratorio separa ambas curvas y dibuja la tangente en la activación.
+Error frecuente: Una derivada sigmoide pequeña no implica por sí sola que todo gradiente de salida con BCE sea pequeño: al derivar BCE respecto del logit aparece p−y. En capas ocultas hay otros productos de derivadas.
 
 
 
@@ -144,6 +194,11 @@ Restar el máximo evita desbordes sin cambiar el cociente. Softmax corresponde a
 Pregunta: ¿Dos etiquetas que pueden coexistir requieren softmax?
 Respuesta orientativa: No necesariamente. Sigmoides por etiqueta modelan un problema multietiqueta.
 
+Desarrollo conceptual: La activación determina qué señal entrega una unidad. Su derivada determina cuánto cambia esa señal ante un pequeño cambio de entrada. Una salida cercana a uno puede tener sensibilidad casi nula.
+Sigmoide y tanh saturan en los extremos. ReLU conserva pendiente uno para entradas positivas y cero para negativas. El punto cero no tiene derivada única. Las salidas deben elegirse junto con la tarea y su pérdida.
+Ejemplo: En z=0, la sigmoide vale 0,5 y su derivada 0,25. En z=5, vale aproximadamente 0,9933 y su derivada 0,00665. El laboratorio separa ambas curvas y dibuja la tangente en la activación.
+Error frecuente: Una derivada sigmoide pequeña no implica por sí sola que todo gradiente de salida con BCE sea pequeño: al derivar BCE respecto del logit aparece p−y. En capas ocultas hay otros productos de derivadas.
+
 
 
 ## 17 · Laboratorio de activaciones
@@ -152,6 +207,11 @@ Antes de iniciar la simulación automática, pedir una predicción sobre las der
 
 Pregunta: ¿Qué se pierde al observar solo la curva de activación?
 Respuesta orientativa: La sensibilidad local que participa en backpropagation.
+
+Desarrollo conceptual: La activación determina qué señal entrega una unidad. Su derivada determina cuánto cambia esa señal ante un pequeño cambio de entrada. Una salida cercana a uno puede tener sensibilidad casi nula.
+Sigmoide y tanh saturan en los extremos. ReLU conserva pendiente uno para entradas positivas y cero para negativas. El punto cero no tiene derivada única. Las salidas deben elegirse junto con la tarea y su pérdida.
+Ejemplo: En z=0, la sigmoide vale 0,5 y su derivada 0,25. En z=5, vale aproximadamente 0,9933 y su derivada 0,00665. El laboratorio separa ambas curvas y dibuja la tangente en la activación.
+Error frecuente: Una derivada sigmoide pequeña no implica por sí sola que todo gradiente de salida con BCE sea pequeño: al derivar BCE respecto del logit aparece p−y. En capas ocultas hay otros productos de derivadas.
 
 
 
@@ -162,6 +222,11 @@ Distinguir el grafo de cálculo de la arquitectura dibujada. Cada nodo conserva 
 Pregunta: ¿El forward cambia los pesos?
 Respuesta orientativa: No. El paso del optimizador realiza la actualización.
 
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
+
 
 
 ## 19 · BCE para clasificación binaria
@@ -170,6 +235,11 @@ La BCE deriva de la verosimilitud Bernoulli bajo las hipótesis del modelo. Una 
 
 Pregunta: ¿Qué pérdida tiene un acierto con probabilidad 0,5?
 Respuesta orientativa: −ln(0,5)=0,693147, cualquiera sea la etiqueta binaria observada.
+
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
 
 
 
@@ -180,6 +250,11 @@ MSE resulta natural con errores Gaussianos de varianza constante si se interpret
 Pregunta: ¿Cambiar la unidad monetaria altera MSE?
 Respuesta orientativa: Sí. Multiplicar y por k multiplica MSE por k².
 
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
+
 
 
 ## 21 · El grafo de una neurona logística
@@ -188,6 +263,11 @@ Elegimos una sola entrada para que toda la derivación pueda verificarse a mano.
 
 Pregunta: ¿Qué valores deben guardarse para la derivación?
 Respuesta orientativa: x, y, p y los parámetros del forward. Para este caso no es necesario reconstruir toda la pérdida.
+
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
 
 
 
@@ -198,6 +278,11 @@ Con BCE y sigmoide, ∂L/∂p=(p−y)/(p(1−p)), ∂p/∂z=p(1−p), ∂z/∂w=
 Pregunta: ¿Por qué se suman gradientes cuando un parámetro tiene varios caminos?
 Respuesta orientativa: Porque la pérdida depende del parámetro por todos esos caminos, según la regla de derivación total.
 
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
+
 
 
 ## 23 · Backpropagation: resultado numérico
@@ -206,6 +291,11 @@ Un gradiente negativo indica que aumentar el parámetro reduce la pérdida local
 
 Pregunta: ¿Por qué el gradiente de w duplica al de b?
 Respuesta orientativa: Porque x=2 y ∂z/∂w=x, mientras ∂z/∂b=1.
+
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
 
 
 
@@ -216,6 +306,11 @@ El nuevo logit es 0,688770 y la pérdida exacta se verifica por código. La mejo
 Pregunta: ¿En qué dirección se movieron ambos parámetros?
 Respuesta orientativa: Aumentaron porque sus gradientes eran negativos.
 
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
+
 
 
 ## 25 · Backpropagation en una capa oculta
@@ -224,6 +319,11 @@ Para salida binaria escalar con BCE y sigmoide, δ₂ es escalar. δ₁ tiene ta
 
 Pregunta: ¿Qué dimensión tiene el gradiente de W₁?
 Respuesta orientativa: La misma que W₁: m×d.
+
+Desarrollo conceptual: Predecir, medir error, derivar y actualizar son operaciones diferentes. Ver sus valores sobre un mismo ejemplo ayuda a entender qué aporta backpropagation y qué decide el optimizador.
+Con una neurona sigmoide y BCE, el gradiente del logit es p−y. El peso multiplica ese gradiente por la entrada. El sesgo recibe la misma señal sin multiplicarla por x. El optimizador resta η veces cada gradiente; después hay que realizar un nuevo forward.
+Ejemplo: Con x=2, y=1, w=0,3 y b=−0,1: z=0,5, p=0,622459, L=0,474077. Los gradientes son −0,755081 y −0,377541. Con η=0,1 se obtiene w=0,375508, b=−0,062246 y una nueva BCE de 0,406926.
+Error frecuente: Backpropagation no actualiza los pesos por sí mismo. Un gradiente negativo tampoco es un error: indica que aumentar ese parámetro reduce localmente la pérdida.
 
 
 
@@ -234,6 +334,11 @@ Para esta parábola, la convergencia exige 0<η<2. η=2 oscila sin contraer y η
 Pregunta: ¿Qué sucede con η=1 en esta parábola?
 Respuesta orientativa: Llega al mínimo w=2 en un paso, usando el gradiente exacto.
 
+Desarrollo conceptual: El gradiente señala la dirección local de mayor aumento. Su opuesto permite bajar, pero un paso demasiado grande puede cruzar repetidamente el mínimo y alejarse de él.
+Para L(w)=½(w−2)², el error respecto del mínimo se multiplica por 1−η. Se contrae si |1−η|<1. La condición cambia con la curvatura: para una cuadrática multivariable depende del mayor autovalor del Hessiano.
+Ejemplo: Con w₀=−0,5, η=0,2 avanza despacio, η=1,4 oscila con amplitud decreciente y η=2,2 amplifica el error. El laboratorio relaciona la posición sobre la parábola con la pérdida registrada por iteración.
+Error frecuente: El límite η<2 corresponde a esta parábola de curvatura uno, no a todas las redes. La logística de una neurona es convexa; una red multicapa suele producir un problema no convexo.
+
 
 
 ## 27 · Mini-batch, iteración y época
@@ -242,6 +347,11 @@ El conteo supone que se usan todos los ejemplos exactamente una vez por época. 
 
 Pregunta: ¿Cinco épocas equivalen a cinco actualizaciones?
 Respuesta orientativa: Solo en entrenamiento full-batch. En este ejemplo son 50 actualizaciones.
+
+Desarrollo conceptual: El gradiente señala la dirección local de mayor aumento. Su opuesto permite bajar, pero un paso demasiado grande puede cruzar repetidamente el mínimo y alejarse de él.
+Para L(w)=½(w−2)², el error respecto del mínimo se multiplica por 1−η. Se contrae si |1−η|<1. La condición cambia con la curvatura: para una cuadrática multivariable depende del mayor autovalor del Hessiano.
+Ejemplo: Con w₀=−0,5, η=0,2 avanza despacio, η=1,4 oscila con amplitud decreciente y η=2,2 amplifica el error. El laboratorio relaciona la posición sobre la parábola con la pérdida registrada por iteración.
+Error frecuente: El límite η<2 corresponde a esta parábola de curvatura uno, no a todas las redes. La logística de una neurona es convexa; una red multicapa suele producir un problema no convexo.
 
 
 
@@ -252,6 +362,11 @@ Inicializar todos los pesos ocultos iguales puede mantener neuronas idénticas d
 Pregunta: ¿Por qué no estimar el escalado con todo el dataset?
 Respuesta orientativa: Porque usaría información de validación o test para construir el modelo.
 
+Desarrollo conceptual: El gradiente señala la dirección local de mayor aumento. Su opuesto permite bajar, pero un paso demasiado grande puede cruzar repetidamente el mínimo y alejarse de él.
+Para L(w)=½(w−2)², el error respecto del mínimo se multiplica por 1−η. Se contrae si |1−η|<1. La condición cambia con la curvatura: para una cuadrática multivariable depende del mayor autovalor del Hessiano.
+Ejemplo: Con w₀=−0,5, η=0,2 avanza despacio, η=1,4 oscila con amplitud decreciente y η=2,2 amplifica el error. El laboratorio relaciona la posición sobre la parábola con la pérdida registrada por iteración.
+Error frecuente: El límite η<2 corresponde a esta parábola de curvatura uno, no a todas las redes. La logística de una neurona es convexa; una red multicapa suele producir un problema no convexo.
+
 
 
 ## 29 · Gradientes que se atenúan o explotan
@@ -260,6 +375,11 @@ La norma del producto depende de matrices y activaciones, no solo del número de
 
 Pregunta: ¿Clipping resuelve un gradiente casi nulo?
 Respuesta orientativa: No. Solo limita gradientes cuya norma excede el umbral.
+
+Desarrollo conceptual: El gradiente señala la dirección local de mayor aumento. Su opuesto permite bajar, pero un paso demasiado grande puede cruzar repetidamente el mínimo y alejarse de él.
+Para L(w)=½(w−2)², el error respecto del mínimo se multiplica por 1−η. Se contrae si |1−η|<1. La condición cambia con la curvatura: para una cuadrática multivariable depende del mayor autovalor del Hessiano.
+Ejemplo: Con w₀=−0,5, η=0,2 avanza despacio, η=1,4 oscila con amplitud decreciente y η=2,2 amplifica el error. El laboratorio relaciona la posición sobre la parábola con la pérdida registrada por iteración.
+Error frecuente: El límite η<2 corresponde a esta parábola de curvatura uno, no a todas las redes. La logística de una neurona es convexa; una red multicapa suele producir un problema no convexo.
 
 
 
@@ -270,6 +390,11 @@ Cada paso calcula gradientes de verdad. Pausar y contrastar números con la regl
 Pregunta: ¿Cómo verificarías una derivada implementada?
 Respuesta orientativa: Con diferencias finitas, tolerancia numérica y casos extremos.
 
+Desarrollo conceptual: El gradiente señala la dirección local de mayor aumento. Su opuesto permite bajar, pero un paso demasiado grande puede cruzar repetidamente el mínimo y alejarse de él.
+Para L(w)=½(w−2)², el error respecto del mínimo se multiplica por 1−η. Se contrae si |1−η|<1. La condición cambia con la curvatura: para una cuadrática multivariable depende del mayor autovalor del Hessiano.
+Ejemplo: Con w₀=−0,5, η=0,2 avanza despacio, η=1,4 oscila con amplitud decreciente y η=2,2 amplifica el error. El laboratorio relaciona la posición sobre la parábola con la pérdida registrada por iteración.
+Error frecuente: El límite η<2 corresponde a esta parábola de curvatura uno, no a todas las redes. La logística de una neurona es convexa; una red multicapa suele producir un problema no convexo.
+
 
 
 ## 31 · Train, validación y test
@@ -278,6 +403,11 @@ La separación debe representar el uso real. Agrupar por cliente o respetar el t
 
 Pregunta: ¿Dónde elegimos el umbral de retención?
 Respuesta orientativa: En validación, antes de evaluar una única política congelada en test.
+
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
 
 
 
@@ -288,14 +418,24 @@ Pedir a cada grupo una tabla con nombre de variable, momento de disponibilidad y
 Pregunta: ¿Es suficiente borrar la columna objetivo?
 Respuesta orientativa: No. Otras variables, duplicados o transformaciones pueden revelar indirectamente el resultado.
 
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
 
 
-## 33 · Curvas de generalización
+
+## 33 · Capacidad y generalización
 
 Mostrar ambas curvas en la misma escala. La trayectoria ilustrada representa un patrón posible, no un diagnóstico automático de toda divergencia entre curvas. Ruido, cambio de distribución, tamaños de muestra y regularización pueden afectar la comparación. Conservar el mejor checkpoint según una regla previamente definida.
 
 Pregunta: ¿Una pérdida train más baja implica un mejor modelo?
 Respuesta orientativa: No. La decisión depende de validación y del costo operativo.
+
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
 
 
 
@@ -306,6 +446,11 @@ La equivalencia entre penalización L2 y un factor multiplicativo de pesos se ve
 Pregunta: ¿Qué ocurre al aumentar demasiado λ?
 Respuesta orientativa: Puede aparecer subajuste: la solución penalizada pierde capacidad predictiva.
 
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
+
 
 
 ## 35 · Dropout
@@ -314,6 +459,11 @@ El reescalado conserva la esperanza de cada activación, condicionado a h. No si
 
 Pregunta: ¿Dropout=0,5 implica eliminar la mitad de los parámetros al exportar?
 Respuesta orientativa: No. La máscara actúa sobre activaciones durante entrenamiento.
+
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
 
 
 
@@ -324,6 +474,11 @@ Detener después de paciencia épocas sin mejora no significa usar los últimos 
 Pregunta: ¿Qué pesos evaluamos al final?
 Respuesta orientativa: Los del checkpoint elegido con validación según la regla definida.
 
+Desarrollo conceptual: Un modelo más flexible puede reducir el error de entrenamiento y empeorar en datos que no usó para ajustar sus parámetros. La figura debe mostrar tanto la función ajustada como el error fuera de entrenamiento.
+El nuevo laboratorio ajusta polinomios en una base de Chebyshev sobre puntos sintéticos con semilla fija. El grado controla capacidad y λ penaliza coeficientes sin penalizar el intercepto. Las curvas de error se calculan con los datos de ese mismo experimento.
+Ejemplo: Comparar grados 1, 3 y 9 con 12 puntos de entrenamiento. Observar la forma ajustada y los MSE de train y validación. Repetir con 32 puntos, más ruido o λ>0. Los valores se calculan, no son curvas prefabricadas.
+Error frecuente: Usar validación para seleccionar grado y después presentarla como un test final sesga la evaluación. Un único ejemplo sintético tampoco demuestra que regularizar siempre mejore.
+
 
 
 ## 37 · Desbalance: 95% de accuracy sin detectar bajas
@@ -332,6 +487,11 @@ La etiqueta positiva es abandono. Un clasificador trivial puede conseguir accura
 
 Pregunta: ¿Cuántos clientes de riesgo detectó la política?
 Respuesta orientativa: Ninguno.
+
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
 
 
 
@@ -342,6 +502,11 @@ Las filas representan clase real y las columnas decisión. La matriz debe sumar 
 Pregunta: ¿Cuál es la especificidad?
 Respuesta orientativa: TN/(TN+FP)=88/95≈0,9263.
 
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
+
 
 
 ## 39 · Precision y recall dependen del umbral
@@ -350,6 +515,11 @@ No afirmar que precision siempre cae al bajar el umbral en cualquier muestra fin
 
 Pregunta: ¿Qué métrica cuenta cuántos abandonos quedaron fuera?
 Respuesta orientativa: Recall junto con FN, o tasa de falsos negativos.
+
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
 
 
 
@@ -360,6 +530,11 @@ ROC-AUC resume ordenamiento sobre umbrales y no fija la política final. La aver
 Pregunta: ¿Un ROC-AUC mayor garantiza más beneficio a capacidad del 15%?
 Respuesta orientativa: No. Hay que evaluar ese tramo, costos y calibración.
 
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
+
 
 
 ## 41 · Calibración y ranking
@@ -368,6 +543,11 @@ La frase expresa una propiedad poblacional y aproximada, no una promesa sobre ca
 
 Pregunta: ¿AUC cambia si aplico una transformación estrictamente creciente al score?
 Respuesta orientativa: El orden se conserva, por lo que ROC-AUC se conserva salvo empates o efectos numéricos.
+
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
 
 
 
@@ -378,6 +558,11 @@ Este es un proxy didáctico condicionado a una efectividad q, no una estimación
 Pregunta: ¿Podemos medir q solo con las etiquetas de abandono y los scores?
 Respuesta orientativa: No. Falta información sobre el efecto de intervenir frente a no hacerlo.
 
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
+
 
 
 ## 43 · Umbral con costo y capacidad
@@ -386,6 +571,11 @@ El umbral teórico supone p calibrada, efecto q homogéneo y ausencia de restric
 
 Pregunta: ¿Si el presupuesto solo permite dos contactos, basta el umbral 0,125?
 Respuesta orientativa: No. También debe imponerse la capacidad y priorizar utilidad esperada.
+
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
 
 
 
@@ -396,6 +586,11 @@ El notebook mide ROC-AUC, AP, matriz y utilidad proxy sobre datos sintéticos co
 Pregunta: ¿Qué comparación sería injusta?
 Respuesta orientativa: Ajustar el umbral del MLP con test y el de la logística solo con train.
 
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
+
 
 
 ## 45 · Un score de riesgo no es un efecto causal
@@ -405,6 +600,11 @@ Y debe definirse consistentemente, por ejemplo retención. La expresión es el e
 Pregunta: ¿Podemos atribuir las bajas evitadas al modelo sin grupo de comparación?
 Respuesta orientativa: No con una interpretación causal confiable.
 
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
+
 
 
 ## 46 · Interpretación, equidad y trazabilidad
@@ -413,6 +613,11 @@ La explicación de una predicción no prueba causalidad ni equidad. Definir segm
 
 Pregunta: ¿Qué información permitiría reproducir una decisión tomada hoy?
 Respuesta orientativa: Versión de datos y modelo, transformaciones, score, umbral, costos y regla de acción vigentes.
+
+Desarrollo conceptual: El score ordena riesgos; el umbral elige acciones; los costos y el efecto de la intervención determinan valor. Son niveles distintos de la decisión.
+La matriz de confusión debe cambiar junto con los clientes seleccionados. Cada contacto cuesta C, también los verdaderos positivos. La utilidad didáctica incorpora una efectividad q supuesta; para afirmar retención incremental hace falta un contrafactual defendible.
+Ejemplo: Con TP=3, FP=7, q=0,4, B=100 y C=5 UM, la utilidad proxy es 70 UM. El laboratorio usa otra cohorte sintética de 100 clientes con semilla 991 y muestra qué personas quedan seleccionadas en cada umbral.
+Error frecuente: Una mayor ROC-AUC no garantiza mayor beneficio al umbral operativo. Una mayor probabilidad de baja tampoco identifica necesariamente al cliente que más respondería a una oferta.
 
 
 

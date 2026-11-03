@@ -26,3 +26,18 @@ near(M.lstm(1,0,.75,1,.8).c,.8);near(M.lstm(0,0,1,0,.8).c,0);
 let cell=.5;for(let j=0;j<10;j++)cell=M.lstm(.9,0,1,0,cell).c;near(cell,.5*.9**10);
 assert.ok(Math.abs((-2)*(1-2.2)**10)>2);assert.ok(Math.abs((-2)*(1-.6)**10)<.001);
 console.log('PASS: Pruebas matemáticas, gradientes, semilla, extremos y recorrencias');
+for(const x of [-2,0,2])for(const y of [0,1])for(const w of [-.7,.3,2]){
+ const q=M.singleNeuron(x,y,w,-.1,.1),e=1e-5;
+ near(q.gw,(M.bce(x*(w+e)-.1,y)-M.bce(x*(w-e)-.1,y))/(2*e));
+ near(q.gb,(M.bce(x*w-.1+e,y)-M.bce(x*w-.1-e,y))/(2*e));
+ if(q.loss>1e-10)assert.ok(q.newLoss<=q.loss+1e-12);
+}
+near(M.singleNeuron(2,1,.3,-.1,.1).newLoss,.40692573262852194,1e-6);
+for(const p of M.points('xor'))near(M.xorRepresentation(p.x,p.y).output,p.label);
+for(const scenario of ['small','more','noisy'])for(const degree of [1,3,9])for(const lambda of [0,.1,1]){
+ const f=M.fitExperiment(degree,lambda,scenario);assert.ok(f.weights.every(Number.isFinite));assert.ok(f.trainMSE>=0&&f.validMSE>=0);
+ assert.equal(f.train.length,scenario==='more'?32:12);assert.equal(f.valid.length,60);
+}
+assert.ok(M.fitExperiment(9).trainMSE<M.fitExperiment(3).trainMSE);
+assert.ok(M.fitExperiment(9).validMSE>M.fitExperiment(3).validMSE);
+console.log('PASS: backprop por diferencias finitas y experimento de capacidad');

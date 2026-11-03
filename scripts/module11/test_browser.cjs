@@ -11,7 +11,7 @@ await new Promise(r=>setTimeout(r,500));
 const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];
 page.on('pageerror',e=>errors.push(String(e)));
 const base='http://127.0.0.1:8766/modulos/11-redes-neuronales/experiencia/';
-const labs=[['ppt-1-fundamentos','01_perceptron.html'],['ppt-1-fundamentos','02_activaciones.html'],['ppt-1-fundamentos','03_gradiente.html'],['ppt-1-fundamentos','04_umbral.html'],['ppt-2-rnn-lstm','05_memoria_lstm.html']];
+const labs=[['ppt-1-fundamentos','01_perceptron.html'],['ppt-1-fundamentos','02_activaciones.html'],['ppt-1-fundamentos','03_gradiente.html'],['ppt-1-fundamentos','04_umbral.html'],['ppt-2-rnn-lstm','05_memoria_lstm.html'],['ppt-1-fundamentos','06_backpropagation.html'],['ppt-1-fundamentos','07_generalizacion.html']];
 let checks=[];
 for(const [deck,file]of labs){
  await page.goto(base+deck+'/labs/'+file);await page.waitForFunction(()=>window.labDebug?.state.last);
@@ -43,11 +43,17 @@ for(const [deck,total]of [['ppt-1-fundamentos',51],['ppt-2-rnn-lstm',34]]){
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));await page.setViewportSize({width:1440,height:1000});
  checks.push({reader:deck,slides:total,passed:true,keyboard:true,search:true,fullscreen:true,notes:true,mobile:true});
 }
+// Mecanismos nuevos y controles a tiempo fijo.
+await page.goto(base+'ppt-1-fundamentos/labs/06_backpropagation.html');
+const before=await page.evaluate(()=>labDebug.state.last);for(let j=0;j<4;j++)await page.locator('#nextstep').click();const after=await page.evaluate(()=>labDebug.state.last);assert.ok(after.loss<before.loss);assert.ok(Math.abs(after.w-before.wn)<1e-10);assert.equal(await page.locator('#nn-flow rect').count(),4);
+await page.goto(base+'ppt-1-fundamentos/labs/07_generalizacion.html');await page.locator('#degree').fill('9');await page.locator('#degree').dispatchEvent('input');const high=await page.evaluate(()=>labDebug.state.last);await page.locator('#degree').fill('3');await page.locator('#degree').dispatchEvent('input');const low=await page.evaluate(()=>labDebug.state.last);assert.ok(high.trainMSE<low.trainMSE&&high.validMSE>low.validMSE);
+await page.goto(base+'ppt-2-rnn-lstm/labs/05_memoria_lstm.html');await page.locator('#time').fill('10');await page.locator('#time').dispatchEvent('input');const stored=await page.evaluate(()=>labDebug.state.last.c);await page.locator('#output').fill('0');await page.locator('#output').dispatchEvent('input');assert.equal(await page.evaluate(()=>labDebug.state.step),10);assert.equal(await page.evaluate(()=>labDebug.state.last.c),stored);assert.equal(await page.evaluate(()=>labDebug.state.last.h),0);
+await page.goto(base+'ppt-1-fundamentos/reader.html?slide=22');await page.locator('#related a[href*=temas]').click();assert.ok(page.url().endsWith('#aprendizaje'));assert.equal(await page.locator('.topic-article').count(),6);
 // Todas las portadas, guías y páginas de video deben abrir sin errores.
-for(const deck of ['ppt-1-fundamentos','ppt-2-rnn-lstm'])for(const name of ['index.html','guide.html','lab.html','videos.html']){await page.goto(base+deck+'/'+name);assert.equal(await page.locator('h1').count(),1);}
+for(const deck of ['ppt-1-fundamentos','ppt-2-rnn-lstm'])for(const name of ['index.html','guide.html','lab.html','videos.html','temas.html']){await page.goto(base+deck+'/'+name);assert.equal(await page.locator('h1').count(),1);}
 await page.goto(base+'index.html');await page.locator('#theme').selectOption('dark');await page.screenshot({path:path.join(OUT,'portada.png'),fullPage:true});
 await page.goto(base+'ppt-1-fundamentos/labs/04_umbral.html');await page.locator('#nextstep').click();await page.screenshot({path:path.join(OUT,'umbral-desktop.png'),fullPage:true});
 await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#reset').click();await page.locator('#auto').click();await page.waitForTimeout(300);assert.equal(await page.evaluate(()=>labDebug.state.step),0);await page.locator('#pause').click();
-await page.goto(base+'ppt-1-fundamentos/reader.html?slide=43&route=essential');await page.locator('#related a').first().click();assert.ok(page.url().includes('slide=43'));await page.locator('#return-slide').click();assert.ok(page.url().includes('slide=43'));assert.ok(page.url().includes('route=essential'));
+await page.goto(base+'ppt-1-fundamentos/reader.html?slide=43&route=essential');await page.locator('#related a[href*="labs/"]').first().click();assert.ok(page.url().includes('slide=43'));await page.locator('#return-slide').click();assert.ok(page.url().includes('slide=43'));assert.ok(page.url().includes('route=essential'));
 assert.deepEqual(errors,[]);fs.writeFileSync(path.join(OUT,'browser-results.json'),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({passed:checks.length,errors}));await browser.close();server.kill();
 })().catch(e=>{console.error(e);process.exit(1)});

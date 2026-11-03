@@ -66,6 +66,32 @@
       "mobile": true
     },
     {
+      "lab": "06_backpropagation.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
+      "lab": "07_generalizacion.html",
+      "passed": true,
+      "scenarios": 3,
+      "autoplay": true,
+      "pauseResume": true,
+      "singleTimer": true,
+      "reset": true,
+      "csv": true,
+      "fullscreen": true,
+      "themes": true,
+      "mobile": true
+    },
+    {
       "reader": "ppt-1-fundamentos",
       "slides": 51,
       "passed": true,
