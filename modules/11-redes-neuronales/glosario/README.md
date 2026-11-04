@@ -1,6 +1,6 @@
 # Glosario y guía de estudio: redes neuronales, secuencias, RNN y LSTM
 
-Guía de Sergio Gevatschnaider para Ciencias de Datos II, UCA. El programa identifica este tema como Módulo 12; se conserva la URL histórica `11-redes-neuronales`.
+Guía de estudio del repositorio personal de Sergio Gevatschnaider. El programa identifica este tema como Módulo 12; se conserva la URL histórica `11-redes-neuronales`.
 
 La versión desarrollada contiene 102 entradas y 102 preguntas con respuesta, distribuidas en fundamentos (20), aprendizaje (21), evaluación y decisiones (14), secuencias (14), RNN (16) y LSTM/GRU y conexiones modernas (17).
 
