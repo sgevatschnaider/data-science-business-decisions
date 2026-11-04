@@ -64,7 +64,12 @@
       "notebook": "notebooks/11-redes-neuronales.ipynb",
       "entry": "docs/modulos/11-redes-neuronales/experiencia/index.html",
       "visible_module_number": "12",
-      "developed_topics": 9
+      "developed_topics": 9,
+      "glossary_terms": 102,
+      "glossary_units": 6,
+      "glossary_review_questions": 102,
+      "glossary_numeric_explorers": 3,
+      "glossary_url": "docs/modulos/11-redes-neuronales/glosario.html"
     }
   }
 }

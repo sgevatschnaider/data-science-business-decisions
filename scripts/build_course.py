@@ -3109,6 +3109,9 @@ def generate() -> None:
             destination = ROOT / base / alias["alias"]
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
+    # The developed glossary is rebuilt from its editorial source, including --check.
+    from build_m11_glossary import build as build_m11_glossary
+    build_m11_glossary(ROOT)
     supporting_files()
     datasets()
     manifest = {
