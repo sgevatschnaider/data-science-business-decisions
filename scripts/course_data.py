@@ -1800,6 +1800,7 @@ MODULES = [
     {
         "id": "08",
         "slug": "08-regresion-logistica",
+        "custom_notebook": True,  # Preservar el laboratorio desarrollado.
         "unit": "II",
         "title": "Regresión logística y decisiones de clasificación",
         "short_title": "Regresión logística",
@@ -2318,6 +2319,8 @@ MODULES = [
     {
         "id": "12",
         "slug": "12-optimizacion",
+        # Materiales de programación lineal preservados durante la generación.
+        "custom_page_files": ["index.html", "simulacion.html", "glosario.html", "cuestionario.html", "simulacion-anterior.html", "glosario-anterior.html", "cuestionario-anterior.html", "guia.html", "guia.css", "guia.js", "presentacion-01.html", "presentacion-02.html", "presentaciones.css", "presentaciones.js", "presentaciones", "videos.html", "videoteca.pdf"],
         "unit": "IV",
         "title": "Programación lineal y analítica prescriptiva",
         "short_title": "Optimización",

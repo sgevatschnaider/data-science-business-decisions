@@ -1,85 +1,3857 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="indigo">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Modificá margen y capacidades; explorá la región factible, el punto óptimo y el valor de recursos adicionales.">
-  <meta name="author" content="Sergio Gevatschnaider">
-  <meta name="theme-color" content="#082f49">
-  <title>Frontera factible y mezcla óptima | Datos y Decisiones</title>
-  <link rel="stylesheet" href="../../assets/css/course.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorio Interactivo de Programación Lineal — La Fábrica Inteligente</title>
+<style>
+/* ==========================================================================
+   1. SISTEMA DE TEMAS (4 PALETAS DINÁMICAS) Y COHERENCIA CROMÁTICA SEMÁNTICA
+   ========================================================================== */
+:root {
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --transition-fast: 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-med: 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* TEMA 1: ÍNDIGO NOCTURNO (Por defecto — Modo oscuro técnico elegante) */
+[data-theme="indigo"] {
+  --bg-page: #0b1120;
+  --bg-surface: #111a2e;
+  --bg-surface-2: #17233c;
+  --bg-elevated: #1d2c4a;
+  --bg-input: #0d1527;
+  --bg-plot: #0d1629;
+  --bg-grid: rgba(148, 163, 184, 0.12);
+  --border-subtle: rgba(148, 163, 184, 0.15);
+  --border-strong: rgba(148, 163, 184, 0.30);
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8b9db8;
+  --hero-bg: linear-gradient(125deg, #0d162d 0%, #17254a 55%, #0e3a4c 100%);
+  --shadow-card: 0 12px 32px -12px rgba(2, 6, 23, 0.72);
+  --shadow-float: 0 18px 40px -12px rgba(2, 6, 23, 0.88);
+  --accent: #6366f1;
+  --accent-soft: rgba(99, 102, 241, 0.18);
+  /* Colores semánticos persistentes */
+  --c-machine: #f59e0b;
+  --c-machine-soft: rgba(245, 158, 11, 0.16);
+  --c-labor: #3b82f6;
+  --c-labor-soft: rgba(59, 130, 246, 0.16);
+  --c-extra: #a855f7;
+  --c-extra-soft: rgba(168, 85, 247, 0.16);
+  --c-opt: #10b981;
+  --c-opt-soft: rgba(16, 185, 129, 0.16);
+  --c-poly: #14b8a6;
+  --c-dec-ok: #22d3ee;
+  --c-dec-ok-soft: rgba(34, 211, 238, 0.18);
+  --c-dec-bad: #f43f5e;
+  --c-dec-bad-soft: rgba(244, 63, 94, 0.18);
+  --c-warn: #f59e0b;
+  --c-warn-soft: rgba(245, 158, 11, 0.16);
+  --table-head: #192642;
+  --table-stripe: rgba(255, 255, 255, 0.025);
+}
+
+/* TEMA 2: EDITORIAL MARFIL (Modo claro académico refinado) */
+[data-theme="ivory"] {
+  --bg-page: #f6f4ee;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #f8f7f2;
+  --bg-elevated: #ece9df;
+  --bg-input: #ffffff;
+  --bg-plot: #fdfcfa;
+  --bg-grid: rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(15, 23, 42, 0.24);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --hero-bg: linear-gradient(125deg, #14243a 0%, #1e3a5f 60%, #0f686e 100%);
+  --shadow-card: 0 10px 26px -12px rgba(15, 23, 42, 0.09);
+  --shadow-float: 0 16px 34px -10px rgba(15, 23, 42, 0.18);
+  --accent: #1d4ed8;
+  --accent-soft: rgba(29, 78, 216, 0.10);
+  /* Colores semánticos */
+  --c-machine: #d97706;
+  --c-machine-soft: rgba(217, 119, 6, 0.11);
+  --c-labor: #2563eb;
+  --c-labor-soft: rgba(37, 99, 235, 0.11);
+  --c-extra: #7c3aed;
+  --c-extra-soft: rgba(124, 58, 237, 0.11);
+  --c-opt: #059669;
+  --c-opt-soft: rgba(5, 150, 105, 0.11);
+  --c-poly: #0d9488;
+  --c-dec-ok: #0891b2;
+  --c-dec-ok-soft: rgba(8, 145, 178, 0.12);
+  --c-dec-bad: #dc2626;
+  --c-dec-bad-soft: rgba(220, 38, 38, 0.11);
+  --c-warn: #b45309;
+  --c-warn-soft: rgba(180, 83, 9, 0.12);
+  --table-head: #14243a;
+  --table-stripe: #f8fafc;
+}
+
+/* TEMA 3: ESMERALDA MATRIZ (Modo oscuro científico verde/carbón) */
+[data-theme="emerald"] {
+  --bg-page: #071210;
+  --bg-surface: #0c1d19;
+  --bg-surface-2: #112722;
+  --bg-elevated: #17342d;
+  --bg-input: #081512;
+  --bg-plot: #091714;
+  --bg-grid: rgba(110, 231, 183, 0.10);
+  --border-subtle: rgba(110, 231, 183, 0.14);
+  --border-strong: rgba(110, 231, 183, 0.28);
+  --text-primary: #ecfdf5;
+  --text-secondary: #bddbd0;
+  --text-muted: #7aa396;
+  --hero-bg: linear-gradient(125deg, #061814 0%, #0d332a 58%, #0f4c45 100%);
+  --shadow-card: 0 12px 32px -12px rgba(2, 12, 10, 0.78);
+  --shadow-float: 0 18px 40px -12px rgba(2, 12, 10, 0.90);
+  --accent: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.18);
+  /* Colores semánticos */
+  --c-machine: #fbbf24;
+  --c-machine-soft: rgba(251, 191, 36, 0.16);
+  --c-labor: #38bdf8;
+  --c-labor-soft: rgba(56, 189, 248, 0.16);
+  --c-extra: #c084fc;
+  --c-extra-soft: rgba(192, 132, 252, 0.16);
+  --c-opt: #34d399;
+  --c-opt-soft: rgba(52, 211, 153, 0.16);
+  --c-poly: #2dd4bf;
+  --c-dec-ok: #f472b6;
+  --c-dec-ok-soft: rgba(244, 114, 182, 0.18);
+  --c-dec-bad: #fb7185;
+  --c-dec-bad-soft: rgba(251, 113, 133, 0.18);
+  --c-warn: #fbbf24;
+  --c-warn-soft: rgba(251, 191, 36, 0.16);
+  --table-head: #122e27;
+  --table-stripe: rgba(110, 231, 183, 0.03);
+}
+
+/* TEMA 4: ÁMBAR STUDIO (Modo claro cálido de alto contraste) */
+[data-theme="amber"] {
+  --bg-page: #faf4ea;
+  --bg-surface: #fffdf9;
+  --bg-surface-2: #f6ede0;
+  --bg-elevated: #ecdec9;
+  --bg-input: #fffdf9;
+  --bg-plot: #fffcf6;
+  --bg-grid: rgba(74, 42, 24, 0.09);
+  --border-subtle: rgba(74, 42, 24, 0.14);
+  --border-strong: rgba(74, 42, 24, 0.28);
+  --text-primary: #27150c;
+  --text-secondary: #4e3427;
+  --text-muted: #7c5f4e;
+  --hero-bg: linear-gradient(125deg, #3c1e10 0%, #6d3115 55%, #8f3f13 100%);
+  --shadow-card: 0 10px 26px -12px rgba(68, 36, 18, 0.12);
+  --shadow-float: 0 16px 34px -10px rgba(68, 36, 18, 0.22);
+  --accent: #b45309;
+  --accent-soft: rgba(180, 83, 9, 0.13);
+  /* Colores semánticos */
+  --c-machine: #d97706;
+  --c-machine-soft: rgba(217, 119, 6, 0.13);
+  --c-labor: #1d4ed8;
+  --c-labor-soft: rgba(29, 78, 216, 0.11);
+  --c-extra: #7e22ce;
+  --c-extra-soft: rgba(126, 34, 206, 0.11);
+  --c-opt: #15803d;
+  --c-opt-soft: rgba(21, 128, 61, 0.12);
+  --c-poly: #0f766e;
+  --c-dec-ok: #9f1239;
+  --c-dec-ok-soft: rgba(159, 18, 57, 0.12);
+  --c-dec-bad: #be123c;
+  --c-dec-bad-soft: rgba(190, 18, 60, 0.14);
+  --c-warn: #b45309;
+  --c-warn-soft: rgba(180, 83, 9, 0.14);
+  --table-head: #3b2013;
+  --table-stripe: #faf3e8;
+}
+
+/* ==========================================================================
+   2. RESET Y TIPOGRAFÍA BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  transition: background-color var(--transition-med), color var(--transition-med);
+  overflow-x: hidden;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.tnum, output, td, .kpi-val, .mono { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-mono); }
+
+/* Modo Presentación */
+body.presentation-mode .hero,
+body.presentation-mode .site-footer { display: none !important; }
+body.presentation-mode .shell { max-width: 1560px; margin-top: 12px; }
+
+/* ==========================================================================
+   3. TOPBAR GLOBAL (TEMAS, PRESETS Y MODO PRESENTACIÓN)
+   ========================================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.topbar-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--c-opt));
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.brand-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.theme-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+}
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-size: 11.5px;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+.theme-btn:hover { color: var(--text-primary); background: var(--bg-elevated); }
+.theme-btn.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(128, 128, 128, 0.45);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   4. HERO Y BARRA DE PRESETS PEDAGÓGICOS
+   ========================================================================== */
+.hero {
+  background: var(--hero-bg);
+  color: #fff;
+  padding: 26px 20px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.hero-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+}
+.hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #99f6e4;
+}
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 10px #34d399;
+}
+.hero h1 {
+  margin: 7px 0 6px;
+  font-size: clamp(24px, 3.3vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 850;
+}
+.hero p {
+  margin: 0;
+  max-width: 760px;
+  font-size: 14px;
+  color: rgba(226, 238, 248, 0.88);
+}
+.hero-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #eef8ff;
+}
+.presets-bar {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.presets-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(226, 238, 248, 0.72);
+  margin-right: 4px;
+}
+.preset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.09);
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 650;
+  transition: var(--transition-fast);
+}
+.preset-btn:hover {
+  background: rgba(255, 255, 255, 0.19);
+  transform: translateY(-1px);
+}
+.preset-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+/* ==========================================================================
+   5. SHELL, KPIS Y LAYOUT PRINCIPAL
+   ========================================================================== */
+.shell {
+  max-width: 1380px;
+  margin: 20px auto 44px;
+  padding: 0 20px;
+  transition: max-width var(--transition-med);
+}
+
+/* 4 KPIs Superiores */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.kpi-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+.kpi-card:hover { border-color: var(--border-strong); }
+.kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kpi-label {
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.kpi-val {
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.kpi-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.kpi-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+  margin-top: 2px;
+}
+.kpi-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 220ms ease, background-color 220ms ease;
+}
+
+/* Layout 2 columnas: Main + Sidebar Sticky */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 326px;
+  gap: 18px;
+  align-items: start;
+}
+.main-col { min-width: 0; }
+
+/* Navegación de 6 Etapas */
+.tabs {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 2px 2px 12px;
+  scrollbar-width: thin;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+.tab:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.tab .tab-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent) 75%, transparent);
+}
+.tab.active .tab-num {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+/* Paneles */
+.panel {
+  display: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 220ms ease;
+}
+.panel.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.step-tag {
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--c-opt);
+  margin-bottom: 5px;
+}
+.panel-head h2 {
+  margin: 0 0 5px;
+  font-size: clamp(19px, 2.2vw, 24px);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--text-primary);
+}
+.panel-head p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 740px;
+}
+
+/* ==========================================================================
+   6. COMPONENTES REUTILIZABLES (BADGES, BOTONES, CARDS, TABLAS, SLIDERS)
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.badge.ok { background: var(--c-opt-soft); color: var(--c-opt); }
+.badge.warn { background: var(--c-warn-soft); color: var(--c-warn); }
+.badge.bad { background: var(--c-dec-bad-soft); color: var(--c-dec-bad); }
+.badge.machine { background: var(--c-machine-soft); color: var(--c-machine); }
+.badge.labor { background: var(--c-labor-soft); color: var(--c-labor); }
+.badge.extra { background: var(--c-extra-soft); color: var(--c-extra); }
+.badge.cyan { background: var(--c-dec-ok-soft); color: var(--c-dec-ok); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.06); }
+.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:disabled { opacity: 0.42; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-opt { background: var(--c-opt); color: #fff; }
+.btn-secondary { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-subtle); }
+.btn-outline { background: transparent; color: var(--text-primary); border-color: var(--border-strong); }
+.btn-sm { padding: 6px 10px; font-size: 11.5px; border-radius: 8px; }
+.btn-icon { padding: 7px 10px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grid-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 16px; align-items: start; }
+
+.card {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+.card.flat { background: var(--bg-surface); }
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.card p.muted { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+
+/* Ecuaciones semánticas con hover interactivo */
+.eq-stack { display: grid; gap: 9px; }
+.eq-card {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  border-left-width: 4px;
+  background: var(--bg-surface);
+  transition: var(--transition-fast);
+}
+.eq-card:hover { transform: translateX(2px); border-color: var(--border-strong); }
+.eq-card.obj { border-left-color: var(--c-opt); background: linear-gradient(90deg, var(--c-opt-soft), var(--bg-surface) 75%); }
+.eq-card.r1 { border-left-color: var(--c-machine); }
+.eq-card.r2 { border-left-color: var(--c-labor); }
+.eq-card.r3 { border-left-color: var(--c-extra); }
+.eq-card.nonneg { border-left-color: var(--text-muted); }
+.eq-tag {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.eq-math {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.eq-math sub { font-size: 0.72em; }
+
+/* Sliders + Inputs numéricos sincronizados */
+.control { margin-bottom: 13px; }
+.control:last-child { margin-bottom: 0; }
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.control-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.num-input {
+  width: 78px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 750;
+  text-align: right;
+}
+.num-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.num-input.mini { width: 62px; padding: 4px 6px; font-size: 12px; }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--slider-color, var(--accent));
+  border: 2px solid var(--bg-surface);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 120ms ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.16); }
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--slider-color, var(--accent));
+  border: 2px solid var(--bg-surface);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Switch toggle */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--text-secondary);
+}
+.switch {
+  position: relative;
+  width: 38px;
+  height: 21px;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+.switch-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: var(--transition-fast);
+}
+.switch input:checked + .switch-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.switch input:checked + .switch-track::after {
+  transform: translateX(17px);
+  background: #fff;
+}
+
+/* Barras de recursos */
+.res-item { margin-top: 10px; }
+.res-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 5px;
+  gap: 8px;
+}
+.res-bar {
+  height: 9px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.res-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 200ms ease, background-color 200ms ease;
+}
+
+/* Notas didácticas */
+.note {
+  margin-top: 13px;
+  padding: 12px 14px;
+  border-radius: 0 11px 11px 0;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.note strong { color: var(--text-primary); }
+.note.ok { border-left-color: var(--c-opt); background: var(--c-opt-soft); }
+.note.warn { border-left-color: var(--c-warn); background: var(--c-warn-soft); }
+.note.bad { border-left-color: var(--c-dec-bad); background: var(--c-dec-bad-soft); }
+
+/* Tablas */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+th {
+  background: var(--table-head);
+  color: #f8fafc;
+  text-align: left;
+  padding: 9px 11px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+td {
+  padding: 9px 11px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+tbody tr:nth-child(even) td { background: var(--table-stripe); }
+td strong { color: var(--text-primary); }
+
+/* Resaltados de Tableau Simplex */
+.tb-pivot-col { background: color-mix(in srgb, var(--c-labor) 16%, transparent) !important; }
+.tb-pivot-row td { background: color-mix(in srgb, var(--c-machine) 15%, transparent) !important; }
+.tb-pivot-cell {
+  background: var(--c-opt) !important;
+  color: #fff !important;
+  font-weight: 850 !important;
+  border-radius: 6px;
+}
+.tb-zj-row td {
+  background: var(--bg-surface-2) !important;
+  font-weight: 800;
+  border-top: 2px solid var(--border-strong);
+  color: var(--text-primary);
+}
+.tb-pos { color: var(--c-opt) !important; font-weight: 800; }
+
+/* ==========================================================================
+   7. GRÁFICOS SVG, TOOLTIPS Y CONTROLES DE REPRODUCCIÓN
+   ========================================================================== */
+.svg-stage {
+  position: relative;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-plot);
+  padding: 8px;
+  overflow: hidden;
+}
+.svg-stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.svg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 6px 2px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+.svg-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.svg-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+  padding: 9px 12px;
+  box-shadow: var(--shadow-float);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  min-width: 185px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 130ms ease, transform 130ms ease;
+}
+.svg-tooltip.show { opacity: 1; transform: translateY(0); }
+.svg-tooltip strong { color: var(--text-primary); }
+
+.draggable-handle { cursor: grab; }
+.draggable-handle:active { cursor: grabbing; }
+.vertex-hit { cursor: pointer; transition: r 140ms ease; }
+.vertex-hit:hover { filter: brightness(1.2); }
+
+/* Barra de reproducción */
+.playback-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 14px;
+}
+.playback-btns { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.step-pills { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.step-pill {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 750;
+  transition: var(--transition-fast);
+}
+.step-pill.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ==========================================================================
+   8. SIDEBAR STICKY Y ACORDEÓN DETAILS
+   ========================================================================== */
+.sidebar {
+  position: sticky;
+  top: 70px;
+  display: grid;
+  gap: 14px;
+}
+.sidebar-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+.sidebar-card h3 {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sidebar-toggle-mobile {
+  display: none;
+  width: 100%;
+  margin-bottom: 12px;
+}
+details.adv-box {
+  margin-top: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 11px;
+  background: var(--bg-surface-2);
+  padding: 10px 12px;
+}
+details.adv-box summary {
+  font-size: 12px;
+  font-weight: 750;
+  color: var(--text-primary);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+details.adv-box summary::-webkit-details-marker { display: none; }
+details.adv-box summary::after {
+  content: "▾";
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 180ms ease;
+}
+details.adv-box[open] summary::after { transform: rotate(180deg); }
+.coef-grid {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+.coef-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+.opt-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+.opt-summary-row:last-of-type { border-bottom: 0; }
+.opt-summary-row strong { color: var(--text-primary); font-size: 14px; }
+.pills-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+.attribution-box {
+  padding: 11px 13px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+.attribution-box strong { color: var(--text-primary); }
+
+/* Animación de pulso para nodos activos */
+@keyframes pulseRing {
+  0% { r: 7; opacity: 0.9; }
+  100% { r: 17; opacity: 0; }
+}
+.pulse-halo { animation: pulseRing 1.5s ease-out infinite; }
+
+/* Toast flotante */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  z-index: 99;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-float);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.site-footer {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 16px 20px 32px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hidden { display: none !important; }
+
+/* ==========================================================================
+   9. RESPONSIVIDAD (TABLET & MÓVIL)
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .sidebar-toggle-mobile { display: inline-flex; }
+  .sidebar.collapsed-mobile { display: none; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-split { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .shell { padding: 0 12px; }
+  .topbar-inner { padding: 8px 12px; }
+  .panel { padding: 15px; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .theme-btn span.t-label { display: none; }
+  .metrics { gap: 9px; }
+  .kpi-card { padding: 12px; }
+}
+</style>
 </head>
-        <body class="simulation-page" data-module-id="12" data-page-kind="simulacion">
-          <a class="skip-link" href="#contenido">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
-      <span class="brand-mark" aria-hidden="true">DD</span>
-      <span>
-        <strong>Datos y Decisiones</strong>
-        <small>Ciencia de datos aplicada</small>
-      </span>
-    </a>
-    <button class="nav-toggle" type="button" aria-expanded="false"
-            aria-controls="site-navigation">Menú</button>
-    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
-      <a href="../../index.html">Inicio</a>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../proyecto-integrador.html">Proyecto</a>
-      <a href="../../profundizaciones.html">Profundizaciones</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
-      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
-        Tema
+<body><nav aria-label="Navegación del módulo" style="position:relative;z-index:100;background:#082f49;color:white;padding:10px 18px;display:flex;gap:18px;flex-wrap:wrap;font:600 14px system-ui"><a style="color:white" href="index.html">← Módulo</a><a style="color:white" href="guia.html">Guía de clases</a><a style="color:white" href="simulacion.html">Laboratorio</a><a style="color:white" href="glosario.html">Glosario</a><a style="color:white" href="cuestionario.html">Cuestionario</a><a style="color:white" href="videos.html">Videos</a></nav>
+
+<!-- ==================== BARRA SUPERIOR GLOBAL ==================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-badge">PL</div>
+      <div class="brand-text">
+        <span class="brand-title">Laboratorio de Programación Lineal · La Fábrica Inteligente</span>
+        <span class="brand-sub">Material elaborado por el profesor Sergio Gevatschnaider</span>
+      </div>
+    </div>
+
+    <div class="topbar-controls">
+      <div class="theme-group" role="group" aria-label="Selector de temas">
+        <button class="theme-btn active" data-theme-set="indigo" title="Índigo Nocturno">
+          <span class="swatch" style="background:linear-gradient(135deg,#0b1120 45%,#6366f1 55%)"></span>
+          <span class="t-label">Índigo Nocturno</span>
+        </button>
+        <button class="theme-btn" data-theme-set="ivory" title="Editorial Marfil">
+          <span class="swatch" style="background:linear-gradient(135deg,#f6f4ee 45%,#1d4ed8 55%)"></span>
+          <span class="t-label">Editorial Marfil</span>
+        </button>
+        <button class="theme-btn" data-theme-set="emerald" title="Esmeralda Matriz">
+          <span class="swatch" style="background:linear-gradient(135deg,#071210 45%,#10b981 55%)"></span>
+          <span class="t-label">Esmeralda Matriz</span>
+        </button>
+        <button class="theme-btn" data-theme-set="amber" title="Ámbar Studio">
+          <span class="swatch" style="background:linear-gradient(135deg,#faf4ea 45%,#b45309 55%)"></span>
+          <span class="t-label">Ámbar Studio</span>
+        </button>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="btnPresentation" title="Expandir área de trabajo para clase">
+        <span id="presIcon">⛶</span>
+        <span id="presLabel">Modo Presentación</span>
       </button>
-    </nav>
+    </div>
   </div>
 </header>
-          <main id="contenido">
-            <section class="page-hero simulation-hero compact">
-  <div class="container narrow">
-    <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 12</a> / Simulación</p>
-    <p class="eyebrow">Laboratorio interactivo · Módulo 12</p>
-    <h1>Frontera factible y mezcla óptima</h1>
-    <p class="hero-lead">Modificá margen y capacidades; explorá la región factible, el punto óptimo y el valor de recursos adicionales.</p>
-  </div>
-</section>
-<section class="container simulation-section">
-  <noscript><p class="alert">Esta simulación necesita JavaScript habilitado.</p></noscript>
-  <div id="simulation-root" class="simulation-root" data-simulation="12"
-       data-challenge="Elegí una cartera de acciones que maximice valor sin violar presupuesto, capacidad, equidad ni riesgo." aria-live="polite"></div>
-  <div class="reflection-panel">
-    <p class="eyebrow">Método de trabajo</p>
-    <h2>Lectura de resultados</h2>
-    <ol>
-      <li>Formulá una hipótesis antes de mover un control.</li>
-      <li>Guardá un escenario A y un escenario B para comparar evidencia.</li>
-      <li>Interpretá la métrica en costo, capacidad, riesgo o valor.</li>
-      <li>Registrá una recomendación, una limitación y el próximo dato necesario.</li>
-    </ol>
-  </div>
-  <p class="simulation-author">Material elaborado por el profesor Sergio Gevatschnaider.</p>
-  <div class="button-row centered">
-    <a class="button secondary" href="index.html">Volver a la guía</a>
-    <a class="button primary" href="cuestionario.html">Continuar al cuestionario</a>
-  </div>
-</section>
-          </main>
-          <footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
-      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
+
+<!-- ==================== HERO + PRESETS PEDAGÓGICOS ==================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Simulador interactivo · 100% sin conexión</div>
+        <h1>Programación Lineal: La Fábrica Inteligente</h1>
+        <p>Experimentá en tiempo real la geometría del poliedro, el algoritmo Simplex paso a paso, el análisis de sensibilidad exacto con su Dual, la retícula entera y el árbol Branch &amp; Bound.</p>
+      </div>
+      <div class="hero-meta-chip">
+        <span>⚡ Motor algebraico y geométrico en vivo</span>
+      </div>
     </div>
-    <div>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../accesibilidad.html">Accesibilidad</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+
+    <div class="presets-bar" role="group" aria-label="Escenarios pedagógicos">
+      <span class="presets-label">Escenarios:</span>
+      <button class="preset-btn active" data-preset="base">1. Escenario base</button>
+      <button class="preset-btn" data-preset="multiple">2. Óptimos múltiples</button>
+      <button class="preset-btn" data-preset="redundant">3. Restricción redundante</button>
+      <button class="preset-btn" data-preset="fractional">4. Caso fraccionario (Entera)</button>
+      <button class="preset-btn" data-preset="corner">5. Especialización total</button>
     </div>
   </div>
+</section>
+
+<!-- ==================== SHELL PRINCIPAL ==================== -->
+<div class="shell">
+
+  <!-- 4 KPIS SUPERIORES -->
+  <section class="metrics" aria-label="Indicadores clave">
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Beneficio actual Z(A, B)</span>
+        <span class="badge ok" id="kpiDecBadge">Factible</span>
+      </div>
+      <div class="kpi-val tnum" id="kpiProfit">$1.800</div>
+      <div class="kpi-bar"><span id="kpiEffBar" style="width:81.8%;background:var(--c-dec-ok)"></span></div>
+      <div class="kpi-sub">
+        <span id="kpiEffText">81,8% del óptimo</span>
+        <span class="mono" id="kpiMarginText">Margen: +$400</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Óptimo continuo Z*</span>
+        <span class="badge ok" id="kpiOptBadge">Óptimo único</span>
+      </div>
+      <div class="kpi-val tnum" id="kpiOptZ" style="color:var(--c-opt)">$2.200</div>
+      <div class="kpi-bar"><span style="width:100%;background:var(--c-opt)"></span></div>
+      <div class="kpi-sub">
+        <span class="mono" id="kpiOptCoords">A* = 40 · B* = 20</span>
+        <span id="kpiOptVerts">4 vértices</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label"><span class="dot" style="background:var(--c-machine)"></span> Uso de Máquina (R1)</span>
+        <span class="badge machine" id="kpiR1Badge">Holgura</span>
+      </div>
+      <div class="kpi-val tnum" id="kpiR1Val">80 / 100 h</div>
+      <div class="kpi-bar"><span id="kpiR1Bar" style="width:80%;background:var(--c-machine)"></span></div>
+      <div class="kpi-sub">
+        <span id="kpiR1Sub">20 h disponibles</span>
+        <span class="mono" id="kpiR1Pct">80%</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label"><span class="dot" style="background:var(--c-labor)"></span> Mano de obra (R2)</span>
+        <span class="badge labor" id="kpiR2Badge">Holgura</span>
+      </div>
+      <div class="kpi-val tnum" id="kpiR2Val">70 / 80 h</div>
+      <div class="kpi-bar"><span id="kpiR2Bar" style="width:87.5%;background:var(--c-labor)"></span></div>
+      <div class="kpi-sub">
+        <span id="kpiR2Sub">10 h disponibles</span>
+        <span class="mono" id="kpiR2Pct">87,5%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTÓN COLAPSABLE DE PARÁMETROS EN MÓVIL/TABLET -->
+  <button class="btn btn-secondary sidebar-toggle-mobile" id="btnToggleSidebar">
+    ⚙ Mostrar / Ocultar panel de parámetros del escenario
+  </button>
+
+  <div class="layout">
+    <!-- COLUMNA PRINCIPAL -->
+    <main class="main-col">
+      <!-- NAVEGACIÓN DE 6 ETAPAS -->
+      <nav class="tabs" role="tablist" aria-label="Etapas del laboratorio">
+        <button class="tab active" data-tab="model"><span class="tab-num">1</span> Modelo y Decisión</button>
+        <button class="tab" data-tab="feasible"><span class="tab-num">2</span> Región Factible</button>
+        <button class="tab" data-tab="simplex"><span class="tab-num">3</span> Método Simplex</button>
+        <button class="tab" data-tab="sensitivity"><span class="tab-num">4</span> Sensibilidad y Dual</button>
+        <button class="tab" data-tab="integer"><span class="tab-num">5</span> Programación Entera</button>
+        <button class="tab" data-tab="bnb"><span class="tab-num">6</span> Branch &amp; Bound</button>
+      </nav>
+
+      <!-- ================================================================
+           ETAPA 1: MODELO Y DECISIÓN ECONÓMICA
+           ================================================================ -->
+      <section class="panel active" id="tab-model">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 1 · Formulación y Decisión</div>
+            <h2>La decisión económica en tiempo real</h2>
+            <p>Pasá el cursor sobre cada ecuación para resaltarla en el plano. Ajustá A y B y observá instantáneamente cómo reaccionan los recursos y el beneficio.</p>
+          </div>
+          <span class="badge cyan" id="m1StatusBadge">Exploración libre</span>
+        </div>
+
+        <div class="grid2">
+          <!-- Columna izquierda: Formulación + Mini-SVG -->
+          <div style="display:grid;gap:14px">
+            <div class="eq-stack" id="eqStack">
+              <div class="eq-card obj" data-hl="obj">
+                <div class="eq-tag" style="color:var(--c-opt)"><span>Función Objetivo</span><span>Maximización</span></div>
+                <div class="eq-math mono" id="eqObj">Max Z = 40·A + 30·B</div>
+              </div>
+              <div class="eq-card r1" data-hl="r1">
+                <div class="eq-tag" style="color:var(--c-machine)"><span>Restricción 1 · Máquina</span><span id="eqR1State">80 / 100 h</span></div>
+                <div class="eq-math mono" id="eqR1">2·A + 1·B ≤ 100</div>
+              </div>
+              <div class="eq-card r2" data-hl="r2">
+                <div class="eq-tag" style="color:var(--c-labor)"><span>Restricción 2 · Mano de obra</span><span id="eqR2State">70 / 80 h</span></div>
+                <div class="eq-math mono" id="eqR2">1·A + 2·B ≤ 80</div>
+              </div>
+              <div class="eq-card r3 hidden" id="eqR3Card" data-hl="r3">
+                <div class="eq-tag" style="color:var(--c-extra)"><span>Restricción 3 · Demanda máx. de A</span><span id="eqR3State">30 / 45 u.</span></div>
+                <div class="eq-math mono" id="eqR3">A ≤ 45</div>
+              </div>
+              <div class="eq-card nonneg">
+                <div class="eq-tag" style="color:var(--text-muted)"><span>No negatividad</span><span>Dominio</span></div>
+                <div class="eq-math mono">A ≥ 0 , &nbsp; B ≥ 0</div>
+              </div>
+            </div>
+
+            <div class="card flat">
+              <h3><span>Vista rápida del plano A–B</span><span class="badge ok" id="miniOptTag">Z* = $2.200</span></h3>
+              <div class="svg-stage" style="padding:4px">
+                <svg id="miniGraph" viewBox="0 0 420 240" role="img" aria-label="Vista previa de la región factible"></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha: Controles de decisión y barras -->
+          <div class="card">
+            <h3><span>Probá una combinación productiva</span><span class="badge" id="m1SnapInfo">Paso: 1</span></h3>
+
+            <div class="control">
+              <div class="control-row">
+                <label class="control-label" for="decASlider"><span class="dot" style="background:var(--c-dec-ok)"></span> Producto A (unidades)</label>
+                <input class="num-input tnum" id="decANum" type="number" min="0" max="150" step="0.01" value="30">
+              </div>
+              <input id="decASlider" type="range" min="0" max="100" step="1" value="30" style="--slider-color:var(--c-dec-ok)">
+            </div>
+
+            <div class="control">
+              <div class="control-row">
+                <label class="control-label" for="decBSlider"><span class="dot" style="background:var(--c-dec-ok)"></span> Producto B (unidades)</label>
+                <input class="num-input tnum" id="decBNum" type="number" min="0" max="150" step="0.01" value="20">
+              </div>
+              <input id="decBSlider" type="range" min="0" max="100" step="1" value="20" style="--slider-color:var(--c-dec-ok)">
+            </div>
+
+            <div class="card flat" style="margin-top:14px;padding:14px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+                <div>
+                  <div style="font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)">Beneficio actual</div>
+                  <div class="kpi-val tnum" id="m1Profit" style="margin-top:3px">$1.800</div>
+                </div>
+                <div id="m1FeasPill"><span class="badge ok">Producción factible</span></div>
+              </div>
+
+              <div class="res-item">
+                <div class="res-top">
+                  <span><span class="dot" style="background:var(--c-machine)"></span> <strong>Máquina (R1)</strong></span>
+                  <span class="mono" id="m1R1Text">80 / 100 h</span>
+                </div>
+                <div class="res-bar"><span id="m1R1Bar" style="width:80%;background:var(--c-machine)"></span></div>
+              </div>
+
+              <div class="res-item">
+                <div class="res-top">
+                  <span><span class="dot" style="background:var(--c-labor)"></span> <strong>Mano de obra (R2)</strong></span>
+                  <span class="mono" id="m1R2Text">70 / 80 h</span>
+                </div>
+                <div class="res-bar"><span id="m1R2Bar" style="width:87.5%;background:var(--c-labor)"></span></div>
+              </div>
+
+              <div class="res-item hidden" id="m1R3Wrap">
+                <div class="res-top">
+                  <span><span class="dot" style="background:var(--c-extra)"></span> <strong>Demanda máx. A (R3)</strong></span>
+                  <span class="mono" id="m1R3Text">30 / 45 u.</span>
+                </div>
+                <div class="res-bar"><span id="m1R3Bar" style="width:66%;background:var(--c-extra)"></span></div>
+              </div>
+            </div>
+
+            <div class="note warn" style="margin-top:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+                <strong>Pregunta para pensar</strong>
+                <button class="btn btn-secondary btn-sm" id="btnToggleHint">Ver pista económica</button>
+              </div>
+              <p style="margin:6px 0 0">¿Por qué no siempre conviene fabricar únicamente el artículo que deja mayor contribución unitaria?</p>
+              <div id="hintContent" class="hidden" style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border-strong);color:var(--text-primary)">
+                <strong>Pista económica:</strong> Lo que importa no es solo el margen por unidad ($p_A$ vs $p_B$), sino la <em>contribución por hora del recurso cuello de botella</em> ($p_j / a_{ij}$). En el escenario base, A deja $40/2 = $20 por hora de máquina, mientras B deja $30/1 = $30 por hora de máquina. Combinar ambos aprovecha simultáneamente máquina y mano de obra.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           ETAPA 2: REGIÓN FACTIBLE (PLANO A-B INTERACTIVO)
+           ================================================================ -->
+      <section class="panel" id="tab-feasible">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 2 · Geometría Poliédrica</div>
+            <h2>Plano A–B interactivo: arrastrá tu decisión y explorá vértices</h2>
+            <p>Arrastrá el punto de decisión directamente sobre el gráfico, hacé clic en cualquier vértice factible para adoptarlo o animá el barrido de la recta de isobeneficio.</p>
+          </div>
+          <span class="badge ok" id="f2MultiBadge">Óptimo único</span>
+        </div>
+
+        <div class="svg-stage" id="mainGraphWrap">
+          <svg id="mainGraph" viewBox="0 0 760 460" role="img" aria-label="Plano interactivo de restricciones y región factible"></svg>
+          <div class="svg-tooltip" id="vertexTooltip"></div>
+          <div class="svg-legend">
+            <span><i class="dot" style="background:var(--c-poly)"></i>Región factible</span>
+            <span><i class="dot" style="background:var(--c-machine)"></i>Máquina (R1)</span>
+            <span><i class="dot" style="background:var(--c-labor)"></i>Mano de obra (R2)</span>
+            <span id="legR3" class="hidden"><i class="dot" style="background:var(--c-extra)"></i>Demanda máx. A (R3)</span>
+            <span><i class="dot" style="background:var(--c-opt)"></i>Óptimo / Isobeneficio / ∇Z</span>
+            <span><i class="dot" style="background:var(--c-dec-ok)"></i>Decisión factible</span>
+            <span><i class="dot" style="background:var(--c-dec-bad)"></i>Decisión infactible</span>
+          </div>
+        </div>
+
+        <!-- Barra de Isobeneficio + Controles compactos de A y B -->
+        <div class="grid2" style="margin-top:14px">
+          <div class="card">
+            <h3><span>Recta de Isobeneficio y Gradiente ∇Z</span><span class="mono" id="isoValLabel" style="color:var(--c-opt)">Z = $2.200</span></h3>
+            <div class="control" style="margin-bottom:10px">
+              <input id="isoSlider" type="range" min="0" max="2500" step="10" value="2200" style="--slider-color:var(--c-opt)">
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <button class="btn btn-opt btn-sm" id="btnAnimIso">▶ Animar barrido de Z</button>
+              <button class="btn btn-secondary btn-sm" id="btnIsoToOpt">Fijar en Z*</button>
+              <button class="btn btn-secondary btn-sm" id="btnIsoToDec">Fijar en Z(A,B)</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3><span>Ajuste rápido de tu decisión</span><span class="badge cyan" id="f2DecState">Factible</span></h3>
+            <div class="grid2" style="gap:10px">
+              <div class="control" style="margin:0">
+                <div class="control-row"><label class="control-label">A</label><input class="num-input mini tnum" id="f2ANum" type="number" min="0" max="150" step="0.01" value="30"></div>
+                <input id="f2ASlider" type="range" min="0" max="100" step="1" value="30" style="--slider-color:var(--c-dec-ok)">
+              </div>
+              <div class="control" style="margin:0">
+                <div class="control-row"><label class="control-label">B</label><input class="num-input mini tnum" id="f2BNum" type="number" min="0" max="150" step="0.01" value="20"></div>
+                <input id="f2BSlider" type="range" min="0" max="100" step="1" value="20" style="--slider-color:var(--c-dec-ok)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           ETAPA 3: MÉTODO SIMPLEX DINÁMICO (PASO A PASO REAL)
+           ================================================================ -->
+      <section class="panel" id="tab-simplex">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 3 · Algoritmo Simplex Primal</div>
+            <h2>Recorrido algebraico y geométrico paso a paso</h2>
+            <p>Motor Simplex real ejecutado sobre los parámetros actuales. Cada iteración sincroniza el tablero (columna/fila/elemento pivote y Cj − Zj) con el salto entre vértices adyacentes.</p>
+          </div>
+          <span class="badge ok" id="sxStepBadge">Iteración 0 / 2</span>
+        </div>
+
+        <div class="playback-bar">
+          <div class="playback-btns">
+            <button class="btn btn-secondary btn-sm" id="sxFirst" title="Ir al inicio">⏮ Inicio</button>
+            <button class="btn btn-secondary btn-sm" id="sxPrev">◀ Anterior</button>
+            <button class="btn btn-primary btn-sm" id="sxPlay">▶ Auto-reproducir</button>
+            <button class="btn btn-secondary btn-sm" id="sxNext">Siguiente ▶</button>
+            <button class="btn btn-opt btn-sm" id="sxLast">Óptimo ⏭</button>
+          </div>
+          <div class="step-pills" id="sxPills"></div>
+        </div>
+
+        <div class="grid-split">
+          <!-- Tablero Simplex -->
+          <div class="card">
+            <h3><span>Tablero Simplex (Tableau)</span><span class="mono" id="sxBasisLabel" style="font-size:11.5px;color:var(--text-muted)">Base: S₁, S₂</span></h3>
+            <div class="table-wrap" id="sxTableauWrap"></div>
+            <div class="note" id="sxNarrative" style="margin-top:12px"></div>
+          </div>
+
+          <!-- Mini-plano sincronizado -->
+          <div class="card">
+            <h3><span>Trayectoria sobre el poliedro</span><span class="mono" id="sxVertexLabel" style="color:var(--c-opt)">(0, 0) · Z = $0</span></h3>
+            <div class="svg-stage" style="padding:4px">
+              <svg id="sxGraph" viewBox="0 0 460 320" role="img" aria-label="Trayectoria animada del algoritmo Simplex"></svg>
+            </div>
+            <div class="svg-legend" style="padding-top:8px">
+              <span><i class="dot" style="background:var(--c-machine)"></i>Trayectoria recorrida</span>
+              <span><i class="dot" style="background:var(--c-opt)"></i>Vértice actual</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           ETAPA 4: SENSIBILIDAD EXACTA Y DUALIDAD
+           ================================================================ -->
+      <section class="panel" id="tab-sensitivity">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 4 · Post-Optimalidad y Dualidad</div>
+            <h2>Precios sombra exactos, rangos y Problema Dual</h2>
+            <p>Cálculo exacto a partir de la matriz básica óptima B⁻¹ del tablero final. Explorá la curva paramétrica cóncava Z*(bᵢ) y verificá la Dualidad Fuerte y la Holgura Complementaria.</p>
+          </div>
+          <span class="badge ok" id="sensStrongDualBadge">Dualidad Fuerte: Z* = W*</span>
+        </div>
+
+        <!-- Tablas de Rangos Exactos -->
+        <div class="grid2" style="margin-bottom:14px">
+          <div class="card">
+            <h3><span>Recursos: Precios Sombra y Factibilidad</span><span class="badge machine">Lado derecho (b)</span></h3>
+            <div class="table-wrap" id="sensRhsTable"></div>
+          </div>
+          <div class="card">
+            <h3><span>Objetivo: Rangos de Optimalidad</span><span class="badge ok">Coeficientes (c)</span></h3>
+            <div class="table-wrap" id="sensObjTable"></div>
+          </div>
+        </div>
+
+        <!-- Gráfico Paramétrico Z*(b_i) + Problema Dual -->
+        <div class="grid-split">
+          <div class="card">
+            <h3>
+              <span>Curva Paramétrica Z*(bᵢ)</span>
+              <div style="display:flex;gap:5px">
+                <button class="btn btn-sm btn-primary" data-param-res="0" id="paramBtn0">Máquina (b₁)</button>
+                <button class="btn btn-sm btn-secondary" data-param-res="1" id="paramBtn1">M. de Obra (b₂)</button>
+                <button class="btn btn-sm btn-secondary hidden" data-param-res="2" id="paramBtn2">Demanda (b₃)</button>
+              </div>
+            </h3>
+            <div class="svg-stage" style="padding:4px">
+              <svg id="paramGraph" viewBox="0 0 540 300" role="img" aria-label="Gráfico paramétrico lineal a trozos del valor óptimo"></svg>
+            </div>
+            <div class="note ok" id="paramNote" style="margin-top:10px"></div>
+          </div>
+
+          <div class="card">
+            <h3><span>Problema Dual y Holgura Complementaria</span><span class="badge labor">Min W</span></h3>
+            <div class="eq-stack" id="dualFormulation" style="margin-bottom:12px"></div>
+            <div class="table-wrap" id="compSlackTable"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           ETAPA 5: PROGRAMACIÓN ENTERA Y TRAMPA DEL REDONDEO
+           ================================================================ -->
+      <section class="panel" id="tab-integer">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 5 · Programación Lineal Entera (PLE)</div>
+            <h2>Retícula entera ℤ² y por qué redondear puede fallar</h2>
+            <p>Cuando las unidades deben ser completas, los vecinos por redondeo del óptimo continuo pueden ser infactibles o subóptimos frente al verdadero óptimo entero.</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" id="btnIntLoad99">Cargar escenario fraccionario (99 h)</button>
+            <button class="btn btn-opt btn-sm" id="btnApplyIntOpt">Aplicar óptimo entero</button>
+          </div>
+        </div>
+
+        <div class="grid-split">
+          <div class="card">
+            <h3>
+              <span>Retícula de puntos enteros factibles</span>
+              <div style="display:flex;gap:5px">
+                <button class="btn btn-sm btn-secondary" id="btnIntFull">Vista completa</button>
+                <button class="btn btn-sm btn-primary" id="btnIntZoom">Zoom al óptimo</button>
+              </div>
+            </h3>
+            <div class="svg-stage" style="padding:4px">
+              <svg id="intGraph" viewBox="0 0 540 380" role="img" aria-label="Retícula entera y vecinos de redondeo"></svg>
+            </div>
+            <div class="svg-legend" style="padding-top:8px">
+              <span><i class="dot" style="background:var(--c-poly)"></i>Puntos en ℤ² factibles</span>
+              <span><i class="dot" style="background:var(--c-opt)"></i>Óptimo continuo (◆)</span>
+              <span><i class="dot" style="background:var(--c-machine)"></i>Óptimo entero real (★)</span>
+              <span><i class="dot" style="background:var(--c-dec-bad)"></i>Redondeo infactible</span>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:12px">
+            <div class="card">
+              <h3><span>Comparación de soluciones</span></h3>
+              <div class="table-wrap" id="intCompareTable"></div>
+            </div>
+
+            <div class="grid3">
+              <div class="card flat" style="padding:12px">
+                <div class="kpi-label">Brecha absoluta</div>
+                <div class="kpi-val tnum" id="intGapAbs" style="font-size:20px;margin-top:4px">$0</div>
+              </div>
+              <div class="card flat" style="padding:12px">
+                <div class="kpi-label">Brecha relativa</div>
+                <div class="kpi-val tnum" id="intGapRel" style="font-size:20px;margin-top:4px">0%</div>
+              </div>
+              <div class="card flat" style="padding:12px">
+                <div class="kpi-label">Enteros factibles</div>
+                <div class="kpi-val tnum" id="intLatticeCount" style="font-size:20px;margin-top:4px">0</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3><span>Análisis de los 4 vecinos de redondeo</span></h3>
+              <div class="table-wrap" id="intRoundTable"></div>
+              <div class="note warn" id="intNarrative" style="margin-top:10px"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           ETAPA 6: BRANCH & BOUND INTERACTIVO EN SVG
+           ================================================================ -->
+      <section class="panel" id="tab-bnb">
+        <div class="panel-head">
+          <div>
+            <div class="step-tag">Etapa 6 · Ramificación y Acotación</div>
+            <h2>Árbol Branch &amp; Bound sincronizado con cortes geométricos</h2>
+            <p>Recorré la construcción del árbol paso a paso y hacé clic en cualquier nodo para inspeccionar cómo sus restricciones de ramificación recortan el poliedro original.</p>
+          </div>
+          <button class="btn btn-primary btn-sm hidden" id="btnBnbLoadFrac">Cargar caso fraccionario (99 h)</button>
+        </div>
+
+        <div class="playback-bar">
+          <div class="playback-btns">
+            <button class="btn btn-primary btn-sm" id="bnbRunAll">⚡ Ejecutar todo</button>
+            <button class="btn btn-secondary btn-sm" id="bnbPrev">◀ Paso anterior</button>
+            <button class="btn btn-secondary btn-sm" id="bnbNext">Paso siguiente ▶</button>
+            <button class="btn btn-opt btn-sm" id="bnbPlay">▶ Reproducir animación</button>
+          </div>
+          <span class="badge" id="bnbStepInfo">Nodo 1 / 1</span>
+        </div>
+
+        <div class="grid2" style="align-items:start">
+          <!-- Árbol Jerárquico SVG -->
+          <div class="card">
+            <h3><span>Árbol de búsqueda (clic en un nodo)</span><span class="mono" id="bnbIncumbentBadge" style="font-size:12px;color:var(--c-opt)">Incumbente: —</span></h3>
+            <div class="svg-stage" style="padding:4px">
+              <svg id="bnbTreeSvg" viewBox="0 0 540 390" role="img" aria-label="Árbol jerárquico interactivo de Branch and Bound"></svg>
+            </div>
+            <div class="svg-legend" style="padding-top:8px">
+              <span><i class="dot" style="background:var(--c-labor)"></i>Ramificado</span>
+              <span><i class="dot" style="background:var(--c-opt)"></i>Entero / Incumbente</span>
+              <span><i class="dot" style="background:var(--c-warn)"></i>Podado por cota</span>
+              <span><i class="dot" style="background:var(--c-dec-bad)"></i>Infactible</span>
+            </div>
+          </div>
+
+          <!-- Inspector Geométrico del Nodo Seleccionado -->
+          <div class="card">
+            <h3><span id="bnbInspTitle">Inspector del Nodo Raíz</span><span class="badge" id="bnbInspStatus">Raíz</span></h3>
+            <div class="svg-stage" style="padding:4px">
+              <svg id="bnbGeoSvg" viewBox="0 0 460 300" role="img" aria-label="Inspector geométrico de cortes del nodo seleccionado"></svg>
+            </div>
+            <div class="grid2" style="margin-top:11px;gap:9px">
+              <div class="card flat" style="padding:10px 12px">
+                <div class="kpi-label">Cota de relajación</div>
+                <div class="kpi-val tnum" id="bnbNodeBound" style="font-size:18px;margin-top:2px">—</div>
+                <div class="mono" id="bnbNodePoint" style="font-size:11px;color:var(--text-muted);margin-top:2px">—</div>
+              </div>
+              <div class="card flat" style="padding:10px 12px">
+                <div class="kpi-label">Incumbente en este paso</div>
+                <div class="kpi-val tnum" id="bnbNodeInc" style="font-size:18px;margin-top:2px;color:var(--c-opt)">—</div>
+                <div class="mono" id="bnbNodeCuts" style="font-size:11px;color:var(--text-muted);margin-top:2px">Sin cortes</div>
+              </div>
+            </div>
+            <div class="note" id="bnbNodeExplain" style="margin-top:11px">Seleccioná un nodo del árbol para analizar su subproblema y su comparación contra el incumbente.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== SIDEBAR STICKY DE PARÁMETROS ==================== -->
+    <aside class="sidebar" id="sidebarPanel" aria-label="Parámetros del escenario">
+      <div class="sidebar-card">
+        <h3><span>Parámetros del escenario</span><button class="btn btn-secondary btn-sm" id="btnResetSide" style="padding:4px 8px;font-size:11px">Base</button></h3>
+
+        <div class="control">
+          <div class="control-row">
+            <label class="control-label" for="capMSlider"><span class="dot" style="background:var(--c-machine)"></span> Máquina b₁ (h)</label>
+            <input class="num-input mini tnum" id="capMNum" type="number" min="20" max="180" step="1" value="100">
+          </div>
+          <input id="capMSlider" type="range" min="20" max="180" step="1" value="100" style="--slider-color:var(--c-machine)">
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <label class="control-label" for="capLSlider"><span class="dot" style="background:var(--c-labor)"></span> Mano de obra b₂ (h)</label>
+            <input class="num-input mini tnum" id="capLNum" type="number" min="20" max="180" step="1" value="80">
+          </div>
+          <input id="capLSlider" type="range" min="20" max="180" step="1" value="80" style="--slider-color:var(--c-labor)">
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <label class="control-label" for="pASlider"><span class="dot" style="background:var(--c-opt)"></span> Contribución pA ($)</label>
+            <input class="num-input mini tnum" id="pANum" type="number" min="5" max="120" step="1" value="40">
+          </div>
+          <input id="pASlider" type="range" min="5" max="120" step="1" value="40" style="--slider-color:var(--c-opt)">
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <label class="control-label" for="pBSlider"><span class="dot" style="background:var(--c-opt)"></span> Contribución pB ($)</label>
+            <input class="num-input mini tnum" id="pBNum" type="number" min="5" max="120" step="1" value="30">
+          </div>
+          <input id="pBSlider" type="range" min="5" max="120" step="1" value="30" style="--slider-color:var(--c-opt)">
+        </div>
+
+        <!-- Toggle Snap a enteros -->
+        <div class="switch-row" style="margin-top:12px">
+          <span>Ajustar decisión a enteros (Snap)</span>
+          <label class="switch">
+            <input type="checkbox" id="snapToggle" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <!-- Sección plegable: Coeficientes técnicos y 3.ª restricción -->
+        <details class="adv-box">
+          <summary>Coeficientes técnicos y 3.ª restricción</summary>
+          <div class="coef-grid">
+            <div class="coef-row">
+              <span><span class="dot" style="background:var(--c-machine)"></span> R1: a₁₁ (A) y a₁₂ (B)</span>
+              <span style="display:flex;gap:5px">
+                <input class="num-input mini tnum" id="a11Num" type="number" min="0.5" max="6" step="0.5" value="2" style="width:52px" title="a11">
+                <input class="num-input mini tnum" id="a12Num" type="number" min="0.5" max="6" step="0.5" value="1" style="width:52px" title="a12">
+              </span>
+            </div>
+            <div class="coef-row">
+              <span><span class="dot" style="background:var(--c-labor)"></span> R2: a₂₁ (A) y a₂₂ (B)</span>
+              <span style="display:flex;gap:5px">
+                <input class="num-input mini tnum" id="a21Num" type="number" min="0.5" max="6" step="0.5" value="1" style="width:52px" title="a21">
+                <input class="num-input mini tnum" id="a22Num" type="number" min="0.5" max="6" step="0.5" value="2" style="width:52px" title="a22">
+              </span>
+            </div>
+            <div class="switch-row" style="margin-top:4px;padding:7px 9px">
+              <span style="color:var(--c-extra);font-weight:750">Activar R3: A ≤ b₃</span>
+              <label class="switch">
+                <input type="checkbox" id="r3Toggle">
+                <span class="switch-track"></span>
+              </label>
+            </div>
+            <div class="control hidden" id="r3ControlWrap" style="margin-top:4px">
+              <div class="control-row">
+                <label class="control-label" for="capR3Slider"><span class="dot" style="background:var(--c-extra)"></span> Demanda máx. b₃</label>
+                <input class="num-input mini tnum" id="capR3Num" type="number" min="5" max="120" step="1" value="45">
+              </div>
+              <input id="capR3Slider" type="range" min="5" max="120" step="1" value="45" style="--slider-color:var(--c-extra)">
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Tarjeta de Solución Óptima Calculada -->
+      <div class="sidebar-card">
+        <h3><span>Solución óptima calculada</span><span class="badge ok" id="sideOptType">Único</span></h3>
+        <div class="opt-summary-row"><span>Producto A*</span><strong class="mono" id="sideOptA">40</strong></div>
+        <div class="opt-summary-row"><span>Producto B*</span><strong class="mono" id="sideOptB">20</strong></div>
+        <div class="opt-summary-row"><span>Beneficio Z*</span><strong class="mono" id="sideOptZ" style="color:var(--c-opt)">$2.200</strong></div>
+        <div class="pills-wrap" id="sideBindingPills"></div>
+        <button class="btn btn-opt" id="btnApplyOptimum" style="width:100%;margin-top:13px">Aplicar óptimo a mi decisión</button>
+      </div>
+
+      <div class="attribution-box">
+        <strong>Material elaborado por el profesor Sergio Gevatschnaider.</strong><br>
+        Laboratorio didáctico autocontenido de Programación Lineal (versión 2.0). Valores monetarios de carácter pedagógico.
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span>Laboratorio Interactivo de Programación Lineal — La Fábrica Inteligente · Funciona 100% sin conexión</span>
+  <span>Material elaborado por el profesor Sergio Gevatschnaider.</span>
 </footer>
-<script src="../../assets/js/course-data.js"></script>
-<script src="../../assets/js/site.js"></script>
-          <script src="../../assets/js/simulations.js"></script>
-<script src="../../assets/js/module.js"></script>
-        </body>
-        </html>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- =========================================================================
+     MOTOR MATEMÁTICO, SIMPLEX, SENSIBILIDAD, ENTERA, BRANCH & BOUND Y UI
+     ========================================================================= -->
+<script>
+(() => {
+  'use strict';
+
+  /* -----------------------------------------------------------------------
+     1. UTILIDADES Y FORMATEO (es-AR)
+     ----------------------------------------------------------------------- */
+  const $ = id => document.getElementById(id);
+  const EPS = 1e-7;
+  const FMT_NUM = new Intl.NumberFormat('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  const FMT_DEC3 = new Intl.NumberFormat('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
+
+  const num = v => {
+    if (!Number.isFinite(v)) return '∞';
+    const clean = Math.abs(v) < 1e-9 ? 0 : v;
+    return FMT_NUM.format(clean);
+  };
+  const money = v => {
+    if (!Number.isFinite(v)) return '∞';
+    const clean = Math.abs(v) < 1e-9 ? 0 : v;
+    const sign = clean < 0 ? '-' : '';
+    return sign + '$' + FMT_NUM.format(Math.abs(clean));
+  };
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const round2 = v => Math.round(v * 100) / 100;
+
+  function cssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const el = $('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+  }
+
+  /* -----------------------------------------------------------------------
+     2. ESTADO CENTRAL Y PRESETS PEDAGÓGICOS
+     ----------------------------------------------------------------------- */
+  const PRESETS = {
+    base:       { label: 'Escenario base',        pA: 40, pB: 30, b1: 100, b2: 80, a11: 2, a12: 1, a21: 1, a22: 2, r3On: false, b3: 45, a: 30, b: 20 },
+    multiple:   { label: 'Óptimos múltiples',     pA: 60, pB: 30, b1: 100, b2: 80, a11: 2, a12: 1, a21: 1, a22: 2, r3On: false, b3: 45, a: 30, b: 20 },
+    redundant:  { label: 'Restricción redundante',pA: 40, pB: 30, b1: 150, b2: 80, a11: 2, a12: 1, a21: 1, a22: 2, r3On: false, b3: 45, a: 30, b: 20 },
+    fractional: { label: 'Caso fraccionario',     pA: 40, pB: 30, b1: 99,  b2: 80, a11: 2, a12: 1, a21: 1, a22: 2, r3On: false, b3: 45, a: 30, b: 20 },
+    corner:     { label: 'Especialización total', pA: 85, pB: 20, b1: 100, b2: 80, a11: 2, a12: 1, a21: 1, a22: 2, r3On: false, b3: 45, a: 30, b: 20 }
+  };
+
+  const state = {
+    ...PRESETS.base,
+    snap: true,
+    activeTab: 'model',
+    activePreset: 'base',
+    highlightConstraint: null, // 'r1' | 'r2' | 'r3' | 'obj' | null
+    // Etapa 2: Isobeneficio
+    isoZ: 2200,
+    isoPinnedToOpt: true,
+    isoAnimId: null,
+    // Etapa 3: Simplex
+    sxSteps: [],
+    sxIndex: 0,
+    sxTimer: null,
+    // Etapa 4: Paramétrico
+    paramResIdx: 0,
+    // Etapa 5: Entera
+    intZoom: true,
+    // Etapa 6: Branch & Bound
+    bnbNodes: [],
+    bnbVisibleCount: 1,
+    bnbSelectedId: 1,
+    bnbTimer: null
+  };
+
+  /* -----------------------------------------------------------------------
+     3. MOTOR GEOMÉTRICO LP (2 VARIABLES + N RESTRICCIONES LINEALES)
+     ----------------------------------------------------------------------- */
+  function getActiveConstraints(override = {}) {
+    const s = { ...state, ...override };
+    const list = [
+      { id: 'r1', name: 'Máquina (R1)', short: 'Máquina', slack: 'S₁', a: s.a11, b: s.a12, c: s.b1, colorVar: '--c-machine' },
+      { id: 'r2', name: 'Mano de obra (R2)', short: 'M. de obra', slack: 'S₂', a: s.a21, b: s.a22, c: s.b2, colorVar: '--c-labor' }
+    ];
+    if (s.r3On) {
+      list.push({ id: 'r3', name: 'Demanda máx. A (R3)', short: 'Demanda A', slack: 'S₃', a: 1, b: 0, c: s.b3, colorVar: '--c-extra' });
+    }
+    return list;
+  }
+
+  function solveLP(override = {}, extraCuts = []) {
+    const s = { ...state, ...override };
+    const baseCs = getActiveConstraints(s);
+    const allCs = [
+      ...baseCs.map(c => ({ a: c.a, b: c.b, c: c.c, id: c.id })),
+      { a: -1, b: 0, c: 0, id: 'nonnegA' },
+      { a: 0, b: -1, c: 0, id: 'nonnegB' },
+      ...extraCuts
+    ];
+
+    const pts = [];
+    for (let i = 0; i < allCs.length; i++) {
+      for (let j = i + 1; j < allCs.length; j++) {
+        const u = allCs[i], v = allCs[j];
+        const det = u.a * v.b - v.a * u.b;
+        if (Math.abs(det) < 1e-9) continue;
+        const x = (u.c * v.b - v.c * u.b) / det;
+        const y = (u.a * v.c - v.a * u.c) / det;
+        if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+        if (allCs.every(con => con.a * x + con.b * y <= con.c + 1e-6)) {
+          const cx = Math.abs(x) < 1e-8 ? 0 : x;
+          const cy = Math.abs(y) < 1e-8 ? 0 : y;
+          if (!pts.some(p => Math.abs(p.x - cx) < 1e-5 && Math.abs(p.y - cy) < 1e-5)) {
+            pts.push({ x: cx, y: cy, z: s.pA * cx + s.pB * cy });
+          }
+        }
+      }
+    }
+    if (!pts.length) return null;
+
+    // Ordenar vértices en sentido antihorario alrededor del centroide para dibujar polígono
+    const cx = pts.reduce((acc, p) => acc + p.x, 0) / pts.length;
+    const cy = pts.reduce((acc, p) => acc + p.y, 0) / pts.length;
+    const polygon = pts.slice().sort((p, q) => Math.atan2(p.y - cy, p.x - cx) - Math.atan2(q.y - cy, q.x - cx));
+
+    let maxZ = -Infinity;
+    pts.forEach(p => { if (p.z > maxZ) maxZ = p.z; });
+    const optimalVertices = pts.filter(p => Math.abs(p.z - maxZ) < 1e-5);
+    // Ordenar vértices óptimos de forma determinística
+    optimalVertices.sort((p, q) => q.x - p.x || q.y - p.y);
+
+    return {
+      best: optimalVertices[0],
+      optimalVertices,
+      hasMultipleOptima: optimalVertices.length >= 2,
+      vertices: polygon,
+      constraints: baseCs
+    };
+  }
+
+  /* -----------------------------------------------------------------------
+     4. MOTOR SIMPLEX PRIMAL VERDADERO (TABLA POR TABLA)
+     ----------------------------------------------------------------------- */
+  function runSimplexPrimal(override = {}) {
+    const s = { ...state, ...override };
+    const cs = getActiveConstraints(s);
+    const m = cs.length;
+    const nVars = 2 + m; // A, B, S1, S2 [, S3]
+    const varNames = ['A', 'B', ...cs.map(c => c.slack)];
+    const C = [s.pA, s.pB, ...cs.map(() => 0)];
+
+    // Construir matriz inicial [A | I | b]
+    let T = cs.map((con, i) => {
+      const row = new Array(nVars + 1).fill(0);
+      row[0] = con.a;
+      row[1] = con.b;
+      row[2 + i] = 1;
+      row[nVars] = con.c;
+      return row;
+    });
+    let basis = cs.map((_, i) => 2 + i);
+
+    const steps = [];
+    const MAX_ITERS = 16;
+
+    for (let iter = 0; iter < MAX_ITERS; iter++) {
+      // Calcular Zj y Cj - Zj
+      const Zj = new Array(nVars + 1).fill(0);
+      for (let j = 0; j <= nVars; j++) {
+        let sum = 0;
+        for (let i = 0; i < m; i++) sum += C[basis[i]] * T[i][j];
+        Zj[j] = sum;
+      }
+      const CjMinusZj = [];
+      for (let j = 0; j < nVars; j++) {
+        const diff = C[j] - Zj[j];
+        CjMinusZj.push(Math.abs(diff) < 1e-9 ? 0 : diff);
+      }
+
+      // Valores de A y B en esta iteración
+      const vals = new Array(nVars).fill(0);
+      for (let i = 0; i < m; i++) vals[basis[i]] = Math.max(0, T[i][nVars]);
+      const curA = vals[0], curB = vals[1], curZ = Zj[nVars];
+
+      // Regla de Dantzig con desempate por menor índice (Bland)
+      let pivotCol = -1;
+      let bestGain = 1e-7;
+      for (let j = 0; j < nVars; j++) {
+        if (CjMinusZj[j] > bestGain + 1e-9) {
+          bestGain = CjMinusZj[j];
+          pivotCol = j;
+        }
+      }
+
+      // Si no hay coeficiente positivo -> óptimo alcanzado
+      if (pivotCol === -1) {
+        // Verificar si hay múltiples óptimos (variable no básica con Cj - Zj = 0 y pivote válido)
+        const altVars = [];
+        for (let j = 0; j < nVars; j++) {
+          if (!basis.includes(j) && Math.abs(CjMinusZj[j]) < 1e-6) {
+            if (T.some(r => r[j] > 1e-7)) altVars.push(varNames[j]);
+          }
+        }
+        steps.push({
+          iter,
+          varNames,
+          C: C.slice(),
+          basis: basis.slice(),
+          T: T.map(r => r.slice()),
+          Zj,
+          CjMinusZj,
+          pivotCol: -1,
+          pivotRow: -1,
+          pivotVal: null,
+          ratios: new Array(m).fill(null),
+          vertex: { x: curA, y: curB, z: curZ },
+          isOptimal: true,
+          altVars,
+          narrative: altVars.length
+            ? `<strong>Óptimo alcanzado (con óptimos múltiples):</strong> Ningún coeficiente Cj − Zj es positivo, por lo que Z* = ${money(curZ)} es el máximo. Sin embargo, la variable no básica <strong>${altVars.join(', ')}</strong> tiene Cj − Zj = 0: ingresarla genera otro vértice óptimo sobre la misma arista.`
+            : `<strong>Óptimo alcanzado:</strong> Todos los coeficientes de mejora Cj − Zj son ≤ 0. No existe ninguna variable que pueda incrementar Z. La solución óptima es <strong>A = ${num(curA)}, B = ${num(curB)}</strong> con <strong>Z* = ${money(curZ)}</strong>.`
+        });
+        break;
+      }
+
+      // Prueba de la razón mínima (con desempate por menor índice básico)
+      const ratios = new Array(m).fill(null);
+      let pivotRow = -1;
+      let minRatio = Infinity;
+      for (let i = 0; i < m; i++) {
+        const a_ik = T[i][pivotCol];
+        if (a_ik > 1e-8) {
+          const r = T[i][nVars] / a_ik;
+          ratios[i] = r;
+          if (r < minRatio - 1e-9 || (Math.abs(r - minRatio) <= 1e-9 && (pivotRow === -1 || basis[i] < basis[pivotRow]))) {
+            minRatio = r;
+            pivotRow = i;
+          }
+        }
+      }
+
+      if (pivotRow === -1) {
+        steps.push({
+          iter, varNames, C: C.slice(), basis: basis.slice(), T: T.map(r => r.slice()),
+          Zj, CjMinusZj, pivotCol, pivotRow: -1, pivotVal: null, ratios,
+          vertex: { x: curA, y: curB, z: curZ }, isOptimal: true, altVars: [],
+          narrative: '<strong>Problema no acotado:</strong> La variable entrante no posee coeficientes positivos en la columna pivote.'
+        });
+        break;
+      }
+
+      const entering = varNames[pivotCol];
+      const leaving = varNames[basis[pivotRow]];
+      const pivotVal = T[pivotRow][pivotCol];
+
+      steps.push({
+        iter,
+        varNames,
+        C: C.slice(),
+        basis: basis.slice(),
+        T: T.map(r => r.slice()),
+        Zj,
+        CjMinusZj,
+        pivotCol,
+        pivotRow,
+        pivotVal,
+        ratios,
+        vertex: { x: curA, y: curB, z: curZ },
+        isOptimal: false,
+        altVars: [],
+        narrative: `<strong>Iteración ${iter}:</strong> En (${num(curA)}, ${num(curB)}) con Z = ${money(curZ)}, entra <strong>${entering}</strong> por tener el mayor beneficio marginal neto (Cj − Zj = +${num(CjMinusZj[pivotCol])}). Por la razón mínima θ* = ${num(minRatio)}, sale <strong>${leaving}</strong> (elemento pivote = ${num(pivotVal)}).`
+      });
+
+      // Operación de pivoteo Gauss-Jordan
+      const nextT = T.map(r => r.slice());
+      for (let j = 0; j <= nVars; j++) nextT[pivotRow][j] /= pivotVal;
+      for (let i = 0; i < m; i++) {
+        if (i === pivotRow) continue;
+        const factor = nextT[i][pivotCol];
+        if (Math.abs(factor) < 1e-12) continue;
+        for (let j = 0; j <= nVars; j++) {
+          nextT[i][j] -= factor * nextT[pivotRow][j];
+          if (Math.abs(nextT[i][j]) < 1e-12) nextT[i][j] = 0;
+        }
+      }
+      T = nextT;
+      basis[pivotRow] = pivotCol;
+    }
+
+    return steps;
+  }
+
+  /* -----------------------------------------------------------------------
+     5. ANÁLISIS DE SENSIBILIDAD EXACTO (DESDE B⁻¹ DEL TABLEAU ÓPTIMO)
+     ----------------------------------------------------------------------- */
+  function computeExactSensitivity(sxSteps) {
+    const last = sxSteps[sxSteps.length - 1];
+    const cs = getActiveConstraints();
+    const m = cs.length;
+    const nVars = 2 + m;
+
+    // Precios sombra exactos: Zj en las columnas de holgura (indices 2..2+m-1)
+    const rhsRows = cs.map((con, i) => {
+      const colIdx = 2 + i;
+      const shadowPrice = Math.max(0, last.Zj[colIdx]);
+      // Rango de factibilidad exacto: b_bar + delta * u_i >= 0
+      let dMin = -Infinity;
+      let dMax = Infinity;
+      for (let r = 0; r < m; r++) {
+        const bBar = last.T[r][nVars];
+        const u = last.T[r][colIdx];
+        if (u > 1e-8) {
+          dMin = Math.max(dMin, -bBar / u);
+        } else if (u < -1e-8) {
+          dMax = Math.min(dMax, -bBar / u);
+        }
+      }
+      const bMin = Math.max(0, con.c + dMin);
+      const bMax = Number.isFinite(dMax) ? con.c + dMax : Infinity;
+      const slackVal = last.basis.includes(colIdx) ? Math.max(0, last.T[last.basis.indexOf(colIdx)][nVars]) : 0;
+      return {
+        idx: i,
+        id: con.id,
+        name: con.name,
+        short: con.short,
+        slackName: con.slack,
+        colorVar: con.colorVar,
+        currentB: con.c,
+        shadowPrice,
+        bMin,
+        bMax,
+        slackVal
+      };
+    });
+
+    // Rangos de optimalidad exactos para pA (idx 0) y pB (idx 1)
+    const objRows = [0, 1].map(varIdx => {
+      const name = varIdx === 0 ? 'Producto A' : 'Producto B';
+      const currentP = varIdx === 0 ? state.pA : state.pB;
+      const basicRow = last.basis.indexOf(varIdx);
+      let dMin = -Infinity;
+      let dMax = Infinity;
+      if (basicRow === -1) {
+        // Variable no básica: C_k - Z_k + delta <= 0 => delta <= -(C_k - Z_k)
+        dMax = -last.CjMinusZj[varIdx];
+      } else {
+        // Variable básica en fila basicRow: para toda j no básica, (C_j - Z_j) - delta * T[r][j] <= 0
+        for (let j = 0; j < nVars; j++) {
+          if (last.basis.includes(j)) continue;
+          const a_rj = last.T[basicRow][j];
+          const rc = last.CjMinusZj[j]; // <= 0
+          if (a_rj > 1e-8) {
+            dMin = Math.max(dMin, rc / a_rj);
+          } else if (a_rj < -1e-8) {
+            dMax = Math.min(dMax, rc / a_rj);
+          }
+        }
+      }
+      const pMin = Math.max(0, currentP + dMin);
+      const pMax = Number.isFinite(dMax) ? currentP + dMax : Infinity;
+      const optVal = basicRow === -1 ? 0 : Math.max(0, last.T[basicRow][nVars]);
+      const reducedCost = Math.abs(last.CjMinusZj[varIdx]); // Zj - Cj >= 0
+      return { varIdx, name, currentP, pMin, pMax, optVal, reducedCost };
+    });
+
+    const dualW = rhsRows.reduce((acc, r) => acc + r.currentB * r.shadowPrice, 0);
+    return { rhsRows, objRows, primalZ: last.vertex.z, dualW };
+  }
+
+  /**
+   * Calcula la curva paramétrica cóncava lineal a trozos Z*(b_i) con puntos de quiebre exactos.
+   */
+  function computeParametricCurve(resIdx) {
+    const cs = getActiveConstraints();
+    const target = cs[resIdx] || cs[0];
+    const maxB = Math.max(200, Math.ceil(target.c * 1.55 / 10) * 10);
+
+    // Recolectar candidatos de quiebre (b=0, capacidad actual, maxB y puntos donde cambian bases)
+    const keys = [0, target.c, maxB];
+    const step = maxB / 160;
+    const evalAt = val => {
+      const ov = resIdx === 0 ? { b1: val } : resIdx === 1 ? { b2: val } : { b3: val };
+      const lp = solveLP(ov);
+      return lp ? lp.best.z : 0;
+    };
+
+    // Muestreo fino + refinamiento de quiebres donde cambia la pendiente
+    const raw = [];
+    for (let k = 0; k <= 160; k++) {
+      const x = Math.min(maxB, k * step);
+      raw.push({ b: x, z: evalAt(x) });
+    }
+    // Insertar puntos exactos donde una restricción cruza otra al variar b_i
+    // Con búsqueda binaria en cada intervalo donde la pendiente cambia
+    const breakpoints = [{ b: 0, z: evalAt(0) }];
+    for (let k = 1; k < raw.length - 1; k++) {
+      const s1 = (raw[k].z - raw[k - 1].z) / (raw[k].b - raw[k - 1].b);
+      const s2 = (raw[k + 1].z - raw[k].z) / (raw[k + 1].b - raw[k].b);
+      if (Math.abs(s1 - s2) > 1e-4) {
+        // Refinar el punto de quiebre en [raw[k-1].b, raw[k+1].b]
+        let lo = raw[k - 1].b, hi = raw[k + 1].b;
+        const slopeLeft = s1, slopeRight = s2;
+        const zLo = raw[k - 1].z, zHi = raw[k + 1].z;
+        // Intersección analítica de las dos rectas tangentes
+        const bStar = (zHi - zLo + slopeLeft * lo - slopeRight * hi) / (slopeLeft - slopeRight);
+        if (bStar > lo - 1e-4 && bStar < hi + 1e-4) {
+          const bClamped = clamp(bStar, 0, maxB);
+          const zStar = evalAt(bClamped);
+          if (!breakpoints.some(p => Math.abs(p.b - bClamped) < 0.15)) {
+            breakpoints.push({ b: bClamped, z: zStar });
+          }
+        }
+      }
+    }
+    breakpoints.push({ b: maxB, z: evalAt(maxB) });
+    breakpoints.sort((p, q) => p.b - q.b);
+
+    // Limpiar puntos colineales redundantes
+    const clean = [breakpoints[0]];
+    for (let i = 1; i < breakpoints.length - 1; i++) {
+      const prev = clean[clean.length - 1];
+      const cur = breakpoints[i];
+      const next = breakpoints[i + 1];
+      const s1 = (cur.z - prev.z) / Math.max(1e-9, cur.b - prev.b);
+      const s2 = (next.z - cur.z) / Math.max(1e-9, next.b - cur.b);
+      if (Math.abs(s1 - s2) > 1e-3) clean.push(cur);
+    }
+    clean.push(breakpoints[breakpoints.length - 1]);
+
+    return {
+      target,
+      maxB,
+      currentB: target.c,
+      currentZ: evalAt(target.c),
+      points: clean
+    };
+  }
+
+  /* -----------------------------------------------------------------------
+     6. MOTOR DE PROGRAMACIÓN ENTERA (CORREGIDO Y EXACTO)
+     ----------------------------------------------------------------------- */
+  function findIntegerOptimum(override = {}, extraCuts = []) {
+    const s = { ...state, ...override };
+    const cs = [
+      ...getActiveConstraints(s).map(c => ({ a: c.a, b: c.b, c: c.c })),
+      ...extraCuts
+    ];
+    const lp = solveLP(s, extraCuts);
+    if (!lp) return { best: null, points: [] };
+
+    const maxX = Math.ceil(Math.max(...lp.vertices.map(v => v.x))) + 1;
+    const maxY = Math.ceil(Math.max(...lp.vertices.map(v => v.y))) + 1;
+    const points = [];
+    let best = null;
+
+    for (let x = 0; x <= maxX; x++) {
+      for (let y = 0; y <= maxY; y++) {
+        if (cs.every(con => con.a * x + con.b * y <= con.c + 1e-7)) {
+          const z = s.pA * x + s.pB * y;
+          const pt = { x, y, z };
+          points.push(pt);
+          if (!best || z > best.z + 1e-7) best = pt;
+        }
+      }
+    }
+    return { best, points };
+  }
+
+  function evaluateRoundingNeighbors(optPt) {
+    const cs = getActiveConstraints();
+    const xs = [...new Set([Math.floor(optPt.x + 1e-7), Math.ceil(optPt.x - 1e-7)])].filter(v => v >= 0);
+    const ys = [...new Set([Math.floor(optPt.y + 1e-7), Math.ceil(optPt.y - 1e-7)])].filter(v => v >= 0);
+    const list = [];
+    xs.forEach(x => {
+      ys.forEach(y => {
+        const violated = cs.filter(con => con.a * x + con.b * y > con.c + 1e-7).map(c => c.short);
+        list.push({
+          x, y,
+          z: state.pA * x + state.pB * y,
+          feasible: violated.length === 0,
+          violated
+        });
+      });
+    });
+    list.sort((p, q) => Number(q.feasible) - Number(p.feasible) || q.z - p.z);
+    return list;
+  }
+
+  /* -----------------------------------------------------------------------
+     7. MOTOR BRANCH & BOUND (ÁRBOL CON CORTES GEOMÉTRICOS POR NODO)
+     ----------------------------------------------------------------------- */
+  function buildBranchAndBoundTree() {
+    const MAX_NODES = 35;
+    const nodes = [];
+    let incumbent = null;
+    let idCounter = 0;
+
+    function explore(parentId, depth, cutLabel, extraCuts) {
+      if (nodes.length >= MAX_NODES) return;
+      const id = ++idCounter;
+      const lp = solveLP({}, extraCuts);
+
+      if (!lp) {
+        nodes.push({
+          id, parentId, depth,
+          label: id === 1 ? 'N1 · Raíz' : `N${id}`,
+          cutLabel,
+          extraCuts: extraCuts.slice(),
+          lp: null,
+          status: 'infeasible',
+          incumbentAtStep: incumbent ? { ...incumbent } : null,
+          explanation: `Subproblema infactible tras aplicar ${cutLabel}. Las restricciones actuales no comparten ningún punto en el plano A–B.`
+        });
+        return;
+      }
+
+      const p = lp.best;
+      const isIntX = Math.abs(p.x - Math.round(p.x)) < 1e-6;
+      const isIntY = Math.abs(p.y - Math.round(p.y)) < 1e-6;
+
+      // Poda por cota antes de ramificar
+      if (incumbent && p.z <= incumbent.z + 1e-6) {
+        nodes.push({
+          id, parentId, depth,
+          label: id === 1 ? 'N1 · Raíz' : `N${id}`,
+          cutLabel,
+          extraCuts: extraCuts.slice(),
+          lp,
+          status: 'pruned',
+          incumbentAtStep: { ...incumbent },
+          explanation: `Podado por cota: su relajación lineal alcanza Z = ${money(p.z)}, que no supera al mejor entero conocido (${money(incumbent.z)}). Ningún descendiente entero puede mejorarlo.`
+        });
+        return;
+      }
+
+      // Solución entera encontrada
+      if (isIntX && isIntY) {
+        const ix = Math.round(p.x), iy = Math.round(p.y);
+        const improved = !incumbent || p.z > incumbent.z + 1e-6;
+        if (improved) incumbent = { x: ix, y: iy, z: p.z, nodeId: id };
+        nodes.push({
+          id, parentId, depth,
+          label: id === 1 ? 'N1 · Raíz' : `N${id}`,
+          cutLabel,
+          extraCuts: extraCuts.slice(),
+          lp,
+          status: 'integer',
+          improved,
+          incumbentAtStep: { ...incumbent },
+          explanation: improved
+            ? `¡Nueva mejor solución entera (Incumbente)! En (${ix}, ${iy}) se obtiene Z = ${money(p.z)}. No hace falta seguir ramificando esta rama.`
+            : `Solución entera (${ix}, ${iy}) con Z = ${money(p.z)}, no mejora el incumbente actual.`
+        });
+        return;
+      }
+
+      // Nodo fraccionario -> se ramifica
+      const fracX = !isIntX ? Math.abs(p.x - Math.round(p.x)) : -1;
+      const fracY = !isIntY ? Math.abs(p.y - Math.round(p.y)) : -1;
+      const branchOnX = !isIntX && (isIntY || fracX >= fracY - 1e-6);
+      const val = branchOnX ? p.x : p.y;
+      const varName = branchOnX ? 'A' : 'B';
+      const lo = Math.floor(val + 1e-7);
+      const hi = Math.ceil(val - 1e-7);
+
+      nodes.push({
+        id, parentId, depth,
+        label: id === 1 ? 'N1 · Raíz' : `N${id}`,
+        cutLabel,
+        extraCuts: extraCuts.slice(),
+        lp,
+        status: 'branch',
+        branchInfo: `${varName} ≤ ${lo} | ${varName} ≥ ${hi}`,
+        incumbentAtStep: incumbent ? { ...incumbent } : null,
+        explanation: `Relajación fraccionaria en A = ${num(p.x)}, B = ${num(p.y)} (cota Z = ${money(p.z)}). Se ramifica sobre ${varName} creando las subramas ${varName} ≤ ${lo} y ${varName} ≥ ${hi}.`
+      });
+
+      const leftCut  = { a: branchOnX ? 1 : 0,  b: branchOnX ? 0 : 1,  c: lo,  label: `${varName} ≤ ${lo}`, varName, dir: '<=', val: lo };
+      const rightCut = { a: branchOnX ? -1 : 0, b: branchOnX ? 0 : -1, c: -hi, label: `${varName} ≥ ${hi}`, varName, dir: '>=', val: hi };
+
+      explore(id, depth + 1, leftCut.label,  [...extraCuts, leftCut]);
+      explore(id, depth + 1, rightCut.label, [...extraCuts, rightCut]);
+    }
+
+    explore(null, 0, 'Relajación inicial', []);
+    return { nodes, incumbent };
+  }
+
+  /* -----------------------------------------------------------------------
+     8. HELPER SVG Y ESCALAS LIMPIAS
+     ----------------------------------------------------------------------- */
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs = {}, text = null) {
+    const node = document.createElementNS(SVG_NS, tag);
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
+    if (text !== null) node.textContent = text;
+    return node;
+  }
+
+  function computePlotBounds(lp, includeDecision = true) {
+    const cs = getActiveConstraints();
+    let maxX = 12, maxY = 12;
+    cs.forEach(c => {
+      if (c.a > EPS) maxX = Math.max(maxX, c.c / c.a);
+      if (c.b > EPS) maxY = Math.max(maxY, c.c / c.b);
+    });
+    if (lp) {
+      lp.vertices.forEach(v => { maxX = Math.max(maxX, v.x); maxY = Math.max(maxY, v.y); });
+    }
+    if (includeDecision) {
+      maxX = Math.max(maxX, state.a);
+      maxY = Math.max(maxY, state.b);
+    }
+    const nice = m => {
+      const raw = m * 1.14;
+      const step = raw <= 25 ? 5 : raw <= 60 ? 10 : raw <= 140 ? 20 : 25;
+      return Math.ceil(raw / step) * step;
+    };
+    return { maxX: nice(maxX), maxY: nice(maxY) };
+  }
+
+  function clipLineToBox(a, b, c, maxX, maxY) {
+    // Encuentra dos puntos de la recta a*x + b*y = c dentro del rectángulo [0, maxX] x [0, maxY]
+    const pts = [];
+    if (Math.abs(b) > EPS) {
+      const y0 = c / b;
+      if (y0 >= -1e-6 && y0 <= maxY + 1e-6) pts.push({ x: 0, y: clamp(y0, 0, maxY) });
+      const y1 = (c - a * maxX) / b;
+      if (y1 >= -1e-6 && y1 <= maxY + 1e-6) pts.push({ x: maxX, y: clamp(y1, 0, maxY) });
+    }
+    if (Math.abs(a) > EPS) {
+      const x0 = c / a;
+      if (x0 >= -1e-6 && x0 <= maxX + 1e-6) pts.push({ x: clamp(x0, 0, maxX), y: 0 });
+      const x1 = (c - b * maxY) / a;
+      if (x1 >= -1e-6 && x1 <= maxX + 1e-6) pts.push({ x: clamp(x1, 0, maxX), y: maxY });
+    }
+    const uniq = [];
+    pts.forEach(p => {
+      if (!uniq.some(u => Math.hypot(u.x - p.x, u.y - p.y) < 1e-4)) uniq.push(p);
+    });
+    return uniq.length >= 2 ? [uniq[0], uniq[1]] : null;
+  }
+
+  function setupClipAndGrid(svg, W, H, M, maxX, maxY, clipId, ticks = 5) {
+    const pw = W - M.l - M.r;
+    const ph = H - M.t - M.b;
+    const sx = x => M.l + (x / maxX) * pw;
+    const sy = y => M.t + ph - (y / maxY) * ph;
+    const ix = px => ((px - M.l) / pw) * maxX;
+    const iy = py => ((M.t + ph - py) / ph) * maxY;
+
+    const defs = el('defs');
+    const cp = el('clipPath', { id: clipId });
+    cp.appendChild(el('rect', { x: M.l, y: M.t, width: pw, height: ph }));
+    defs.appendChild(cp);
+
+    // Patrón rayado rojo para regiones cortadas (usado en Branch & Bound)
+    const pat = el('pattern', { id: clipId + '_hatch', width: 8, height: 8, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' });
+    pat.appendChild(el('line', { x1: 0, y1: 0, x2: 0, y2: 8, stroke: cssVar('--c-dec-bad'), 'stroke-width': 2.2, 'stroke-opacity': 0.36 }));
+    defs.appendChild(pat);
+
+    // Marcador de flecha para gradiente y Simplex
+    const mk = (id, color) => {
+      const m = el('marker', { id, viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' });
+      m.appendChild(el('path', { d: 'M 0 1.5 L 10 5 L 0 8.5 z', fill: color }));
+      return m;
+    };
+    defs.appendChild(mk(clipId + '_arrOpt', cssVar('--c-opt')));
+    defs.appendChild(mk(clipId + '_arrSx', cssVar('--c-machine')));
+    svg.appendChild(defs);
+
+    // Fondo y cuadrícula
+    svg.appendChild(el('rect', { x: M.l, y: M.t, width: pw, height: ph, fill: cssVar('--bg-plot'), rx: 4 }));
+    for (let i = 0; i <= ticks; i++) {
+      const xv = (maxX * i) / ticks;
+      const yv = (maxY * i) / ticks;
+      const gx = sx(xv), gy = sy(yv);
+      svg.appendChild(el('line', { x1: gx, y1: M.t, x2: gx, y2: M.t + ph, stroke: cssVar('--bg-grid'), 'stroke-width': 1 }));
+      svg.appendChild(el('line', { x1: M.l, y1: gy, x2: M.l + pw, y2: gy, stroke: cssVar('--bg-grid'), 'stroke-width': 1 }));
+      svg.appendChild(el('text', { x: gx, y: M.t + ph + 16, 'text-anchor': 'middle', 'font-size': 10.5, fill: cssVar('--text-muted'), class: 'mono' }, num(xv)));
+      svg.appendChild(el('text', { x: M.l - 9, y: gy + 3.5, 'text-anchor': 'end', 'font-size': 10.5, fill: cssVar('--text-muted'), class: 'mono' }, num(yv)));
+    }
+
+    // Ejes
+    svg.appendChild(el('line', { x1: M.l, y1: M.t + ph, x2: M.l + pw, y2: M.t + ph, stroke: cssVar('--border-strong'), 'stroke-width': 1.5 }));
+    svg.appendChild(el('line', { x1: M.l, y1: M.t, x2: M.l, y2: M.t + ph, stroke: cssVar('--border-strong'), 'stroke-width': 1.5 }));
+
+    const plotGroup = el('g', { 'clip-path': `url(#${clipId})` });
+    svg.appendChild(plotGroup);
+
+    return { sx, sy, ix, iy, pw, ph, plotGroup };
+  }
+
+  /* -----------------------------------------------------------------------
+     9. RENDERIZADO DE ETAPA 1 (MINI-SVG) Y ETAPA 2 (PLANO INTERACTIVO)
+     ----------------------------------------------------------------------- */
+  function isDecisionFeasible() {
+    const cs = getActiveConstraints();
+    return cs.every(c => c.a * state.a + c.b * state.b <= c.c + 1e-6);
+  }
+
+  function drawMiniGraph(lp) {
+    const svg = $('miniGraph');
+    svg.innerHTML = '';
+    if (!lp) return;
+    const W = 420, H = 240, M = { l: 42, r: 16, t: 14, b: 32 };
+    const { maxX, maxY } = computePlotBounds(lp, true);
+    const { sx, sy, plotGroup } = setupClipAndGrid(svg, W, H, M, maxX, maxY, 'miniClip', 4);
+
+    // Polígono factible
+    const polyPts = lp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' ');
+    plotGroup.appendChild(el('polygon', {
+      points: polyPts,
+      fill: cssVar('--c-poly'), 'fill-opacity': 0.16,
+      stroke: cssVar('--c-poly'), 'stroke-width': 1.8
+    }));
+
+    // Restricciones (con resaltado al pasar el cursor sobre la ecuación)
+    lp.constraints.forEach(c => {
+      const seg = clipLineToBox(c.a, c.b, c.c, maxX, maxY);
+      if (!seg) return;
+      const hl = state.highlightConstraint === c.id;
+      plotGroup.appendChild(el('line', {
+        x1: sx(seg[0].x), y1: sy(seg[0].y),
+        x2: sx(seg[1].x), y2: sy(seg[1].y),
+        stroke: cssVar(c.colorVar),
+        'stroke-width': hl ? 4 : 2,
+        'stroke-opacity': state.highlightConstraint && !hl ? 0.35 : 0.95
+      }));
+    });
+
+    // Isobeneficio en el óptimo
+    const optSeg = clipLineToBox(state.pA, state.pB, lp.best.z, maxX, maxY);
+    if (optSeg) {
+      const hlObj = state.highlightConstraint === 'obj';
+      plotGroup.appendChild(el('line', {
+        x1: sx(optSeg[0].x), y1: sy(optSeg[0].y),
+        x2: sx(optSeg[1].x), y2: sy(optSeg[1].y),
+        stroke: cssVar('--c-opt'),
+        'stroke-width': hlObj ? 3.5 : 1.7,
+        'stroke-dasharray': '6 4'
+      }));
+    }
+
+    // Arista de óptimos múltiples
+    if (lp.hasMultipleOptima) {
+      const a = lp.optimalVertices[0], b = lp.optimalVertices[lp.optimalVertices.length - 1];
+      plotGroup.appendChild(el('line', {
+        x1: sx(a.x), y1: sy(a.y), x2: sx(b.x), y2: sy(b.y),
+        stroke: cssVar('--c-opt'), 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-opacity': 0.85
+      }));
+    }
+
+    // Punto óptimo
+    svg.appendChild(el('circle', {
+      cx: sx(lp.best.x), cy: sy(lp.best.y), r: 5.5,
+      fill: cssVar('--c-opt'), stroke: cssVar('--bg-surface'), 'stroke-width': 2
+    }));
+
+    // Punto decisión del usuario
+    const feas = isDecisionFeasible();
+    const decColor = feas ? cssVar('--c-dec-ok') : cssVar('--c-dec-bad');
+    if (!feas) {
+      svg.appendChild(el('circle', { cx: sx(state.a), cy: sy(state.b), r: 10, fill: 'none', stroke: decColor, 'stroke-width': 2, class: 'pulse-halo' }));
+    }
+    svg.appendChild(el('circle', {
+      cx: sx(state.a), cy: sy(state.b), r: 5.5,
+      fill: decColor, stroke: cssVar('--bg-surface'), 'stroke-width': 2
+    }));
+
+    svg.appendChild(el('text', { x: M.l + (W - M.l - M.r) / 2, y: H - 5, 'text-anchor': 'middle', 'font-size': 10.5, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'A (unidades)'));
+    svg.appendChild(el('text', { x: 13, y: M.t + (H - M.t - M.b) / 2, transform: `rotate(-90 13 ${M.t + (H - M.t - M.b) / 2})`, 'text-anchor': 'middle', 'font-size': 10.5, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'B'));
+  }
+
+  // Estado de drag & drop para Etapa 2
+  let mainPlotGeom = null;
+  let isDraggingDec = false;
+
+  function drawMainGraph(lp) {
+    const svg = $('mainGraph');
+    svg.innerHTML = '';
+    if (!lp) {
+      svg.appendChild(el('text', { x: 380, y: 230, 'text-anchor': 'middle', fill: cssVar('--c-dec-bad'), 'font-size': 16, 'font-weight': 700 }, 'Región factible vacía'));
+      return;
+    }
+
+    const W = 760, H = 460, M = { l: 58, r: 28, t: 24, b: 50 };
+    const { maxX, maxY } = computePlotBounds(lp, true);
+    const geom = setupClipAndGrid(svg, W, H, M, maxX, maxY, 'mainClip', 6);
+    mainPlotGeom = { ...geom, maxX, maxY, W, H, M };
+    const { sx, sy, pw, ph, plotGroup } = geom;
+
+    // Polígono factible
+    const polyPts = lp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' ');
+    plotGroup.appendChild(el('polygon', {
+      points: polyPts,
+      fill: cssVar('--c-poly'), 'fill-opacity': 0.16,
+      stroke: cssVar('--c-poly'), 'stroke-width': 2.2
+    }));
+
+    // Restricciones (recortadas estrictamente por clipPath)
+    lp.constraints.forEach(c => {
+      const seg = clipLineToBox(c.a, c.b, c.c, maxX, maxY);
+      if (!seg) return;
+      plotGroup.appendChild(el('line', {
+        x1: sx(seg[0].x), y1: sy(seg[0].y),
+        x2: sx(seg[1].x), y2: sy(seg[1].y),
+        stroke: cssVar(c.colorVar), 'stroke-width': 2.6, 'stroke-linecap': 'round'
+      }));
+    });
+
+    // Recta de Isobeneficio manipulable (Z = isoZ)
+    const isoVal = clamp(state.isoZ, 0, Math.max(lp.best.z * 1.25, 100));
+    const isoSeg = clipLineToBox(state.pA, state.pB, isoVal, maxX, maxY);
+    if (isoSeg) {
+      plotGroup.appendChild(el('line', {
+        x1: sx(isoSeg[0].x), y1: sy(isoSeg[0].y),
+        x2: sx(isoSeg[1].x), y2: sy(isoSeg[1].y),
+        stroke: cssVar('--c-opt'), 'stroke-width': 2.4, 'stroke-dasharray': '8 5'
+      }));
+    }
+
+    // Vector Gradiente ∇Z = (pA, pB) desde el origen escalado estéticamente
+    const gLen = Math.hypot(state.pA, state.pB);
+    if (gLen > EPS) {
+      const targetScale = Math.min(maxX, maxY) * 0.24;
+      const gx = (state.pA / gLen) * targetScale;
+      const gy = (state.pB / gLen) * targetScale;
+      plotGroup.appendChild(el('line', {
+        x1: sx(0), y1: sy(0), x2: sx(gx), y2: sy(gy),
+        stroke: cssVar('--c-opt'), 'stroke-width': 2.6,
+        'marker-end': 'url(#mainClip_arrOpt)'
+      }));
+      plotGroup.appendChild(el('text', {
+        x: sx(gx) + 8, y: sy(gy) - 4,
+        fill: cssVar('--c-opt'), 'font-size': 11.5, 'font-weight': 800, class: 'mono'
+      }, `∇Z=(${num(state.pA)}, ${num(state.pB)})`));
+    }
+
+    // Arista de óptimos múltiples luminosa
+    if (lp.hasMultipleOptima) {
+      const a = lp.optimalVertices[0], b = lp.optimalVertices[lp.optimalVertices.length - 1];
+      plotGroup.appendChild(el('line', {
+        x1: sx(a.x), y1: sy(a.y), x2: sx(b.x), y2: sy(b.y),
+        stroke: cssVar('--c-opt'), 'stroke-width': 8, 'stroke-opacity': 0.30, 'stroke-linecap': 'round'
+      }));
+      plotGroup.appendChild(el('line', {
+        x1: sx(a.x), y1: sy(a.y), x2: sx(b.x), y2: sy(b.y),
+        stroke: cssVar('--c-opt'), 'stroke-width': 3.8, 'stroke-linecap': 'round'
+      }));
+    }
+
+    // Nodos interactivos de todos los vértices factibles
+    const tooltip = $('vertexTooltip');
+    lp.vertices.forEach(v => {
+      const isOpt = lp.optimalVertices.some(ov => Math.hypot(ov.x - v.x, ov.y - v.y) < 1e-4);
+      const cx = sx(v.x), cy = sy(v.y);
+      const circle = el('circle', {
+        cx, cy, r: isOpt ? 7.5 : 5.5,
+        fill: isOpt ? cssVar('--c-opt') : cssVar('--bg-surface'),
+        stroke: isOpt ? '#fff' : cssVar('--c-poly'),
+        'stroke-width': isOpt ? 2.4 : 2.2,
+        class: 'vertex-hit'
+      });
+
+      circle.addEventListener('mouseenter', () => {
+        const slacks = lp.constraints.map(c => {
+          const sl = Math.max(0, c.c - (c.a * v.x + c.b * v.y));
+          return `<div>${c.slack} (${c.short}): <strong>${num(sl)}</strong>${sl < 1e-4 ? ' <span style="color:var(--c-opt)">(Activa)</span>' : ''}</div>`;
+        }).join('');
+        tooltip.innerHTML = `
+          <div style="font-weight:800;color:${isOpt ? 'var(--c-opt)' : 'var(--text-primary)'};margin-bottom:4px">
+            ${isOpt ? '★ Vértice Óptimo' : '● Vértice Factible'} (${num(v.x)}, ${num(v.y)})
+          </div>
+          <div>Beneficio Z: <strong>${money(v.z)}</strong></div>
+          <div style="margin-top:4px;padding-top:4px;border-top:1px solid var(--border-subtle)">${slacks}</div>
+          <div style="margin-top:4px;font-size:10.5px;color:var(--text-muted)">Clic para mover tu decisión aquí</div>
+        `;
+        const wrapRect = $('mainGraphWrap').getBoundingClientRect();
+        const svgRect = svg.getBoundingClientRect();
+        const px = (cx / W) * svgRect.width + (svgRect.left - wrapRect.left);
+        const py = (cy / H) * svgRect.height + (svgRect.top - wrapRect.top);
+        tooltip.style.left = clamp(px + 14, 10, wrapRect.width - 210) + 'px';
+        tooltip.style.top = clamp(py - 84, 10, wrapRect.height - 130) + 'px';
+        tooltip.classList.add('show');
+      });
+      circle.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
+      circle.addEventListener('click', e => {
+        e.stopPropagation();
+        applyDecisionPoint(v.x, v.y, true);
+        showToast(`Decisión movida al vértice (${num(v.x)}, ${num(v.y)})`);
+      });
+      svg.appendChild(circle);
+    });
+
+    // Marcador arrastrable de "Tu decisión"
+    const dx = sx(state.a), dy = sy(state.b);
+    const feas = isDecisionFeasible();
+    const decCol = feas ? cssVar('--c-dec-ok') : cssVar('--c-dec-bad');
+
+    const decGroup = el('g', { class: 'draggable-handle', id: 'decDragHandle' });
+    if (!feas) {
+      decGroup.appendChild(el('circle', { cx: dx, cy: dy, r: 12, fill: 'none', stroke: decCol, 'stroke-width': 2.5, class: 'pulse-halo' }));
+    }
+    // Área de toque amplia invisible para fácil arrastre en móvil/touch
+    decGroup.appendChild(el('circle', { cx: dx, cy: dy, r: 18, fill: 'transparent' }));
+    decGroup.appendChild(el('circle', { cx: dx, cy: dy, r: 8, fill: decCol, stroke: '#fff', 'stroke-width': 2.5 }));
+    svg.appendChild(decGroup);
+
+    // Etiquetas inteligentes anticolisión
+    const ox = sx(lp.best.x), oy = sy(lp.best.y);
+    const close = Math.hypot(ox - dx, oy - dy) < 62;
+
+    const placePillLabel = (x, y, text, bg, fg, preferAbove) => {
+      const padX = 8, h = 21;
+      const estW = text.length * 6.5 + padX * 2;
+      let lx = x + 11;
+      if (lx + estW > M.l + pw - 4) lx = x - estW - 11;
+      lx = clamp(lx, M.l + 4, M.l + pw - estW - 4);
+      let ly = preferAbove ? y - 27 : y + 10;
+      if (ly < M.t + 4) ly = y + 10;
+      if (ly + h > M.t + ph - 4) ly = y - 27;
+
+      const g = el('g', { 'pointer-events': 'none' });
+      g.appendChild(el('rect', { x: lx, y: ly, width: estW, height: h, rx: 6, fill: bg, 'fill-opacity': 0.92 }));
+      g.appendChild(el('text', { x: lx + estW / 2, y: ly + 14, 'text-anchor': 'middle', fill: fg, 'font-size': 11, 'font-weight': 800, class: 'mono' }, text));
+      svg.appendChild(g);
+    };
+
+    placePillLabel(ox, oy, `Óptimo (${num(lp.best.x)}, ${num(lp.best.y)})`, cssVar('--c-opt'), '#ffffff', true);
+    placePillLabel(dx, dy, `Tu decisión (${num(state.a)}, ${num(state.b)})`, decCol, '#ffffff', !close && dy > M.t + 55);
+
+    // Títulos de ejes
+    svg.appendChild(el('text', { x: M.l + pw / 2, y: H - 10, 'text-anchor': 'middle', 'font-size': 12.5, fill: cssVar('--text-secondary'), 'font-weight': 750 }, 'Producto A · unidades'));
+    svg.appendChild(el('text', { x: 16, y: M.t + ph / 2, transform: `rotate(-90 16 ${M.t + ph / 2})`, 'text-anchor': 'middle', 'font-size': 12.5, fill: cssVar('--text-secondary'), 'font-weight': 750 }, 'Producto B · unidades'));
+  }
+
+  // Manejo de Pointer Events para Drag & Drop fluido en Etapa 2
+  function svgClientToModel(evt) {
+    const svg = $('mainGraph');
+    if (!mainPlotGeom || !svg.getScreenCTM) return null;
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX;
+    pt.y = evt.clientY;
+    const local = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let a = clamp(mainPlotGeom.ix(local.x), 0, mainPlotGeom.maxX);
+    let b = clamp(mainPlotGeom.iy(local.y), 0, mainPlotGeom.maxY);
+    if (state.snap) {
+      a = Math.round(a);
+      b = Math.round(b);
+    } else {
+      a = Math.round(a * 10) / 10;
+      b = Math.round(b * 10) / 10;
+    }
+    return { a, b };
+  }
+
+  const mainGraphEl = $('mainGraph');
+  mainGraphEl.addEventListener('pointerdown', e => {
+    if (e.target.closest && e.target.closest('.vertex-hit')) return;
+    isDraggingDec = true;
+    mainGraphEl.setPointerCapture(e.pointerId);
+    const pos = svgClientToModel(e);
+    if (pos) applyDecisionPoint(pos.a, pos.b, false);
+  });
+  mainGraphEl.addEventListener('pointermove', e => {
+    if (!isDraggingDec) return;
+    const pos = svgClientToModel(e);
+    if (pos) applyDecisionPoint(pos.a, pos.b, false);
+  });
+  mainGraphEl.addEventListener('pointerup', e => {
+    if (isDraggingDec) {
+      isDraggingDec = false;
+      try { mainGraphEl.releasePointerCapture(e.pointerId); } catch (_) {}
+    }
+  });
+
+  function applyDecisionPoint(aVal, bVal, allowExact = false) {
+    state.a = allowExact ? round2(aVal) : aVal;
+    state.b = allowExact ? round2(bVal) : bVal;
+    if (allowExact && (Math.abs(state.a - Math.round(state.a)) > 1e-4 || Math.abs(state.b - Math.round(state.b)) > 1e-4)) {
+      if (state.snap) {
+        state.snap = false;
+        $('snapToggle').checked = false;
+      }
+    }
+    syncDecisionInputs();
+    updateAll(false);
+  }
+
+  /* -----------------------------------------------------------------------
+     10. RENDERIZADO DE ETAPA 3 (MÉTODO SIMPLEX PASO A PASO)
+     ----------------------------------------------------------------------- */
+  function renderSimplexStage(lp) {
+    const steps = state.sxSteps;
+    if (!steps.length) return;
+    state.sxIndex = clamp(state.sxIndex, 0, steps.length - 1);
+    const st = steps[state.sxIndex];
+
+    $('sxStepBadge').textContent = `Iteración ${st.iter} / ${steps.length - 1}` + (st.isOptimal ? ' · Óptimo' : '');
+    $('sxBasisLabel').textContent = 'Base: ' + st.basis.map(i => st.varNames[i]).join(', ');
+    $('sxVertexLabel').textContent = `(${num(st.vertex.x)}, ${num(st.vertex.y)}) · Z = ${money(st.vertex.z)}`;
+    $('sxNarrative').innerHTML = st.narrative;
+
+    // Pills de iteración
+    const pills = $('sxPills');
+    pills.innerHTML = '';
+    steps.forEach((sObj, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'step-pill' + (idx === state.sxIndex ? ' active' : '');
+      btn.textContent = idx === steps.length - 1 ? `★ ${idx}` : `It. ${idx}`;
+      btn.addEventListener('click', () => { stopSimplexPlay(); state.sxIndex = idx; renderSimplexStage(solveLP()); });
+      pills.appendChild(btn);
+    });
+
+    $('sxFirst').disabled = state.sxIndex === 0;
+    $('sxPrev').disabled = state.sxIndex === 0;
+    $('sxNext').disabled = state.sxIndex === steps.length - 1;
+    $('sxLast').disabled = state.sxIndex === steps.length - 1;
+
+    // Construir HTML del Tableau
+    const nVars = st.varNames.length;
+    let html = '<table><thead><tr><th>Base</th><th>C<sub>B</sub></th>';
+    st.varNames.forEach((vn, j) => {
+      html += `<th class="${j === st.pivotCol ? 'tb-pivot-col' : ''}">${vn} <span style="opacity:.7;font-weight:500">(${num(st.C[j])})</span></th>`;
+    });
+    html += '<th>RHS (b̄)</th><th>Razón θ</th></tr></thead><tbody>';
+
+    st.T.forEach((row, i) => {
+      const isPR = i === st.pivotRow;
+      html += `<tr class="${isPR ? 'tb-pivot-row' : ''}">`;
+      html += `<td><strong>${st.varNames[st.basis[i]]}</strong></td>`;
+      html += `<td class="mono">${num(st.C[st.basis[i]])}</td>`;
+      for (let j = 0; j < nVars; j++) {
+        const isCell = isPR && j === st.pivotCol;
+        const cls = isCell ? 'tb-pivot-cell mono' : (j === st.pivotCol ? 'tb-pivot-col mono' : 'mono');
+        html += `<td class="${cls}">${num(row[j])}</td>`;
+      }
+      html += `<td class="mono"><strong>${num(row[nVars])}</strong></td>`;
+      const rat = st.ratios[i];
+      html += `<td class="mono">${rat !== null ? (isPR ? `<strong>${num(rat)} ★</strong>` : num(rat)) : '—'}</td></tr>`;
+    });
+
+    // Fila Zj
+    html += '<tr class="tb-zj-row"><td colspan="2">Z<sub>j</sub></td>';
+    for (let j = 0; j < nVars; j++) html += `<td class="mono">${num(st.Zj[j])}</td>`;
+    html += `<td class="mono" style="color:var(--c-opt)">${money(st.Zj[nVars])}</td><td>—</td></tr>`;
+
+    // Fila Cj - Zj
+    html += '<tr class="tb-zj-row"><td colspan="2">C<sub>j</sub> − Z<sub>j</sub></td>';
+    for (let j = 0; j < nVars; j++) {
+      const v = st.CjMinusZj[j];
+      const cls = v > 1e-7 ? 'mono tb-pos' : 'mono';
+      html += `<td class="${cls}">${v > 1e-7 ? '+' : ''}${num(v)}</td>`;
+    }
+    html += `<td colspan="2" style="font-size:11px;color:var(--text-muted)">${st.isOptimal ? '✓ Todos ≤ 0' : 'Entra máx > 0'}</td></tr>`;
+    html += '</tbody></table>';
+    $('sxTableauWrap').innerHTML = html;
+
+    // Dibujar plano sincronizado con trayectoria
+    drawSimplexGraph(lp, steps, state.sxIndex);
+  }
+
+  function drawSimplexGraph(lp, steps, curIdx) {
+    const svg = $('sxGraph');
+    svg.innerHTML = '';
+    if (!lp) return;
+    const W = 460, H = 320, M = { l: 46, r: 18, t: 18, b: 36 };
+    const { maxX, maxY } = computePlotBounds(lp, false);
+    const { sx, sy, plotGroup } = setupClipAndGrid(svg, W, H, M, maxX, maxY, 'sxClip', 5);
+
+    // Polígono factible
+    plotGroup.appendChild(el('polygon', {
+      points: lp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' '),
+      fill: cssVar('--c-poly'), 'fill-opacity': 0.14,
+      stroke: cssVar('--c-poly'), 'stroke-width': 2
+    }));
+
+    // Restricciones suaves
+    lp.constraints.forEach(c => {
+      const seg = clipLineToBox(c.a, c.b, c.c, maxX, maxY);
+      if (!seg) return;
+      plotGroup.appendChild(el('line', {
+        x1: sx(seg[0].x), y1: sy(seg[0].y), x2: sx(seg[1].x), y2: sy(seg[1].y),
+        stroke: cssVar(c.colorVar), 'stroke-width': 1.6, 'stroke-opacity': 0.55
+      }));
+    });
+
+    // Flechas de trayectoria acumulada hasta curIdx
+    for (let i = 0; i < curIdx; i++) {
+      const p1 = steps[i].vertex, p2 = steps[i + 1].vertex;
+      const x1 = sx(p1.x), y1 = sy(p1.y), x2 = sx(p2.x), y2 = sy(p2.y);
+      if (Math.hypot(x2 - x1, y2 - y1) > 2) {
+        plotGroup.appendChild(el('line', {
+          x1, y1, x2, y2,
+          stroke: cssVar('--c-machine'), 'stroke-width': 3,
+          'marker-end': 'url(#sxClip_arrSx)'
+        }));
+      }
+    }
+
+    // Nodos visitados
+    for (let i = 0; i <= curIdx; i++) {
+      const v = steps[i].vertex;
+      const isCur = i === curIdx;
+      if (isCur) {
+        svg.appendChild(el('circle', { cx: sx(v.x), cy: sy(v.y), r: 10, fill: 'none', stroke: cssVar('--c-opt'), 'stroke-width': 2.5, class: 'pulse-halo' }));
+      }
+      svg.appendChild(el('circle', {
+        cx: sx(v.x), cy: sy(v.y), r: isCur ? 7 : 4.5,
+        fill: isCur ? cssVar('--c-opt') : cssVar('--c-machine'),
+        stroke: '#fff', 'stroke-width': 2
+      }));
+      const lblY = sy(v.y) - 11 < M.t + 12 ? sy(v.y) + 18 : sy(v.y) - 11;
+      const lblX = clamp(sx(v.x), M.l + 30, W - M.r - 30);
+      svg.appendChild(el('text', {
+        x: lblX, y: lblY, 'text-anchor': 'middle',
+        fill: isCur ? cssVar('--c-opt') : cssVar('--text-muted'),
+        'font-size': isCur ? 11.5 : 10, 'font-weight': 800, class: 'mono'
+      }, `It.${i}`));
+    }
+
+    svg.appendChild(el('text', { x: M.l + (W - M.l - M.r) / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 11, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'Producto A'));
+    svg.appendChild(el('text', { x: 14, y: M.t + (H - M.t - M.b) / 2, transform: `rotate(-90 14 ${M.t + (H - M.t - M.b) / 2})`, 'text-anchor': 'middle', 'font-size': 11, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'Producto B'));
+  }
+
+  function stopSimplexPlay() {
+    if (state.sxTimer) {
+      clearInterval(state.sxTimer);
+      state.sxTimer = null;
+      $('sxPlay').textContent = '▶ Auto-reproducir';
+    }
+  }
+
+  /* -----------------------------------------------------------------------
+     11. RENDERIZADO DE ETAPA 4 (SENSIBILIDAD EXACTA Y DUALIDAD)
+     ----------------------------------------------------------------------- */
+  function renderSensitivityStage() {
+    if (!state.sxSteps.length) return;
+    const sens = computeExactSensitivity(state.sxSteps);
+    const eqStrong = Math.abs(sens.primalZ - sens.dualW) < 1e-4;
+    $('sensStrongDualBadge').textContent = `Dualidad Fuerte: Z* = ${money(sens.primalZ)} = W*`;
+    $('sensStrongDualBadge').className = 'badge ' + (eqStrong ? 'ok' : 'warn');
+
+    // Mostrar/ocultar botón R3 en selector paramétrico
+    $('paramBtn2').classList.toggle('hidden', !state.r3On);
+    if (!state.r3On && state.paramResIdx === 2) state.paramResIdx = 0;
+    [0, 1, 2].forEach(idx => {
+      const btn = $('paramBtn' + idx);
+      if (btn) btn.className = 'btn btn-sm ' + (state.paramResIdx === idx ? 'btn-primary' : 'btn-secondary') + (idx === 2 && !state.r3On ? ' hidden' : '');
+    });
+
+    // Tabla RHS (Precios sombra y rangos de factibilidad)
+    let rhsHtml = '<table><thead><tr><th>Recurso</th><th>Actual</th><th>Precio sombra y*</th><th>Rango factibilidad</th></tr></thead><tbody>';
+    sens.rhsRows.forEach(r => {
+      const rangeStr = `[${num(r.bMin)} , ${Number.isFinite(r.bMax) ? num(r.bMax) : '∞'}]`;
+      rhsHtml += `<tr>
+        <td><span class="dot" style="background:var(${r.colorVar})"></span> <strong>${r.short}</strong></td>
+        <td class="mono">${num(r.currentB)}</td>
+        <td class="mono"><strong style="color:${r.shadowPrice > 1e-5 ? 'var(--c-opt)' : 'var(--text-muted)'}">${money(r.shadowPrice)}</strong></td>
+        <td class="mono">${rangeStr}</td>
+      </tr>`;
+    });
+    rhsHtml += '</tbody></table>';
+    $('sensRhsTable').innerHTML = rhsHtml;
+
+    // Tabla Objetivo (Rangos de optimalidad)
+    let objHtml = '<table><thead><tr><th>Variable</th><th>p actual</th><th>Óptimo</th><th>Rango optimalidad</th></tr></thead><tbody>';
+    sens.objRows.forEach(r => {
+      const rangeStr = `[${money(r.pMin)} , ${Number.isFinite(r.pMax) ? money(r.pMax) : '∞'}]`;
+      objHtml += `<tr>
+        <td><strong>${r.name}</strong></td>
+        <td class="mono">${money(r.currentP)}</td>
+        <td class="mono">${num(r.optVal)}</td>
+        <td class="mono">${rangeStr}</td>
+      </tr>`;
+    });
+    objHtml += '</tbody></table>';
+    $('sensObjTable').innerHTML = objHtml;
+
+    // Formulación del Problema Dual
+    const r1 = sens.rhsRows[0], r2 = sens.rhsRows[1], r3 = sens.rhsRows[2];
+    const dualObj = `${num(r1.currentB)}·y₁ + ${num(r2.currentB)}·y₂` + (r3 ? ` + ${num(r3.currentB)}·y₃` : '');
+    const dConA = `${num(state.a11)}·y₁ + ${num(state.a21)}·y₂` + (r3 ? ` + 1·y₃` : '') + ` ≥ ${num(state.pA)}`;
+    const dConB = `${num(state.a12)}·y₁ + ${num(state.a22)}·y₂ ≥ ${num(state.pB)}`;
+    const yVals = `y₁* = ${money(r1.shadowPrice)} · y₂* = ${money(r2.shadowPrice)}` + (r3 ? ` · y₃* = ${money(r3.shadowPrice)}` : '');
+
+    $('dualFormulation').innerHTML = `
+      <div class="eq-card obj">
+        <div class="eq-tag" style="color:var(--c-opt)"><span>Función Objetivo Dual</span><span>W* = ${money(sens.dualW)}</span></div>
+        <div class="eq-math mono" style="font-size:14.5px">Min W = ${dualObj}</div>
+      </div>
+      <div class="eq-card r2">
+        <div class="eq-tag" style="color:var(--c-labor)"><span>Restricciones Duales (Aᵀy ≥ c)</span><span>yᵢ ≥ 0</span></div>
+        <div class="eq-math mono" style="font-size:13.5px">${dConA} &nbsp;|&nbsp; ${dConB}</div>
+        <div class="mono" style="font-size:11.5px;color:var(--text-muted);margin-top:5px">${yVals}</div>
+      </div>
+    `;
+
+    // Tabla de Holgura Complementaria
+    let csHtml = '<table><thead><tr><th>Condición</th><th>Producto</th><th>Estado</th></tr></thead><tbody>';
+    sens.rhsRows.forEach((r, idx) => {
+      const prod = r.shadowPrice * r.slackVal;
+      csHtml += `<tr>
+        <td class="mono">y<sub>${idx + 1}</sub>* · S<sub>${idx + 1}</sub>*</td>
+        <td class="mono">${num(r.shadowPrice)} × ${num(r.slackVal)} = <strong>${num(prod)}</strong></td>
+        <td><span class="badge ok">✓ = 0</span></td>
+      </tr>`;
+    });
+    sens.objRows.forEach(r => {
+      const prod = r.optVal * r.reducedCost;
+      csHtml += `<tr>
+        <td class="mono">${r.varIdx === 0 ? 'A' : 'B'}* · (Z<sub>j</sub>−C<sub>j</sub>)</td>
+        <td class="mono">${num(r.optVal)} × ${num(r.reducedCost)} = <strong>${num(prod)}</strong></td>
+        <td><span class="badge ok">✓ = 0</span></td>
+      </tr>`;
+    });
+    csHtml += '</tbody></table>';
+    $('compSlackTable').innerHTML = csHtml;
+
+    // Dibujar curva paramétrica
+    drawParametricGraph(sens);
+  }
+
+  function drawParametricGraph(sens) {
+    const svg = $('paramGraph');
+    svg.innerHTML = '';
+    const curve = computeParametricCurve(state.paramResIdx);
+    const W = 540, H = 300, M = { l: 64, r: 22, t: 24, b: 44 };
+    const maxX = curve.maxB;
+    const maxY = Math.max(100, Math.ceil((Math.max(...curve.points.map(p => p.z)) * 1.16) / 100) * 100);
+    const { sx, sy, pw, ph, plotGroup } = setupClipAndGrid(svg, W, H, M, maxX, maxY, 'paramClip', 5);
+
+    // Relleno bajo la curva
+    const areaPts = [`${sx(0)},${sy(0)}`, ...curve.points.map(p => `${sx(p.b)},${sy(p.z)}`), `${sx(maxX)},${sy(0)}`].join(' ');
+    plotGroup.appendChild(el('polygon', { points: areaPts, fill: cssVar(curve.target.colorVar), 'fill-opacity': 0.13 }));
+
+    // Segmentos con etiqueta de pendiente (= precio sombra)
+    for (let i = 0; i < curve.points.length - 1; i++) {
+      const p1 = curve.points[i], p2 = curve.points[i + 1];
+      const slope = (p2.z - p1.z) / Math.max(1e-9, p2.b - p1.b);
+      plotGroup.appendChild(el('line', {
+        x1: sx(p1.x ?? p1.b), y1: sy(p1.z), x2: sx(p2.b), y2: sy(p2.z),
+        stroke: cssVar(curve.target.colorVar), 'stroke-width': 3, 'stroke-linecap': 'round'
+      }));
+      if (sx(p2.b) - sx(p1.b) > 48) {
+        const mx = (sx(p1.b) + sx(p2.b)) / 2;
+        const my = (sy(p1.z) + sy(p2.z)) / 2 - 9;
+        plotGroup.appendChild(el('text', {
+          x: mx, y: Math.max(M.t + 14, my), 'text-anchor': 'middle',
+          fill: cssVar('--text-primary'), 'font-size': 10.5, 'font-weight': 800, class: 'mono'
+        }, `y*=${money(slope)}`));
+      }
+    }
+
+    // Puntos de quiebre (cambios de base)
+    curve.points.slice(1, -1).forEach(bp => {
+      svg.appendChild(el('circle', { cx: sx(bp.b), cy: sy(bp.z), r: 5, fill: cssVar('--bg-surface'), stroke: cssVar(curve.target.colorVar), 'stroke-width': 2.5 }));
+      svg.appendChild(el('text', { x: sx(bp.b), y: sy(bp.z) + 17, 'text-anchor': 'middle', fill: cssVar('--text-muted'), 'font-size': 10, class: 'mono' }, num(bp.b)));
+    });
+
+    // Línea vertical de capacidad actual
+    const cx = sx(curve.currentB), cy = sy(curve.currentZ);
+    plotGroup.appendChild(el('line', { x1: cx, y1: M.t, x2: cx, y2: M.t + ph, stroke: cssVar('--c-opt'), 'stroke-width': 2, 'stroke-dasharray': '5 4' }));
+    svg.appendChild(el('circle', { cx, cy, r: 6.5, fill: cssVar('--c-opt'), stroke: '#fff', 'stroke-width': 2 }));
+    svg.appendChild(el('text', {
+      x: clamp(cx, M.l + 60, W - M.r - 60), y: M.t + 13, 'text-anchor': 'middle',
+      fill: cssVar('--c-opt'), 'font-size': 11, 'font-weight': 800, class: 'mono'
+    }, `Actual: ${num(curve.currentB)} → ${money(curve.currentZ)}`));
+
+    svg.appendChild(el('text', { x: M.l + pw / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 11.5, fill: cssVar('--text-secondary'), 'font-weight': 700 }, `Disponibilidad de ${curve.target.short}`));
+    svg.appendChild(el('text', { x: 15, y: M.t + ph / 2, transform: `rotate(-90 15 ${M.t + ph / 2})`, 'text-anchor': 'middle', 'font-size': 11.5, fill: cssVar('--text-secondary'), 'font-weight': 700 }, 'Óptimo Z* ($)'));
+
+    const row = sens.rhsRows[state.paramResIdx] || sens.rhsRows[0];
+    $('paramNote').innerHTML = `<strong>Interpretación económica:</strong> En la capacidad actual (${num(row.currentB)}), cada unidad adicional de <strong>${row.short}</strong> incrementa Z* en <strong>${money(row.shadowPrice)}</strong> dentro del tramo [${num(row.bMin)}, ${Number.isFinite(row.bMax) ? num(row.bMax) : '∞'}]. Superado el límite superior, el precio sombra cae por rendimientos marginales decrecientes.`;
+  }
+
+  /* -----------------------------------------------------------------------
+     12. RENDERIZADO DE ETAPA 5 (PROGRAMACIÓN ENTERA Y REDONDEO)
+     ----------------------------------------------------------------------- */
+  function renderIntegerStage(lp) {
+    if (!lp) return;
+    const intRes = findIntegerOptimum();
+    const neighbors = evaluateRoundingNeighbors(lp.best);
+    const bestRound = neighbors.find(n => n.feasible) || null;
+    const intOpt = intRes.best;
+
+    const gapAbs = intOpt ? Math.max(0, lp.best.z - intOpt.z) : 0;
+    const gapRel = lp.best.z > EPS ? (gapAbs / lp.best.z) * 100 : 0;
+
+    $('intGapAbs').textContent = money(gapAbs);
+    $('intGapRel').textContent = num(gapRel) + '%';
+    $('intLatticeCount').textContent = FMT_NUM.format(intRes.points.length);
+
+    $('btnIntFull').className = 'btn btn-sm ' + (!state.intZoom ? 'btn-primary' : 'btn-secondary');
+    $('btnIntZoom').className = 'btn btn-sm ' + (state.intZoom ? 'btn-primary' : 'btn-secondary');
+
+    // Tabla comparativa
+    $('intCompareTable').innerHTML = `
+      <table>
+        <thead><tr><th>Modelo</th><th>A</th><th>B</th><th>Beneficio Z</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--c-opt)">Óptimo Continuo</strong></td><td class="mono">${num(lp.best.x)}</td><td class="mono">${num(lp.best.y)}</td><td class="mono"><strong>${money(lp.best.z)}</strong></td></tr>
+          <tr><td><strong>Mejor Redondeo Factible</strong></td><td class="mono">${bestRound ? bestRound.x : '—'}</td><td class="mono">${bestRound ? bestRound.y : '—'}</td><td class="mono">${bestRound ? money(bestRound.z) : '—'}</td></tr>
+          <tr><td><strong style="color:var(--c-machine)">Óptimo Entero Real ★</strong></td><td class="mono"><strong>${intOpt ? intOpt.x : '—'}</strong></td><td class="mono"><strong>${intOpt ? intOpt.y : '—'}</strong></td><td class="mono"><strong style="color:var(--c-machine)">${intOpt ? money(intOpt.z) : '—'}</strong></td></tr>
+        </tbody>
+      </table>
+    `;
+
+    // Tabla de 4 vecinos de redondeo
+    let rHtml = '<table><thead><tr><th>Vecino (A, B)</th><th>Z</th><th>Estado</th></tr></thead><tbody>';
+    neighbors.forEach(nb => {
+      const isTrueOpt = intOpt && nb.x === intOpt.x && nb.y === intOpt.y;
+      rHtml += `<tr>
+        <td class="mono"><strong>(${nb.x}, ${nb.y})</strong>${isTrueOpt ? ' ★' : ''}</td>
+        <td class="mono">${money(nb.z)}</td>
+        <td>${nb.feasible
+          ? `<span class="badge ${isTrueOpt ? 'ok' : 'warn'}">${isTrueOpt ? 'Óptimo entero' : 'Factible subóptimo'}</span>`
+          : `<span class="badge bad">Infactible (${nb.violated.join(', ')})</span>`}</td>
+      </tr>`;
+    });
+    rHtml += '</tbody></table>';
+    $('intRoundTable').innerHTML = rHtml;
+
+    const alreadyInt = gapAbs < 1e-5;
+    $('intNarrative').innerHTML = alreadyInt
+      ? `<strong>En este escenario el óptimo continuo ya es entero (${intOpt.x}, ${intOpt.y}).</strong> Presioná <em>"Cargar escenario fraccionario (99 h)"</em> para ver cómo el redondeo produce puntos infactibles y subóptimos.`
+      : (bestRound && intOpt && bestRound.z < intOpt.z - 1e-5)
+        ? `<strong>¡Trampa del redondeo detectada!</strong> El mejor redondeo factible (${bestRound.x}, ${bestRound.y}) solo alcanza ${money(bestRound.z)}, mientras que el verdadero óptimo entero (${intOpt.x}, ${intOpt.y}) logra <strong>${money(intOpt.z)}</strong> (+${money(intOpt.z - bestRound.z)} extra).`
+        : `<strong>Atención al redondear:</strong> Algunos vecinos de redondeo violan las restricciones (rojos). La solución entera óptima es <strong>(${intOpt.x}, ${intOpt.y})</strong> con brecha de integralidad de ${money(gapAbs)} (${num(gapRel)}%).`;
+
+    drawIntegerLatticeGraph(lp, intRes, neighbors);
+  }
+
+  function drawIntegerLatticeGraph(lp, intRes, neighbors) {
+    const svg = $('intGraph');
+    svg.innerHTML = '';
+    const W = 540, H = 380, M = { l: 50, r: 22, t: 20, b: 40 };
+    const pw = W - M.l - M.r, ph = H - M.t - M.b;
+
+    let minX = 0, minY = 0, maxX, maxY;
+    if (state.intZoom) {
+      const span = 5.5;
+      minX = Math.max(0, Math.floor(lp.best.x) - 3);
+      minY = Math.max(0, Math.floor(lp.best.y) - 3);
+      maxX = minX + span * 1.45;
+      maxY = minY + span * 1.15;
+    } else {
+      const b = computePlotBounds(lp, false);
+      maxX = b.maxX; maxY = b.maxY;
+    }
+
+    const sx = x => M.l + ((x - minX) / (maxX - minX)) * pw;
+    const sy = y => M.t + ph - ((y - minY) / (maxY - minY)) * ph;
+
+    // ClipPath
+    const defs = el('defs');
+    const cp = el('clipPath', { id: 'intClip' });
+    cp.appendChild(el('rect', { x: M.l, y: M.t, width: pw, height: ph }));
+    defs.appendChild(cp);
+    svg.appendChild(defs);
+
+    svg.appendChild(el('rect', { x: M.l, y: M.t, width: pw, height: ph, fill: cssVar('--bg-plot'), rx: 4 }));
+
+    // Grilla: entera exacta en modo zoom, limpia en vista completa
+    const xStep = state.intZoom ? 1 : Math.max(1, Math.round((maxX - minX) / 5));
+    const yStep = state.intZoom ? 1 : Math.max(1, Math.round((maxY - minY) / 5));
+
+    for (let x = Math.ceil(minX); x <= Math.floor(maxX); x += xStep) {
+      svg.appendChild(el('line', { x1: sx(x), y1: M.t, x2: sx(x), y2: M.t + ph, stroke: cssVar('--bg-grid'), 'stroke-width': 1 }));
+      svg.appendChild(el('text', { x: sx(x), y: M.t + ph + 16, 'text-anchor': 'middle', 'font-size': 10.5, fill: cssVar('--text-muted'), class: 'mono' }, String(x)));
+    }
+    for (let y = Math.ceil(minY); y <= Math.floor(maxY); y += yStep) {
+      svg.appendChild(el('line', { x1: M.l, y1: sy(y), x2: M.l + pw, y2: sy(y), stroke: cssVar('--bg-grid'), 'stroke-width': 1 }));
+      svg.appendChild(el('text', { x: M.l - 9, y: sy(y) + 3.5, 'text-anchor': 'end', 'font-size': 10.5, fill: cssVar('--text-muted'), class: 'mono' }, String(y)));
+    }
+
+    svg.appendChild(el('line', { x1: M.l, y1: M.t + ph, x2: M.l + pw, y2: M.t + ph, stroke: cssVar('--border-strong'), 'stroke-width': 1.5 }));
+    svg.appendChild(el('line', { x1: M.l, y1: M.t, x2: M.l, y2: M.t + ph, stroke: cssVar('--border-strong'), 'stroke-width': 1.5 }));
+
+    const pg = el('g', { 'clip-path': 'url(#intClip)' });
+    svg.appendChild(pg);
+
+    // Polígono factible
+    pg.appendChild(el('polygon', {
+      points: lp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' '),
+      fill: cssVar('--c-poly'), 'fill-opacity': 0.14,
+      stroke: cssVar('--c-poly'), 'stroke-width': 2
+    }));
+
+    // Restricciones
+    lp.constraints.forEach(c => {
+      const seg = clipLineToBox(c.a, c.b, c.c, Math.max(maxX, 200), Math.max(maxY, 200));
+      if (!seg) return;
+      pg.appendChild(el('line', {
+        x1: sx(seg[0].x), y1: sy(seg[0].y), x2: sx(seg[1].x), y2: sy(seg[1].y),
+        stroke: cssVar(c.colorVar), 'stroke-width': 2.2
+      }));
+    });
+
+    // Puntos de la retícula entera factibles
+    const dotR = state.intZoom ? 4.2 : (intRes.points.length > 600 ? 1.7 : 2.5);
+    intRes.points.forEach(p => {
+      if (p.x < minX - 0.5 || p.x > maxX + 0.5 || p.y < minY - 0.5 || p.y > maxY + 0.5) return;
+      pg.appendChild(el('circle', {
+        cx: sx(p.x), cy: sy(p.y), r: dotR,
+        fill: cssVar('--c-poly'), 'fill-opacity': state.intZoom ? 0.72 : 0.45
+      }));
+    });
+
+    // 4 Vecinos de redondeo
+    neighbors.forEach(nb => {
+      const cx = sx(nb.x), cy = sy(nb.y);
+      const col = nb.feasible ? cssVar('--c-warn') : cssVar('--c-dec-bad');
+      pg.appendChild(el('circle', { cx, cy, r: state.intZoom ? 7 : 5, fill: col, stroke: '#fff', 'stroke-width': 1.8 }));
+      if (state.intZoom) {
+        pg.appendChild(el('text', {
+          x: cx + 9, y: cy - 6, fill: col, 'font-size': 10.5, 'font-weight': 800, class: 'mono'
+        }, `(${nb.x},${nb.y}) ${nb.feasible ? money(nb.z) : '✗'}`));
+      }
+    });
+
+    // Óptimo continuo (diamante)
+    const ox = sx(lp.best.x), oy = sy(lp.best.y);
+    pg.appendChild(el('polygon', {
+      points: `${ox},${oy - 8} ${ox + 8},${oy} ${ox},${oy + 8} ${ox - 8},${oy}`,
+      fill: cssVar('--c-opt'), stroke: '#fff', 'stroke-width': 2
+    }));
+    if (state.intZoom) {
+      pg.appendChild(el('text', { x: ox + 11, y: oy + 4, fill: cssVar('--c-opt'), 'font-size': 11, 'font-weight': 800, class: 'mono' }, `LP (${num(lp.best.x)}, ${num(lp.best.y)})`));
+    }
+
+    // Óptimo entero real (círculo brillante con halo)
+    if (intRes.best) {
+      const ix = sx(intRes.best.x), iy = sy(intRes.best.y);
+      pg.appendChild(el('circle', { cx: ix, cy: iy, r: 12, fill: 'none', stroke: cssVar('--c-machine'), 'stroke-width': 2.2, class: 'pulse-halo' }));
+      pg.appendChild(el('circle', { cx: ix, cy: iy, r: 8, fill: cssVar('--c-machine'), stroke: '#fff', 'stroke-width': 2.2 }));
+      pg.appendChild(el('text', { x: ix, y: iy + 4, 'text-anchor': 'middle', fill: '#fff', 'font-size': 10, 'font-weight': 900 }, '★'));
+    }
+
+    svg.appendChild(el('text', { x: M.l + pw / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 11.5, fill: cssVar('--text-secondary'), 'font-weight': 700 }, 'Producto A (enteros)'));
+    svg.appendChild(el('text', { x: 14, y: M.t + ph / 2, transform: `rotate(-90 14 ${M.t + ph / 2})`, 'text-anchor': 'middle', 'font-size': 11.5, fill: cssVar('--text-secondary'), 'font-weight': 700 }, 'Producto B'));
+  }
+
+  /* -----------------------------------------------------------------------
+     13. RENDERIZADO DE ETAPA 6 (ÁRBOL BRANCH & BOUND + INSPECTOR GEOMÉTRICO)
+     ----------------------------------------------------------------------- */
+  function rebuildBnb(showAll = true) {
+    stopBnbPlay();
+    const res = buildBranchAndBoundTree();
+    state.bnbNodes = res.nodes;
+    state.bnbVisibleCount = showAll ? res.nodes.length : 1;
+    state.bnbSelectedId = res.nodes.length ? res.nodes[0].id : 1;
+    renderBnbStage();
+  }
+
+  function renderBnbStage() {
+    const lp = solveLP();
+    const alreadyInt = lp && Math.abs(lp.best.x - Math.round(lp.best.x)) < 1e-6 && Math.abs(lp.best.y - Math.round(lp.best.y)) < 1e-6;
+    $('btnBnbLoadFrac').classList.toggle('hidden', !alreadyInt);
+
+    const visibleNodes = state.bnbNodes.slice(0, state.bnbVisibleCount);
+    if (!visibleNodes.length) return;
+    if (!visibleNodes.some(n => n.id === state.bnbSelectedId)) {
+      state.bnbSelectedId = visibleNodes[visibleNodes.length - 1].id;
+    }
+
+    $('bnbStepInfo').textContent = `Paso ${state.bnbVisibleCount} / ${state.bnbNodes.length}`;
+    $('bnbPrev').disabled = state.bnbVisibleCount <= 1;
+    $('bnbNext').disabled = state.bnbVisibleCount >= state.bnbNodes.length;
+
+    const latest = visibleNodes[visibleNodes.length - 1];
+    $('bnbIncumbentBadge').textContent = latest.incumbentAtStep
+      ? `Incumbente: ${money(latest.incumbentAtStep.z)} (${latest.incumbentAtStep.x}, ${latest.incumbentAtStep.y})`
+      : 'Incumbente: ninguno aún';
+
+    drawBnbTreeSvg(visibleNodes);
+    const sel = visibleNodes.find(n => n.id === state.bnbSelectedId) || latest;
+    renderBnbInspector(sel, lp);
+  }
+
+  function drawBnbTreeSvg(nodes) {
+    const svg = $('bnbTreeSvg');
+    svg.innerHTML = '';
+    const W = 540, H = 390;
+
+    // Organizar hijos por padre para calcular layout jerárquico sin solapamientos
+    const byId = new Map(nodes.map(n => [n.id, n]));
+    const children = new Map(nodes.map(n => [n.id, []]));
+    nodes.forEach(n => {
+      if (n.parentId !== null && children.has(n.parentId)) children.get(n.parentId).push(n);
+    });
+
+    const maxDepth = Math.max(1, ...nodes.map(n => n.depth));
+    let leafCursor = 0;
+    const pos = new Map();
+
+    function assignX(node) {
+      const ch = children.get(node.id) || [];
+      if (!ch.length) {
+        pos.set(node.id, { xSlot: leafCursor++, depth: node.depth });
+      } else {
+        ch.forEach(assignX);
+        const avg = ch.reduce((acc, c) => acc + pos.get(c.id).xSlot, 0) / ch.length;
+        pos.set(node.id, { xSlot: avg, depth: node.depth });
+      }
+    }
+    assignX(nodes[0]);
+
+    const totalSlots = Math.max(1, leafCursor);
+    const padX = 56, padY = 44;
+    const toXY = p => ({
+      x: totalSlots === 1 ? W / 2 : padX + (p.xSlot / (totalSlots - 1)) * (W - padX * 2),
+      y: padY + (p.depth / Math.max(1, maxDepth)) * (H - padY * 2)
+    });
+
+    // Conectores curvos Bezier + etiquetas de corte
+    nodes.forEach(n => {
+      if (n.parentId === null || !pos.has(n.parentId)) return;
+      const p1 = toXY(pos.get(n.parentId));
+      const p2 = toXY(pos.get(n.id));
+      const midY = (p1.y + p2.y) / 2;
+      svg.appendChild(el('path', {
+        d: `M ${p1.x} ${p1.y} C ${p1.x} ${midY}, ${p2.x} ${midY}, ${p2.x} ${p2.y}`,
+        fill: 'none', stroke: cssVar('--border-strong'), 'stroke-width': 2
+      }));
+      const mx = (p1.x + p2.x) / 2;
+      const my = midY - 2;
+      const pillW = Math.max(46, n.cutLabel.length * 6.5 + 10);
+      svg.appendChild(el('rect', { x: mx - pillW / 2, y: my - 9, width: pillW, height: 17, rx: 5, fill: cssVar('--bg-surface'), stroke: cssVar('--border-subtle') }));
+      svg.appendChild(el('text', { x: mx, y: my + 3, 'text-anchor': 'middle', fill: cssVar('--text-primary'), 'font-size': 9.5, 'font-weight': 800, class: 'mono' }, n.cutLabel));
+    });
+
+    // Nodos clicables
+    const statusMap = {
+      branch:     { col: '--c-labor',   icon: '⑂' },
+      integer:    { col: '--c-opt',     icon: '★' },
+      pruned:     { col: '--c-warn',    icon: '✂' },
+      infeasible: { col: '--c-dec-bad', icon: '✗' }
+    };
+
+    nodes.forEach(n => {
+      const { x, y } = toXY(pos.get(n.id));
+      const st = statusMap[n.status];
+      const col = cssVar(st.col);
+      const isSel = n.id === state.bnbSelectedId;
+      const g = el('g', { style: 'cursor:pointer' });
+
+      if (isSel) {
+        g.appendChild(el('rect', { x: x - 48, y: y - 24, width: 96, height: 48, rx: 13, fill: 'none', stroke: col, 'stroke-width': 2.6, 'stroke-dasharray': '4 3' }));
+      }
+      g.appendChild(el('rect', {
+        x: x - 43, y: y - 19, width: 86, height: 38, rx: 10,
+        fill: cssVar('--bg-surface'), stroke: col, 'stroke-width': isSel ? 2.5 : 1.8
+      }));
+      g.appendChild(el('text', { x, y: y - 3, 'text-anchor': 'middle', fill: col, 'font-size': 10.5, 'font-weight': 850, class: 'mono' }, `${st.icon} N${n.id}`));
+      const subTxt = n.lp ? money(n.lp.best.z) : 'Infactible';
+      g.appendChild(el('text', { x, y: y + 12, 'text-anchor': 'middle', fill: cssVar('--text-primary'), 'font-size': 10, 'font-weight': 700, class: 'mono' }, subTxt));
+
+      g.addEventListener('click', () => {
+        state.bnbSelectedId = n.id;
+        renderBnbStage();
+      });
+      svg.appendChild(g);
+    });
+  }
+
+  function renderBnbInspector(node, rootLp) {
+    const labels = { branch: 'Ramificado', integer: 'Entero / Incumbente', pruned: 'Podado por cota', infeasible: 'Infactible' };
+    const badgeCls = { branch: 'labor', integer: 'ok', pruned: 'warn', infeasible: 'bad' };
+
+    $('bnbInspTitle').textContent = `Inspector: ${node.label}`;
+    $('bnbInspStatus').textContent = labels[node.status];
+    $('bnbInspStatus').className = 'badge ' + badgeCls[node.status];
+
+    $('bnbNodeBound').textContent = node.lp ? money(node.lp.best.z) : 'Infactible';
+    $('bnbNodePoint').textContent = node.lp ? `A = ${num(node.lp.best.x)} · B = ${num(node.lp.best.y)}` : 'Sin región factible';
+    $('bnbNodeInc').textContent = node.incumbentAtStep ? money(node.incumbentAtStep.z) : 'Sin incumbente';
+    $('bnbNodeCuts').textContent = node.extraCuts.length ? node.extraCuts.map(c => c.label).join(' ∧ ') : 'Raíz (sin cortes)';
+    $('bnbNodeExplain').innerHTML = node.explanation;
+
+    // Dibujar plano A-B con poliedro original + zonas cortadas rayadas en rojo + sub-poliedro
+    const svg = $('bnbGeoSvg');
+    svg.innerHTML = '';
+    if (!rootLp) return;
+    const W = 460, H = 300, M = { l: 46, r: 18, t: 16, b: 34 };
+    const { maxX, maxY } = computePlotBounds(rootLp, false);
+    const { sx, sy, pw, ph, plotGroup } = setupClipAndGrid(svg, W, H, M, maxX, maxY, 'bnbGeoClip', 5);
+
+    // Poliedro original en trazo discontinuo suave
+    plotGroup.appendChild(el('polygon', {
+      points: rootLp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' '),
+      fill: cssVar('--c-poly'), 'fill-opacity': 0.08,
+      stroke: cssVar('--text-muted'), 'stroke-width': 1.5, 'stroke-dasharray': '5 4'
+    }));
+
+    // Zonas eliminadas por los cortes de la rama (rayado rojo)
+    node.extraCuts.forEach(cut => {
+      let rx = M.l, ry = M.t, rw = 0, rh = 0;
+      if (cut.varName === 'A' && cut.dir === '<=') {
+        rx = sx(cut.val); ry = M.t; rw = M.l + pw - rx; rh = ph;
+        plotGroup.appendChild(el('line', { x1: rx, y1: M.t, x2: rx, y2: M.t + ph, stroke: cssVar('--c-dec-bad'), 'stroke-width': 2 }));
+      } else if (cut.varName === 'A' && cut.dir === '>=') {
+        rx = M.l; ry = M.t; rw = Math.max(0, sx(cut.val) - M.l); rh = ph;
+        plotGroup.appendChild(el('line', { x1: sx(cut.val), y1: M.t, x2: sx(cut.val), y2: M.t + ph, stroke: cssVar('--c-dec-bad'), 'stroke-width': 2 }));
+      } else if (cut.varName === 'B' && cut.dir === '<=') {
+        rx = M.l; ry = M.t; rw = pw; rh = Math.max(0, sy(cut.val) - M.t);
+        plotGroup.appendChild(el('line', { x1: M.l, y1: sy(cut.val), x2: M.l + pw, y2: sy(cut.val), stroke: cssVar('--c-dec-bad'), 'stroke-width': 2 }));
+      } else if (cut.varName === 'B' && cut.dir === '>=') {
+        rx = M.l; ry = sy(cut.val); rw = pw; rh = Math.max(0, M.t + ph - ry);
+        plotGroup.appendChild(el('line', { x1: M.l, y1: ry, x2: M.l + pw, y2: ry, stroke: cssVar('--c-dec-bad'), 'stroke-width': 2 }));
+      }
+      if (rw > 0 && rh > 0) {
+        plotGroup.appendChild(el('rect', { x: rx, y: ry, width: rw, height: rh, fill: 'url(#bnbGeoClip_hatch)' }));
+      }
+    });
+
+    // Sub-poliedro restante del nodo
+    if (node.lp) {
+      plotGroup.appendChild(el('polygon', {
+        points: node.lp.vertices.map(p => `${sx(p.x)},${sy(p.y)}`).join(' '),
+        fill: cssVar('--c-poly'), 'fill-opacity': 0.25,
+        stroke: cssVar('--c-poly'), 'stroke-width': 2.2
+      }));
+      const p = node.lp.best;
+      const col = node.status === 'integer' ? cssVar('--c-opt') : (node.status === 'pruned' ? cssVar('--c-warn') : cssVar('--c-labor'));
+      svg.appendChild(el('circle', { cx: sx(p.x), cy: sy(p.y), r: 7, fill: col, stroke: '#fff', 'stroke-width': 2.2 }));
+      svg.appendChild(el('text', {
+        x: clamp(sx(p.x) + 10, M.l + 40, W - M.r - 65),
+        y: clamp(sy(p.y) - 10, M.t + 16, M.t + ph - 10),
+        fill: col, 'font-size': 11, 'font-weight': 800, class: 'mono'
+      }, `(${num(p.x)}, ${num(p.y)})`));
+    } else {
+      svg.appendChild(el('text', { x: M.l + pw / 2, y: M.t + ph / 2, 'text-anchor': 'middle', fill: cssVar('--c-dec-bad'), 'font-size': 14, 'font-weight': 800 }, 'Sub-poliedro vacío (Infactible)'));
+    }
+
+    svg.appendChild(el('text', { x: M.l + pw / 2, y: H - 6, 'text-anchor': 'middle', 'font-size': 11, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'Producto A'));
+    svg.appendChild(el('text', { x: 14, y: M.t + ph / 2, transform: `rotate(-90 14 ${M.t + ph / 2})`, 'text-anchor': 'middle', 'font-size': 11, fill: cssVar('--text-muted'), 'font-weight': 700 }, 'Producto B'));
+  }
+
+  function stopBnbPlay() {
+    if (state.bnbTimer) {
+      clearInterval(state.bnbTimer);
+      state.bnbTimer = null;
+      $('bnbPlay').textContent = '▶ Reproducir animación';
+    }
+  }
+
+  /* -----------------------------------------------------------------------
+     14. SINCRONIZACIÓN DE UI Y ACTUALIZACIÓN GLOBAL
+     ----------------------------------------------------------------------- */
+  function syncDecisionInputs() {
+    const stepStr = state.snap ? '1' : '0.1';
+    const maxSlider = Math.max(100, Math.ceil(Math.max(state.b1 / state.a11, state.b2 / state.a22, state.a, state.b) * 1.15));
+
+    ['decASlider', 'f2ASlider'].forEach(id => { $(id).max = maxSlider; $(id).step = stepStr; $(id).value = state.a; });
+    ['decBSlider', 'f2BSlider'].forEach(id => { $(id).max = maxSlider; $(id).step = stepStr; $(id).value = state.b; });
+    ['decANum', 'f2ANum'].forEach(id => { $(id).value = round2(state.a); });
+    ['decBNum', 'f2BNum'].forEach(id => { $(id).value = round2(state.b); });
+    $('m1SnapInfo').textContent = state.snap ? 'Snap: Enteros' : 'Modo continuo';
+  }
+
+  function syncParamInputs() {
+    $('capMSlider').value = state.b1; $('capMNum').value = state.b1;
+    $('capLSlider').value = state.b2; $('capLNum').value = state.b2;
+    $('pASlider').value = state.pA;   $('pANum').value = state.pA;
+    $('pBSlider').value = state.pB;   $('pBNum').value = state.pB;
+    $('a11Num').value = state.a11;    $('a12Num').value = state.a12;
+    $('a21Num').value = state.a21;    $('a22Num').value = state.a22;
+    $('r3Toggle').checked = state.r3On;
+    $('r3ControlWrap').classList.toggle('hidden', !state.r3On);
+    $('capR3Slider').value = state.b3; $('capR3Num').value = state.b3;
+    $('snapToggle').checked = state.snap;
+    syncDecisionInputs();
+  }
+
+  function updateAll(paramsChanged = true) {
+    const lp = solveLP();
+    const cs = getActiveConstraints();
+    const usedR1 = state.a11 * state.a + state.a12 * state.b;
+    const usedR2 = state.a21 * state.a + state.a22 * state.b;
+    const usedR3 = state.a;
+    const feas = isDecisionFeasible();
+    const curZ = state.pA * state.a + state.pB * state.b;
+
+    // 1) KPIs superiores
+    $('kpiProfit').textContent = money(curZ);
+    const decBadge = $('kpiDecBadge');
+    const effBar = $('kpiEffBar');
+    if (!feas) {
+      decBadge.textContent = 'Infactible';
+      decBadge.className = 'badge bad';
+      effBar.style.width = '100%';
+      effBar.style.background = 'var(--c-dec-bad)';
+      $('kpiEffText').textContent = 'Excede al menos una restricción';
+      $('kpiMarginText').textContent = 'Corregir A o B';
+    } else if (lp && lp.best.z > EPS) {
+      const pct = clamp((curZ / lp.best.z) * 100, 0, 100);
+      const diff = Math.max(0, lp.best.z - curZ);
+      decBadge.textContent = diff < 1e-4 ? '¡Óptimo!' : 'Factible';
+      decBadge.className = 'badge ' + (diff < 1e-4 ? 'ok' : 'cyan');
+      effBar.style.width = pct.toFixed(1) + '%';
+      effBar.style.background = diff < 1e-4 ? 'var(--c-opt)' : 'var(--c-dec-ok)';
+      $('kpiEffText').textContent = `${num(pct)}% del óptimo`;
+      $('kpiMarginText').textContent = diff < 1e-4 ? 'Eficiencia máxima' : `Margen: +${money(diff)}`;
+    }
+
+    if (lp) {
+      $('kpiOptZ').textContent = money(lp.best.z);
+      $('kpiOptCoords').textContent = `A* = ${num(lp.best.x)} · B* = ${num(lp.best.y)}`;
+      $('kpiOptVerts').textContent = `${lp.vertices.length} vértices`;
+      $('kpiOptBadge').textContent = lp.hasMultipleOptima ? 'Óptimos múltiples' : 'Óptimo único';
+      $('kpiOptBadge').className = 'badge ' + (lp.hasMultipleOptima ? 'warn' : 'ok');
+      $('sideOptType').textContent = lp.hasMultipleOptima ? 'Múltiples' : 'Único';
+      $('sideOptType').className = 'badge ' + (lp.hasMultipleOptima ? 'warn' : 'ok');
+      $('f2MultiBadge').textContent = lp.hasMultipleOptima ? '★ Arista de óptimos múltiples' : 'Óptimo único en vértice';
+      $('f2MultiBadge').className = 'badge ' + (lp.hasMultipleOptima ? 'warn' : 'ok');
+
+      // Sidebar solución óptima
+      $('sideOptA').textContent = num(lp.best.x);
+      $('sideOptB').textContent = num(lp.best.y);
+      $('sideOptZ').textContent = money(lp.best.z);
+      $('miniOptTag').textContent = `Z* = ${money(lp.best.z)}`;
+      $('sideBindingPills').innerHTML = lp.constraints.map(c => {
+        const active = Math.abs(c.a * lp.best.x + c.b * lp.best.y - c.c) < 1e-4;
+        const cls = active ? (c.id === 'r1' ? 'machine' : c.id === 'r2' ? 'labor' : 'extra') : '';
+        return `<span class="badge ${cls}">${c.short}: ${active ? 'Activa' : 'Holgura'}</span>`;
+      }).join('');
+    }
+
+    // Helper para KPIs y barras de recursos
+    const updateResUI = (used, cap, kpiVal, kpiBar, kpiSub, kpiPct, kpiBadge, m1Text, m1Bar, eqState, colorCss, badgeCls, unit) => {
+      const pct = cap > 0 ? (used / cap) * 100 : 0;
+      const over = used > cap + 1e-5;
+      const active = !over && Math.abs(used - cap) < 1e-4;
+      $(kpiVal).textContent = `${num(used)} / ${num(cap)} ${unit}`;
+      $(kpiPct).textContent = `${num(pct)}%`;
+      $(kpiBar).style.width = Math.min(100, pct) + '%';
+      $(kpiBar).style.background = over ? 'var(--c-dec-bad)' : colorCss;
+      $(kpiSub).textContent = over ? `Exceso de ${num(used - cap)} ${unit}` : active ? 'Saturada (0 libres)' : `${num(cap - used)} ${unit} libres`;
+      $(kpiBadge).textContent = over ? 'Excedida' : active ? 'Activa' : 'Holgura';
+      $(kpiBadge).className = 'badge ' + (over ? 'bad' : active ? 'ok' : badgeCls);
+      $(m1Text).textContent = `${num(used)} / ${num(cap)} ${unit}`;
+      $(m1Bar).style.width = Math.min(100, pct) + '%';
+      $(m1Bar).style.background = over ? 'var(--c-dec-bad)' : colorCss;
+      $(eqState).textContent = `${num(used)} / ${num(cap)} ${unit}`;
+    };
+
+    updateResUI(usedR1, state.b1, 'kpiR1Val', 'kpiR1Bar', 'kpiR1Sub', 'kpiR1Pct', 'kpiR1Badge', 'm1R1Text', 'm1R1Bar', 'eqR1State', 'var(--c-machine)', 'machine', 'h');
+    updateResUI(usedR2, state.b2, 'kpiR2Val', 'kpiR2Bar', 'kpiR2Sub', 'kpiR2Pct', 'kpiR2Badge', 'm1R2Text', 'm1R2Bar', 'eqR2State', 'var(--c-labor)', 'labor', 'h');
+
+    // R3 opcional
+    $('eqR3Card').classList.toggle('hidden', !state.r3On);
+    $('m1R3Wrap').classList.toggle('hidden', !state.r3On);
+    $('legR3').classList.toggle('hidden', !state.r3On);
+    if (state.r3On) {
+      const over3 = usedR3 > state.b3 + 1e-5;
+      const pct3 = state.b3 > 0 ? (usedR3 / state.b3) * 100 : 0;
+      $('m1R3Text').textContent = `${num(usedR3)} / ${num(state.b3)} u.`;
+      $('m1R3Bar').style.width = Math.min(100, pct3) + '%';
+      $('m1R3Bar').style.background = over3 ? 'var(--c-dec-bad)' : 'var(--c-extra)';
+      $('eqR3State').textContent = `${num(usedR3)} / ${num(state.b3)} u.`;
+    }
+
+    // Ecuaciones Etapa 1
+    $('eqObj').textContent = `Max Z = ${num(state.pA)}·A + ${num(state.pB)}·B`;
+    $('eqR1').textContent = `${num(state.a11)}·A + ${num(state.a12)}·B ≤ ${num(state.b1)}`;
+    $('eqR2').textContent = `${num(state.a21)}·A + ${num(state.a22)}·B ≤ ${num(state.b2)}`;
+    $('eqR3').textContent = `A ≤ ${num(state.b3)}`;
+
+    // Resumen Etapa 1 y 2
+    $('m1Profit').textContent = money(curZ);
+    $('m1FeasPill').innerHTML = feas
+      ? '<span class="badge ok">✓ Producción factible</span>'
+      : '<span class="badge bad">✗ Infactible: excede recursos</span>';
+    $('m1StatusBadge').textContent = feas ? 'Combinación factible' : 'Restricción violada';
+    $('m1StatusBadge').className = 'badge ' + (feas ? 'cyan' : 'bad');
+    $('f2DecState').textContent = feas ? 'Factible' : 'Infactible';
+    $('f2DecState').className = 'badge ' + (feas ? 'cyan' : 'bad');
+
+    // Sincronizar slider Isobeneficio
+    if (lp) {
+      const maxIso = Math.ceil(lp.best.z * 1.25 / 10) * 10;
+      $('isoSlider').max = Math.max(100, maxIso);
+      if (state.isoPinnedToOpt) state.isoZ = lp.best.z;
+      $('isoSlider').value = round2(state.isoZ);
+      $('isoValLabel').textContent = `Z = ${money(state.isoZ)}`;
+    }
+
+    // Si cambiaron parámetros del modelo, recalcular Simplex y B&B
+    if (paramsChanged) {
+      stopSimplexPlay();
+      state.sxSteps = runSimplexPrimal();
+      state.sxIndex = Math.min(state.sxIndex, Math.max(0, state.sxSteps.length - 1));
+      if (state.activeTab === 'bnb') rebuildBnb(true);
+      else state.bnbNodes = [];
+    }
+
+    // Renderizar la etapa activa
+    if (state.activeTab === 'model') drawMiniGraph(lp);
+    if (state.activeTab === 'feasible') drawMainGraph(lp);
+    if (state.activeTab === 'simplex') renderSimplexStage(lp);
+    if (state.activeTab === 'sensitivity') renderSensitivityStage();
+    if (state.activeTab === 'integer') renderIntegerStage(lp);
+    if (state.activeTab === 'bnb') {
+      if (!state.bnbNodes.length) rebuildBnb(true);
+      else renderBnbStage();
+    }
+  }
+
+  /* -----------------------------------------------------------------------
+     15. MANEJADORES DE EVENTOS (TEMAS, PRESETS, TABS, CONTROLES, ANIMACIONES)
+     ----------------------------------------------------------------------- */
+  // Temas con persistencia localStorage
+  function setTheme(themeName, silent = false) {
+    document.documentElement.setAttribute('data-theme', themeName);
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.themeSet === themeName));
+    try { localStorage.setItem('lp_lab_v2_theme', themeName); } catch (_) {}
+    updateAll(false);
+    if (!silent) showToast('Tema visual actualizado');
+  }
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTheme(btn.dataset.themeSet));
+  });
+
+  // Modo Presentación
+  $('btnPresentation').addEventListener('click', () => {
+    const on = document.body.classList.toggle('presentation-mode');
+    $('presLabel').textContent = on ? 'Salir Presentación' : 'Modo Presentación';
+    $('presIcon').textContent = on ? '✕' : '⛶';
+    showToast(on ? 'Modo Presentación activado' : 'Vista estándar restaurada');
+  });
+
+  // Toggle sidebar móvil
+  $('btnToggleSidebar').addEventListener('click', () => {
+    $('sidebarPanel').classList.toggle('collapsed-mobile');
+  });
+
+  // Presets pedagógicos
+  function applyPreset(key, targetTab = null) {
+    const p = PRESETS[key];
+    if (!p) return;
+    Object.assign(state, p);
+    state.activePreset = key;
+    state.isoPinnedToOpt = true;
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === key));
+    syncParamInputs();
+    if (targetTab) setTab(targetTab);
+    else updateAll(true);
+    showToast(`Escenario cargado: ${p.label}`);
+  }
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.preset;
+      applyPreset(k, k === 'fractional' && state.activeTab === 'model' ? 'integer' : null);
+    });
+  });
+  $('btnResetSide').addEventListener('click', () => applyPreset('base'));
+
+  // Cambio de pestañas
+  function setTab(name) {
+    stopSimplexPlay();
+    stopBnbPlay();
+    if (state.isoAnimId) { cancelAnimationFrame(state.isoAnimId); state.isoAnimId = null; }
+    state.activeTab = name;
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+    updateAll(false);
+  }
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
+
+  // Hover de ecuaciones en Etapa 1 -> resalta recta en mini-SVG
+  document.querySelectorAll('#eqStack .eq-card[data-hl]').forEach(card => {
+    card.addEventListener('mouseenter', () => { state.highlightConstraint = card.dataset.hl; drawMiniGraph(solveLP()); });
+    card.addEventListener('mouseleave', () => { state.highlightConstraint = null; drawMiniGraph(solveLP()); });
+  });
+
+  // Pista económica desplegable
+  $('btnToggleHint').addEventListener('click', () => {
+    const hidden = $('hintContent').classList.toggle('hidden');
+    $('btnToggleHint').textContent = hidden ? 'Ver pista económica' : 'Ocultar pista';
+  });
+
+  // Vinculación bidireccional de parámetros del escenario
+  function bindParamPair(sliderId, numId, key, min, max) {
+    const onVal = raw => {
+      const v = clamp(parseFloat(raw) || min, min, max);
+      state[key] = v;
+      state.activePreset = null;
+      state.isoPinnedToOpt = true;
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      $(sliderId).value = v;
+      $(numId).value = v;
+      updateAll(true);
+    };
+    $(sliderId).addEventListener('input', e => onVal(e.target.value));
+    $(numId).addEventListener('change', e => onVal(e.target.value));
+  }
+  bindParamPair('capMSlider', 'capMNum', 'b1', 20, 180);
+  bindParamPair('capLSlider', 'capLNum', 'b2', 20, 180);
+  bindParamPair('pASlider',   'pANum',   'pA', 5,  120);
+  bindParamPair('pBSlider',   'pBNum',   'pB', 5,  120);
+  bindParamPair('capR3Slider','capR3Num','b3', 5,  120);
+
+  // Coeficientes técnicos y R3
+  [['a11Num', 'a11'], ['a12Num', 'a12'], ['a21Num', 'a21'], ['a22Num', 'a22']].forEach(([id, key]) => {
+    $(id).addEventListener('change', e => {
+      state[key] = clamp(parseFloat(e.target.value) || 1, 0.5, 6);
+      $(id).value = state[key];
+      state.isoPinnedToOpt = true;
+      updateAll(true);
+    });
+  });
+  $('r3Toggle').addEventListener('change', e => {
+    state.r3On = e.target.checked;
+    $('r3ControlWrap').classList.toggle('hidden', !state.r3On);
+    state.isoPinnedToOpt = true;
+    updateAll(true);
+    showToast(state.r3On ? '3.ª restricción (A ≤ b₃) activada' : '3.ª restricción desactivada');
+  });
+
+  // Snap a enteros
+  $('snapToggle').addEventListener('change', e => {
+    state.snap = e.target.checked;
+    if (state.snap) {
+      state.a = Math.round(state.a);
+      state.b = Math.round(state.b);
+    }
+    syncDecisionInputs();
+    updateAll(false);
+  });
+
+  // Controles de decisión (Etapa 1 y Etapa 2 sincronizados)
+  function bindDecControl(id, axis) {
+    $(id).addEventListener('input', e => {
+      let v = Math.max(0, parseFloat(e.target.value) || 0);
+      if (state.snap && $(id).type === 'range') v = Math.round(v);
+      state[axis] = v;
+      syncDecisionInputs();
+      updateAll(false);
+    });
+  }
+  ['decASlider', 'decANum', 'f2ASlider', 'f2ANum'].forEach(id => bindDecControl(id, 'a'));
+  ['decBSlider', 'decBNum', 'f2BSlider', 'f2BNum'].forEach(id => bindDecControl(id, 'b'));
+
+  // Botón Aplicar Óptimo Continuo (CORREGIDO: conserva decimales exactos sin redondeo forzado)
+  $('btnApplyOptimum').addEventListener('click', () => {
+    const lp = solveLP();
+    if (!lp) return;
+    applyDecisionPoint(lp.best.x, lp.best.y, true);
+    showToast(`Óptimo aplicado: A = ${num(lp.best.x)}, B = ${num(lp.best.y)}`);
+  });
+
+  // Controles de Isobeneficio en Etapa 2
+  $('isoSlider').addEventListener('input', e => {
+    state.isoPinnedToOpt = false;
+    state.isoZ = parseFloat(e.target.value) || 0;
+    $('isoValLabel').textContent = `Z = ${money(state.isoZ)}`;
+    drawMainGraph(solveLP());
+  });
+  $('btnIsoToOpt').addEventListener('click', () => {
+    const lp = solveLP(); if (!lp) return;
+    state.isoPinnedToOpt = true; state.isoZ = lp.best.z;
+    updateAll(false);
+  });
+  $('btnIsoToDec').addEventListener('click', () => {
+    state.isoPinnedToOpt = false;
+    state.isoZ = state.pA * state.a + state.pB * state.b;
+    updateAll(false);
+  });
+  $('btnAnimIso').addEventListener('click', () => {
+    const lp = solveLP(); if (!lp) return;
+    if (state.isoAnimId) cancelAnimationFrame(state.isoAnimId);
+    state.isoPinnedToOpt = false;
+    const targetZ = lp.best.z;
+    const startTime = performance.now();
+    const duration = 1800;
+    function tick(now) {
+      const t = Math.min(1, (now - startTime) / duration);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      state.isoZ = targetZ * eased;
+      $('isoSlider').value = round2(state.isoZ);
+      $('isoValLabel').textContent = `Z = ${money(state.isoZ)}`;
+      drawMainGraph(lp);
+      if (t < 1) state.isoAnimId = requestAnimationFrame(tick);
+      else { state.isoAnimId = null; state.isoPinnedToOpt = true; }
+    }
+    state.isoAnimId = requestAnimationFrame(tick);
+  });
+
+  // Controles de reproducción Simplex (Etapa 3)
+  $('sxFirst').addEventListener('click', () => { stopSimplexPlay(); state.sxIndex = 0; renderSimplexStage(solveLP()); });
+  $('sxPrev').addEventListener('click', () => { stopSimplexPlay(); state.sxIndex = Math.max(0, state.sxIndex - 1); renderSimplexStage(solveLP()); });
+  $('sxNext').addEventListener('click', () => { stopSimplexPlay(); state.sxIndex = Math.min(state.sxSteps.length - 1, state.sxIndex + 1); renderSimplexStage(solveLP()); });
+  $('sxLast').addEventListener('click', () => { stopSimplexPlay(); state.sxIndex = state.sxSteps.length - 1; renderSimplexStage(solveLP()); });
+  $('sxPlay').addEventListener('click', () => {
+    if (state.sxTimer) { stopSimplexPlay(); return; }
+    if (state.sxIndex >= state.sxSteps.length - 1) state.sxIndex = 0;
+    renderSimplexStage(solveLP());
+    $('sxPlay').textContent = '⏸ Pausar';
+    state.sxTimer = setInterval(() => {
+      if (state.sxIndex < state.sxSteps.length - 1) {
+        state.sxIndex++;
+        renderSimplexStage(solveLP());
+      } else {
+        stopSimplexPlay();
+      }
+    }, 1250);
+  });
+
+  // Selector de recurso en Gráfico Paramétrico (Etapa 4)
+  [0, 1, 2].forEach(idx => {
+    const btn = $('paramBtn' + idx);
+    if (btn) btn.addEventListener('click', () => { state.paramResIdx = idx; renderSensitivityStage(); });
+  });
+
+  // Controles Etapa 5 (Entera)
+  $('btnIntFull').addEventListener('click', () => { state.intZoom = false; renderIntegerStage(solveLP()); });
+  $('btnIntZoom').addEventListener('click', () => { state.intZoom = true; renderIntegerStage(solveLP()); });
+  $('btnIntLoad99').addEventListener('click', () => applyPreset('fractional', 'integer'));
+  $('btnApplyIntOpt').addEventListener('click', () => {
+    const res = findIntegerOptimum();
+    if (!res.best) return;
+    applyDecisionPoint(res.best.x, res.best.y, true);
+    showToast(`Óptimo entero aplicado: (${res.best.x}, ${res.best.y}) · Z = ${money(res.best.z)}`);
+  });
+
+  // Controles Etapa 6 (Branch & Bound)
+  $('btnBnbLoadFrac').addEventListener('click', () => applyPreset('fractional', 'bnb'));
+  $('bnbRunAll').addEventListener('click', () => rebuildBnb(true));
+  $('bnbPrev').addEventListener('click', () => {
+    stopBnbPlay();
+    state.bnbVisibleCount = Math.max(1, state.bnbVisibleCount - 1);
+    state.bnbSelectedId = state.bnbNodes[state.bnbVisibleCount - 1].id;
+    renderBnbStage();
+  });
+  $('bnbNext').addEventListener('click', () => {
+    stopBnbPlay();
+    state.bnbVisibleCount = Math.min(state.bnbNodes.length, state.bnbVisibleCount + 1);
+    state.bnbSelectedId = state.bnbNodes[state.bnbVisibleCount - 1].id;
+    renderBnbStage();
+  });
+  $('bnbPlay').addEventListener('click', () => {
+    if (state.bnbTimer) { stopBnbPlay(); return; }
+    if (!state.bnbNodes.length) rebuildBnb(false);
+    if (state.bnbVisibleCount >= state.bnbNodes.length) {
+      state.bnbVisibleCount = 1;
+      state.bnbSelectedId = state.bnbNodes[0].id;
+      renderBnbStage();
+    }
+    $('bnbPlay').textContent = '⏸ Pausar';
+    state.bnbTimer = setInterval(() => {
+      if (state.bnbVisibleCount < state.bnbNodes.length) {
+        state.bnbVisibleCount++;
+        state.bnbSelectedId = state.bnbNodes[state.bnbVisibleCount - 1].id;
+        renderBnbStage();
+      } else {
+        stopBnbPlay();
+      }
+    }, 1050);
+  });
+
+  /* -----------------------------------------------------------------------
+     16. INICIALIZACIÓN
+     ----------------------------------------------------------------------- */
+  let savedTheme = 'indigo';
+  try {
+    const t = localStorage.getItem('lp_lab_v2_theme');
+    if (['indigo', 'ivory', 'emerald', 'amber'].includes(t)) savedTheme = t;
+  } catch (_) {}
+
+  syncParamInputs();
+  setTheme(savedTheme, true);
+  updateAll(true);
+})();
+</script>
+</body>
+</html>

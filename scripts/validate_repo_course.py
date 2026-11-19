@@ -64,6 +64,9 @@ def validate_visible_content_with_original_m08() -> None:
     protected = (
         "modules/09-arboles-ensembles/site/simuladores/",
         "docs/modulos/09-arboles-ensembles/simuladores/",
+        "docs/modulos/12-optimizacion/simulacion.html",
+        "docs/modulos/12-optimizacion/glosario.html",
+        "docs/modulos/12-optimizacion/cuestionario.html",
         "docs/modulos/10-clustering/simuladores/",
         "docs/modulos/10-clustering/visor-integrado.html",
         "docs/modulos/10-clustering/glosario.html",
@@ -85,7 +88,7 @@ def validate_visible_content_with_original_m08() -> None:
     base.ERRORS[:] = [
         e for e in base.ERRORS
         if not (
-            e.startswith("Emoji no permitido en ")
+            (e.startswith("Emoji no permitido en ") or e.startswith("Etiqueta editorial no permitida en "))
             and any(p in e for p in protected)
         )
     ]

@@ -1,125 +1,2053 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="es" data-theme="indigo">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Glosario interactivo del módulo Programación lineal y analítica prescriptiva.">
-  <meta name="author" content="Sergio Gevatschnaider">
-  <meta name="theme-color" content="#082f49">
-  <title>Glosario: Optimización | Datos y Decisiones</title>
-  <link rel="stylesheet" href="../../assets/css/course.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía y Glosario Completo de Programación Lineal de Alto Nivel</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter (principal), Newsreader (acentos editoriales) y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS CDN para renderizado matemático de alta precisión -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* =========================================================================
+       SISTEMA DE VARIABLES CSS Y TEMAS DE COLOR (4 TEMAS CURADOS)
+       ========================================================================= */
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-card: 1rem;
+      --transition-theme: background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    /* TEMA 1: ÍNDIGO NOCTURNO (Dark mode elegante con acentos índigo y cian) */
+    [data-theme="indigo"] {
+      --bg-page: #0b1020;
+      --bg-sidebar: #0f1629;
+      --bg-card: #131c33;
+      --bg-card-hover: #17223e;
+      --bg-elevated: #1a2645;
+      --bg-input: #0d1426;
+      --bg-formula: rgba(15, 23, 42, 0.75);
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-strong: rgba(148, 163, 184, 0.28);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #8b9bb4;
+      --accent-primary: #6366f1;
+      --accent-secondary: #22d3ee;
+      --accent-soft: rgba(99, 102, 241, 0.16);
+      --shadow-card: 0 10px 30px -12px rgba(2, 6, 23, 0.65);
+      --hero-gradient: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(34, 211, 238, 0.09) 100%);
+      /* Colores de acento por sección */
+      --sec-1: #6366f1; --sec-1-soft: rgba(99, 102, 241, 0.15);
+      --sec-2: #06b6d4; --sec-2-soft: rgba(6, 182, 212, 0.15);
+      --sec-3: #a855f7; --sec-3-soft: rgba(168, 85, 247, 0.15);
+      --sec-4: #10b981; --sec-4-soft: rgba(16, 185, 129, 0.15);
+      --callout-bg: rgba(6, 182, 212, 0.11);
+      --callout-border: #22d3ee;
+      --star-active: #fbbf24;
+      --check-active: #34d399;
+    }
+
+    /* TEMA 2: MARFIL ACADÉMICO (Light mode limpio con acentos azul zafiro y pizarra) */
+    [data-theme="ivory"] {
+      --bg-page: #f8f7f3;
+      --bg-sidebar: #f2f0e9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fcfcfa;
+      --bg-elevated: #ece9df;
+      --bg-input: #ffffff;
+      --bg-formula: #f4f6fa;
+      --border-subtle: rgba(30, 41, 59, 0.10);
+      --border-strong: rgba(30, 41, 59, 0.22);
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-primary: #1d4ed8;
+      --accent-secondary: #0f766e;
+      --accent-soft: rgba(29, 78, 216, 0.10);
+      --shadow-card: 0 8px 24px -10px rgba(15, 23, 42, 0.08);
+      --hero-gradient: linear-gradient(135deg, rgba(29, 78, 216, 0.09) 0%, rgba(15, 118, 110, 0.06) 100%);
+      /* Colores de acento por sección */
+      --sec-1: #1d4ed8; --sec-1-soft: rgba(29, 78, 216, 0.10);
+      --sec-2: #0f766e; --sec-2-soft: rgba(15, 118, 110, 0.10);
+      --sec-3: #6d28d9; --sec-3-soft: rgba(109, 40, 217, 0.10);
+      --sec-4: #b45309; --sec-4-soft: rgba(180, 83, 9, 0.10);
+      --callout-bg: rgba(15, 118, 110, 0.08);
+      --callout-border: #0f766e;
+      --star-active: #d97706;
+      --check-active: #059669;
+    }
+
+    /* TEMA 3: ESMERALDA MATRIZ (Dark mode sofisticado con acentos esmeralda y menta) */
+    [data-theme="emerald"] {
+      --bg-page: #071210;
+      --bg-sidebar: #0a1916;
+      --bg-card: #0e221e;
+      --bg-card-hover: #122b26;
+      --bg-elevated: #15332d;
+      --bg-input: #081613;
+      --bg-formula: rgba(5, 20, 17, 0.8);
+      --border-subtle: rgba(110, 231, 183, 0.13);
+      --border-strong: rgba(110, 231, 183, 0.28);
+      --text-primary: #ecfdf5;
+      --text-secondary: #c4ded5;
+      --text-muted: #7aa396;
+      --accent-primary: #10b981;
+      --accent-secondary: #5eead4;
+      --accent-soft: rgba(16, 185, 129, 0.16);
+      --shadow-card: 0 12px 30px -12px rgba(2, 12, 10, 0.72);
+      --hero-gradient: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(94, 234, 212, 0.08) 100%);
+      /* Colores de acento por sección */
+      --sec-1: #10b981; --sec-1-soft: rgba(16, 185, 129, 0.16);
+      --sec-2: #2dd4bf; --sec-2-soft: rgba(45, 212, 191, 0.15);
+      --sec-3: #84cc16; --sec-3-soft: rgba(132, 204, 22, 0.15);
+      --sec-4: #38bdf8; --sec-4-soft: rgba(56, 189, 248, 0.15);
+      --callout-bg: rgba(45, 212, 191, 0.10);
+      --callout-border: #2dd4bf;
+      --star-active: #facc15;
+      --check-active: #34d399;
+    }
+
+    /* TEMA 4: ÁMBAR EDITORIAL (Tema cálido crema/terracota con acentos ámbar y borgoña) */
+    [data-theme="amber"] {
+      --bg-page: #faf5ec;
+      --bg-sidebar: #f3eadc;
+      --bg-card: #fffdf9;
+      --bg-card-hover: #fffaf0;
+      --bg-elevated: #eadcc8;
+      --bg-input: #fffdf9;
+      --bg-formula: #f7efe2;
+      --border-subtle: rgba(92, 54, 32, 0.13);
+      --border-strong: rgba(92, 54, 32, 0.25);
+      --text-primary: #2c1810;
+      --text-secondary: #4e3428;
+      --text-muted: #7f6152;
+      --accent-primary: #b45309;
+      --accent-secondary: #881337;
+      --accent-soft: rgba(180, 83, 9, 0.12);
+      --shadow-card: 0 8px 24px -10px rgba(68, 36, 18, 0.10);
+      --hero-gradient: linear-gradient(135deg, rgba(180, 83, 9, 0.12) 0%, rgba(136, 19, 55, 0.08) 100%);
+      /* Colores de acento por sección */
+      --sec-1: #b45309; --sec-1-soft: rgba(180, 83, 9, 0.12);
+      --sec-2: #9f1239; --sec-2-soft: rgba(159, 18, 57, 0.11);
+      --sec-3: #c2410c; --sec-3-soft: rgba(194, 65, 12, 0.12);
+      --sec-4: #4d7c0f; --sec-4-soft: rgba(77, 124, 15, 0.12);
+      --callout-bg: rgba(159, 18, 57, 0.07);
+      --callout-border: #9f1239;
+      --star-active: #d97706;
+      --check-active: #15803d;
+    }
+
+    /* =========================================================================
+       ESTILOS BASE Y UTILIDADES DE TEMA
+       ========================================================================= */
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-sans);
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      transition: var(--transition-theme);
+      overflow-x: hidden;
+    }
+
+    .font-editorial { font-family: var(--font-serif); }
+    .font-code { font-family: var(--font-mono); }
+
+    .bg-page { background-color: var(--bg-page); }
+    .bg-sidebar { background-color: var(--bg-sidebar); }
+    .bg-card { background-color: var(--bg-card); }
+    .bg-elevated { background-color: var(--bg-elevated); }
+    .bg-input { background-color: var(--bg-input); }
+    .border-subtle { border-color: var(--border-subtle); }
+    .border-strong { border-color: var(--border-strong); }
+    .text-primary { color: var(--text-primary); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+
+    /* Scrollbar refinada */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* Barra de progreso de lectura superior */
+    #reading-progress-bar {
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      transition: width 0.1s linear;
+    }
+
+    /* Tarjetas de conceptos */
+    .term-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.25s ease;
+    }
+
+    .term-card:hover {
+      border-color: var(--border-strong);
+      background-color: var(--bg-card-hover);
+    }
+
+    .term-card.is-mastered {
+      border-color: color-mix(in srgb, var(--check-active) 40%, var(--border-subtle));
+    }
+
+    /* Colores dinámicos por sección en tarjetas e insignias */
+    .sec-accent-1 { --sec-color: var(--sec-1); --sec-soft: var(--sec-1-soft); }
+    .sec-accent-2 { --sec-color: var(--sec-2); --sec-soft: var(--sec-2-soft); }
+    .sec-accent-3 { --sec-color: var(--sec-3); --sec-soft: var(--sec-3-soft); }
+    .sec-accent-4 { --sec-color: var(--sec-4); --sec-soft: var(--sec-4-soft); }
+
+    .sec-badge {
+      color: var(--sec-color);
+      background-color: var(--sec-soft);
+      border: 1px solid color-mix(in srgb, var(--sec-color) 28%, transparent);
+    }
+
+    .sec-left-bar {
+      border-left: 4px solid var(--sec-color);
+    }
+
+    .sec-dot {
+      background-color: var(--sec-color);
+    }
+
+    /* Estilizado de bloques matemáticos KaTeX */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.95rem 1.15rem;
+      margin: 0.9rem 0 !important;
+      background-color: var(--bg-formula);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+      max-width: 100%;
+    }
+
+    .katex {
+      font-size: 1.04em;
+    }
+
+    /* Callout de Equivalencia Fundamental */
+    .callout-box {
+      background-color: var(--callout-bg);
+      border-left: 4px solid var(--callout-border);
+      border-top: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* Listas académicas limpias dentro de definiciones */
+    .term-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .term-content ul li {
+      position: relative;
+      padding-left: 1.35rem;
+    }
+
+    .term-content ul li::before {
+      content: "";
+      position: absolute;
+      left: 0.25rem;
+      top: 0.62rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: var(--sec-color, var(--accent-primary));
+    }
+
+    .term-content ol {
+      counter-reset: item;
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .term-content ol li {
+      position: relative;
+      padding-left: 1.95rem;
+      counter-increment: item;
+    }
+
+    .term-content ol li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      top: 0.15rem;
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 0.45rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sec-color, var(--accent-primary));
+      background-color: var(--sec-soft, var(--accent-soft));
+    }
+
+    .term-content strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Animaciones suaves de aparición */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fadeSlideUp 0.28s ease-out both;
+    }
+
+    /* Enlace activo del Scroll-Spy en sidebar */
+    .nav-item-active {
+      background-color: var(--accent-soft);
+      color: var(--accent-primary) !important;
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+       FLASHCARDS 3D FLIP ANIMATION
+       ========================================================================= */
+    .flashcard-scene {
+      perspective: 1400px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flashcard-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1.25rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.45);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Highlight de coincidencia de búsqueda */
+    mark.search-hl {
+      background-color: color-mix(in srgb, var(--accent-secondary) 32%, transparent);
+      color: var(--text-primary);
+      padding: 0 0.15rem;
+      border-radius: 0.25rem;
+    }
+  </style>
 </head>
-        <body class="glossary-page" data-module-id="12" data-page-kind="glosario">
-          <a class="skip-link" href="#contenido">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
-      <span class="brand-mark" aria-hidden="true">DD</span>
-      <span>
-        <strong>Datos y Decisiones</strong>
-        <small>Ciencia de datos aplicada</small>
-      </span>
-    </a>
-    <button class="nav-toggle" type="button" aria-expanded="false"
-            aria-controls="site-navigation">Menú</button>
-    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
-      <a href="../../index.html">Inicio</a>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../proyecto-integrador.html">Proyecto</a>
-      <a href="../../profundizaciones.html">Profundizaciones</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
-      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
-        Tema
-      </button>
-    </nav>
+<body class="min-h-screen antialiased selection:bg-indigo-500/30"><nav aria-label="Navegación del módulo" style="position:relative;z-index:100;background:#082f49;color:white;padding:10px 18px;display:flex;gap:18px;flex-wrap:wrap;font:600 14px system-ui"><a style="color:white" href="index.html">← Módulo</a><a style="color:white" href="guia.html">Guía de clases</a><a style="color:white" href="simulacion.html">Laboratorio</a><a style="color:white" href="glosario.html">Glosario</a><a style="color:white" href="cuestionario.html">Cuestionario</a><a style="color:white" href="videos.html">Videos</a></nav>
+
+  <!-- Barra de progreso de lectura fija superior -->
+  <div class="fixed top-0 left-0 right-0 z-50 h-1 bg-transparent pointer-events-none">
+    <div id="reading-progress-bar" class="h-full w-0 rounded-r-full"></div>
   </div>
-</header>
-          <main id="contenido">
-            <section class="page-hero compact">
-          <div class="container narrow">
-            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 12</a> / Glosario</p>
-            <p class="eyebrow">Referencia interactiva · Módulo 12</p>
-            <h1>Glosario: Optimización</h1>
-            <p class="hero-lead">Diez conceptos esenciales con definiciones breves y contextualizadas.</p>
+
+  <!-- Overlay para el menú lateral móvil -->
+  <div id="mobile-sidebar-overlay" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm hidden lg:hidden transition-opacity" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       ESTRUCTURA PRINCIPAL: SIDEBAR FIJA (DESKTOP) + CONTENIDO EDITORIAL
+       ========================================================================= -->
+  <div class="flex min-h-screen">
+
+    <!-- BARRA LATERAL DE NAVEGACIÓN, TEMAS Y PROGRESO -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-40 h-screen w-80 max-w-[86vw] bg-sidebar border-r border-subtle flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out shrink-0">
+
+      <!-- Encabezado Sidebar -->
+      <div class="p-5 border-b border-subtle flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-editorial font-bold text-lg text-white shadow-md" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+            LP
           </div>
-        </section>
-        <section class="container glossary-section">
-          <label class="search-control">
-            <span>Buscar término o definición</span>
-            <input type="search" data-glossary-search placeholder="Escribí para filtrar">
-          </label>
-          <p class="search-status" role="status" aria-live="polite" data-glossary-count>10 términos</p>
-          <div class="glossary-grid"><article class="glossary-entry" data-glossary-entry
-         data-search="variable de decisión cantidad controlable que el modelo debe determinar.">
-  <h2>Variable de decisión</h2>
-  <p>Cantidad controlable que el modelo debe determinar.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="función objetivo expresión que se maximiza o minimiza.">
-  <h2>Función objetivo</h2>
-  <p>Expresión que se maximiza o minimiza.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="restricción condición que limita combinaciones permitidas.">
-  <h2>Restricción</h2>
-  <p>Condición que limita combinaciones permitidas.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="región factible conjunto de soluciones que satisface todas las restricciones.">
-  <h2>Región factible</h2>
-  <p>Conjunto de soluciones que satisface todas las restricciones.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="óptimo mejor solución factible según el objetivo.">
-  <h2>Óptimo</h2>
-  <p>Mejor solución factible según el objetivo.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="holgura recurso no utilizado en una restricción.">
-  <h2>Holgura</h2>
-  <p>Recurso no utilizado en una restricción.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="restricción vinculante condición activa sin holgura en la solución.">
-  <h2>Restricción vinculante</h2>
-  <p>Condición activa sin holgura en la solución.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="variable binaria decisión restringida a cero o uno.">
-  <h2>Variable binaria</h2>
-  <p>Decisión restringida a cero o uno.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="programación entera optimización con algunas o todas las variables discretas.">
-  <h2>Programación entera</h2>
-  <p>Optimización con algunas o todas las variables discretas.</p>
-</article>
-<article class="glossary-entry" data-glossary-entry
-         data-search="análisis de sensibilidad estudio del efecto de cambiar parámetros del modelo.">
-  <h2>Análisis de sensibilidad</h2>
-  <p>Estudio del efecto de cambiar parámetros del modelo.</p>
-</article></div>
-          <div class="button-row centered">
-            <a class="button secondary" href="index.html">Volver a la guía</a>
-            <a class="button primary" href="cuestionario.html">Resolver cuestionario</a>
+          <div class="min-w-0">
+            <h2 class="font-bold text-sm tracking-tight text-primary truncate">Programación Lineal</h2>
+            <p class="text-xs text-muted truncate">Guía &amp; Glosario de Alto Nivel</p>
           </div>
-        </section>
-          </main>
-          <footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
-      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
-    </div>
-    <div>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../accesibilidad.html">Accesibilidad</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+        </div>
+        <button id="close-sidebar-btn" class="lg:hidden p-2 rounded-lg hover:bg-elevated text-muted hover:text-primary transition" aria-label="Cerrar menú">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Widget de Progreso de Estudio -->
+      <div class="px-5 py-4 border-b border-subtle">
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <span class="font-semibold text-secondary">Progreso de dominio</span>
+          <span id="sidebar-progress-text" class="font-code font-semibold text-primary">0 / 38 (0%)</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-elevated overflow-hidden">
+          <div id="sidebar-progress-bar" class="h-full rounded-full transition-all duration-300" style="width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--check-active));"></div>
+        </div>
+        <div class="flex items-center justify-between mt-3 gap-2">
+          <button id="open-flashcards-sidebar" class="flex-1 py-2 px-3 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1.5 shadow-sm hover:opacity-95 active:scale-[0.99] transition" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>Modo Flashcards</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Selector Dinámico de 4 Temas -->
+      <div class="px-5 py-3.5 border-b border-subtle">
+        <p class="text-[11px] font-semibold uppercase tracking-wider text-muted mb-2.5">Tema visual</p>
+        <div class="grid grid-cols-2 gap-2" id="theme-switcher">
+          <button data-theme-btn="indigo" class="theme-btn flex items-center gap-2 px-2.5 py-2 rounded-xl border border-subtle text-xs font-medium text-secondary hover:text-primary hover:border-strong transition text-left">
+            <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-white/20" style="background: linear-gradient(135deg, #0b1020 45%, #6366f1 55%);"></span>
+            <span class="truncate">Índigo</span>
+          </button>
+          <button data-theme-btn="ivory" class="theme-btn flex items-center gap-2 px-2.5 py-2 rounded-xl border border-subtle text-xs font-medium text-secondary hover:text-primary hover:border-strong transition text-left">
+            <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-slate-300" style="background: linear-gradient(135deg, #f8f7f3 45%, #1d4ed8 55%);"></span>
+            <span class="truncate">Marfil</span>
+          </button>
+          <button data-theme-btn="emerald" class="theme-btn flex items-center gap-2 px-2.5 py-2 rounded-xl border border-subtle text-xs font-medium text-secondary hover:text-primary hover:border-strong transition text-left">
+            <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-emerald-400/30" style="background: linear-gradient(135deg, #071210 45%, #10b981 55%);"></span>
+            <span class="truncate">Esmeralda</span>
+          </button>
+          <button data-theme-btn="amber" class="theme-btn flex items-center gap-2 px-2.5 py-2 rounded-xl border border-subtle text-xs font-medium text-secondary hover:text-primary hover:border-strong transition text-left">
+            <span class="w-3.5 h-3.5 rounded-full shrink-0 border border-amber-700/30" style="background: linear-gradient(135deg, #faf5ec 45%, #b45309 55%);"></span>
+            <span class="truncate">Ámbar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Índice Navegable con Scroll-Spy -->
+      <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-4" id="sidebar-nav" aria-label="Índice del glosario">
+        <!-- Generado dinámicamente por JS -->
+      </nav>
+
+      <!-- Pie de Sidebar -->
+      <div class="p-3.5 border-t border-subtle flex items-center justify-between text-[11px] text-muted">
+        <span>38 conceptos • 4 secciones</span>
+        <button id="reset-progress-btn" class="hover:text-primary underline decoration-dotted transition" title="Reiniciar progreso guardado">Reiniciar</button>
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DE CONTENIDO -->
+    <div class="flex-1 min-w-0 flex flex-col">
+
+      <!-- Barra superior móvil -->
+      <header class="lg:hidden sticky top-0 z-30 bg-sidebar/95 backdrop-blur-md border-b border-subtle px-4 py-3 flex items-center justify-between gap-3">
+        <button id="open-sidebar-btn" class="p-2 rounded-xl bg-elevated text-primary hover:opacity-90 transition" aria-label="Abrir índice y temas">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="min-w-0 flex-1">
+          <span class="font-bold text-sm text-primary block truncate">Glosario de Programación Lineal</span>
+          <span id="mobile-progress-mini" class="text-[11px] text-muted block">0/38 dominados</span>
+        </div>
+        <button id="open-flashcards-mobile" class="px-3 py-2 rounded-xl text-xs font-semibold text-white shrink-0" style="background: var(--accent-primary);">
+          Flashcards
+        </button>
+      </header>
+
+      <!-- Hero Editorial -->
+      <section class="relative border-b border-subtle px-5 sm:px-8 lg:px-12 pt-8 pb-7" style="background: var(--hero-gradient);">
+        <div class="max-w-5xl mx-auto">
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border border-subtle bg-card text-secondary">
+              <span class="w-2 h-2 rounded-full" style="background-color: var(--accent-primary);"></span>
+              Referencia Académica Interactiva
+            </span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-code text-muted bg-card border border-subtle">
+              KaTeX • 38 Términos
+            </span>
+          </div>
+
+          <h1 class="font-editorial text-3xl sm:text-4xl lg:text-[2.65rem] font-bold tracking-tight text-primary leading-tight">
+            Guía y Glosario Completo de Programación Lineal de Alto Nivel
+          </h1>
+          <p class="mt-3 text-sm sm:text-base text-secondary max-w-3xl leading-relaxed">
+            Compendio riguroso que abarca desde la formulación algebraica y la geometría poliédrica hasta los algoritmos de optimización modernos, la teoría de dualidad, el análisis de sensibilidad y los métodos de descomposición a gran escala.
+          </p>
+
+          <!-- Indicadores rápidos -->
+          <div class="mt-5 flex flex-wrap items-center gap-3 text-xs">
+            <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-card border border-subtle">
+              <svg class="w-4 h-4" style="color: var(--check-active);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span class="text-secondary">Dominados: <strong id="hero-mastered-count" class="text-primary font-code">0/38</strong></span>
+            </div>
+            <div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-card border border-subtle">
+              <svg class="w-4 h-4" style="color: var(--star-active);" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <span class="text-secondary">Favoritos: <strong id="hero-fav-count" class="text-primary font-code">0</strong></span>
+            </div>
+            <button id="open-flashcards-hero" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-card border border-subtle hover:border-strong text-primary font-semibold transition">
+              <svg class="w-4 h-4" style="color: var(--accent-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              <span>Estudiar con Tarjetas 3D</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barra de Herramientas Sticky: Búsqueda, Filtros y Vista -->
+      <div class="sticky top-[57px] lg:top-0 z-20 bg-page/90 backdrop-blur-md border-b border-subtle px-5 sm:px-8 lg:px-12 py-3.5">
+        <div class="max-w-5xl mx-auto space-y-3">
+
+          <!-- Fila 1: Buscador + Controles de vista -->
+          <div class="flex flex-col md:flex-row gap-2.5 items-stretch md:items-center">
+            <div class="relative flex-1">
+              <svg class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Buscar término, fórmula (ej. Simplex, Dualidad, B^{-1}, Klee-Minty, TU)..."
+                class="w-full pl-10 pr-24 py-2.5 rounded-xl bg-input border border-subtle focus:border-strong focus:outline-none text-sm text-primary placeholder:text-muted transition"
+                autocomplete="off"
+              >
+              <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <span id="search-count-badge" class="text-[11px] font-code px-2 py-0.5 rounded-md bg-elevated text-muted">38 / 38</span>
+                <button id="clear-search-btn" class="hidden p-1 rounded-md hover:bg-elevated text-muted hover:text-primary transition" title="Limpiar búsqueda" aria-label="Limpiar búsqueda">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Botones de control de vista -->
+            <div class="flex items-center gap-2 shrink-0">
+              <button id="toggle-all-btn" class="flex-1 md:flex-none px-3 py-2.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-medium text-secondary hover:text-primary flex items-center justify-center gap-1.5 transition" title="Colapsar o expandir todos los términos">
+                <svg id="toggle-all-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                <span id="toggle-all-label">Colapsar todo</span>
+              </button>
+              <button id="compact-mode-btn" class="flex-1 md:flex-none px-3 py-2.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-medium text-secondary hover:text-primary flex items-center justify-center gap-1.5 transition" title="Alternar entre vista detallada y compacta">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                <span id="compact-mode-label">Vista compacta</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Fila 2: Filtros por Sección y Filtros de Estudio -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <!-- Filtros por Sección -->
+            <div class="flex flex-wrap items-center gap-1.5" id="section-filters">
+              <button data-section-filter="all" class="sec-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition border">Todas</button>
+              <button data-section-filter="1" class="sec-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition border flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background: var(--sec-1);"></span>
+                <span>1. Formulación</span>
+              </button>
+              <button data-section-filter="2" class="sec-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition border flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background: var(--sec-2);"></span>
+                <span>2. Geometría</span>
+              </button>
+              <button data-section-filter="3" class="sec-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition border flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background: var(--sec-3);"></span>
+                <span>3. Algoritmos</span>
+              </button>
+              <button data-section-filter="4" class="sec-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition border flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background: var(--sec-4);"></span>
+                <span>4. Dualidad y Escala</span>
+              </button>
+            </div>
+
+            <!-- Filtros de Estado de Estudio -->
+            <div class="flex items-center gap-1 bg-card p-1 rounded-xl border border-subtle" id="study-filters">
+              <button data-study-filter="all" class="study-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium transition">Todos</button>
+              <button data-study-filter="pending" class="study-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium transition">Pendientes</button>
+              <button data-study-filter="favorites" class="study-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" style="color: var(--star-active);" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <span>Favoritos</span>
+              </button>
+              <button data-study-filter="mastered" class="study-filter-btn px-2.5 py-1 rounded-lg text-xs font-medium transition">Dominados</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CONTENEDOR PRINCIPAL DEL GLOSARIO -->
+      <main class="flex-1 px-5 sm:px-8 lg:px-12 py-8">
+        <div class="max-w-5xl mx-auto">
+          <div id="glossary-container" class="space-y-12">
+            <!-- Renderizado dinámicamente por JS -->
+          </div>
+
+          <!-- Estado Vacío para búsquedas/filtros sin resultados -->
+          <div id="empty-state" class="hidden text-center py-16 px-6 rounded-2xl bg-card border border-subtle">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-elevated flex items-center justify-center text-muted">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-primary">No se encontraron conceptos</h3>
+            <p class="text-sm text-muted mt-1 max-w-md mx-auto">Prueba con otros términos de búsqueda o restablece los filtros de sección y estudio.</p>
+            <button id="reset-filters-btn" class="mt-5 px-4 py-2 rounded-xl text-xs font-semibold text-white transition hover:opacity-90" style="background-color: var(--accent-primary);">
+              Restablecer todos los filtros
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer Académico -->
+      <footer class="border-t border-subtle px-5 sm:px-8 lg:px-12 py-6 mt-8">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted">
+          <p>Guía y Glosario Completo de Programación Lineal de Alto Nivel — 38 definiciones fundamentales y tabla comparativa.</p>
+          <p class="font-code">Atajos en Flashcards: Espacio (voltear) • ← / → (navegar)</p>
+        </div>
+      </footer>
     </div>
   </div>
-</footer>
-<script src="../../assets/js/course-data.js"></script>
-<script src="../../assets/js/site.js"></script>
-          <script src="../../assets/js/module.js"></script>
-        </body>
-        </html>
+
+  <!-- =========================================================================
+       MODAL INTERACTIVO: MODO TARJETAS DE REPASO (FLASHCARDS 3D)
+       ========================================================================= -->
+  <div id="flashcards-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="flashcards-title">
+    <div class="w-full max-w-3xl flex flex-col max-h-[94vh]">
+
+      <!-- Encabezado del Modal -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 id="flashcards-title" class="font-editorial text-xl sm:text-2xl font-bold text-white">Tarjetas de Repaso (Flashcards)</h2>
+          <p class="text-xs text-slate-300 mt-0.5">Haz clic en la tarjeta o presiona <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-code text-[11px]">Espacio</kbd> para voltear</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="fc-deck-select" class="px-3 py-2 rounded-xl text-xs font-medium bg-card text-primary border border-strong focus:outline-none">
+            <option value="all">Mazo: Todos (38)</option>
+            <option value="pending">Mazo: Solo Pendientes</option>
+            <option value="favorites">Mazo: Solo Favoritos</option>
+            <option value="sec-1">Sección 1: Formulación</option>
+            <option value="sec-2">Sección 2: Geometría</option>
+            <option value="sec-3">Sección 3: Algoritmos</option>
+            <option value="sec-4">Sección 4: Dualidad y Escala</option>
+          </select>
+          <button id="fc-shuffle-btn" class="p-2 rounded-xl bg-card border border-strong text-secondary hover:text-primary transition" title="Mezclar tarjetas">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </button>
+          <button id="close-flashcards-btn" class="p-2 rounded-xl bg-card border border-strong text-secondary hover:text-primary transition" aria-label="Cerrar flashcards">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Progreso del Mazo -->
+      <div class="flex items-center gap-3 mb-4">
+        <span id="fc-counter" class="text-xs font-code font-semibold text-white shrink-0">1 / 38</span>
+        <div class="flex-1 h-1.5 rounded-full bg-white/15 overflow-hidden">
+          <div id="fc-progress-bar" class="h-full rounded-full transition-all duration-300" style="width: 3%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));"></div>
+        </div>
+      </div>
+
+      <!-- Escena 3D de la Tarjeta -->
+      <div id="fc-empty-msg" class="hidden rounded-2xl bg-card border border-strong p-10 text-center">
+        <p class="text-base font-semibold text-primary">No hay tarjetas disponibles en este mazo.</p>
+        <p class="text-xs text-muted mt-1">Selecciona otro mazo en el selector superior o marca conceptos como favoritos.</p>
+      </div>
+
+      <div id="fc-scene" class="flashcard-scene w-full h-[380px] sm:h-[430px] cursor-pointer select-none">
+        <div id="fc-inner" class="flashcard-inner">
+
+          <!-- Cara Frontal: Término -->
+          <div id="fc-front" class="flashcard-face p-6 sm:p-10 flex flex-col justify-between">
+            <div class="flex items-center justify-between gap-2">
+              <span id="fc-front-section" class="sec-badge px-3 py-1 rounded-full text-xs font-semibold">Sección</span>
+              <span id="fc-front-number" class="font-code text-xs text-muted">#01</span>
+            </div>
+
+            <div class="text-center my-auto px-2">
+              <p class="text-[11px] uppercase tracking-widest text-muted font-semibold mb-3">Concepto</p>
+              <h3 id="fc-front-title" class="font-editorial text-2xl sm:text-3xl font-bold text-primary leading-snug"></h3>
+            </div>
+
+            <div class="flex items-center justify-center gap-2 text-xs text-muted">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Toca para revelar la definición y fórmulas</span>
+            </div>
+          </div>
+
+          <!-- Cara Trasera: Desarrollo Completo -->
+          <div id="fc-back" class="flashcard-face flashcard-back p-6 sm:p-8 flex flex-col">
+            <div class="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-subtle shrink-0">
+              <h4 id="fc-back-title" class="font-bold text-sm sm:text-base text-primary truncate"></h4>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-muted shrink-0">Definición</span>
+            </div>
+
+            <div id="fc-back-body" class="term-content flex-1 overflow-y-auto pr-2 text-sm text-secondary leading-relaxed space-y-2.5 select-text">
+              <!-- Contenido completo renderizado con KaTeX -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Controles inferiores de Flashcards -->
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button id="fc-master-btn" class="px-3.5 py-2.5 rounded-xl bg-card border border-strong text-xs font-semibold text-secondary hover:text-primary flex items-center gap-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span>Dominado</span>
+          </button>
+          <button id="fc-fav-btn" class="px-3.5 py-2.5 rounded-xl bg-card border border-strong text-xs font-semibold text-secondary hover:text-primary flex items-center gap-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <span>Favorito</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="fc-prev-btn" class="px-4 py-2.5 rounded-xl bg-card border border-strong text-xs font-semibold text-primary hover:opacity-90 flex items-center gap-1.5 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span>Anterior</span>
+          </button>
+          <button id="fc-flip-btn" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition hover:opacity-95" style="background: var(--accent-primary);">
+            Voltear
+          </button>
+          <button id="fc-next-btn" class="px-4 py-2.5 rounded-xl bg-card border border-strong text-xs font-semibold text-primary hover:opacity-90 flex items-center gap-1.5 transition">
+            <span>Siguiente</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón flotante "Volver arriba" -->
+  <button id="back-to-top-btn" class="fixed bottom-6 right-6 z-30 p-3.5 rounded-2xl text-white shadow-xl opacity-0 pointer-events-none translate-y-4 transition-all duration-300 hover:scale-105 active:scale-95" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));" aria-label="Volver arriba" title="Volver arriba">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+  </button>
+
+  <!-- Toast de Notificaciones (reemplaza alert/confirm) -->
+  <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col gap-2"></div>
+
+  <!-- =========================================================================
+       LÓGICA DE DATOS COMPLETOS Y FUNCIONALIDADES INTERACTIVAS
+       ========================================================================= -->
+  <script>
+    /* =========================================================================
+       1. DATOS COMPLETOS DEL GLOSARIO (38 TÉRMINOS + CALLOUT + TABLA COMPARATIVA)
+       Usamos String.raw para preservar intacta toda la sintaxis LaTeX.
+       ========================================================================= */
+    const SECTIONS = [
+      {
+        id: 1,
+        shortTitle: "Formulación Matemática",
+        title: "Formulación Matemática y Estructura Algebraica",
+        subtitle: "Componentes canónicos, supuestos estructurales, formas normalizadas y variables auxiliares del modelo lineal."
+      },
+      {
+        id: 2,
+        shortTitle: "Geometría Poliédrica",
+        title: "Geometría Poliédrica y Fundamentos Teóricos",
+        subtitle: "Convexidad, poliedros, equivalencia algebraico-geométrica de vértices, rayos extremos y teoremas fundamentales."
+      },
+      {
+        id: 3,
+        shortTitle: "Algoritmos y Complejidad",
+        title: "Algoritmos de Optimización y Complejidad",
+        subtitle: "Simplex primal, revisado y dual, reglas anticiclado, métodos de punto interior, elipsoide y contraste algorítmico."
+      },
+      {
+        id: 4,
+        shortTitle: "Dualidad y Gran Escala",
+        title: "Dualidad, Sensibilidad y Técnicas de Gran Escala",
+        subtitle: "Teoremas de dualidad, holgura complementaria, precios sombra, post-optimalidad, descomposición y unimodularidad."
+      }
+    ];
+
+    const TERMS = [
+      // === SECCIÓN 1 ===
+      {
+        id: 1,
+        section: 1,
+        title: String.raw`Problema de Programación Lineal (PL)`,
+        body: String.raw`<p>Modelo de optimización matemática que busca minimizar o maximizar una función lineal sujeta a un conjunto finito de ecuaciones e inecuaciones lineales. En su expresión más general, modela la asignación óptima de recursos escasos bajo supuestos estrictos de <strong>proporcionalidad</strong> (los rendimientos son constantes a escala), <strong>aditividad</strong> (no existen sinergias ni interacciones cruzadas entre actividades) y <strong>divisibilidad</strong> (las variables toman valores continuos en $\mathbb{R}$).</p>`
+      },
+      {
+        id: 2,
+        section: 1,
+        title: String.raw`Variables de Decisión ($x \in \mathbb{R}^n$)`,
+        body: String.raw`<p>Incógnitas controlables del sistema cuyos valores numéricos determinan la política o plan de acción a ejecutar. El vector $x = (x_1, x_2, \dots, x_n)^T$ define el espacio de decisión.</p>`
+      },
+      {
+        id: 3,
+        section: 1,
+        title: String.raw`Función Objetivo ($z = c^T x$)`,
+        body: String.raw`<p>Funcional lineal que mapea cada vector de decisión a un escalar que mide el desempeño del sistema (costo, beneficio, distancia, riesgo). El vector $c \in \mathbb{R}^n$ contiene los <strong>coeficientes de costo o contribución marginal</strong>.</p>`
+      },
+      {
+        id: 4,
+        section: 1,
+        title: String.raw`Restricciones ($Ax \le b$, $Ax = b$ o $Ax \ge b$)`,
+        body: String.raw`<p>Relaciones lineales que delimitan las combinaciones permisibles de las variables. La matriz $A \in \mathbb{R}^{m \times n}$ se denomina <strong>matriz tecnológica</strong> o de coeficientes técnicos (donde $a_{ij}$ indica cuántas unidades del recurso $i$ consume una unidad de la actividad $j$), y el vector $b \in \mathbb{R}^m$ es el <strong>lado derecho (RHS, Right-Hand Side)</strong>, que representa disponibilidades de recursos o demandas mínimas.</p>`
+      },
+      {
+        id: 5,
+        section: 1,
+        title: String.raw`Forma Estándar`,
+        body: String.raw`<p>Representación algebraica normalizada requerida por la mayoría de los algoritmos y demostraciones teóricas:</p>
+$$\min \; c^T x \quad \text{sujeto a} \quad Ax = b, \quad x \ge 0$$
+<p>Se asume habitualmente que $m \le n$, que la matriz $A$ tiene rango de filas completo ($\text{rank}(A) = m$) para eliminar restricciones redundantes, y que $b \ge 0$. Cualquier problema lineal puede transformarse de manera equivalente a forma estándar.</p>`
+      },
+      {
+        id: 6,
+        section: 1,
+        title: String.raw`Forma Canónica`,
+        body: String.raw`<p>Formulación simétrica utilizada frecuentemente para derivar teoremas de dualidad y analizar la geometría de semiespacios, expresada íntegramente con desigualdades consistentes y variables no negativas:</p>
+$$\min \; c^T x \quad \text{s.a.} \quad Ax \ge b, \quad x \ge 0 \qquad \text{o bien} \qquad \max \; c^T x \quad \text{s.a.} \quad Ax \le b, \quad x \ge 0$$`
+      },
+      {
+        id: 7,
+        section: 1,
+        title: String.raw`Variables de Holgura (Slack) y de Exceso (Surplus)`,
+        body: String.raw`<p>Variables auxiliares no negativas con coeficiente $0$ en la función objetivo que convierten inecuaciones en ecuaciones para llevar el modelo a forma estándar:</p>
+<ul>
+  <li><strong>Holgura ($s_i \ge 0$):</strong> Se suma a una restricción de tipo $\le$ ($a_i^T x + s_i = b_i$). Mide la cantidad de recurso disponible no utilizado.</li>
+  <li><strong>Exceso ($e_i \ge 0$):</strong> Se resta a una restricción de tipo $\ge$ ($a_i^T x - e_i = b_i$). Mide en cuánto se supera un requisito mínimo.</li>
+</ul>`
+      },
+      {
+        id: 8,
+        section: 1,
+        title: String.raw`Variables Libres (No Restringidas en Signo)`,
+        body: String.raw`<p>Variables $x_j \in \mathbb{R}$ que pueden tomar valores positivos, negativos o nulos. Para transformarlas a forma estándar, se sustituyen por la diferencia de dos variables no negativas: $x_j = x_j^+ - x_j^-$ con $x_j^+, x_j^- \ge 0$. En cualquier solución básica óptima, al menos una de las dos valdrá cero debido a la dependencia lineal de sus columnas en $A$.</p>`
+      },
+      {
+        id: 9,
+        section: 1,
+        title: String.raw`Variables Artificiales`,
+        body: String.raw`<p>Variables auxiliares sin significado físico ni económico que se introducen temporalmente en restricciones de igualdad ($=$) o de mayor o igual ($\ge$) para construir una matriz identidad inicial y disponer de una solución básica factible de arranque en algoritmos como Dos Fases o Gran M. Para que el problema original sea factible, todas las variables artificiales deben reducirse a $0$.</p>`
+      },
+
+      // === SECCIÓN 2 ===
+      {
+        id: 10,
+        section: 2,
+        title: String.raw`Hiperplano y Semiespacio`,
+        body: String.raw`<ul>
+  <li><strong>Hiperplano:</strong> Conjunto de puntos $\{x \in \mathbb{R}^n : a^T x = \beta\}$ con $a \neq 0$, que divide al espacio $\mathbb{R}^n$ en dos regiones. El vector $a$ es normal al hiperplano.</li>
+  <li><strong>Semiespacio cerrado:</strong> Conjunto $\{x \in \mathbb{R}^n : a^T x \le \beta\}$. Cada restricción lineal de desigualdad define un semiespacio cerrado.</li>
+</ul>`
+      },
+      {
+        id: 11,
+        section: 2,
+        title: String.raw`Conjunto Convexo y Combinación Convexa`,
+        body: String.raw`<p>Un conjunto $S \subseteq \mathbb{R}^n$ es <strong>convexo</strong> si para todo par de puntos $x, y \in S$ y todo escalar $\lambda \in [0, 1]$, el punto $\lambda x + (1 - \lambda)y$ (combinación convexa) pertenece a $S$. En programación lineal, toda función objetivo lineal sobre un conjunto convexo garantiza que <strong>todo óptimo local es un óptimo global</strong>.</p>`
+      },
+      {
+        id: 12,
+        section: 2,
+        title: String.raw`Región Factible, Poliedro y Politopo`,
+        body: String.raw`<p>La <strong>región factible</strong> $P = \{x \in \mathbb{R}^n : Ax \le b\}$ es el conjunto de todas las soluciones que satisfacen simultáneamente todas las restricciones. Al ser la intersección finita de semiespacios cerrados, $P$ es siempre un <strong>poliedro</strong> (un conjunto cerrado y convexo). Si además $P$ es acotado, se denomina <strong>politopo</strong>.</p>`
+      },
+      {
+        id: 13,
+        section: 2,
+        title: String.raw`Punto Extremo (Vértice)`,
+        body: String.raw`<p>Un punto $x \in P$ es un <strong>punto extremo</strong> si no puede expresarse como una combinación convexa estricta de dos puntos distintos de $P$; es decir, no existen $y, z \in P$ ($y \neq z$) y $\lambda \in (0, 1)$ tales que $x = \lambda y + (1-\lambda)z$. Geométricamente, corresponde a las "esquinas" del poliedro donde se intersecan $n$ hiperplanos linealmente independientes activos.</p>`
+      },
+      {
+        id: 14,
+        section: 2,
+        title: String.raw`Base ($B$), Solución Básica y Solución Básica Factible (SBF)`,
+        body: String.raw`<p>En forma estándar ($Ax = b, x \ge 0$), si seleccionamos $m$ columnas linealmente independientes de $A$ para formar una submatriz invertible $B \in \mathbb{R}^{m \times m}$ (<strong>matriz básica</strong>) y agrupamos las $n-m$ columnas restantes en $N$ (<strong>matriz no básica</strong>), el sistema se particiona como $Bx_B + Nx_N = b$.</p>
+<ul>
+  <li><strong>Solución Básica:</strong> Se obtiene fijando las <strong>variables no básicas</strong> en cero ($x_N = 0$) y resolviendo el sistema cuadrado para las <strong>variables básicas</strong>: $x_B = B^{-1}b$.</li>
+  <li><strong>Solución Básica Factible (SBF):</strong> Es una solución básica que además cumple la no negatividad ($x_B = B^{-1}b \ge 0$).</li>
+</ul>
+<div class="callout-box rounded-xl p-4 mt-4">
+  <div class="flex items-start gap-3">
+    <span class="mt-0.5 shrink-0 inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-bold" style="background-color: var(--sec-2-soft); color: var(--sec-2);">★</span>
+    <div class="text-sm leading-relaxed">
+      <strong>Equivalencia Fundamental:</strong> En un poliedro en forma estándar, un punto $x \in P$ es un <strong>punto extremo</strong> si y solo si es una <strong>solución básica factible</strong>. Esto traduce un concepto puramente geométrico en un objeto puramente algebraico manejable computacionalmente.
+    </div>
+  </div>
+</div>`
+      },
+      {
+        id: 15,
+        section: 2,
+        title: String.raw`Dirección Extrema (Rayo) y Cono de Recesión`,
+        body: String.raw`<p>En poliedros no acotados, un vector $d \neq 0$ es una <strong>dirección de recesión</strong> si para cualquier $x \in P$ y todo $\theta \ge 0$, el rayo $x + \theta d \in P$ (en forma estándar, $Ad = 0$ y $d \ge 0$). Una <strong>dirección extrema</strong> es aquella que no puede expresarse como combinación cónica positiva de otras dos direcciones distintas. Si existe una dirección extrema $d$ tal que $c^T d < 0$ (en minimización), el problema es <strong>no acotado</strong>.</p>`
+      },
+      {
+        id: 16,
+        section: 2,
+        title: String.raw`Teorema de Representación (Minkowski-Weyl)`,
+        body: String.raw`<p>Establece que cualquier poliedro no vacío $P$ en forma estándar puede representarse de forma equivalente como la suma de la combinación convexa de sus puntos extremos $\{v_1, \dots, v_k\}$ y una combinación cónica no negativa de sus direcciones extremas $\{d_1, \dots, d_r\}$:</p>
+$$x = \sum_{i=1}^k \lambda_i v_i + \sum_{j=1}^r \mu_j d_j, \quad \sum_{i=1}^k \lambda_i = 1, \quad \lambda_i \ge 0, \quad \mu_j \ge 0$$`
+      },
+      {
+        id: 17,
+        section: 2,
+        title: String.raw`Teorema Fundamental de la Programación Lineal`,
+        body: String.raw`<p>Para un problema en forma estándar, si la región factible es no vacía y la función objetivo está acotada inferiormente, entonces existe al menos una <strong>solución básica factible óptima</strong> (un punto extremo óptimo). Como el número de bases posibles es finito (acotado por $\binom{n}{m}$), la búsqueda continua en $\mathbb{R}^n$ se reduce a una búsqueda combinatoria finita.</p>`
+      },
+      {
+        id: 18,
+        section: 2,
+        title: String.raw`Degeneración y Ciclado`,
+        body: String.raw`<ul>
+  <li><strong>Degeneración:</strong> Ocurre cuando una SBF tiene una o más variables básicas iguales a cero ($x_{B_i} = 0$). Geométricamente, significa que más de $n$ hiperplanos se intersectan en el mismo vértice, provocando que múltiples bases distintas representen exactamente el mismo punto extremo.</li>
+  <li><strong>Ciclado (Cycling):</strong> Fenómeno patológico en presencia de degeneración donde un algoritmo realiza una secuencia de cambios de base con paso nulo (sin mejorar el valor objetivo) y regresa a una base ya visitada, entrando en un bucle infinito.</li>
+</ul>`
+      },
+
+      // === SECCIÓN 3 ===
+      {
+        id: 19,
+        section: 3,
+        title: String.raw`Método Simplex (Primal)`,
+        body: String.raw`<p>Algoritmo iterativo desarrollado por George Dantzig que recorre los puntos extremos adyacentes del poliedro. En cada iteración se mueve de una SBF a otra a lo largo de una arista de mejora estricta (o no empeoramiento en casos degenerados) hasta satisfacer las condiciones de optimalidad o detectar no acotación.</p>`
+      },
+      {
+        id: 20,
+        section: 3,
+        title: String.raw`Costo Reducido ($\bar{c}_j$)`,
+        body: String.raw`<p>Tasa de cambio de la función objetivo por cada unidad que aumenta una variable no básica $x_j$ al ingresar a la base, ajustando automáticamente las variables básicas para mantener la factibilidad:</p>
+$$\bar{c}_j = c_j - c_B^T B^{-1} A_j$$
+<p>En un problema de minimización, si $\bar{c}_j < 0$, introducir $x_j$ reduce el costo. Si $\bar{c}_j \ge 0$ para todo $j$, la base actual es <strong>óptima</strong>.</p>`
+      },
+      {
+        id: 21,
+        section: 3,
+        title: String.raw`Pivoteo, Variable Entrante y Regla del Cociente Mínimo`,
+        body: String.raw`<p>Operación algebraica que intercambia una columna no básica por una básica:</p>
+<ol>
+  <li><strong>Variable entrante ($x_j$):</strong> Se elige una variable no básica con costo reducido favorable ($\bar{c}_j < 0$ en minimización).</li>
+  <li><strong>Dirección de movimiento:</strong> $d = B^{-1} A_j$ indica cuánto disminuye cada variable básica actual por cada unidad que crece $x_j$. Si $d \le 0$, $x_j$ puede crecer indefinidamente y el problema es <strong>no acotado</strong>.</li>
+  <li><strong>Regla del cociente mínimo (Variable saliente):</strong> Para preservar la no negatividad ($x_B - \theta d \ge 0$), el máximo paso posible es:
+  $$\theta^* = \min_{i \,:\, d_i > 0} \left\{ \frac{\bar{b}_i}{d_i} \right\}, \quad \text{donde } \bar{b} = B^{-1}b$$
+  La variable básica que alcanza el mínimo se vuelve cero y abandona la base.</li>
+</ol>`
+      },
+      {
+        id: 22,
+        section: 3,
+        title: String.raw`Reglas de Pivoteo (Anticiclado y Eficiencia)`,
+        body: String.raw`<ul>
+  <li><strong>Regla de Dantzig:</strong> Elige la variable con el costo reducido más negativo. Simple, pero sensible a la escala y vulnerable al ciclado.</li>
+  <li><strong>Regla de Bland:</strong> Entre todas las variables elegibles (entrantes y salientes empatadas), elige siempre aquella con el menor índice subíndice $j$. Demuestra matemáticamente la <strong>convergencia finita sin ciclado</strong>.</li>
+  <li><strong>Steepest Edge (Arista más empinada):</strong> Normaliza el costo reducido por la norma euclidiana del vector de dirección en el espacio de variables ($\bar{c}_j / \|d_j\|_2$). Es el estándar industrial en solucionadores modernos porque reduce drásticamente el número total de iteraciones.</li>
+</ul>`
+      },
+      {
+        id: 23,
+        section: 3,
+        title: String.raw`Método de las Dos Fases y Método de la Gran M`,
+        body: String.raw`<p>Procedimientos para encontrar una primera SBF cuando no existe una matriz identidad evidente en $A$:</p>
+<ul>
+  <li><strong>Dos Fases:</strong> La Fase I minimiza la suma de las variables artificiales ($\min \sum a_i$). Si el óptimo es $> 0$, el problema original es <strong>infactible</strong>. Si es $0$, se eliminan las variables artificiales y la base obtenida arranca la Fase II con la función objetivo original. Es el método preferido computacionalmente.</li>
+  <li><strong>Gran M:</strong> Penaliza las variables artificiales directamente en la función objetivo original multiplicándolas por una constante arbitrariamente grande $M$. Útil didácticamente, pero propenso a severa <strong>inestabilidad numérica</strong> en punto flotante.</li>
+</ul>`
+      },
+      {
+        id: 24,
+        section: 3,
+        title: String.raw`Método Simplex Revisado`,
+        body: String.raw`<p>Implementación computacional moderna del Simplex. En lugar de actualizar y almacenar la tabla completa ($m \times n$) en cada iteración —lo cual destruye la dispersión (<em>sparsity</em>) de matrices grandes—, solo mantiene y actualiza una <strong>factorización LU</strong> de la matriz básica $B$ ($m \times m$). Calcula los multiplicadores simplex $\pi^T = c_B^T B^{-1}$ y solo transforma la columna entrante específica $B^{-1} A_j$, reduciendo masivamente memoria y tiempo de cálculo.</p>`
+      },
+      {
+        id: 25,
+        section: 3,
+        title: String.raw`Método Simplex Dual`,
+        body: String.raw`<p>Variante que mantiene en todo momento la <strong>factibilidad dual</strong> (optimalidad: $\bar{c} \ge 0$), pero parte de una solución <strong>primalmente infactible</strong> (al menos un $\bar{b}_i < 0$). En cada iteración selecciona una variable básica negativa como saliente y usa una prueba de cociente sobre los costos reducidos para elegir la entrante. Es crucial en <strong>análisis de sensibilidad</strong> (al añadir restricciones nuevas) y en algoritmos de <strong>Ramificación y Corte (Branch-and-Cut)</strong> para programación entera.</p>`
+      },
+      {
+        id: 26,
+        section: 3,
+        title: String.raw`Métodos de Punto Interior (IPM)`,
+        body: String.raw`<p>Familia de algoritmos polinomiales (inaugurada por el algoritmo proyectivo de Karmarkar en 1984) que, a diferencia del Simplex, atraviesan el <strong>interior estricto</strong> de la región factible sin visitar los vértices hasta el límite final.</p>
+<ul>
+  <li><strong>Métodos de Barrera Logarítmica y Trayectoria Central (Primal-Dual Path-Following):</strong> Sustituyen las restricciones de no negatividad $x \ge 0$ por una función de barrera $-\mu \sum \ln(x_j)$ que diverge en la frontera. Aplican el método de Newton a las condiciones de optimalidad perturbadas (KKT) mientras reducen progresivamente el parámetro de barrera $\mu \to 0$, siguiendo la <strong>trayectoria central</strong> hasta el óptimo. Suelen requerir un paso final de <strong>crossover</strong> para recuperar una solución básica (vértice) si el usuario necesita información de sensibilidad.</li>
+</ul>`
+      },
+      {
+        id: 27,
+        section: 3,
+        title: String.raw`Método del Elipsoide y Complejidad Computacional`,
+        body: String.raw`<ul>
+  <li><strong>Complejidad del Simplex:</strong> Aunque en la práctica converge en $O(m)$ a $O(3m)$ iteraciones, en el peor caso teórico tiene <strong>complejidad exponencial</strong> (demostrado por el <strong>Cubo de Klee-Minty</strong>, un politopo deformado donde el Simplex con la regla de Dantzig visita los $2^n$ vértices).</li>
+  <li><strong>Método del Elipsoide (Khachiyan, 1979):</strong> Primer algoritmo que demostró que la Programación Lineal pertenece a la clase de complejidad <strong>P</strong> (tiempo polinomial en el tamaño binario de la entrada). Aunque lento en la práctica, tiene un valor teórico inmenso en optimización combinatoria (equivalencia entre separación y optimización).</li>
+</ul>`
+      },
+
+      // === SECCIÓN 4 ===
+      {
+        id: 28,
+        section: 4,
+        title: String.raw`Problema Primal y Problema Dual`,
+        body: String.raw`<p>A todo problema de programación lineal (<strong>Primal</strong>) le corresponde de forma unívoca un problema espejo (<strong>Dual</strong>) construido con los mismos datos $(A, b, c)$. Si el primal es $\min \{c^T x : Ax \ge b, x \ge 0\}$, su dual es:</p>
+$$\max \; b^T y \quad \text{sujeto a} \quad A^T y \le c, \quad y \ge 0$$
+<p>Cada restricción del primal genera una variable dual $y_i$, y cada variable del primal genera una restricción dual. El dual del dual es siempre el primal original.</p>`
+      },
+      {
+        id: 29,
+        section: 4,
+        title: String.raw`Teorema de Dualidad Débil`,
+        body: String.raw`<p>Para cualquier solución factible $x$ del primal (minimización) y cualquier solución factible $y$ del dual (maximización), se cumple invariablemente:</p>
+$$b^T y \le c^T x$$
+<p>El valor objetivo de cualquier solución dual factible proporciona una <strong>cota inferior garantizada</strong> para el óptimo del primal (y viceversa). Consecuencia directa: si el primal es no acotado, el dual es necesariamente infactible.</p>`
+      },
+      {
+        id: 30,
+        section: 4,
+        title: String.raw`Teorema de Dualidad Fuerte`,
+        body: String.raw`<p>Si el problema primal posee una solución óptima finita $x^*$, entonces el problema dual también posee una solución óptima finita $y^*$, y sus valores objetivos coinciden exactamente:</p>
+$$c^T x^* = b^T y^*$$
+<p>En términos de estados posibles, existen cuatro combinaciones factibles entre primal y dual: (1) ambos óptimos finitos, (2) primal no acotado y dual infactible, (3) dual no acotado y primal infactible, y (4) ambos infactibles.</p>`
+      },
+      {
+        id: 31,
+        section: 4,
+        title: String.raw`Condiciones de Holgura Complementaria (Complementary Slackness)`,
+        body: String.raw`<p>Condiciones necesarias y suficientes de optimalidad que conectan las soluciones factibles $x$ (primal) e $y$ (dual):</p>
+$$y_i (a_i^T x - b_i) = 0 \quad \forall i=1,\dots,m \qquad \text{y} \qquad x_j (c_j - A_j^T y) = 0 \quad \forall j=1,\dots,n$$
+<p>Económicamente implica dos principios fundamentales:</p>
+<ol>
+  <li>Si una restricción primal tiene holgura estricta (sobra recurso), su precio sombra $y_i$ debe ser <strong>cero</strong>.</li>
+  <li>Si una actividad se produce a nivel positivo ($x_j > 0$), su restricción dual debe ser activa (su costo marginal iguala exactamente el valor imputado de los recursos que consume, es decir, costo reducido nulo).</li>
+</ol>`
+      },
+      {
+        id: 32,
+        section: 4,
+        title: String.raw`Precio Sombra (Shadow Price / Valor Marginal)`,
+        body: String.raw`<p>Interpretación económica de la variable dual óptima $y_i^* = (c_B^T B^{-1})_i$. Representa la tasa de variación exacta del valor óptimo de la función objetivo ($\partial z^* / \partial b_i$) ante un incremento infinitesimal (o unitario, dentro del rango de factibilidad) en la disponibilidad del recurso $b_i$, manteniendo fijos los demás parámetros. En puntos degenerados, el precio sombra puede no ser único y difiere según el incremento sea positivo o negativo (derivadas direccionales).</p>`
+      },
+      {
+        id: 33,
+        section: 4,
+        title: String.raw`Análisis de Sensibilidad y Post-Optimalidad`,
+        body: String.raw`<p>Estudio sistemático de cómo varía la solución óptima frente a perturbaciones en los parámetros $(c, b, A)$ sin necesidad de resolver el problema desde cero:</p>
+<ul>
+  <li><strong>Rango de Optimalidad (variaciones en $c$):</strong> Intervalo en el que puede variar un coeficiente $c_j$ manteniendo $\bar{c}_N \ge 0$, lo que asegura que la <strong>base óptima $B$ y el vector solución $x^*$ no cambian</strong> (aunque el valor $z^*$ sí cambie si $x_j$ es básica).</li>
+  <li><strong>Rango de Factibilidad (variaciones en $b$):</strong> Intervalo en el que puede variar un componente $b_i$ manteniendo $B^{-1} b \ge 0$. Dentro de este rango, la base óptima $B$ y los <strong>precios sombra $y^*$ permanecen constantes</strong>, mientras que $x_B^*$ varía linealmente con $b_i$.</li>
+  <li><strong>Programación Lineal Paramétrica:</strong> Generalización del análisis de sensibilidad que estudia la trayectoria completa de la solución óptima cuando $c(\theta) = c + \theta \Delta c$ o $b(\theta) = b + \theta \Delta b$ varían a lo largo de todo el eje real. La función de valor óptimo $z^*(\theta)$ resultante es siempre <strong>lineal a trozos</strong> (cóncava respecto a $c$ en minimización, y convexa respecto a $b$ en minimización).</li>
+</ul>`
+      },
+      {
+        id: 34,
+        section: 4,
+        title: String.raw`Clasificación de Soluciones Óptimas`,
+        body: String.raw`<ul>
+  <li><strong>Óptimo Único:</strong> Todos los costos reducidos de las variables no básicas son estrictamente positivos ($\bar{c}_j > 0$ en minimización) en la tabla óptima.</li>
+  <li><strong>Óptimos Múltiples (Alternativos):</strong> Existe al menos una variable no básica con costo reducido cero ($\bar{c}_j = 0$) que puede entrar a la base con paso positivo. Cualquier combinación convexa de los puntos extremos óptimos forma una <strong>cara óptima</strong> infinita con el mismo valor objetivo.</li>
+  <li><strong>Infactibilidad:</strong> $P = \emptyset$. Las restricciones son mutuamente contradictorias. Los solucionadores avanzados calculan un <strong>IIS (Irreducible Inconsistent Subsystem)</strong>: el subconjunto mínimo de restricciones que causa la contradicción.</li>
+  <li><strong>No Acotación (Unboundedness):</strong> El valor objetivo puede mejorar indefinidamente ($z \to -\infty$ en min o $+\infty$ en max) a lo largo de una dirección extrema.</li>
+</ul>`
+      },
+      {
+        id: 35,
+        section: 4,
+        title: String.raw`Generación de Columnas (Column Generation)`,
+        body: String.raw`<p>Técnica de optimización a gran escala para problemas con millones o miles de millones de variables (como corte de material o ruteo de vehículos) que no pueden enumerarse explícitamente. Se resuelve un <strong>Problema Maestro Restringido (RMP)</strong> con un subconjunto pequeño de variables, se obtienen sus variables duales $y^*$, y se resuelve un <strong>Subproblema de Precios (Pricing Subproblem)</strong> que busca generar una nueva columna $A_j$ con costo reducido negativo ($c_j - (y^*)^T A_j < 0$). Si no existe tal columna, la solución actual es globalmente óptima.</p>`
+      },
+      {
+        id: 36,
+        section: 4,
+        title: String.raw`Descomposición de Dantzig-Wolfe y Descomposición de Benders`,
+        body: String.raw`<p>Métodos de partición para aprovechar matrices $A$ con estructura de bloques especiales:</p>
+<ul>
+  <li><strong>Dantzig-Wolfe:</strong> Aplica el Teorema de Minkowski-Weyl sobre restricciones de bloque diagonales independientes y resuelve el problema mediante generación de columnas en el espacio primal.</li>
+  <li><strong>Benders:</strong> Dual de Dantzig-Wolfe; se aplica cuando fijar un subconjunto de "variables complicadas" descompone el resto del problema. Genera iterativamente restricciones (<strong>cortes de factibilidad</strong> y <strong>cortes de optimalidad</strong>) a partir de los rayos y puntos extremos del subproblema dual.</li>
+</ul>`
+      },
+      {
+        id: 37,
+        section: 4,
+        title: String.raw`Unimodularidad Total (TU) y Relajación Lineal`,
+        body: String.raw`<ul>
+  <li><strong>Relajación Lineal:</strong> Consiste en eliminar las restricciones de integralidad ($x_j \in \mathbb{Z}$) en un problema de Programación Lineal Entera (PLE), convirtiéndolo en un PL continuo cuya solución provee una cota rápida al problema entero.</li>
+  <li><strong>Matriz Totalmente Unimodular (TU):</strong> Una matriz $A$ es TU si el determinante de cada submatriz cuadrada suya es igual a $0$, $+1$ o $-1$. Por el <strong>Teorema de Hoffman-Kruskal</strong>, si $A$ es TU y $b$ es un vector entero, <strong>todos los puntos extremos del poliedro son automáticamente enteros</strong>. Esto implica que problemas como el flujo máximo, flujo de costo mínimo, transporte y asignación se resuelven a optimalidad entera usando pura Programación Lineal.</li>
+</ul>`
+      },
+      {
+        id: 38,
+        section: 4,
+        title: String.raw`Preprocesamiento (<em>Presolve</em>) y Estabilidad Numérica`,
+        body: String.raw`<p>Conjunto de reducciones algebraicas previas a la ejecución del solver (eliminación de filas/columnas vacías, detección de restricciones redundantes, ajuste de cotas, escalado matricial de filas y columnas para reducir el <strong>número de condición</strong> de $B$). La aritmética de punto flotante exige definir tolerancias de factibilidad primal, factibilidad dual y de pivote (típicamente $10^{-6}$ a $10^{-9}$) para evitar errores de redondeo catastróficos cuando la matriz básica es mal condicionada.</p>`
+      }
+    ];
+
+    const COMPARISON_TABLE = {
+      title: "Tabla Comparativa: Simplex vs. Métodos de Punto Interior",
+      headers: [
+        "Característica",
+        "Simplex (Primal / Dual Revisado)",
+        "Métodos de Punto Interior (Barrera)"
+      ],
+      rows: [
+        [
+          "Trayectoria",
+          "Frontera (de vértice a vértice adyacente)",
+          "Interior estricto de la región factible"
+        ],
+        [
+          "Complejidad teórica",
+          "Exponencial en el peor caso",
+          String.raw`Polinomial ($O(\sqrt{n} L)$ iteraciones)`
+        ],
+        [
+          "Costo por iteración",
+          "Muy bajo (actualización de factorización LU)",
+          "Alto (resolución de un sistema lineal de KKT / Cholesky)"
+        ],
+        [
+          "Arranque en caliente (<em>Warm start</em>)",
+          "Excelente (ideal tras pequeñas modificaciones)",
+          "Deficiente (requiere reiniciar cerca del centro)"
+        ],
+        [
+          "Solución entregada",
+          "Siempre un punto extremo (vértice)",
+          "Punto en el centro analítico de la cara óptima"
+        ]
+      ]
+    };
+
+    /* =========================================================================
+       2. ESTADO GLOBAL Y PERSISTENCIA EN LOCALSTORAGE
+       ========================================================================= */
+    const STORAGE_KEYS = {
+      THEME: "lp_glossary_theme_v1",
+      MASTERED: "lp_glossary_mastered_v1",
+      FAVORITES: "lp_glossary_favorites_v1"
+    };
+
+    const state = {
+      theme: "indigo",
+      searchQuery: "",
+      sectionFilter: "all", // 'all' | '1' | '2' | '3' | '4'
+      studyFilter: "all",   // 'all' | 'pending' | 'favorites' | 'mastered'
+      compactMode: false,
+      allCollapsed: false,
+      collapsedIds: new Set(),
+      masteredIds: new Set(),
+      favoriteIds: new Set(),
+      // Estado de Flashcards
+      fcOpen: false,
+      fcDeckMode: "all",
+      fcDeck: [],
+      fcIndex: 0,
+      fcFlipped: false
+    };
+
+    /**
+     * Carga segura de datos desde localStorage con manejo de errores.
+     */
+    function loadPersistedState() {
+      try {
+        const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+        if (savedTheme && ["indigo", "ivory", "emerald", "amber"].includes(savedTheme)) {
+          state.theme = savedTheme;
+        }
+        const savedMastered = JSON.parse(localStorage.getItem(STORAGE_KEYS.MASTERED) || "[]");
+        if (Array.isArray(savedMastered)) {
+          state.masteredIds = new Set(savedMastered);
+        }
+        const savedFavs = JSON.parse(localStorage.getItem(STORAGE_KEYS.FAVORITES) || "[]");
+        if (Array.isArray(savedFavs)) {
+          state.favoriteIds = new Set(savedFavs);
+        }
+      } catch (err) {
+        console.warn("No se pudo acceder a localStorage:", err);
+      }
+    }
+
+    function saveStudyState() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.MASTERED, JSON.stringify([...state.masteredIds]));
+        localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify([...state.favoriteIds]));
+      } catch (err) {
+        console.warn("Error al guardar progreso:", err);
+      }
+    }
+
+    /**
+     * Aplica y persiste el tema visual activo.
+     */
+    function applyTheme(themeName) {
+      state.theme = themeName;
+      document.documentElement.setAttribute("data-theme", themeName);
+      try {
+        localStorage.setItem(STORAGE_KEYS.THEME, themeName);
+      } catch (err) {
+        console.warn("Error al guardar tema:", err);
+      }
+
+      document.querySelectorAll("[data-theme-btn]").forEach(btn => {
+        const isActive = btn.dataset.themeBtn === themeName;
+        if (isActive) {
+          btn.style.borderColor = "var(--accent-primary)";
+          btn.style.backgroundColor = "var(--accent-soft)";
+          btn.classList.add("text-primary", "font-semibold");
+        } else {
+          btn.style.borderColor = "";
+          btn.style.backgroundColor = "";
+          btn.classList.remove("text-primary", "font-semibold");
+        }
+      });
+    }
+
+    /* =========================================================================
+       3. UTILIDADES DE TEXTO, RENDERIZADO KATEX Y TOASTS
+       ========================================================================= */
+    function stripHtml(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || "";
+    }
+
+    function normalizeText(str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    /**
+     * Ejecuta el renderizador automático de KaTeX en un nodo específico.
+     */
+    function renderMath(targetElement) {
+      if (typeof window.renderMathInElement === "function" && targetElement) {
+        try {
+          window.renderMathInElement(targetElement, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false }
+            ],
+            throwOnError: false,
+            strict: false
+          });
+        } catch (err) {
+          console.error("Error renderizando KaTeX:", err);
+        }
+      }
+    }
+
+    function showToast(message) {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = "px-4 py-2.5 rounded-xl bg-card border border-strong text-xs font-medium text-primary shadow-xl animate-fade-in";
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, 2200);
+    }
+
+    /* =========================================================================
+       4. FILTRADO Y RENDERIZADO DEL GLOSARIO + SIDEBAR
+       ========================================================================= */
+    function getFilteredTerms() {
+      const queryNorm = normalizeText(state.searchQuery.trim());
+
+      return TERMS.filter(term => {
+        // Filtro por sección
+        if (state.sectionFilter !== "all" && String(term.section) !== String(state.sectionFilter)) {
+          return false;
+        }
+        // Filtro por estado de estudio
+        if (state.studyFilter === "mastered" && !state.masteredIds.has(term.id)) return false;
+        if (state.studyFilter === "pending" && state.masteredIds.has(term.id)) return false;
+        if (state.studyFilter === "favorites" && !state.favoriteIds.has(term.id)) return false;
+
+        // Filtro por búsqueda en título, número, código LaTeX o contenido plano
+        if (queryNorm) {
+          const searchable = normalizeText(`${term.id} ${term.title} ${stripHtml(term.body)} ${term.body}`);
+          if (!searchable.includes(queryNorm)) return false;
+        }
+
+        return true;
+      });
+    }
+
+    /**
+     * Renderiza la barra lateral con secciones y lista navegable de los 38 términos.
+     */
+    function renderSidebarNav() {
+      const nav = document.getElementById("sidebar-nav");
+      nav.innerHTML = "";
+
+      SECTIONS.forEach(sec => {
+        const secTerms = TERMS.filter(t => t.section === sec.id);
+        const masteredInSec = secTerms.filter(t => state.masteredIds.has(t.id)).length;
+
+        const group = document.createElement("div");
+        group.className = `sec-accent-${sec.id}`;
+
+        const headerBtn = document.createElement("a");
+        headerBtn.href = `#section-${sec.id}`;
+        headerBtn.className = "flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-bold text-primary hover:bg-elevated transition mb-1";
+        headerBtn.innerHTML = `
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="w-2.5 h-2.5 rounded-full sec-dot shrink-0"></span>
+            <span class="truncate">${sec.id}. ${sec.shortTitle}</span>
+          </span>
+          <span class="font-code text-[10px] text-muted shrink-0 ml-1">${masteredInSec}/${secTerms.length}</span>
+        `;
+        headerBtn.addEventListener("click", () => closeMobileSidebar());
+        group.appendChild(headerBtn);
+
+        const list = document.createElement("div");
+        list.className = "space-y-0.5 pl-2 border-l border-subtle ml-3.5";
+
+        secTerms.forEach(term => {
+          const isMastered = state.masteredIds.has(term.id);
+          const isFav = state.favoriteIds.has(term.id);
+          const cleanTitle = stripHtml(term.title).replace(/\$(.*?)\$/g, "").replace(/\s+/g, " ").trim();
+
+          const link = document.createElement("a");
+          link.href = `#term-${term.id}`;
+          link.dataset.navTermId = term.id;
+          link.className = "sidebar-term-link flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg text-[12px] text-muted hover:text-primary hover:bg-elevated transition";
+          link.innerHTML = `
+            <span class="truncate"><span class="font-code text-[10px] opacity-70 mr-1">${String(term.id).padStart(2, "0")}.</span>${cleanTitle}</span>
+            <span class="flex items-center gap-1 shrink-0">
+              ${isFav ? `<span class="w-1.5 h-1.5 rounded-full" style="background: var(--star-active);" title="Favorito"></span>` : ""}
+              ${isMastered ? `<span class="w-1.5 h-1.5 rounded-full" style="background: var(--check-active);" title="Dominado"></span>` : ""}
+            </span>
+          `;
+          link.addEventListener("click", (e) => {
+            // Si el término está oculto por filtros, los restablecemos para poder navegar hacia él
+            const targetEl = document.getElementById(`term-${term.id}`);
+            if (!targetEl) {
+              e.preventDefault();
+              resetAllFilters();
+              setTimeout(() => {
+                const el = document.getElementById(`term-${term.id}`);
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }, 60);
+            }
+            closeMobileSidebar();
+          });
+          list.appendChild(link);
+        });
+
+        group.appendChild(list);
+        nav.appendChild(group);
+      });
+    }
+
+    /**
+     * Renderiza la tabla comparativa estilizada al final de la Sección 3.
+     */
+    function buildComparisonTableElement() {
+      const wrapper = document.createElement("div");
+      wrapper.id = "comparison-table-card";
+      wrapper.className = "term-card sec-accent-3 sec-left-bar rounded-2xl overflow-hidden animate-fade-in mt-6";
+
+      const rowsHtml = COMPARISON_TABLE.rows.map(row => `
+        <tr class="border-t border-subtle hover:bg-elevated/40 transition">
+          <td class="py-3.5 px-4 font-semibold text-primary text-xs sm:text-sm align-top">${row[0]}</td>
+          <td class="py-3.5 px-4 text-secondary text-xs sm:text-sm align-top">${row[1]}</td>
+          <td class="py-3.5 px-4 text-secondary text-xs sm:text-sm align-top">${row[2]}</td>
+        </tr>
+      `).join("");
+
+      wrapper.innerHTML = `
+        <div class="p-5 sm:p-6 border-b border-subtle flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="sec-badge inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-1.5">Síntesis Algorítmica</span>
+            <h3 class="font-editorial text-lg sm:text-xl font-bold text-primary">${COMPARISON_TABLE.title}</h3>
+          </div>
+          <span class="font-code text-xs text-muted">Sección 3</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[580px]">
+            <thead>
+              <tr class="bg-elevated/60 text-[11px] uppercase tracking-wider text-muted font-semibold">
+                <th class="py-3 px-4">${COMPARISON_TABLE.headers[0]}</th>
+                <th class="py-3 px-4">${COMPARISON_TABLE.headers[1]}</th>
+                <th class="py-3 px-4">${COMPARISON_TABLE.headers[2]}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      return wrapper;
+    }
+
+    /**
+     * Renderiza todas las secciones y tarjetas visibles del glosario.
+     */
+    function renderGlossary() {
+      const container = document.getElementById("glossary-container");
+      const emptyState = document.getElementById("empty-state");
+      const filtered = getFilteredTerms();
+
+      // Actualizar contador de búsqueda
+      const badge = document.getElementById("search-count-badge");
+      badge.textContent = `${filtered.length} / ${TERMS.length}`;
+
+      const clearBtn = document.getElementById("clear-search-btn");
+      clearBtn.classList.toggle("hidden", state.searchQuery.trim().length === 0);
+
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove("hidden");
+        return;
+      }
+      emptyState.classList.add("hidden");
+
+      const queryNorm = normalizeText(state.searchQuery.trim());
+      const showComparisonTable =
+        (state.sectionFilter === "all" || state.sectionFilter === "3") &&
+        state.studyFilter === "all" &&
+        (!queryNorm || normalizeText("tabla comparativa simplex punto interior barrera trayectoria complejidad warm start cholesky").includes(queryNorm));
+
+      SECTIONS.forEach(sec => {
+        const secTerms = filtered.filter(t => t.section === sec.id);
+        if (secTerms.length === 0 && !(sec.id === 3 && showComparisonTable)) return;
+
+        const sectionEl = document.createElement("section");
+        sectionEl.id = `section-${sec.id}`;
+        sectionEl.className = `sec-accent-${sec.id} scroll-mt-36`;
+
+        // Cabecera de Sección
+        sectionEl.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 mb-5 border-b border-subtle">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="sec-badge px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">Sección ${sec.id}</span>
+                <span class="text-xs font-code text-muted">${secTerms.length} ${secTerms.length === 1 ? "concepto" : "conceptos"}</span>
+              </div>
+              <h2 class="font-editorial text-2xl sm:text-3xl font-bold text-primary tracking-tight">${sec.title}</h2>
+              <p class="text-xs sm:text-sm text-muted mt-1">${sec.subtitle}</p>
+            </div>
+          </div>
+        `;
+
+        // Lista de tarjetas
+        const listEl = document.createElement("div");
+        listEl.className = state.compactMode ? "space-y-3" : "space-y-5";
+
+        secTerms.forEach(term => {
+          const isMastered = state.masteredIds.has(term.id);
+          const isFav = state.favoriteIds.has(term.id);
+          const isCollapsed = state.collapsedIds.has(term.id);
+
+          const card = document.createElement("article");
+          card.id = `term-${term.id}`;
+          card.dataset.termId = term.id;
+          card.className = `term-card sec-left-bar rounded-2xl scroll-mt-36 animate-fade-in ${isMastered ? "is-mastered" : ""}`;
+
+          const paddingClass = state.compactMode ? "px-4 py-3.5 sm:px-5" : "p-5 sm:p-6";
+
+          card.innerHTML = `
+            <div class="${paddingClass}">
+              <!-- Encabezado de la Tarjeta -->
+              <div class="flex items-start justify-between gap-3">
+                <button type="button" class="toggle-term-btn flex-1 text-left flex items-start gap-3 group min-w-0" data-term-id="${term.id}" aria-expanded="${!isCollapsed}">
+                  <span class="sec-badge font-code text-xs font-bold px-2.5 py-1 rounded-lg shrink-0 mt-0.5">${String(term.id).padStart(2, "0")}</span>
+                  <div class="min-w-0 flex-1">
+                    <h3 class="text-base sm:text-lg font-bold text-primary leading-snug group-hover:opacity-90 transition">${term.title}</h3>
+                  </div>
+                </button>
+
+                <!-- Acciones de estudio + Colapsar -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    class="fav-btn p-2 rounded-xl border border-subtle hover:border-strong transition ${isFav ? "bg-elevated" : "bg-transparent"}"
+                    data-term-id="${term.id}"
+                    title="${isFav ? "Quitar de favoritos" : "Marcar como favorito"}"
+                    aria-label="Marcar como favorito"
+                  >
+                    <svg class="w-4 h-4 transition" style="color: ${isFav ? "var(--star-active)" : "var(--text-muted)"};" fill="${isFav ? "currentColor" : "none"}" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="master-btn px-2.5 py-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition"
+                    data-term-id="${term.id}"
+                    style="${isMastered
+                      ? "border-color: var(--check-active); color: var(--check-active); background-color: color-mix(in srgb, var(--check-active) 12%, transparent);"
+                      : "border-color: var(--border-subtle); color: var(--text-muted);"}"
+                    title="${isMastered ? "Marcar como pendiente" : "Marcar como dominado"}"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7"/></svg>
+                    <span class="hidden sm:inline">${isMastered ? "Dominado" : "Dominar"}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="toggle-term-btn p-2 rounded-xl border border-subtle hover:border-strong text-muted hover:text-primary transition"
+                    data-term-id="${term.id}"
+                    aria-label="${isCollapsed ? "Expandir definición" : "Colapsar definición"}"
+                    title="${isCollapsed ? "Expandir" : "Colapsar"}"
+                  >
+                    <svg class="w-4 h-4 transition-transform duration-200 ${isCollapsed ? "-rotate-90" : "rotate-0"}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cuerpo de la Definición -->
+              <div class="term-body-wrapper ${isCollapsed ? "hidden" : ""} ${state.compactMode ? "mt-2.5 pt-2.5" : "mt-4 pt-4"} border-t border-subtle">
+                <div class="term-content text-secondary ${state.compactMode ? "text-xs sm:text-sm leading-relaxed" : "text-sm sm:text-[15px] leading-7"} space-y-2.5">
+                  ${term.body}
+                </div>
+              </div>
+            </div>
+          `;
+
+          listEl.appendChild(card);
+        });
+
+        sectionEl.appendChild(listEl);
+
+        // Agregar Tabla Comparativa al cierre de la Sección 3
+        if (sec.id === 3 && showComparisonTable) {
+          sectionEl.appendChild(buildComparisonTableElement());
+        }
+
+        container.appendChild(sectionEl);
+      });
+
+      // Renderizar fórmulas matemáticas con KaTeX
+      renderMath(container);
+      // Configurar scroll-spy para los elementos visibles
+      setupScrollSpy();
+    }
+
+    /**
+     * Actualiza todos los indicadores de progreso (sidebar, hero, móvil).
+     */
+    function updateProgressUI() {
+      const total = TERMS.length;
+      const mastered = state.masteredIds.size;
+      const favs = state.favoriteIds.size;
+      const pct = Math.round((mastered / total) * 100);
+
+      document.getElementById("sidebar-progress-text").textContent = `${mastered} / ${total} (${pct}%)`;
+      document.getElementById("sidebar-progress-bar").style.width = `${pct}%`;
+      document.getElementById("hero-mastered-count").textContent = `${mastered}/${total}`;
+      document.getElementById("hero-fav-count").textContent = `${favs}`;
+      document.getElementById("mobile-progress-mini").textContent = `${mastered}/${total} dominados • ${pct}%`;
+
+      renderSidebarNav();
+    }
+
+    /**
+     * Actualiza estilos visuales de botones de filtro activos.
+     */
+    function updateFilterButtonsUI() {
+      document.querySelectorAll(".sec-filter-btn").forEach(btn => {
+        const active = btn.dataset.sectionFilter === String(state.sectionFilter);
+        if (active) {
+          btn.style.backgroundColor = "var(--accent-soft)";
+          btn.style.borderColor = "var(--accent-primary)";
+          btn.style.color = "var(--text-primary)";
+          btn.classList.add("font-semibold");
+        } else {
+          btn.style.backgroundColor = "var(--bg-card)";
+          btn.style.borderColor = "var(--border-subtle)";
+          btn.style.color = "var(--text-secondary)";
+          btn.classList.remove("font-semibold");
+        }
+      });
+
+      document.querySelectorAll(".study-filter-btn").forEach(btn => {
+        const active = btn.dataset.studyFilter === state.studyFilter;
+        if (active) {
+          btn.style.backgroundColor = "var(--accent-primary)";
+          btn.style.color = "#ffffff";
+        } else {
+          btn.style.backgroundColor = "transparent";
+          btn.style.color = "var(--text-secondary)";
+        }
+      });
+
+      const compactBtn = document.getElementById("compact-mode-btn");
+      const compactLabel = document.getElementById("compact-mode-label");
+      compactLabel.textContent = state.compactMode ? "Vista detallada" : "Vista compacta";
+      compactBtn.style.borderColor = state.compactMode ? "var(--accent-primary)" : "";
+      compactBtn.style.backgroundColor = state.compactMode ? "var(--accent-soft)" : "";
+
+      const toggleAllLabel = document.getElementById("toggle-all-label");
+      toggleAllLabel.textContent = state.allCollapsed ? "Expandir todo" : "Colapsar todo";
+    }
+
+    function resetAllFilters() {
+      state.searchQuery = "";
+      state.sectionFilter = "all";
+      state.studyFilter = "all";
+      document.getElementById("search-input").value = "";
+      updateFilterButtonsUI();
+      renderGlossary();
+    }
+
+    /* =========================================================================
+       5. SCROLL-SPY, PROGRESO DE LECTURA Y MENÚ MÓVIL
+       ========================================================================= */
+    let scrollObserver = null;
+
+    function setupScrollSpy() {
+      if (scrollObserver) scrollObserver.disconnect();
+
+      const cards = document.querySelectorAll("article[data-term-id]");
+      if (!cards.length) return;
+
+      scrollObserver = new IntersectionObserver(entries => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          const activeId = visible[0].target.dataset.termId;
+          document.querySelectorAll(".sidebar-term-link").forEach(link => {
+            link.classList.toggle("nav-item-active", link.dataset.navTermId === activeId);
+          });
+        }
+      }, {
+        rootMargin: "-15% 0px -65% 0px",
+        threshold: 0.05
+      });
+
+      cards.forEach(card => scrollObserver.observe(card));
+    }
+
+    function handleWindowScroll() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+      document.getElementById("reading-progress-bar").style.width = `${pct}%`;
+
+      const topBtn = document.getElementById("back-to-top-btn");
+      if (scrollTop > 420) {
+        topBtn.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
+      } else {
+        topBtn.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
+      }
+    }
+
+    function openMobileSidebar() {
+      document.getElementById("sidebar").classList.remove("-translate-x-full");
+      document.getElementById("mobile-sidebar-overlay").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileSidebar() {
+      document.getElementById("sidebar").classList.add("-translate-x-full");
+      document.getElementById("mobile-sidebar-overlay").classList.add("hidden");
+      if (!state.fcOpen) document.body.style.overflow = "";
+    }
+
+    /* =========================================================================
+       6. MODO TARJETAS DE REPASO (FLASHCARDS 3D)
+       ========================================================================= */
+    function buildFlashcardsDeck(mode = state.fcDeckMode, shuffle = false) {
+      state.fcDeckMode = mode;
+      let list = [...TERMS];
+
+      if (mode === "pending") {
+        list = list.filter(t => !state.masteredIds.has(t.id));
+      } else if (mode === "favorites") {
+        list = list.filter(t => state.favoriteIds.has(t.id));
+      } else if (mode.startsWith("sec-")) {
+        const secNum = Number(mode.split("-")[1]);
+        list = list.filter(t => t.section === secNum);
+      }
+
+      if (shuffle) {
+        for (let i = list.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+      }
+
+      state.fcDeck = list;
+      state.fcIndex = 0;
+      state.fcFlipped = false;
+      renderCurrentFlashcard();
+    }
+
+    function renderCurrentFlashcard() {
+      const scene = document.getElementById("fc-scene");
+      const emptyMsg = document.getElementById("fc-empty-msg");
+      const inner = document.getElementById("fc-inner");
+      const counter = document.getElementById("fc-counter");
+      const progressBar = document.getElementById("fc-progress-bar");
+
+      if (state.fcDeck.length === 0) {
+        scene.classList.add("hidden");
+        emptyMsg.classList.remove("hidden");
+        counter.textContent = "0 / 0";
+        progressBar.style.width = "0%";
+        return;
+      }
+
+      scene.classList.remove("hidden");
+      emptyMsg.classList.add("hidden");
+
+      const term = state.fcDeck[state.fcIndex];
+      const sec = SECTIONS.find(s => s.id === term.section);
+
+      inner.classList.toggle("is-flipped", state.fcFlipped);
+
+      const frontFace = document.getElementById("fc-front");
+      const backFace = document.getElementById("fc-back");
+      frontFace.className = `flashcard-face p-6 sm:p-10 flex flex-col justify-between sec-accent-${term.section}`;
+      backFace.className = `flashcard-face flashcard-back p-6 sm:p-8 flex flex-col sec-accent-${term.section}`;
+
+      document.getElementById("fc-front-section").textContent = `Sección ${sec.id} • ${sec.shortTitle}`;
+      document.getElementById("fc-front-number").textContent = `#${String(term.id).padStart(2, "0")}`;
+
+      const frontTitle = document.getElementById("fc-front-title");
+      const backTitle = document.getElementById("fc-back-title");
+      const backBody = document.getElementById("fc-back-body");
+
+      frontTitle.innerHTML = term.title;
+      backTitle.innerHTML = `<span class="font-code text-xs text-muted mr-1.5">#${String(term.id).padStart(2, "0")}</span>${term.title}`;
+      backBody.innerHTML = term.body;
+      backBody.scrollTop = 0;
+
+      // Renderizar KaTeX en ambas caras
+      renderMath(frontTitle);
+      renderMath(backTitle);
+      renderMath(backBody);
+
+      // Progreso y botones de estudio de la tarjeta actual
+      counter.textContent = `${state.fcIndex + 1} / ${state.fcDeck.length}`;
+      progressBar.style.width = `${((state.fcIndex + 1) / state.fcDeck.length) * 100}%`;
+
+      updateFlashcardStudyButtons(term.id);
+    }
+
+    function updateFlashcardStudyButtons(termId) {
+      const isMastered = state.masteredIds.has(termId);
+      const isFav = state.favoriteIds.has(termId);
+
+      const mBtn = document.getElementById("fc-master-btn");
+      mBtn.style.borderColor = isMastered ? "var(--check-active)" : "";
+      mBtn.style.color = isMastered ? "var(--check-active)" : "";
+      mBtn.querySelector("span").textContent = isMastered ? "Dominado ✓" : "Marcar dominado";
+
+      const fBtn = document.getElementById("fc-fav-btn");
+      fBtn.style.borderColor = isFav ? "var(--star-active)" : "";
+      fBtn.style.color = isFav ? "var(--star-active)" : "";
+      fBtn.querySelector("svg").setAttribute("fill", isFav ? "currentColor" : "none");
+      fBtn.querySelector("span").textContent = isFav ? "En favoritos" : "Favorito";
+    }
+
+    function openFlashcardsModal() {
+      state.fcOpen = true;
+      closeMobileSidebar();
+      const modal = document.getElementById("flashcards-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
+      buildFlashcardsDeck(document.getElementById("fc-deck-select").value, false);
+    }
+
+    function closeFlashcardsModal() {
+      state.fcOpen = false;
+      const modal = document.getElementById("flashcards-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.style.overflow = "";
+    }
+
+    function flipFlashcard() {
+      if (state.fcDeck.length === 0) return;
+      state.fcFlipped = !state.fcFlipped;
+      document.getElementById("fc-inner").classList.toggle("is-flipped", state.fcFlipped);
+    }
+
+    function nextFlashcard() {
+      if (state.fcDeck.length === 0) return;
+      state.fcIndex = (state.fcIndex + 1) % state.fcDeck.length;
+      state.fcFlipped = false;
+      renderCurrentFlashcard();
+    }
+
+    function prevFlashcard() {
+      if (state.fcDeck.length === 0) return;
+      state.fcIndex = (state.fcIndex - 1 + state.fcDeck.length) % state.fcDeck.length;
+      state.fcFlipped = false;
+      renderCurrentFlashcard();
+    }
+
+    /* =========================================================================
+       7. ASIGNACIÓN DE EVENTOS E INICIALIZACIÓN
+       ========================================================================= */
+    function toggleMastered(termId) {
+      if (state.masteredIds.has(termId)) {
+        state.masteredIds.delete(termId);
+      } else {
+        state.masteredIds.add(termId);
+      }
+      saveStudyState();
+      updateProgressUI();
+      renderGlossary();
+    }
+
+    function toggleFavorite(termId) {
+      if (state.favoriteIds.has(termId)) {
+        state.favoriteIds.delete(termId);
+      } else {
+        state.favoriteIds.add(termId);
+      }
+      saveStudyState();
+      updateProgressUI();
+      renderGlossary();
+    }
+
+    function bindEvents() {
+      // Cambio de tema
+      document.querySelectorAll("[data-theme-btn]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          applyTheme(btn.dataset.themeBtn);
+          const names = {
+            indigo: "Índigo Nocturno",
+            ivory: "Marfil Académico",
+            emerald: "Esmeralda Matriz",
+            amber: "Ámbar Editorial"
+          };
+          showToast(`Tema aplicado: ${names[btn.dataset.themeBtn]}`);
+        });
+      });
+
+      // Búsqueda en tiempo real
+      const searchInput = document.getElementById("search-input");
+      searchInput.addEventListener("input", (e) => {
+        state.searchQuery = e.target.value;
+        renderGlossary();
+      });
+
+      document.getElementById("clear-search-btn").addEventListener("click", () => {
+        state.searchQuery = "";
+        searchInput.value = "";
+        searchInput.focus();
+        renderGlossary();
+      });
+
+      // Filtros de sección
+      document.querySelectorAll(".sec-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.sectionFilter = btn.dataset.sectionFilter;
+          updateFilterButtonsUI();
+          renderGlossary();
+        });
+      });
+
+      // Filtros de estudio
+      document.querySelectorAll(".study-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.studyFilter = btn.dataset.studyFilter;
+          updateFilterButtonsUI();
+          renderGlossary();
+        });
+      });
+
+      // Restablecer filtros desde estado vacío
+      document.getElementById("reset-filters-btn").addEventListener("click", resetAllFilters);
+
+      // Vista compacta / detallada
+      document.getElementById("compact-mode-btn").addEventListener("click", () => {
+        state.compactMode = !state.compactMode;
+        updateFilterButtonsUI();
+        renderGlossary();
+      });
+
+      // Expandir / Colapsar todo
+      document.getElementById("toggle-all-btn").addEventListener("click", () => {
+        state.allCollapsed = !state.allCollapsed;
+        if (state.allCollapsed) {
+          TERMS.forEach(t => state.collapsedIds.add(t.id));
+        } else {
+          state.collapsedIds.clear();
+        }
+        updateFilterButtonsUI();
+        renderGlossary();
+      });
+
+      // Delegación de eventos en tarjetas (expandir/colapsar, dominado, favorito)
+      document.getElementById("glossary-container").addEventListener("click", (e) => {
+        const masterBtn = e.target.closest(".master-btn");
+        if (masterBtn) {
+          toggleMastered(Number(masterBtn.dataset.termId));
+          return;
+        }
+
+        const favBtn = e.target.closest(".fav-btn");
+        if (favBtn) {
+          toggleFavorite(Number(favBtn.dataset.termId));
+          return;
+        }
+
+        const toggleBtn = e.target.closest(".toggle-term-btn");
+        if (toggleBtn) {
+          const id = Number(toggleBtn.dataset.termId);
+          if (state.collapsedIds.has(id)) {
+            state.collapsedIds.delete(id);
+          } else {
+            state.collapsedIds.add(id);
+          }
+          state.allCollapsed = state.collapsedIds.size === TERMS.length;
+          updateFilterButtonsUI();
+          renderGlossary();
+        }
+      });
+
+      // Reiniciar progreso (doble clic de confirmación suave sin confirm())
+      let resetPending = false;
+      let resetTimer = null;
+      const resetBtn = document.getElementById("reset-progress-btn");
+      resetBtn.addEventListener("click", () => {
+        if (!resetPending) {
+          resetPending = true;
+          resetBtn.textContent = "¿Confirmar?";
+          showToast("Haz clic de nuevo en «¿Confirmar?» para borrar tu progreso.");
+          resetTimer = setTimeout(() => {
+            resetPending = false;
+            resetBtn.textContent = "Reiniciar";
+          }, 3500);
+        } else {
+          clearTimeout(resetTimer);
+          resetPending = false;
+          resetBtn.textContent = "Reiniciar";
+          state.masteredIds.clear();
+          state.favoriteIds.clear();
+          saveStudyState();
+          updateProgressUI();
+          renderGlossary();
+          showToast("Progreso de estudio reiniciado.");
+        }
+      });
+
+      // Menú móvil
+      document.getElementById("open-sidebar-btn").addEventListener("click", openMobileSidebar);
+      document.getElementById("close-sidebar-btn").addEventListener("click", closeMobileSidebar);
+      document.getElementById("mobile-sidebar-overlay").addEventListener("click", closeMobileSidebar);
+
+      // Volver arriba y scroll
+      window.addEventListener("scroll", handleWindowScroll, { passive: true });
+      document.getElementById("back-to-top-btn").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Botones de apertura de Flashcards
+      document.getElementById("open-flashcards-sidebar").addEventListener("click", openFlashcardsModal);
+      document.getElementById("open-flashcards-mobile").addEventListener("click", openFlashcardsModal);
+      document.getElementById("open-flashcards-hero").addEventListener("click", openFlashcardsModal);
+      document.getElementById("close-flashcards-btn").addEventListener("click", closeFlashcardsModal);
+
+      // Cerrar modal al hacer clic fuera
+      document.getElementById("flashcards-modal").addEventListener("click", (e) => {
+        if (e.target.id === "flashcards-modal") closeFlashcardsModal();
+      });
+
+      // Interacciones dentro del modal de Flashcards
+      document.getElementById("fc-scene").addEventListener("click", (e) => {
+        // Permite seleccionar texto en la cara trasera sin voltear accidentalmente si arrastró
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0) return;
+        flipFlashcard();
+      });
+
+      document.getElementById("fc-flip-btn").addEventListener("click", flipFlashcard);
+      document.getElementById("fc-next-btn").addEventListener("click", nextFlashcard);
+      document.getElementById("fc-prev-btn").addEventListener("click", prevFlashcard);
+
+      document.getElementById("fc-deck-select").addEventListener("change", (e) => {
+        buildFlashcardsDeck(e.target.value, false);
+      });
+
+      document.getElementById("fc-shuffle-btn").addEventListener("click", () => {
+        buildFlashcardsDeck(state.fcDeckMode, true);
+        showToast("Mazo mezclado aleatoriamente.");
+      });
+
+      document.getElementById("fc-master-btn").addEventListener("click", () => {
+        if (state.fcDeck.length === 0) return;
+        const term = state.fcDeck[state.fcIndex];
+        toggleMastered(term.id);
+        updateFlashcardStudyButtons(term.id);
+      });
+
+      document.getElementById("fc-fav-btn").addEventListener("click", () => {
+        if (state.fcDeck.length === 0) return;
+        const term = state.fcDeck[state.fcIndex];
+        toggleFavorite(term.id);
+        updateFlashcardStudyButtons(term.id);
+      });
+
+      // Atajos de teclado para Flashcards
+      document.addEventListener("keydown", (e) => {
+        if (!state.fcOpen) return;
+        if (e.key === "Escape") {
+          closeFlashcardsModal();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          nextFlashcard();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          prevFlashcard();
+        } else if (e.code === "Space" && document.activeElement.tagName !== "SELECT") {
+          e.preventDefault();
+          flipFlashcard();
+        }
+      });
+    }
+
+    /**
+     * Inicialización al terminar de cargar DOM y scripts diferidos (KaTeX).
+     */
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPersistedState();
+      applyTheme(state.theme);
+      updateFilterButtonsUI();
+      updateProgressUI();
+      renderGlossary();
+      bindEvents();
+      handleWindowScroll();
+    });
+
+    // Garantiza renderizado KaTeX incluso si el script diferido termina milisegundos después
+    window.addEventListener("load", () => {
+      renderMath(document.getElementById("glossary-container"));
+    });
+  </script>
+</body>
+</html>

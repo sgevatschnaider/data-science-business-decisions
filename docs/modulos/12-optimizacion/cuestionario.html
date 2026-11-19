@@ -1,202 +1,2305 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="es" data-theme="indigo">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Cuestionario interactivo del módulo Programación lineal y analítica prescriptiva.">
-  <meta name="author" content="Sergio Gevatschnaider">
-  <meta name="theme-color" content="#082f49">
-  <title>Cuestionario: Optimización | Datos y Decisiones</title>
-  <link rel="stylesheet" href="../../assets/css/course.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario &amp; Guía de Estudio Interactiva: Programación Lineal de Alto Nivel</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans, Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS & JS (Auto-render) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* =========================================================================
+       SISTEMA DE VARIABLES Y 4 TEMAS DE COLOR PERSISTENTES
+       ========================================================================= */
+    :root {
+      --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition-theme: background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    /* TEMA 1: ÍNDIGO NOCTURNO */
+    [data-theme="indigo"] {
+      --bg-page: #0a0f1f;
+      --bg-sidebar: #0e1529;
+      --bg-card: #121c34;
+      --bg-card-hover: #172341;
+      --bg-elevated: #1a2748;
+      --bg-input: #0b1224;
+      --bg-formula: rgba(9, 14, 30, 0.85);
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-strong: rgba(148, 163, 184, 0.30);
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #8b9cb6;
+      --accent-primary: #6366f1;
+      --accent-secondary: #22d3ee;
+      --accent-tertiary: #a855f7;
+      --accent-soft: rgba(99, 102, 241, 0.16);
+      --shadow-card: 0 14px 36px -14px rgba(2, 6, 23, 0.72);
+      --header-bg: rgba(10, 15, 31, 0.88);
+      /* Bloques temáticos */
+      --blk-1: #6366f1; --blk-1-soft: rgba(99, 102, 241, 0.16);
+      --blk-2: #06b6d4; --blk-2-soft: rgba(6, 182, 212, 0.16);
+      --blk-3: #a855f7; --blk-3-soft: rgba(168, 85, 247, 0.16);
+      --blk-4: #10b981; --blk-4-soft: rgba(16, 185, 129, 0.16);
+      /* Estados semánticos */
+      --ok-color: #34d399; --ok-soft: rgba(16, 185, 129, 0.15);
+      --err-color: #fb7185; --err-soft: rgba(244, 63, 94, 0.15);
+      --warn-color: #fbbf24; --warn-soft: rgba(245, 158, 11, 0.16);
+    }
+
+    /* TEMA 2: MARFIL ACADÉMICO */
+    [data-theme="ivory"] {
+      --bg-page: #f8f6f0;
+      --bg-sidebar: #f1eee5;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fdfcf9;
+      --bg-elevated: #eae6db;
+      --bg-input: #ffffff;
+      --bg-formula: #f4f5f8;
+      --border-subtle: rgba(15, 23, 42, 0.10);
+      --border-strong: rgba(15, 23, 42, 0.22);
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent-primary: #1d4ed8;
+      --accent-secondary: #0f766e;
+      --accent-tertiary: #6d28d9;
+      --accent-soft: rgba(29, 78, 216, 0.10);
+      --shadow-card: 0 10px 28px -12px rgba(15, 23, 42, 0.09);
+      --header-bg: rgba(248, 246, 240, 0.90);
+      /* Bloques temáticos */
+      --blk-1: #1d4ed8; --blk-1-soft: rgba(29, 78, 216, 0.10);
+      --blk-2: #0f766e; --blk-2-soft: rgba(15, 118, 110, 0.10);
+      --blk-3: #6d28d9; --blk-3-soft: rgba(109, 40, 217, 0.10);
+      --blk-4: #b45309; --blk-4-soft: rgba(180, 83, 9, 0.10);
+      /* Estados semánticos */
+      --ok-color: #059669; --ok-soft: rgba(5, 150, 105, 0.11);
+      --err-color: #dc2626; --err-soft: rgba(220, 38, 38, 0.10);
+      --warn-color: #d97706; --warn-soft: rgba(217, 119, 6, 0.12);
+    }
+
+    /* TEMA 3: ESMERALDA MATRIZ */
+    [data-theme="emerald"] {
+      --bg-page: #06120f;
+      --bg-sidebar: #091a16;
+      --bg-card: #0d221d;
+      --bg-card-hover: #112b25;
+      --bg-elevated: #15352d;
+      --bg-input: #071612;
+      --bg-formula: rgba(5, 19, 15, 0.85);
+      --border-subtle: rgba(110, 231, 183, 0.14);
+      --border-strong: rgba(110, 231, 183, 0.28);
+      --text-primary: #ecfdf5;
+      --text-secondary: #c1ddd3;
+      --text-muted: #78a396;
+      --accent-primary: #10b981;
+      --accent-secondary: #2dd4bf;
+      --accent-tertiary: #38bdf8;
+      --accent-soft: rgba(16, 185, 129, 0.16);
+      --shadow-card: 0 14px 36px -14px rgba(2, 12, 9, 0.78);
+      --header-bg: rgba(6, 18, 15, 0.88);
+      /* Bloques temáticos */
+      --blk-1: #10b981; --blk-1-soft: rgba(16, 185, 129, 0.16);
+      --blk-2: #2dd4bf; --blk-2-soft: rgba(45, 212, 191, 0.16);
+      --blk-3: #84cc16; --blk-3-soft: rgba(132, 204, 22, 0.16);
+      --blk-4: #38bdf8; --blk-4-soft: rgba(56, 189, 248, 0.16);
+      /* Estados semánticos */
+      --ok-color: #34d399; --ok-soft: rgba(52, 211, 153, 0.16);
+      --err-color: #fb7185; --err-soft: rgba(251, 113, 133, 0.16);
+      --warn-color: #facc15; --warn-soft: rgba(250, 204, 21, 0.15);
+    }
+
+    /* TEMA 4: ÁMBAR EDITORIAL */
+    [data-theme="amber"] {
+      --bg-page: #faf4e9;
+      --bg-sidebar: #f3e9d8;
+      --bg-card: #fffdf8;
+      --bg-card-hover: #fff9ee;
+      --bg-elevated: #ebdec8;
+      --bg-input: #fffdf8;
+      --bg-formula: #f6ede0;
+      --border-subtle: rgba(92, 54, 32, 0.13);
+      --border-strong: rgba(92, 54, 32, 0.26);
+      --text-primary: #2a170f;
+      --text-secondary: #4e3428;
+      --text-muted: #7f6152;
+      --accent-primary: #b45309;
+      --accent-secondary: #9f1239;
+      --accent-tertiary: #c2410c;
+      --accent-soft: rgba(180, 83, 9, 0.12);
+      --shadow-card: 0 10px 28px -12px rgba(68, 36, 18, 0.11);
+      --header-bg: rgba(250, 244, 233, 0.90);
+      /* Bloques temáticos */
+      --blk-1: #b45309; --blk-1-soft: rgba(180, 83, 9, 0.12);
+      --blk-2: #9f1239; --blk-2-soft: rgba(159, 18, 57, 0.11);
+      --blk-3: #c2410c; --blk-3-soft: rgba(194, 65, 12, 0.12);
+      --blk-4: #4d7c0f; --blk-4-soft: rgba(77, 124, 15, 0.12);
+      /* Estados semánticos */
+      --ok-color: #15803d; --ok-soft: rgba(21, 128, 61, 0.12);
+      --err-color: #be123c; --err-soft: rgba(190, 18, 60, 0.11);
+      --warn-color: #b45309; --warn-soft: rgba(180, 83, 9, 0.13);
+    }
+
+    /* =========================================================================
+       ESTILOS GENERALES Y UTILIDADES
+       ========================================================================= */
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-sans);
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      transition: var(--transition-theme);
+      overflow-x: hidden;
+    }
+
+    .font-display { font-family: var(--font-display); }
+    .font-code { font-family: var(--font-mono); }
+
+    .bg-page { background-color: var(--bg-page); }
+    .bg-sidebar { background-color: var(--bg-sidebar); }
+    .bg-card { background-color: var(--bg-card); }
+    .bg-elevated { background-color: var(--bg-elevated); }
+    .bg-input { background-color: var(--bg-input); }
+    .border-subtle { border-color: var(--border-subtle); }
+    .border-strong { border-color: var(--border-strong); }
+    .text-primary { color: var(--text-primary); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+
+    .app-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      transition: var(--transition-theme);
+    }
+
+    /* Colores de bloques temáticos */
+    .blk-1 { --blk-c: var(--blk-1); --blk-s: var(--blk-1-soft); }
+    .blk-2 { --blk-c: var(--blk-2); --blk-s: var(--blk-2-soft); }
+    .blk-3 { --blk-c: var(--blk-3); --blk-s: var(--blk-3-soft); }
+    .blk-4 { --blk-c: var(--blk-4); --blk-s: var(--blk-4-soft); }
+
+    .blk-badge {
+      color: var(--blk-c);
+      background-color: var(--blk-s);
+      border: 1px solid color-mix(in srgb, var(--blk-c) 28%, transparent);
+    }
+
+    .blk-left-accent {
+      border-left: 4px solid var(--blk-c);
+    }
+
+    /* Scrollbar refinada */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 9999px;
+    }
+
+    /* Estilizado KaTeX */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.9rem 1.15rem;
+      margin: 0.85rem 0 !important;
+      background-color: var(--bg-formula);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+      max-width: 100%;
+    }
+    .katex { font-size: 1.04em; }
+
+    /* Opciones interactivas */
+    .option-btn {
+      background-color: var(--bg-card);
+      border: 1.5px solid var(--border-subtle);
+      transition: transform 0.16s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .option-btn:not(:disabled):hover {
+      border-color: var(--accent-primary);
+      background-color: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
+    .option-btn.opt-correct {
+      border-color: var(--ok-color);
+      background-color: var(--ok-soft);
+    }
+    .option-btn.opt-wrong {
+      border-color: var(--err-color);
+      background-color: var(--err-soft);
+    }
+    .option-btn.opt-dimmed {
+      opacity: 0.62;
+    }
+
+    /* Animaciones suaves */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeSlideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* Anillo SVG Dashboard */
+    .ring-progress {
+      transition: stroke-dashoffset 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+
+    /* Listas limpias en el desarrollo teórico */
+    .theory-body ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0.55rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .theory-body ul li {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .theory-body ul li::before {
+      content: "";
+      position: absolute;
+      left: 0.2rem;
+      top: 0.6rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background-color: var(--blk-c, var(--accent-primary));
+    }
+    .theory-body strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+       ESTILOS DE IMPRESIÓN / EXPORTACIÓN PDF (@media print)
+       ========================================================================= */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body, [data-theme] {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        --bg-page: #ffffff !important;
+        --bg-card: #ffffff !important;
+        --bg-elevated: #f1f5f9 !important;
+        --bg-formula: #f8fafc !important;
+        --text-primary: #0f172a !important;
+        --text-secondary: #1e293b !important;
+        --text-muted: #475569 !important;
+        --border-subtle: #cbd5e1 !important;
+        --border-strong: #94a3b8 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .print-break-avoid {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .guide-answer-panel {
+        display: block !important;
+      }
+      .app-card {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      main {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+    }
+  </style>
 </head>
-        <body class="quiz-page" data-module-id="12" data-page-kind="cuestionario">
-          <a class="skip-link" href="#contenido">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="../../index.html" aria-label="Inicio del curso">
-      <span class="brand-mark" aria-hidden="true">DD</span>
-      <span>
-        <strong>Datos y Decisiones</strong>
-        <small>Ciencia de datos aplicada</small>
-      </span>
-    </a>
-    <button class="nav-toggle" type="button" aria-expanded="false"
-            aria-controls="site-navigation">Menú</button>
-    <nav id="site-navigation" class="site-nav" aria-label="Navegación principal">
-      <a href="../../index.html">Inicio</a>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../proyecto-integrador.html">Proyecto</a>
-      <a href="../../profundizaciones.html">Profundizaciones</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Código</a>
-      <button class="theme-toggle" type="button" aria-label="Cambiar tema">
-        Tema
-      </button>
-    </nav>
-  </div>
-</header>
-          <main id="contenido">
-            <section class="page-hero compact">
-          <div class="container narrow">
-            <p class="breadcrumbs"><a href="../../index.html">Inicio</a> / <a href="index.html">Módulo 12</a> / Cuestionario</p>
-            <p class="eyebrow">Autoevaluación · Módulo 12</p>
-            <h1>Cuestionario: Optimización</h1>
-            <p class="hero-lead">7 preguntas conceptuales y situacionales con corrección inmediata, explicación y segundo intento.</p>
+<body class="min-h-screen antialiased flex flex-col"><nav aria-label="Navegación del módulo" style="position:relative;z-index:100;background:#082f49;color:white;padding:10px 18px;display:flex;gap:18px;flex-wrap:wrap;font:600 14px system-ui"><a style="color:white" href="index.html">← Módulo</a><a style="color:white" href="guia.html">Guía de clases</a><a style="color:white" href="simulacion.html">Laboratorio</a><a style="color:white" href="glosario.html">Glosario</a><a style="color:white" href="cuestionario.html">Cuestionario</a><a style="color:white" href="videos.html">Videos</a></nav>
+
+  <!-- =========================================================================
+       BARRA SUPERIOR GLOBAL (TÍTULO, TABS DE MODO Y SELECTOR DE TEMAS)
+       ========================================================================= -->
+  <header class="no-print sticky top-0 z-40 border-b border-subtle backdrop-blur-md" style="background-color: var(--header-bg);">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+
+      <!-- Identidad Editorial -->
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="mobile-drawer-open" class="lg:hidden p-2 rounded-xl bg-elevated text-primary hover:opacity-90 transition shrink-0" aria-label="Abrir mapa de preguntas">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-display font-extrabold text-sm text-white shadow-md" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+          PL
+        </div>
+        <div class="min-w-0">
+          <div class="font-display font-bold text-sm sm:text-base text-primary leading-tight truncate">
+            Cuestionario &amp; Guía de Estudio Interactiva: Programación Lineal de Alto Nivel
           </div>
-        </section>
-        <section class="container quiz-section">
-          <form class="quiz-form" data-quiz novalidate>
-            <fieldset class="quiz-question" data-question data-answer="0"
-                          data-explanation="Es la acción o cantidad que la optimización debe elegir.">
-                  <legend><span>01</span>¿Qué representa una variable de decisión?</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-1" value="0">
-  <span><b>A</b>Algo controlable</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-1" value="1">
-  <span><b>B</b>Un error histórico</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-1" value="2">
-  <span><b>C</b>Solo una visualización</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-1" value="3">
-  <span><b>D</b>Una clase observada siempre</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
-                          data-explanation="Viola al menos una condición del sistema.">
-                  <legend><span>02</span>Una solución fuera de una restricción es:</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-2" value="0">
-  <span><b>A</b>Óptima</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-2" value="1">
-  <span><b>B</b>No factible</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-2" value="2">
-  <span><b>C</b>Un baseline</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-2" value="3">
-  <span><b>D</b>Un cluster</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
-                          data-explanation="Representa decisiones sí/no indivisibles.">
-                  <legend><span>03</span>¿Cuándo usar una variable binaria?</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-3" value="0">
-  <span><b>A</b>Para decidir abrir o no una instalación</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-3" value="1">
-  <span><b>B</b>Para cualquier promedio</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-3" value="2">
-  <span><b>C</b>Para medir temperatura</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-3" value="3">
-  <span><b>D</b>Para calcular correlación</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
-                          data-explanation="El recurso o límite se usa completamente.">
-                  <legend><span>04</span>Una restricción con holgura cero en el óptimo es:</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-4" value="0">
-  <span><b>A</b>Vinculante</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-4" value="1">
-  <span><b>B</b>Aleatoria</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-4" value="2">
-  <span><b>C</b>Faltante</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-4" value="3">
-  <span><b>D</b>Calibrada</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
-                          data-explanation="La decisión debe resistir errores plausibles en los parámetros.">
-                  <legend><span>05</span>¿Por qué analizar escenarios si la demanda es predicha?</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-5" value="0">
-  <span><b>A</b>Porque la predicción es incierta</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-5" value="1">
-  <span><b>B</b>Porque no existe objetivo</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-5" value="2">
-  <span><b>C</b>Para eliminar restricciones</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-5" value="3">
-  <span><b>D</b>Para crear leakage</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="0"
-                          data-explanation="Una solución matemática puede revelar errores de formulación o ser impracticable.">
-                  <legend><span>06</span>¿Qué debe verificarse luego de resolver?</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-6" value="0">
-  <span><b>A</b>Factibilidad y sentido operacional</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-6" value="1">
-  <span><b>B</b>Solo el tiempo de cómputo</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-6" value="2">
-  <span><b>C</b>El color de la salida</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-6" value="3">
-  <span><b>D</b>La cantidad de comentarios</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset><fieldset class="quiz-question" data-question data-answer="1"
-                          data-explanation="Los escenarios muestran si una solución sigue siendo factible y valiosa cuando cambian parámetros inciertos.">
-                  <legend><span>07</span>La demanda usada por el optimizador tiene alta incertidumbre. ¿Qué práctica es más defendible?</legend>
-                  <div class="quiz-options"><label class="quiz-option">
-  <input type="radio" name="question-7" value="0">
-  <span><b>A</b>Usar solo el promedio</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-7" value="1">
-  <span><b>B</b>Resolver escenarios y revisar robustez de la decisión</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-7" value="2">
-  <span><b>C</b>Eliminar restricciones</span>
-</label><label class="quiz-option">
-  <input type="radio" name="question-7" value="3">
-  <span><b>D</b>Redondear sin verificar</span>
-</label></div>
-                  <p class="question-feedback" data-question-feedback aria-live="polite"></p>
-                </fieldset>
-            <div class="quiz-actions">
-              <button class="button primary" type="submit">Corregir respuestas</button>
-              <button class="button secondary" type="reset">Reiniciar</button>
+          <p class="text-[11px] sm:text-xs text-muted truncate">
+            Material elaborado por el profesor Sergio Gevatschnaider
+          </p>
+        </div>
+      </div>
+
+      <!-- Selector Principal de 2 Modos (Tabs) -->
+      <div class="flex items-center gap-1 p-1 rounded-xl bg-card border border-subtle shadow-sm order-3 xl:order-2 w-full xl:w-auto justify-center" role="tablist" aria-label="Modos de estudio">
+        <button id="tab-quiz-btn" data-mode="quiz" role="tab" aria-selected="true" class="mode-tab flex-1 xl:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          <span>Cuestionario Interactivo</span>
+        </button>
+        <button id="tab-guide-btn" data-mode="guide" role="tab" aria-selected="false" class="mode-tab flex-1 xl:flex-none px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Guía de Estudio Completa</span>
+        </button>
+      </div>
+
+      <!-- Selector de 4 Temas de Color -->
+      <div class="flex items-center gap-1.5 order-2 xl:order-3" aria-label="Selector de tema de color">
+        <button data-theme-select="indigo" class="theme-pill p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-subtle text-xs font-medium flex items-center gap-1.5 transition" title="Índigo Nocturno">
+          <span class="w-3.5 h-3.5 rounded-full border border-white/25 shrink-0" style="background: linear-gradient(135deg, #0a0f1f 45%, #6366f1 55%);"></span>
+          <span class="hidden md:inline">Índigo</span>
+        </button>
+        <button data-theme-select="ivory" class="theme-pill p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-subtle text-xs font-medium flex items-center gap-1.5 transition" title="Marfil Académico">
+          <span class="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" style="background: linear-gradient(135deg, #f8f6f0 45%, #1d4ed8 55%);"></span>
+          <span class="hidden md:inline">Marfil</span>
+        </button>
+        <button data-theme-select="emerald" class="theme-pill p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-subtle text-xs font-medium flex items-center gap-1.5 transition" title="Esmeralda Matriz">
+          <span class="w-3.5 h-3.5 rounded-full border border-emerald-400/35 shrink-0" style="background: linear-gradient(135deg, #06120f 45%, #10b981 55%);"></span>
+          <span class="hidden md:inline">Esmeralda</span>
+        </button>
+        <button data-theme-select="amber" class="theme-pill p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-subtle text-xs font-medium flex items-center gap-1.5 transition" title="Ámbar Editorial">
+          <span class="w-3.5 h-3.5 rounded-full border border-amber-700/35 shrink-0" style="background: linear-gradient(135deg, #faf4e9 45%, #b45309 55%);"></span>
+          <span class="hidden md:inline">Ámbar</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Encabezado visible únicamente al Imprimir / Exportar PDF -->
+  <div class="hidden print-only px-2 pt-2 pb-5 mb-5 border-b-2 border-slate-300">
+    <h1 class="font-display text-2xl font-extrabold text-slate-900">Guía de Estudio Completa: Programación Lineal de Alto Nivel</h1>
+    <p class="text-sm text-slate-600 mt-1">Material elaborado por el profesor Sergio Gevatschnaider — 20 Preguntas con Desarrollo Teórico y Análisis de Distractores</p>
+  </div>
+
+  <!-- Overlay móvil para Sidebar -->
+  <div id="mobile-overlay" class="no-print fixed inset-0 z-40 bg-black/60 backdrop-blur-sm hidden lg:hidden"></div>
+
+  <!-- =========================================================================
+       MODO 1: CUESTIONARIO INTERACTIVO + DASHBOARD DE RESULTADOS
+       ========================================================================= -->
+  <div id="quiz-mode-wrapper" class="flex-1 flex max-w-[1440px] w-full mx-auto">
+
+    <!-- PANEL LATERAL IZQUIERDO (MAPA DE 20 PREGUNTAS, FILTROS Y ESTADÍSTICAS) -->
+    <aside id="quiz-sidebar" class="no-print fixed lg:sticky top-0 lg:top-[69px] left-0 z-50 lg:z-20 h-screen lg:h-[calc(100vh-69px)] w-80 max-w-[88vw] bg-sidebar border-r border-subtle flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out shrink-0">
+
+      <!-- Encabezado móvil del drawer -->
+      <div class="lg:hidden px-5 py-4 border-b border-subtle flex items-center justify-between">
+        <span class="font-display font-bold text-sm text-primary">Mapa del Cuestionario</span>
+        <button id="mobile-drawer-close" class="p-2 rounded-lg hover:bg-elevated text-muted hover:text-primary transition" aria-label="Cerrar panel">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+
+        <!-- Progreso Global y Métricas en Vivo -->
+        <div class="app-card rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-secondary">Progreso global</span>
+            <span id="sb-progress-text" class="font-code font-bold text-primary">0 / 20</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-elevated overflow-hidden">
+            <div id="sb-progress-bar" class="h-full rounded-full transition-all duration-300" style="width: 0%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));"></div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <div class="rounded-xl bg-elevated/70 px-2.5 py-2 text-center">
+              <div id="sb-score-val" class="font-code text-base font-bold" style="color: var(--ok-color);">0</div>
+              <div class="text-[10px] font-medium text-muted">Aciertos</div>
             </div>
-          </form>
-          <div class="quiz-result" data-quiz-result hidden tabindex="-1">
-            <span>Resultado</span>
-            <strong data-quiz-score>0 / 7</strong>
-            <p data-quiz-message></p>
-            <a class="button primary" href="glosario.html">Revisar glosario</a>
+            <div class="rounded-xl bg-elevated/70 px-2.5 py-2 text-center">
+              <div id="sb-wrong-val" class="font-code text-base font-bold" style="color: var(--err-color);">0</div>
+              <div class="text-[10px] font-medium text-muted">Falladas</div>
+            </div>
+            <div class="rounded-xl bg-elevated/70 px-2.5 py-2 text-center">
+              <div id="sb-streak-val" class="font-code text-base font-bold" style="color: var(--warn-color);">0🔥</div>
+              <div class="text-[10px] font-medium text-muted">Racha</div>
+            </div>
           </div>
-          <div class="button-row centered">
-            <a class="button secondary" href="simulacion.html">Volver a la simulación</a>
-            <a class="button tertiary" href="index.html">Índice del módulo</a>
+        </div>
+
+        <!-- Filtro por Bloque Temático -->
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-muted mb-2">Filtrar por bloque</p>
+          <div id="sb-block-filters" class="grid grid-cols-1 gap-1.5">
+            <!-- Generado dinámicamente por JS -->
           </div>
-        </section>
-          </main>
-          <footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <strong>Ciencia de Datos para Decisiones de Negocio</strong>
-      <p>Material elaborado por el profesor Sergio Gevatschnaider.</p>
-    </div>
-    <div>
-      <a href="../../programa.html">Programa</a>
-      <a href="../../accesibilidad.html">Accesibilidad</a>
-      <a href="https://github.com/sgevatschnaider/data-science-business-decisions">Repositorio</a>
+        </div>
+
+        <!-- Mapa Interactivo de las 20 Preguntas -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-muted">Mapa de preguntas</p>
+            <span id="sb-flagged-count" class="text-[11px] font-code text-muted">0 marcadas</span>
+          </div>
+          <div id="question-map-grid" class="grid grid-cols-5 gap-2">
+            <!-- 20 botones generados por JS -->
+          </div>
+          <!-- Leyenda -->
+          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[10px] text-muted">
+            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm border border-strong bg-card"></span> Pendiente</span>
+            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm" style="background: var(--ok-color);"></span> Correcta</span>
+            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm" style="background: var(--err-color);"></span> Incorrecta</span>
+            <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full" style="background: var(--warn-color);"></span> Repaso</span>
+          </div>
+        </div>
+
+        <!-- Botones de Acción Rápida -->
+        <div class="space-y-2 pt-2 border-t border-subtle">
+          <button id="btn-show-dashboard" class="w-full py-2.5 px-3.5 rounded-xl text-xs font-bold text-white shadow-sm hover:opacity-95 active:scale-[0.99] transition flex items-center justify-center gap-2" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Finalizar y ver análisis</span>
+          </button>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-review-wrong" class="py-2 px-3 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-semibold text-secondary hover:text-primary transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" style="color: var(--err-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Repasar falladas</span>
+            </button>
+            <button id="btn-reset-quiz" class="py-2 px-3 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-semibold text-secondary hover:text-primary transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              <span id="btn-reset-label">Reiniciar</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DEL CUESTIONARIO (PREGUNTA ACTIVA O DASHBOARD) -->
+    <main class="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Banner de filtro activo (bloque o repaso de falladas) -->
+        <div id="active-subset-banner" class="hidden mb-4 px-4 py-2.5 rounded-xl bg-card border border-strong flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2 text-primary font-medium">
+            <span class="w-2 h-2 rounded-full" style="background: var(--accent-primary);"></span>
+            <span id="active-subset-text"></span>
+          </div>
+          <button id="btn-clear-subset" class="font-semibold underline decoration-dotted hover:opacity-80" style="color: var(--accent-primary);">
+            Mostrar las 20 preguntas
+          </button>
+        </div>
+
+        <!-- VISTA DE PREGUNTA ACTIVA -->
+        <div id="quiz-question-view">
+          <!-- Renderizado dinámicamente por JS -->
+        </div>
+
+        <!-- VISTA DASHBOARD DE RESULTADOS Y DIAGNÓSTICO -->
+        <div id="quiz-dashboard-view" class="hidden space-y-6 animate-in">
+          <!-- Renderizado dinámicamente por JS -->
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       MODO 2: GUÍA DE ESTUDIO COMPLETA (VISTA LECTURA / REPASO INTEGRAL)
+       ========================================================================= -->
+  <div id="guide-mode-wrapper" class="hidden flex-1 w-full">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-7 sm:py-9">
+
+      <!-- Cabecera y Herramientas de la Guía de Estudio -->
+      <div class="no-print app-card rounded-2xl p-5 sm:p-6 mb-7 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider mb-1.5" style="background: var(--accent-soft); color: var(--accent-primary);">
+              Modo Lectura &amp; Autoevaluación
+            </span>
+            <h2 class="font-display text-2xl font-extrabold text-primary tracking-tight">Guía de Estudio Completa (20 Preguntas Desarrolladas)</h2>
+            <p class="text-xs sm:text-sm text-muted mt-1">
+              Explora los 4 bloques temáticos con demostraciones concisas, intuición geométrica y económica, y análisis de errores frecuentes.
+            </p>
+          </div>
+
+          <button id="btn-print-guide" class="px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-sm hover:opacity-95 active:scale-[0.99] transition flex items-center justify-center gap-2 shrink-0" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span>Imprimir / Exportar PDF</span>
+          </button>
+        </div>
+
+        <!-- Buscador + Expandir/Ocultar -->
+        <div class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center pt-2 border-t border-subtle">
+          <div class="relative flex-1">
+            <svg class="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input id="guide-search-input" type="text" placeholder="Buscar por concepto, teorema o fórmula (ej. Bland, Dualidad, Hoffman-Kruskal, holgura)..." class="w-full pl-10 pr-20 py-2.5 rounded-xl bg-input border border-subtle focus:border-strong focus:outline-none text-sm text-primary placeholder:text-muted transition" autocomplete="off">
+            <span id="guide-count-badge" class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-code px-2 py-0.5 rounded-md bg-elevated text-muted">20 / 20</span>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button id="guide-expand-all" class="flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl bg-elevated hover:opacity-90 text-xs font-semibold text-primary transition">
+              Expandir respuestas
+            </button>
+            <button id="guide-collapse-all" class="flex-1 sm:flex-none px-3.5 py-2.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-semibold text-secondary hover:text-primary transition">
+              Ocultar respuestas
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros por bloque en Modo Guía -->
+        <div id="guide-block-filters" class="flex flex-wrap items-center gap-1.5">
+          <!-- Generado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Contenedor de las 20 Preguntas en Modo Guía -->
+      <div id="guide-content-container" class="space-y-10">
+        <!-- Generado dinámicamente por JS -->
+      </div>
+
+      <!-- Estado Vacío en Guía -->
+      <div id="guide-empty-state" class="hidden text-center py-14 px-6 rounded-2xl app-card">
+        <h3 class="font-display text-lg font-bold text-primary">No se encontraron coincidencias</h3>
+        <p class="text-xs sm:text-sm text-muted mt-1">Intenta con otro término o restablece el filtro de bloque.</p>
+        <button id="guide-reset-filters" class="mt-4 px-4 py-2 rounded-xl text-xs font-semibold text-white" style="background: var(--accent-primary);">Mostrar todas las preguntas</button>
+      </div>
+
     </div>
   </div>
-</footer>
-<script src="../../assets/js/course-data.js"></script>
-<script src="../../assets/js/site.js"></script>
-          <script src="../../assets/js/module.js"></script>
-        </body>
-        </html>
+
+  <!-- Toast de Notificaciones (no bloqueante, sin alert/confirm) -->
+  <div id="toast-container" class="no-print fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col gap-2"></div>
+
+  <!-- =========================================================================
+       BASE DE DATOS ÍNTEGRA (20 PREGUNTAS) Y LÓGICA INTERACTIVA
+       ========================================================================= -->
+  <script>
+    /* =========================================================================
+       1. DEFINICIÓN DE LOS 4 BLOQUES TEMÁTICOS
+       ========================================================================= */
+    const BLOCKS = [
+      {
+        id: 1,
+        short: "Bloque 1",
+        name: "Formulación Matemática y Estructura Algebraica",
+        range: "Preguntas 1 a 4",
+        desc: "Supuestos estructurales, variables libres y auxiliares, estandarización y rango de la matriz tecnológica."
+      },
+      {
+        id: 2,
+        short: "Bloque 2",
+        name: "Geometría Poliédrica y Fundamentos Teóricos",
+        range: "Preguntas 5 a 9",
+        desc: "Convexidad, equivalencia local-global, soluciones básicas, rayos extremos, degeneración y rectas en poliedros."
+      },
+      {
+        id: 3,
+        short: "Bloque 3",
+        name: "Algoritmos de Optimización y Complejidad",
+        range: "Preguntas 10 a 14",
+        desc: "Pivoteo degenerado, regla de Bland, Dos Fases vs. Gran M, Simplex Dual con warm start y Punto Interior."
+      },
+      {
+        id: 4,
+        short: "Bloque 4",
+        name: "Dualidad, Sensibilidad y Técnicas de Gran Escala",
+        range: "Preguntas 15 a 20",
+        desc: "Teoremas de dualidad, holgura complementaria, rango de factibilidad, caras óptimas, Generación de Columnas y TU."
+      }
+    ];
+
+    /* =========================================================================
+       2. LAS 20 PREGUNTAS ÍNTEGRAS CON PISTA, DESARROLLO Y ANÁLISIS DE DISTRACTORES
+       ========================================================================= */
+    const QUESTIONS = [
+      // ==================== BLOQUE 1 ====================
+      {
+        id: 1,
+        block: 1,
+        difficulty: "Fundamental",
+        statement: String.raw`Una planta industrial modela su plan de producción mensual con dos bienes $x_1$ y $x_2$. Al incorporar un descuento por volumen que reduce el costo unitario tras superar $100$ unidades y un cargo ambiental proporcional al producto $x_1 x_2$, ¿qué supuestos fundamentales de la Programación Lineal se violan respectivamente?`,
+        options: [
+          { letter: "A", text: String.raw`Proporcionalidad y aditividad.` },
+          { letter: "B", text: String.raw`Divisibilidad y proporcionalidad.` },
+          { letter: "C", text: String.raw`Aditividad y certidumbre.` },
+          { letter: "D", text: String.raw`No negatividad y divisibilidad.` }
+        ],
+        correctIndex: 0,
+        hint: String.raw`Recuerda qué supuesto exige rendimientos y costos marginales constantes a escala, y cuál impide términos cruzados entre actividades.`,
+        development: String.raw`<p>La Programación Lineal descansa sobre tres supuestos estructurales clave (además de la certidumbre de parámetros):</p>
+<ul>
+  <li><strong>1) Proporcionalidad:</strong> Establece que la contribución a la función objetivo y el consumo de recursos de cada actividad $j$ son estrictamente proporcionales a su nivel $x_j$ (es decir, $c_j x_j$ con $c_j$ constante). Un descuento por volumen hace que el costo marginal varíe a tramos, rompiendo la proporcionalidad (generando una función lineal a trozos no convexa).</li>
+  <li><strong>2) Aditividad:</strong> Exige que el efecto total sea exactamente la suma de los efectos individuales, prohibiendo sinergias o penalizaciones cruzadas. Un término como $\alpha x_1 x_2$ introduce interacción cuadrática bilateral entre actividades, violando directamente la aditividad.</li>
+</ul>`,
+        distractors: [
+          { letter: "B", label: String.raw`Divisibilidad y proporcionalidad`, reason: String.raw`Divisibilidad se violaría si $x_1, x_2$ solo pudieran ser enteros (Programación Entera), lo cual no se menciona.` },
+          { letter: "C", label: String.raw`Aditividad y certidumbre`, reason: String.raw`Certidumbre refiere a que los parámetros $(A,b,c)$ son determinísticos y conocidos (sin aleatoriedad estocástica), y además invierte el orden del primer fenómeno.` },
+          { letter: "D", label: String.raw`No negatividad y divisibilidad`, reason: String.raw`No negatividad ($x \ge 0$) es una convención de signo estándar, no un supuesto vulnerado por descuentos o interacciones; tampoco hay restricción de integralidad.` }
+        ]
+      },
+      {
+        id: 2,
+        block: 1,
+        difficulty: "Intermedio",
+        statement: String.raw`Al transformar una variable libre $x_j \in \mathbb{R}$ a forma estándar mediante la sustitución $x_j = x_j^+ - x_j^-$ con $x_j^+, x_j^- \ge 0$, ¿qué garantiza algebraicamente que en toda solución básica factible se cumpla $x_j^+ \cdot x_j^- = 0$?`,
+        options: [
+          { letter: "A", text: String.raw`La restricción no lineal explícita $x_j^+ \cdot x_j^- = 0$ añadida al sistema.` },
+          { letter: "B", text: String.raw`La dependencia lineal entre las columnas de $x_j^+$ y $x_j^-$.` },
+          { letter: "C", text: String.raw`Que ambos coeficientes en la función objetivo son estrictamente positivos.` },
+          { letter: "D", text: String.raw`La unimodularidad total de la matriz tecnológica $A$.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Piensa en la definición de matriz básica $B \in \mathbb{R}^{m \times m}$ y qué relación existe entre las columnas asociadas a $x_j^+$ y $x_j^-$ en la matriz $A$.`,
+        development: String.raw`<p>Al sustituir $x_j = x_j^+ - x_j^-$ en $Ax = b$, si la columna original de $x_j$ era $A_j$, las columnas correspondientes a $x_j^+$ y $x_j^-$ pasan a ser $+A_j$ y $-A_j$, respectivamente. Claramente, estas dos columnas son <strong>linealmente dependientes</strong>:</p>
+$$A_j + (-A_j) = 0$$
+<p>Dado que una matriz básica $B \in \mathbb{R}^{m \times m}$ debe ser invertible ($\det(B) \neq 0$), sus $m$ columnas deben ser linealmente independientes. En consecuencia, es matemáticamente imposible que $x_j^+$ y $x_j^-$ pertenezcan simultáneamente a la base. Al menos una de las dos será siempre una variable no básica, tomando el valor $0$, lo que garantiza automáticamente $x_j^+ \cdot x_j^- = 0$ en toda SBF (aunque no necesariamente en soluciones interiores no básicas).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Restricción no lineal explícita`, reason: String.raw`Añadir $x_j^+ \cdot x_j^- = 0$ destruiría la linealidad del modelo (es una restricción bilineal no convexa) y resulta completamente innecesario.` },
+          { letter: "C", label: String.raw`Coeficientes positivos en el objetivo`, reason: String.raw`Los coeficientes en la función objetivo son $+c_j$ y $-c_j$, de signos opuestos, nunca ambos estrictamente positivos.` },
+          { letter: "D", label: String.raw`Unimodularidad total de $A$`, reason: String.raw`La unimodularidad total refiere a determinantes $\in \{0, \pm 1\}$ para garantizar integralidad, no a la exclusión mutua en bases.` }
+        ]
+      },
+      {
+        id: 3,
+        block: 1,
+        difficulty: "Fundamental",
+        statement: String.raw`Considere la restricción $-2x_1 + 3x_2 \ge -5$ con $x_1, x_2 \ge 0$. Si primero se asegura que el lado derecho sea no negativo ($b_i \ge 0$) y luego se lleva la fila a forma estándar lista para construir una matriz identidad inicial en el Método Simplex, ¿qué variables auxiliares se requieren exactamente en dicha fila?`,
+        options: [
+          { letter: "A", text: String.raw`Una variable de exceso y una variable artificial.` },
+          { letter: "B", text: String.raw`Únicamente una variable artificial.` },
+          { letter: "C", text: String.raw`Únicamente una variable de holgura no negativa.` },
+          { letter: "D", text: String.raw`Una variable de holgura y una variable artificial.` }
+        ],
+        correctIndex: 2,
+        hint: String.raw`Multiplica toda la desigualdad por $-1$ para lograr $b_i \ge 0$ y observa hacia qué lado gira el signo de la inecuación.`,
+        development: String.raw`<p>El paso inicial obligatorio antes de introducir variables auxiliares es asegurar $b_i \ge 0$ para que el vector inicial $x_B = I^{-1}b = b$ cumpla la no negatividad. Al multiplicar $-2x_1 + 3x_2 \ge -5$ por $-1$, el sentido de la desigualdad se invierte:</p>
+$$2x_1 - 3x_2 \le 5$$
+<p>Al tratarse ahora de una restricción de tipo $\le$ con $b_i = 5 \ge 0$, basta sumar una <strong>única variable de holgura</strong> $s_i \ge 0$:</p>
+$$2x_1 - 3x_2 + s_i = 5$$
+<p>Como $s_i$ entra con coeficiente $+1$ y no aparece en ninguna otra fila, aporta directamente la columna canónica $e_i$ de la matriz identidad inicial con $s_i = 5 \ge 0$, sin necesidad de variables de exceso ni artificiales.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Exceso y artificial`, reason: String.raw`Exceso y artificial se necesitarían si, tras garantizar $b_i \ge 0$, la restricción siguiera siendo de tipo $\ge$ (pues la variable de exceso entraría con $-1$).` },
+          { letter: "B", label: String.raw`Únicamente artificial`, reason: String.raw`Solo artificial se usa exclusivamente en restricciones de igualdad ($=$) con $b_i \ge 0$.` },
+          { letter: "D", label: String.raw`Holgura y artificial`, reason: String.raw`Holgura y artificial juntas nunca son necesarias en la misma restricción con $b_i \ge 0$, ya que la holgura ya provee el $+1$ de la identidad.` }
+        ]
+      },
+      {
+        id: 4,
+        block: 1,
+        difficulty: "Intermedio",
+        statement: String.raw`En la forma estándar $\min c^T x$ sujeto a $Ax = b, x \ge 0$ con $A \in \mathbb{R}^{m \times n}$ y $m \le n$, ¿cuál es la consecuencia algebraica directa de que la matriz tecnológica $A$ tenga rango de filas incompleto ($\text{rank}(A) < m$)?`,
+        options: [
+          { letter: "A", text: String.raw`El problema es automáticamente infactible para cualquier vector $b$.` },
+          { letter: "B", text: String.raw`No existe ninguna submatriz básica invertible $B$ de orden $m$.` },
+          { letter: "C", text: String.raw`El poliedro $P$ es necesariamente no acotado.` },
+          { letter: "D", text: String.raw`Todas las soluciones básicas del sistema son no degeneradas.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Relaciona el rango de filas de $A$ con el rango de columnas y la condición de invertibilidad de una submatriz $B \in \mathbb{R}^{m \times m}$.`,
+        development: String.raw`<p>Por el teorema fundamental del álgebra lineal, el rango por filas de $A$ coincide con su rango por columnas. Si $\text{rank}(A) < m$, cualquier selección de $m$ columnas de $A$ producirá una submatriz cuadrada $B \in \mathbb{R}^{m \times m}$ singular ($\det(B) = 0$), por lo que <strong>no existe ninguna base invertible de tamaño $m$</strong>.</p>
+<p>En la práctica, $\text{rank}(A) < m$ implica que al menos una ecuación es combinación lineal de las demás: si el lado derecho $b$ respeta esa misma combinación lineal, la fila es <strong>redundante</strong> y debe eliminarse (preprocesamiento); si no la respeta, el sistema $Ax=b$ es inconsistente (infactible).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Automáticamente infactible`, reason: String.raw`El problema no es automáticamente infactible: si $b$ pertenece al espacio columna de $A$, existen soluciones factibles (solo hay restricciones redundantes).` },
+          { letter: "C", label: String.raw`Poliedro necesariamente no acotado`, reason: String.raw`La acotación del poliedro depende del cono de recesión $\{d \ge 0 : Ad=0\}$, no de la redundancia de filas.` },
+          { letter: "D", label: String.raw`Soluciones básicas no degeneradas`, reason: String.raw`La degeneración ni siquiera puede definirse respecto a bases de orden $m$ si ninguna base de orden $m$ es invertible.` }
+        ]
+      },
+
+      // ==================== BLOQUE 2 ====================
+      {
+        id: 5,
+        block: 2,
+        difficulty: "Fundamental",
+        statement: String.raw`Un modelo de Programación Lineal alcanza un mínimo local en un punto factible $x^* \in P$. ¿Qué par de propiedades estructurales garantiza que $x^*$ sea necesariamente un mínimo global sobre toda la región factible $P$?`,
+        options: [
+          { letter: "A", text: String.raw`La acotación del poliedro $P$ y la diferenciabilidad de $c^T x$.` },
+          { letter: "B", text: String.raw`La convexidad de $P$ y la linealidad de la función $c^T x$.` },
+          { letter: "C", text: String.raw`La unimodularidad total de $A$ y la no degeneración de $x^*$.` },
+          { letter: "D", text: String.raw`La compacidad de $P$ y la existencia de holguras estrictas.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Imagina el segmento rectilíneo que une el mínimo local $x^*$ con un supuesto punto mejor $y \in P$.`,
+        development: String.raw`<p>Supongamos por contradicción que existe un punto $y \in P$ tal que $c^T y < c^T x^*$. Por la <strong>convexidad de $P$</strong> (intersección finita de semiespacios cerrados), todo punto del segmento $x(\lambda) = (1 - \lambda)x^* + \lambda y$ pertenece a $P$ para cualquier $\lambda \in (0, 1]$. Al evaluar la función objetivo y usar la <strong>linealidad</strong> (en general, convexidad) de $c^T x$:</p>
+$$c^T x(\lambda) = (1-\lambda)c^T x^* + \lambda c^T y = c^T x^* + \lambda(c^T y - c^T x^*) < c^T x^*$$
+<p>Tomando $\lambda > 0$ arbitrariamente pequeño, $x(\lambda)$ cae dentro de cualquier vecindad abierta $B_\varepsilon(x^*)$ con un valor estrictamente menor que $c^T x^*$, contradiciendo que $x^*$ fuera mínimo local. Por tanto, <strong>todo óptimo local en PL es automáticamente óptimo global</strong>.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Acotación de $P$ y diferenciabilidad`, reason: String.raw`La acotación o compacidad de $P$ no es necesaria para que un óptimo local sea global (un poliedro no acotado sigue cumpliendo la propiedad).` },
+          { letter: "C", label: String.raw`Unimodularidad y no degeneración`, reason: String.raw`La unimodularidad y la no degeneración no intervienen en la equivalencia local-global.` },
+          { letter: "D", label: String.raw`Compacidad y holguras estrictas`, reason: String.raw`Las holguras estrictas no tienen relación con la ausencia de óptimos locales espurios; de hecho, en el óptimo siempre hay restricciones activas.` }
+        ]
+      },
+      {
+        id: 6,
+        block: 2,
+        difficulty: "Fundamental",
+        statement: String.raw`En un poliedro en forma estándar $P = \{x \in \mathbb{R}^5 : Ax = b, x \ge 0\}$ con $\text{rank}(A) = 3$, se elige una submatriz invertible $B \in \mathbb{R}^{3 \times 3}$ tal que $B^{-1}b = (4, -1, 2)^T$ y se fija $x_N = (0, 0)^T$. ¿Cómo se clasifica exactamente el vector $x$ resultante?`,
+        options: [
+          { letter: "A", text: String.raw`Solución básica factible degenerada.` },
+          { letter: "B", text: String.raw`Punto extremo no acotado de $P$.` },
+          { letter: "C", text: String.raw`Solución básica infactible fuera de $P$.` },
+          { letter: "D", text: String.raw`Solución factible no básica interior a $P$.` }
+        ],
+        correctIndex: 2,
+        hint: String.raw`Verifica las dos condiciones de una Solución Básica Factible: $Ax = b$ y $x \ge 0$.`,
+        development: String.raw`<p>Por construcción, al seleccionar una matriz $B \in \mathbb{R}^{3 \times 3}$ invertible, fijar $x_N = 0$ y resolver $x_B = B^{-1}b$, el vector $x$ satisface exactamente el sistema lineal $Ax = Bx_B + Nx_N = b$, por lo cual es una <strong>solución básica</strong>.</p>
+<p>Sin embargo, una de sus componentes básicas es negativa ($x_{B_2} = -1 < 0$), violando la condición de no negatividad $x \ge 0$. En consecuencia, $x \notin P$ y se clasifica exactamente como una <strong>solución básica infactible</strong>. Geométricamente, corresponde a la intersección de $5$ hiperplanos (los $3$ de $Ax=b$ y $2$ de $x_N=0$) ubicada fuera del ortante no negativo.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`SBF degenerada`, reason: String.raw`No es factible (y tampoco degenerada, pues ninguna variable básica vale $0$).` },
+          { letter: "B", label: String.raw`Punto extremo no acotado`, reason: String.raw`Un punto extremo siempre pertenece a $P$; además "punto extremo no acotado" es un contrasentido (los rayos son direcciones extremas, no puntos).` },
+          { letter: "D", label: String.raw`Solución factible interior`, reason: String.raw`No es ni factible ni interior, pues tiene componentes negativas y variables fijadas en $0$.` }
+        ]
+      },
+      {
+        id: 7,
+        block: 2,
+        difficulty: "Intermedio",
+        statement: String.raw`Considere un problema de minimización en forma estándar $\min c^T x$ sujeto a $Ax = b, x \ge 0$ cuya región factible $P$ es no vacía. ¿Qué conjunto de condiciones sobre un vector no nulo $d \in \mathbb{R}^n$ certifica que el problema es no acotado?`,
+        options: [
+          { letter: "A", text: String.raw`$Ad = b$, $d \ge 0$ y $c^T d \le 0$` },
+          { letter: "B", text: String.raw`$Ad = 0$, $d \ge 0$ y $c^T d < 0$` },
+          { letter: "C", text: String.raw`$Ad = 0$, $d \le 0$ y $c^T d > 0$` },
+          { letter: "D", text: String.raw`$A^T d \le c$, $d \ge 0$ y $b^T d > 0$` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Considera un rayo $x(\theta) = x_0 + \theta d$ partiendo de $x_0 \in P$ para $\theta \to +\infty$. ¿Qué se requiere para que $x(\theta)$ siga en $P$ y para que $c^T x(\theta) \to -\infty$?`,
+        development: String.raw`<p>Sea $x_0 \in P$ cualquier punto factible ($Ax_0 = b, x_0 \ge 0$). Construimos el rayo $x(\theta) = x_0 + \theta d$ para todo $\theta \ge 0$. Para que $x(\theta) \in P$ para todo $\theta \ge 0$ (es decir, que $d$ pertenezca al <strong>cono de recesión</strong>), se requiere:</p>
+<ul>
+  <li><strong>1)</strong> $A(x_0 + \theta d) = Ax_0 + \theta Ad = b + \theta Ad = b \implies Ad = 0$.</li>
+  <li><strong>2)</strong> $x_0 + \theta d \ge 0$ para todo $\theta \ge 0 \implies d \ge 0$.</li>
+</ul>
+<p>Finalmente, evaluando la función objetivo a lo largo del rayo:</p>
+$$c^T x(\theta) = c^T x_0 + \theta (c^T d)$$
+<p>Para que el valor tienda a $-\infty$ cuando $\theta \to +\infty$, es condición necesaria y suficiente que $c^T d < 0$. (Este vector $d$ constituye un certificado algebraico de no acotación, ligado además al Lema de Farkas).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`$Ad = b$, $d \ge 0$ y $c^T d \le 0$`, reason: String.raw`$Ad = b$ haría que $A(x_0 + \theta d) = (1+\theta)b \neq b$, perdiendo factibilidad; además $c^T d = 0$ mantendría el objetivo constante, no tendiendo a $-\infty$.` },
+          { letter: "C", label: String.raw`$Ad = 0$, $d \le 0$ y $c^T d > 0$`, reason: String.raw`$d \le 0$ con $d \neq 0$ provocaría que $x_0 + \theta d$ se vuelva negativo para $\theta$ suficientemente grande, saliendo de $P$.` },
+          { letter: "D", label: String.raw`$A^T d \le c$, $d \ge 0$ y $b^T d > 0$`, reason: String.raw`$A^T d \le c$ corresponde a restricciones del problema dual (no del primal en forma estándar).` }
+        ]
+      },
+      {
+        id: 8,
+        block: 2,
+        difficulty: "Intermedio",
+        statement: String.raw`En un problema en forma estándar con $m$ restricciones linealmente independientes y $n$ variables, se encuentra una solución básica factible en la que $n - m + 1$ variables toman el valor cero. ¿Qué fenómeno estructural caracteriza a dicho vértice?`,
+        options: [
+          { letter: "A", text: String.raw`Infactibilidad primal por exceso de restricciones activas.` },
+          { letter: "B", text: String.raw`Degeneración con múltiples bases asociadas al mismo vértice.` },
+          { letter: "C", text: String.raw`Óptimos múltiples a lo largo de una arista infinita.` },
+          { letter: "D", text: String.raw`Rango deficiente en la matriz tecnológica $A$.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`En una SBF no degenerada, ¿cuántas variables son exactamente cero? Compara ese número con $n - m + 1$.`,
+        development: String.raw`<p>En una solución básica factible de forma estándar con $\text{rank}(A) = m$, hay $n - m$ variables no básicas fijadas en cero y $m$ variables básicas. Si la SBF es <strong>no degenerada</strong>, todas las $m$ variables básicas son estrictamente positivas ($x_{B_i} > 0$), por lo que exactamente $n - m$ variables valen cero.</p>
+<p>Si hay $n - m + 1$ variables iguales a cero, necesariamente <strong>al menos una variable básica vale cero</strong> ($x_{B_i} = 0$). Esto define la <strong>degeneración</strong>. Geométricamente, en ese vértice concurren más de $n$ hiperplanos activos (los $m$ de igualdad más $n-m+1$ de no negatividad), haciendo que distintas elecciones de base $B$ produzcan algebraicamente el mismo punto extremo $x$.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Infactibilidad primal`, reason: String.raw`El punto es factible (el enunciado especifica que es una SBF, $x \ge 0$).` },
+          { letter: "C", label: String.raw`Óptimos múltiples en arista infinita`, reason: String.raw`La degeneración en un vértice primal se asocia dualmente con posibles óptimos duales múltiples, no necesariamente con una arista óptima infinita primal.` },
+          { letter: "D", label: String.raw`Rango deficiente en $A$`, reason: String.raw`El enunciado ya indica que las $m$ restricciones son linealmente independientes ($\text{rank}(A)=m$).` }
+        ]
+      },
+      {
+        id: 9,
+        block: 2,
+        difficulty: "Avanzado",
+        statement: String.raw`Considere un poliedro no vacío en forma general $P = \{x \in \mathbb{R}^n : Ax \le b\}$ (sin imponer $x \ge 0$) sobre el cual se minimiza una función lineal $c^T x$ acotada inferiormente. ¿En qué situación puede alcanzarse un valor óptimo finito sin que exista ningún punto extremo óptimo en $P$?`,
+        options: [
+          { letter: "A", text: String.raw`Cuando el poliedro $P$ es un politopo acotado pero degenerado.` },
+          { letter: "B", text: String.raw`Cuando $P$ contiene rectas completas en su cono de recesión.` },
+          { letter: "C", text: String.raw`Cuando $c$ es perpendicular a una sola restricción activa.` },
+          { letter: "D", text: String.raw`Cuando el número de restricciones $m$ es mayor que la dimensión $n$.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Piensa en una franja infinita en $\mathbb{R}^2$ definida por $0 \le x_1 \le 1$ (sin restricciones sobre $x_2$) al minimizar $z = x_1$. ¿Tiene esquinas?`,
+        development: String.raw`<p>El <strong>Teorema Fundamental de la Programación Lineal</strong> garantiza la existencia de al menos un punto extremo óptimo siempre que $P$ no contenga <strong>rectas completas</strong> (es decir, que no exista un vector $d \neq 0$ tal que tanto $+d$ como $-d$ pertenezcan al cono de recesión, lo que equivale a $P$ puntiagudo o <em>pointed</em>).</p>
+<p>En forma estándar ($x \ge 0$), la no negatividad impide que $+d \ge 0$ y $-d \ge 0$ simultáneamente salvo $d=0$, por lo que nunca hay rectas. Pero en forma general sin $x \ge 0$, un poliedro como la franja $P = \{(x_1, x_2) \in \mathbb{R}^2 : 0 \le x_1 \le 1\}$ contiene rectas paralelas al eje $x_2$ ($d = (0, 1)^T$ y $-d = (0, -1)^T$). Al minimizar $c^T x = x_1$, el mínimo global finito es $z^* = 0$ alcanzado en toda la recta $x_1 = 0$, pero $P$ <strong>carece completamente de puntos extremos</strong>.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Politopo acotado pero degenerado`, reason: String.raw`Todo politopo acotado no vacío tiene siempre al menos un punto extremo óptimo (por el Teorema de Minkowski-Weyl), sea degenerado o no.` },
+          { letter: "C", label: String.raw`$c$ perpendicular a una restricción activa`, reason: String.raw`Que $c$ sea ortogonal a una restricción activa en un poliedro puntiagudo produce una cara óptima que sí contiene puntos extremos.` },
+          { letter: "D", label: String.raw`Cuando $m > n$`, reason: String.raw`Tener $m > n$ restricciones no impide la existencia de vértices; al contrario, hace falta al menos $n$ restricciones linealmente independientes para formar un vértice en $\mathbb{R}^n$.` }
+        ]
+      },
+
+      // ==================== BLOQUE 3 ====================
+      {
+        id: 10,
+        block: 3,
+        difficulty: "Intermedio",
+        statement: String.raw`Durante una iteración del Método Simplex primal de minimización, entra la variable no básica $x_k$ con costo reducido $\bar{c}_k = -3$. Sabiendo que el vector de valores básicos actuales es $\bar{b} = B^{-1}b = (6, 0, 8)^T$ y el vector de dirección es $d = B^{-1}A_k = (2, 1, -4)^T$, ¿cuál es el paso máximo $\theta^*$ y el efecto inmediato en el valor objetivo $z$?`,
+        options: [
+          { letter: "A", text: String.raw`$\theta^* = 3$ y el valor objetivo disminuye en $9$ unidades.` },
+          { letter: "B", text: String.raw`$\theta^* = 0$ y el valor objetivo permanece inalterado.` },
+          { letter: "C", text: String.raw`$\theta^* = 2$ y el valor objetivo disminuye en $6$ unidades.` },
+          { letter: "D", text: String.raw`El problema es no acotado porque $d_3 = -4 < 0$.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Aplica la regla del cociente mínimo únicamente sobre los componentes estrictamente positivos de $d$: $\theta^* = \min_{i : d_i > 0} \{\bar{b}_i / d_i\}$.`,
+        development: String.raw`<p>Al incrementar la variable entrante $x_k$ desde $0$ hasta $\theta$, las variables básicas se actualizan según $x_B(\theta) = \bar{b} - \theta d$:</p>
+<ul>
+  <li><strong>Componente 1:</strong> $6 - 2\theta \ge 0 \implies \theta \le 6/2 = 3$.</li>
+  <li><strong>Componente 2:</strong> $0 - 1\theta \ge 0 \implies \theta \le 0/1 = 0$.</li>
+  <li><strong>Componente 3:</strong> $8 - (-4)\theta = 8 + 4\theta \ge 0$ (no impone cota superior, crece con $\theta$).</li>
+</ul>
+<p>Aplicando la <strong>regla del cociente mínimo</strong> sobre los índices con $d_i > 0$:</p>
+$$\theta^* = \min\left\{\frac{6}{2},\; \frac{0}{1}\right\} = \min\{3, 0\} = 0$$
+<p>El cambio en el valor de la función objetivo viene dado por $\Delta z = \theta^* \bar{c}_k = 0 \cdot (-3) = 0$. Esto ilustra un <strong>pivoteo degenerado</strong>: la base cambia (sale la segunda variable básica y entra $x_k$), pero el punto extremo $x$ y el valor objetivo $z$ permanecen exactamente iguales.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`$\theta^* = 3$ y disminuye en $9$`, reason: String.raw`$\theta^* = 3$ ignora erróneamente el componente degenerado $\bar{b}_2 = 0$ con $d_2 = 1 > 0$, lo que volvería negativa la segunda variable básica ($x_{B_2} = -3$).` },
+          { letter: "C", label: String.raw`$\theta^* = 2$ y disminuye en $6$`, reason: String.raw`$\theta^* = 2$ proviene de dividir erróneamente $8 / |-4| = 2$; los componentes negativos de $d$ nunca participan en el cociente mínimo.` },
+          { letter: "D", label: String.raw`No acotado por $d_3 = -4 < 0$`, reason: String.raw`La no acotación solo ocurre cuando <strong>todos</strong> los componentes de $d$ son $\le 0$ ($d \le 0$), no basta con que uno solo sea negativo.` }
+        ]
+      },
+      {
+        id: 11,
+        block: 3,
+        difficulty: "Intermedio",
+        statement: String.raw`Durante la ejecución del Método Simplex en un modelo de minimización altamente degenerado, el algoritmo entra en ciclado bajo la regla de Dantzig. Si se cambia a la <strong>regla de Bland</strong>, ¿qué criterio determinístico garantiza la convergencia finita sin ciclado?`,
+        options: [
+          { letter: "A", text: String.raw`Elegir la variable con el costo reducido normalizado más negativo (Steepest Edge).` },
+          { letter: "B", text: String.raw`Elegir la variable elegible de menor subíndice al entrar y al salir.` },
+          { letter: "C", text: String.raw`Perturbar aleatoriamente el vector $b$ y elegir el mayor cociente mínimo.` },
+          { letter: "D", text: String.raw`Alternar entre el Simplex primal y el Simplex dual en cada iteración degenerada.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`La regla de Bland es famosa por su simplicidad combinatoria basada únicamente en la numeración de las variables $x_1, x_2, \dots, x_n$.`,
+        development: String.raw`<p>La <strong>Regla de Bland</strong> (o regla del menor índice, 1977) resuelve de forma puramente combinatoria y determinística el problema del ciclado en presencia de degeneración mediante dos reglas de desempate/selección simultáneas:</p>
+<ul>
+  <li><strong>1) Variable entrante:</strong> Entre todas las variables no básicas con costo reducido favorable ($\bar{c}_j < 0$ en minimización), elegir la que tenga el <strong>menor subíndice $j$</strong>.</li>
+  <li><strong>2) Variable saliente:</strong> Entre todas las variables básicas que alcanzan el mínimo en la prueba del cociente mínimo $\theta^*$, elegir la que tenga el <strong>menor subíndice</strong>.</li>
+</ul>
+<p>Robert Bland demostró que bajo esta regla ninguna base puede repetirse jamás; dado que el número de bases posibles es finito ($\le \binom{n}{m}$), el algoritmo converge inevitablemente en un número finito de pasos.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Steepest Edge`, reason: String.raw`Steepest Edge acelera enormemente la convergencia práctica reduciendo iteraciones, pero no provee por sí sola una garantía teórica absoluta contra el ciclado.` },
+          { letter: "C", label: String.raw`Perturbación aleatoria y mayor cociente`, reason: String.raw`Elegir el mayor cociente mínimo violaría la no negatividad (perdiendo factibilidad); además la perturbación lexicográfica es otro método distinto, determinístico (no aleatorio).` },
+          { letter: "D", label: String.raw`Alternar Simplex primal y dual`, reason: String.raw`Alternar primal y dual no constituye una regla de anticiclado (ni mantiene la estructura de factibilidad apropiada).` }
+        ]
+      },
+      {
+        id: 12,
+        block: 3,
+        difficulty: "Intermedio",
+        statement: String.raw`Al implementar el arranque del Método Simplex en aritmética de punto flotante para modelos sin base identidad evidente, ¿cuál es la principal desventaja computacional del <strong>Método de la Gran M</strong> frente al <strong>Método de las Dos Fases</strong>?`,
+        options: [
+          { letter: "A", text: String.raw`Que requiere introducir el doble de variables artificiales que Dos Fases.` },
+          { letter: "B", text: String.raw`Que no permite detectar si el problema original es infactible.` },
+          { letter: "C", text: String.raw`Severa inestabilidad numérica por el mal escalado de la constante $M$.` },
+          { letter: "D", text: String.raw`Que convierte la región factible original en un conjunto no convexo.` }
+        ],
+        correctIndex: 2,
+        hint: String.raw`Reflexiona sobre qué sucede en precisión IEEE-754 de punto flotante cuando se suman o comparan coeficientes reales $c_j \sim 1$ con una constante gigantesca $M \sim 10^{12}$.`,
+        development: String.raw`<p>En el <strong>Método de la Gran M</strong>, la función objetivo combina los costos reales $c_j$ con la penalización $+M \sum a_i$. En computadoras con aritmética de punto flotante de precisión finita (típicamente 15-17 dígitos decimales en doble precisión):</p>
+<ul>
+  <li>Si $M$ se elige <strong>demasiado pequeña</strong>, el algoritmo puede terminar con variables artificiales positivas ($a_i > 0$) pese a existir soluciones factibles, dando una respuesta errónea.</li>
+  <li>Si $M$ se elige <strong>demasiado grande</strong>, los costos reales $c_j$ pierden dígitos significativos al operarse junto a $M$ (absorción numérica y catástrofe de cancelación), deteriorando drásticamente el <strong>número de condición</strong> y provocando falsas señales de optimalidad o pivoteos erróneos.</li>
+</ul>
+<p>El <strong>Método de las Dos Fases</strong> elimina por completo este problema separando limpiamente la minimización de $\sum a_i$ (Fase I, con coeficientes solo $0$ y $1$) de la optimización de $c^T x$ (Fase II).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Doble de variables artificiales`, reason: String.raw`Ambos métodos introducen exactamente la misma cantidad de variables artificiales.` },
+          { letter: "B", label: String.raw`No detecta infactibilidad`, reason: String.raw`Gran M teóricamente sí detecta infactibilidad (si una variable artificial queda positiva en el óptimo con $M$ suficientemente grande), pero falla numéricamente en la práctica.` },
+          { letter: "D", label: String.raw`Región factible no convexa`, reason: String.raw`Las restricciones lineales son idénticas, por lo que la convexidad no se altera en absoluto.` }
+        ]
+      },
+      {
+        id: 13,
+        block: 3,
+        difficulty: "Avanzado",
+        statement: String.raw`Se ha resuelto a optimalidad un problema de Programación Lineal disperso de gran escala con $m = 500$ restricciones y $n = 20{,}000$ variables. Posteriormente se añade una nueva restricción de corte lineal que resulta violada por la solución óptima previa $x^*$. ¿Qué algoritmo permite reoptimizar el modelo más eficientemente aprovechando la base anterior?`,
+        options: [
+          { letter: "A", text: String.raw`Método de Punto Interior de barrera logarítmica desde el óptimo previo.` },
+          { letter: "B", text: String.raw`Método Simplex Dual con arranque en caliente.` },
+          { letter: "C", text: String.raw`Método Simplex Primal de las Dos Fases desde cero.` },
+          { letter: "D", text: String.raw`Método del Elipsoide centrado en el hiperplano de corte.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Al añadir una restricción violada a un óptimo previo, ¿qué propiedad se pierde (factibilidad primal o factibilidad dual) y cuál se conserva intacta?`,
+        development: String.raw`<p>Al agregar una nueva restricción $a_{m+1}^T x \le b_{m+1}$ que es violada por la solución óptima previa $x^*$ ($a_{m+1}^T x^* > b_{m+1}$), su nueva variable de holgura entra a la base con valor negativo:</p>
+$$s_{m+1} = b_{m+1} - a_{m+1}^T x^* < 0$$
+<p>Esto vuelve a la base <strong>primalmente infactible</strong>, pero <strong>conserva intacta la factibilidad dual</strong> (todos los costos reducidos siguen siendo $\bar{c}_j \ge 0$, y el de $s_{m+1}$ es $0$). Esta es exactamente la hipótesis de entrada del <strong>Método Simplex Dual</strong> (en su versión revisada para aprovechar la dispersión de $A$). Con <em>warm start</em> desde la factorización LU de la base anterior, suele restaurar la optimalidad en muy pocas iteraciones; por eso es el motor estándar dentro de los solvers de <em>Branch-and-Cut</em>.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Punto Interior desde el óptimo previo`, reason: String.raw`Los Métodos de Punto Interior tienen un arranque en caliente (<em>warm start</em>) muy deficiente, pues el óptimo previo está en la frontera donde la barrera logarítmica $-\mu \ln(x_j)$ diverge y requiere reiniciar cerca del centro analítico.` },
+          { letter: "C", label: String.raw`Simplex Primal Dos Fases desde cero`, reason: String.raw`El Simplex Primal de Dos Fases desde cero desperdicia toda la información de la base óptima previa.` },
+          { letter: "D", label: String.raw`Método del Elipsoide`, reason: String.raw`El Método del Elipsoide tiene importancia teórica, pero es extremadamente lento en la práctica para instancias grandes.` }
+        ]
+      },
+      {
+        id: 14,
+        block: 3,
+        difficulty: "Avanzado",
+        statement: String.raw`Al resolver un problema de Programación Lineal que posee múltiples soluciones óptimas (una cara óptima de dimensión positiva) mediante un <strong>Método de Punto Interior (IPM)</strong> de barrera logarítmica, ¿qué solución entrega el algoritmo en el límite $\mu \to 0$ antes de ejecutar un procedimiento de <em>crossover</em>?`,
+        options: [
+          { letter: "A", text: String.raw`Un punto extremo (vértice) seleccionado según la regla de Bland.` },
+          { letter: "B", text: String.raw`Una solución básica infactible proyectada sobre la frontera.` },
+          { letter: "C", text: String.raw`Un punto situado en el centro analítico de la cara óptima.` },
+          { letter: "D", text: String.raw`El promedio aritmético exclusivo de dos vértices adyacentes.` }
+        ],
+        correctIndex: 2,
+        hint: String.raw`Observa cómo actúa el término $-\mu \sum_{j=1}^n \ln(x_j)$: repele a la trayectoria central de todas las fronteras activas por igual.`,
+        development: String.raw`<p>Los Métodos de Punto Interior siguen la <strong>trayectoria central</strong>, minimizando en cada paso la función barrera $c^T x - \mu \sum_{j=1}^n \ln(x_j)$ sobre $Ax = b, x > 0$. A medida que $\mu \to 0^+$, la trayectoria converge al conjunto óptimo $F^*$.</p>
+<p>Debido a la simetría repulsiva de los logaritmos sobre las variables que pueden permanecer estrictamente positivas en la cara óptima $F^*$, el punto límite maximiza $\sum_{j \in B^*} \ln(x_j)$ sujeto a $x \in F^*$, convergiendo exactamente al <strong>centro analítico de la cara óptima</strong> (un punto en el interior relativo de $F^*$, estrictamente complementario). Como dicho punto <strong>no es un vértice</strong> (no es una SBF) cuando $\dim(F^*) > 0$, los solucionadores comerciales ejecutan una fase final de <strong>crossover</strong> (pivoteo Simplex) para moverse a un vértice óptimo cuando el usuario requiere una base para análisis de sensibilidad o <em>warm starts</em>.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Vértice según regla de Bland`, reason: String.raw`Los IPM nunca siguen vértices ni aplican la regla de Bland durante las iteraciones de barrera.` },
+          { letter: "B", label: String.raw`Solución básica infactible proyectada`, reason: String.raw`La solución límite siempre es factible y óptima, jamás infactible.` },
+          { letter: "D", label: String.raw`Promedio exclusivo de dos vértices`, reason: String.raw`Si la cara óptima es un polígono de 5 vértices o una cara tridimensional, el centro analítico involucra la geometría global de todas las desigualdades que definen la cara, no el mero promedio de dos vértices.` }
+        ]
+      },
+
+      // ==================== BLOQUE 4 ====================
+      {
+        id: 15,
+        block: 4,
+        difficulty: "Intermedio",
+        statement: String.raw`Se comprueba que un problema de Programación Lineal primal de minimización es <strong>infactible</strong> ($P = \emptyset$). Con base en los Teoremas de Dualidad Débil y Dualidad Fuerte, ¿qué estados puede presentar su problema dual asociado?`,
+        options: [
+          { letter: "A", text: String.raw`Únicamente no acotado.` },
+          { letter: "B", text: String.raw`No acotado o infactible.` },
+          { letter: "C", text: String.raw`Óptimo finito con valor objetivo igual a cero.` },
+          { letter: "D", text: String.raw`Siempre factible y acotado por dualidad débil.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`¿Podría el dual tener una solución óptima finita si el primal no tiene ninguna solución factible? Aplica el Teorema de Dualidad Fuerte al dual.`,
+        development: String.raw`<p>Por el <strong>Teorema de Dualidad Fuerte</strong>, si el problema dual tuviera una solución óptima finita $y^*$, entonces su propio dual —que es exactamente el problema primal— también tendría necesariamente una solución óptima finita $x^*$ con $c^T x^* = b^T y^*$, contradiciendo que el primal es infactible ($P = \emptyset$). Por lo tanto, queda descartado que el dual sea óptimo finito.</p>
+<p>Los dos únicos estados compatibles restantes para el dual son:</p>
+<ul>
+  <li><strong>1) Dual no acotado:</strong> El caso más habitual; existe una dirección de recesión dual que certifica la infactibilidad primal vía Lema de Farkas.</li>
+  <li><strong>2) Dual también infactible:</strong> Ambos problemas carecen de soluciones factibles (por ejemplo, $\min x_1$ s.a. $x_1 - x_2 \ge 1$, $-x_1 + x_2 \ge 1$, $x_1, x_2 \ge 0$ con coeficientes duales inconsistentes).</li>
+</ul>`,
+        distractors: [
+          { letter: "A", label: String.raw`Únicamente no acotado`, reason: String.raw`Es un error clásico muy frecuente: olvida el cuarto caso válido de la tabla primal-dual (primal infactible y dual infactible).` },
+          { letter: "C", label: String.raw`Óptimo finito igual a cero`, reason: String.raw`Si el dual tuviera óptimo finito (sea $0$ o cualquier valor), el primal tendría que ser factible y tener el mismo óptimo.` },
+          { letter: "D", label: String.raw`Factible y acotado por dualidad débil`, reason: String.raw`La dualidad débil solo acota cuando <strong>ambos</strong> problemas tienen al menos una solución factible.` }
+        ]
+      },
+      {
+        id: 16,
+        block: 4,
+        difficulty: "Intermedio",
+        statement: String.raw`Considere un problema primal en forma canónica $\min c^T x$ sujeto a $Ax \ge b, x \ge 0$ y su dual $\max b^T y$ sujeto a $A^T y \le c, y \ge 0$. Para un par de soluciones óptimas $(x^*, y^*)$, se observa que la segunda restricción primal tiene exceso estricto ($a_2^T x^* > b_2$) y que la cuarta variable primal es estrictamente positiva ($x_4^* > 0$). Por las condiciones de <strong>holgura complementaria</strong>, ¿qué se deduce con certeza?`,
+        options: [
+          { letter: "A", text: String.raw`$y_2^* > 0$ y $A_4^T y^* < c_4$` },
+          { letter: "B", text: String.raw`$y_2^* = 0$ y $A_4^T y^* = c_4$` },
+          { letter: "C", text: String.raw`$y_4^* = 0$ y $a_2^T x^* = b_2$` },
+          { letter: "D", text: String.raw`$y_2^* = 0$ y $A_4^T y^* < c_4$` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Las condiciones de holgura complementaria exigen que $y_i^*(a_i^T x^* - b_i) = 0$ y $x_j^*(c_j - A_j^T y^*) = 0$.`,
+        development: String.raw`<p>Las <strong>Condiciones de Holgura Complementaria</strong> establecen que dos soluciones factibles $x^*$ y $y^*$ son óptimas si y solo si:</p>
+$$y_i^* (a_i^T x^* - b_i) = 0 \quad \forall i = 1, \dots, m \qquad \text{y} \qquad x_j^* (c_j - A_j^T y^*) = 0 \quad \forall j = 1, \dots, n$$
+<p>Aplicando los datos del enunciado:</p>
+<ul>
+  <li>Como $a_2^T x^* - b_2 > 0$, para que el producto sea cero debe cumplirse obligatoriamente <strong>$y_2^* = 0$</strong>. (Interpretación económica: si se supera estrictamente el requerimiento mínimo 2, el precio sombra marginal de relajar ese requisito es nulo).</li>
+  <li>Como $x_4^* > 0$, para que el segundo producto sea cero debe cumplirse obligatoriamente $c_4 - A_4^T y^* = 0$, es decir, <strong>$A_4^T y^* = c_4$</strong>. (Interpretación económica: si la actividad 4 se ejecuta a nivel positivo, su costo directo iguala exactamente el valor imputado de los recursos/requisitos asociados, o costo reducido nulo).</li>
+</ul>`,
+        distractors: [
+          { letter: "A", label: String.raw`$y_2^* > 0$ y $A_4^T y^* < c_4$`, reason: String.raw`Invierte completamente ambas implicaciones, violando la optimalidad (generaría brecha de dualidad $c^T x^* - b^T y^* > 0$).` },
+          { letter: "C", label: String.raw`$y_4^* = 0$ y $a_2^T x^* = b_2$`, reason: String.raw`Mezcla los índices de filas ($i=2$) con columnas ($j=4$) y contradice directamente el dato $a_2^T x^* > b_2$.` },
+          { letter: "D", label: String.raw`$y_2^* = 0$ y $A_4^T y^* < c_4$`, reason: String.raw`$A_4^T y^* < c_4$ implicaría costo reducido estrictamente positivo, lo cual obliga a $x_4^* = 0$.` }
+        ]
+      },
+      {
+        id: 17,
+        block: 4,
+        difficulty: "Avanzado",
+        statement: String.raw`En un problema de minimización con solución básica óptima no degenerada $x_B^* = B^{-1}b$, se modifica un parámetro $b_i$ del lado derecho manteniéndolo estrictamente dentro de su <strong>rango de factibilidad</strong>. ¿Cómo se comportan la base óptima $B$, los precios sombra $y^*$ y el vector de variables básicas $x_B^*$?`,
+        options: [
+          { letter: "A", text: String.raw`$B$ y $x_B^*$ permanecen constantes, mientras $y^*$ varía linealmente.` },
+          { letter: "B", text: String.raw`$B$ y $y^*$ permanecen constantes, mientras $x_B^*$ varía linealmente.` },
+          { letter: "C", text: String.raw`$x_B^*$ y $y^*$ cambian de manera cuadrática y $B$ realiza un pivoteo.` },
+          { letter: "D", text: String.raw`Solo cambia el valor objetivo $z^*$ mientras $B$, $y^*$ y $x_B^*$ permanecen invariantes.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Revisa las fórmulas $x_B^* = B^{-1}b$, $(y^*)^T = c_B^T B^{-1}$ y $\bar{c}_N^T = c_N^T - c_B^T B^{-1} N$. ¿Cuál de ellas depende de $b$?`,
+        development: String.raw`<p>El <strong>rango de factibilidad</strong> de $b_i$ es el intervalo de valores para el cual el vector básico actualizado $x_B^*(b_i) = B^{-1}(b + \Delta b_i e_i) = x_B^* + \Delta b_i (B^{-1})_i$ sigue cumpliendo la no negatividad ($x_B^* \ge 0$).</p>
+<p>Como cambiar $b$ no afecta en absoluto a los costos reducidos $\bar{c}_N^T = c_N^T - c_B^T B^{-1} N \ge 0$, la <strong>matriz básica óptima $B$ permanece exactamente igual</strong>. Al mantenerse fija $B$ (y no cambiar $c_B$), el vector de <strong>precios sombra $(y^*)^T = c_B^T B^{-1}$ también permanece constante</strong>. En cambio, el vector de niveles de producción <strong>$x_B^* = B^{-1}b$ varía de forma lineal</strong> con pendiente dada por la $i$-ésima columna de $B^{-1}$, y el valor objetivo varía linealmente como $\Delta z^* = y_i^* \Delta b_i$.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`$B$ y $x_B^*$ constantes, $y^*$ varía`, reason: String.raw`Que $B$ y $x_B^*$ permanezcan constantes ocurre ante cambios en $c$ dentro del <em>rango de optimalidad</em>, no ante cambios en $b$ (y aun cambiando $c_B$, $y^*$ variaría linealmente).` },
+          { letter: "C", label: String.raw`Cambio cuadrático y pivoteo`, reason: String.raw`No hay dependencia cuadrática ni pivoteo mientras $b_i$ no salga del rango de factibilidad.` },
+          { letter: "D", label: String.raw`Solo cambia $z^*$`, reason: String.raw`$x_B^*$ no puede permanecer invariante cuando cambia $b_i$ (a menos que la columna $i$ de $B^{-1}$ sea nula, lo cual es imposible porque $B^{-1}$ es invertible).` }
+        ]
+      },
+      {
+        id: 18,
+        block: 4,
+        difficulty: "Avanzado",
+        statement: String.raw`En la tabla óptima del Método Simplex para un problema de minimización no degenerado, una variable no básica $x_k$ tiene costo reducido $\bar{c}_k = 0$ y su vector de dirección $d = B^{-1}A_k$ posee al menos un componente estrictamente positivo. ¿Qué describe con exactitud al conjunto de soluciones óptimas?`,
+        options: [
+          { letter: "A", text: String.raw`El óptimo es único pero el vértice actual es degenerado.` },
+          { letter: "B", text: String.raw`Existen infinitos óptimos alternativos formando una cara óptima.` },
+          { letter: "C", text: String.raw`El problema es no acotado con valor óptimo $-\infty$.` },
+          { letter: "D", text: String.raw`La base actual no es óptima y requiere un pivoteo dual.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`¿Qué sucede con el valor objetivo $z$ y con el vector $x$ si introduces $x_k$ en la base cuando $\bar{c}_k = 0$ y $\theta^* > 0$?`,
+        development: String.raw`<p>Como el vértice actual es <strong>no degenerado</strong> ($\bar{b} > 0$) y el vector $d = B^{-1}A_k$ tiene al menos un componente $d_i > 0$, la regla del cociente mínimo produce un paso máximo finito y estrictamente positivo: $\theta^* = \min_{i: d_i > 0} \{\bar{b}_i / d_i\} > 0$. Al realizar el pivoteo entrando $x_k$, se obtiene un <strong>segundo punto extremo distinto</strong> $x^{**} \neq x^*$ cuyo valor objetivo es:</p>
+$$z^{**} = z^* + \theta^* \bar{c}_k = z^* + \theta^* \cdot 0 = z^*$$
+<p>Por convexidad de $P$ y linealidad de $c^T x$, toda combinación convexa $\lambda x^* + (1-\lambda) x^{**}$ con $\lambda \in [0, 1]$ es también óptima con el mismo valor $z^*$. Por consiguiente, existen <strong>infinitas soluciones óptimas alternativas</strong> que conforman una arista (o en general una <strong>cara óptima</strong> de dimensión $\ge 1$).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Óptimo único y vértice degenerado`, reason: String.raw`El enunciado especifica explícitamente que la tabla óptima es no degenerada, y un paso $\theta^* > 0$ genera un vértice distinto, rompiendo la unicidad.` },
+          { letter: "C", label: String.raw`No acotado con óptimo $-\infty$`, reason: String.raw`El problema no es no acotado (ni siquiera si $d \le 0$ lo sería en valor objetivo, pues $\bar{c}_k = 0$ daría un rayo óptimo infinito de valor $z^*$ constante, no $-\infty$).` },
+          { letter: "D", label: String.raw`Base no óptima que requiere pivoteo dual`, reason: String.raw`Todos los costos reducidos son $\ge 0$ (incluyendo $\bar{c}_k = 0$) y el vértice es factible, por lo que la base ya es óptima.` }
+        ]
+      },
+      {
+        id: 19,
+        block: 4,
+        difficulty: "Experto",
+        statement: String.raw`Al aplicar <strong>Generación de Columnas</strong> a un problema de minimización con millones de variables, se resuelve el Problema Maestro Restringido (RMP) obteniendo los multiplicadores duales óptimos $y^*$. ¿Qué condición del Subproblema de Precios (<em>Pricing Subproblem</em>) sobre el universo de columnas válidas certifica que la solución actual del RMP es globalmente óptima?`,
+        options: [
+          { letter: "A", text: String.raw`$\max_j \{c_j - (y^*)^T A_j\} \le 0$` },
+          { letter: "B", text: String.raw`$\min_j \{c_j - (y^*)^T A_j\} \ge 0$` },
+          { letter: "C", text: String.raw`$\min_j \{b^T y^* - c_j\} = 0$` },
+          { letter: "D", text: String.raw`$\min_j \{(y^*)^T A_j\} \ge 0$` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Recuerda la condición de optimalidad del Método Simplex en minimización expresada en términos de costos reducidos $\bar{c}_j = c_j - (y^*)^T A_j$.`,
+        development: String.raw`<p>En la <strong>Generación de Columnas</strong>, la base óptima actual del Problema Maestro Restringido (RMP) es automáticamente primalmente factible para el problema maestro completo (todas las variables aún no generadas simplemente valen $0$, es decir, son no básicas). Para que esta solución sea <strong>globalmente óptima</strong> en el problema completo, solo falta verificar la factibilidad dual sobre <strong>todas</strong> las columnas posibles del universo $j \in \mathcal{J}$, es decir, que ningún costo reducido sea negativo:</p>
+$$\bar{c}_j = c_j - (y^*)^T A_j \ge 0 \quad \forall j \in \mathcal{J}$$
+<p>El <strong>Subproblema de Precios</strong> busca precisamente la columna con el menor costo reducido: $z_{\text{pricing}} = \min_{j \in \mathcal{J}} \{c_j - (y^*)^T A_j\}$. Si $z_{\text{pricing}} < 0$, la columna hallada mejora el objetivo y se agrega al RMP; si <strong>$z_{\text{pricing}} \ge 0$</strong>, no existe ninguna columna capaz de reducir el costo y se certifica la <strong>optimalidad global</strong>.</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`$\max_j \{c_j - (y^*)^T A_j\} \le 0$`, reason: String.raw`Correspondería a buscar columnas en un problema de maximización (donde buscamos $\bar{c}_j > 0$), no de minimización.` },
+          { letter: "C", label: String.raw`$\min_j \{b^T y^* - c_j\} = 0$`, reason: String.raw`Mezcla el valor objetivo dual global con un costo unitario, careciendo de sentido dimensional.` },
+          { letter: "D", label: String.raw`$\min_j \{(y^*)^T A_j\} \ge 0$`, reason: String.raw`Omite el costo directo $c_j$ de la columna generada.` }
+        ]
+      },
+      {
+        id: 20,
+        block: 4,
+        difficulty: "Experto",
+        statement: String.raw`En un problema de Programación Lineal Entera $\min c^T x$ sujeto a $Ax = b, x \ge 0, x \in \mathbb{Z}^n$, el vector $b$ es entero y la matriz tecnológica $A$ es <strong>Totalmente Unimodular (TU)</strong>. Por el Teorema de Hoffman-Kruskal, ¿qué propiedad permite hallar la solución entera óptima resolviendo únicamente la relajación lineal continua?`,
+        options: [
+          { letter: "A", text: String.raw`Todos los puntos interiores del poliedro tienen coordenadas enteras.` },
+          { letter: "B", text: String.raw`Todos los puntos extremos del poliedro de la relajación son enteros.` },
+          { letter: "C", text: String.raw`La matriz $A$ es necesariamente cuadrada e invertible con $\det(A) = 1$.` },
+          { letter: "D", text: String.raw`El problema dual tiene holgura complementaria nula en todas sus restricciones.` }
+        ],
+        correctIndex: 1,
+        hint: String.raw`Aplica la regla de Cramer a $x_B = B^{-1}b = \frac{1}{\det(B)} \operatorname{adj}(B) b$ sabiendo que $\det(B) \in \{+1, -1\}$.`,
+        development: String.raw`<p>Una matriz $A$ es <strong>Totalmente Unimodular (TU)</strong> si el determinante de cada una de sus submatrices cuadradas pertenece al conjunto $\{-1, 0, +1\}$. En particular, toda submatriz básica invertible $B \in \mathbb{R}^{m \times m}$ satisface $\det(B) = \pm 1$. Por la fórmula de la matriz adjunta:</p>
+$$B^{-1} = \frac{1}{\det(B)} \operatorname{adj}(B) = \pm \operatorname{adj}(B)$$
+<p>Como todas las entradas de $A$ son enteras (pues las submatrices $1 \times 1$ tienen determinante en $\{-1, 0, 1\}$), $\operatorname{adj}(B)$ es una matriz de enteros, por lo que $B^{-1}$ es íntegramente entera. Al ser $b \in \mathbb{Z}^m$, toda solución básica factible $x_B = B^{-1}b$ es automáticamente un vector de enteros (<strong>Teorema de Hoffman-Kruskal</strong>). Como el Simplex encuentra un punto extremo óptimo de la relajación lineal, dicho vértice ya satisface $x \in \mathbb{Z}^n$ sin requerir ramificación ni cortes (como ocurre en flujo máximo, flujo de costo mínimo, transporte y asignación).</p>`,
+        distractors: [
+          { letter: "A", label: String.raw`Puntos interiores enteros`, reason: String.raw`Los puntos interiores de un poliedro continuo en $\mathbb{R}^n$ forman un continuo no numerable; casi todos tienen coordenadas fraccionarias.` },
+          { letter: "C", label: String.raw`$A$ cuadrada con $\det(A)=1$`, reason: String.raw`Una matriz TU suele ser rectangular ($m \times n$, como las matrices de incidencia nodo-arco de grafos dirigidos), no necesariamente cuadrada.` },
+          { letter: "D", label: String.raw`Holgura complementaria nula`, reason: String.raw`La holgura complementaria siempre se cumple en todo par óptimo de cualquier PL, sea TU o no, y no implica integralidad.` }
+        ]
+      }
+    ];
+
+    /* =========================================================================
+       3. ESTADO DE LA APLICACIÓN Y PERSISTENCIA EN LOCALSTORAGE
+       ========================================================================= */
+    const STORAGE_KEY_THEME = "lp_glossary_theme_v1"; // Coherente con el glosario compañero
+    const STORAGE_KEY_QUIZ  = "lp_quiz_state_v1";
+
+    const state = {
+      theme: "indigo",
+      mode: "quiz",             // 'quiz' | 'guide'
+      view: "question",         // 'question' | 'dashboard' (dentro del modo quiz)
+      currentId: 1,
+      answers: {},              // { [questionId]: selectedOptionIndex }
+      flagged: new Set(),       // Set<questionId>
+      streak: 0,
+      bestStreak: 0,
+      hintVisible: false,
+      // Filtros en Modo Cuestionario
+      quizBlockFilter: "all",   // 'all' | '1' | '2' | '3' | '4'
+      subsetIds: null,          // null o Array<number> (usado para "Repasar falladas" / "Reintentar incorrectas")
+      subsetLabel: "",
+      // Filtros y estado en Modo Guía
+      guideSearch: "",
+      guideBlockFilter: "all",
+      guideRevealed: new Set(QUESTIONS.map(q => q.id)) // Por defecto expandidas para lectura inmediata
+    };
+
+    function loadPersistedState() {
+      try {
+        const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
+        if (savedTheme && ["indigo", "ivory", "emerald", "amber"].includes(savedTheme)) {
+          state.theme = savedTheme;
+        }
+        const rawQuiz = localStorage.getItem(STORAGE_KEY_QUIZ);
+        if (rawQuiz) {
+          const parsed = JSON.parse(rawQuiz);
+          if (parsed && typeof parsed === "object") {
+            if (parsed.answers && typeof parsed.answers === "object") state.answers = parsed.answers;
+            if (Array.isArray(parsed.flagged)) state.flagged = new Set(parsed.flagged);
+            if (typeof parsed.currentId === "number" && parsed.currentId >= 1 && parsed.currentId <= QUESTIONS.length) {
+              state.currentId = parsed.currentId;
+            }
+            if (typeof parsed.streak === "number") state.streak = parsed.streak;
+            if (typeof parsed.bestStreak === "number") state.bestStreak = parsed.bestStreak;
+          }
+        }
+      } catch (err) {
+        console.warn("Error leyendo localStorage:", err);
+      }
+    }
+
+    function saveQuizState() {
+      try {
+        localStorage.setItem(STORAGE_KEY_QUIZ, JSON.stringify({
+          answers: state.answers,
+          flagged: [...state.flagged],
+          currentId: state.currentId,
+          streak: state.streak,
+          bestStreak: state.bestStreak
+        }));
+      } catch (err) {
+        console.warn("Error guardando progreso:", err);
+      }
+    }
+
+    /* =========================================================================
+       4. UTILIDADES: KATEX, TEMAS, TOASTS Y MÉTRICAS
+       ========================================================================= */
+    function renderMath(el) {
+      if (typeof window.renderMathInElement === "function" && el) {
+        try {
+          window.renderMathInElement(el, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false }
+            ],
+            throwOnError: false,
+            strict: false
+          });
+        } catch (err) {
+          console.error("Error renderizando KaTeX:", err);
+        }
+      }
+    }
+
+    function stripHtml(html) {
+      const d = document.createElement("div");
+      d.innerHTML = html;
+      return d.textContent || d.innerText || "";
+    }
+
+    function normalizeText(str) {
+      return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = "px-4 py-2.5 rounded-xl bg-card border border-strong text-xs font-semibold text-primary shadow-xl animate-in";
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
+      }, 2400);
+    }
+
+    function applyTheme(themeName, notify = false) {
+      state.theme = themeName;
+      document.documentElement.setAttribute("data-theme", themeName);
+      try {
+        localStorage.setItem(STORAGE_KEY_THEME, themeName);
+      } catch (err) {
+        console.warn("No se pudo guardar el tema:", err);
+      }
+      document.querySelectorAll("[data-theme-select]").forEach(btn => {
+        const active = btn.dataset.themeSelect === themeName;
+        btn.style.borderColor = active ? "var(--accent-primary)" : "";
+        btn.style.backgroundColor = active ? "var(--accent-soft)" : "";
+        btn.style.color = active ? "var(--text-primary)" : "var(--text-secondary)";
+      });
+      if (notify) {
+        const labels = {
+          indigo: "Índigo Nocturno",
+          ivory: "Marfil Académico",
+          emerald: "Esmeralda Matriz",
+          amber: "Ámbar Editorial"
+        };
+        showToast(`Tema activado: ${labels[themeName]}`);
+      }
+    }
+
+    function computeStats() {
+      let answered = 0;
+      let correct = 0;
+      let wrong = 0;
+      const wrongIds = [];
+
+      QUESTIONS.forEach(q => {
+        if (state.answers[q.id] !== undefined) {
+          answered++;
+          if (state.answers[q.id] === q.correctIndex) {
+            correct++;
+          } else {
+            wrong++;
+            wrongIds.push(q.id);
+          }
+        }
+      });
+
+      return { answered, correct, wrong, wrongIds, total: QUESTIONS.length };
+    }
+
+    /**
+     * Devuelve la lista ordenada de IDs de preguntas actualmente navegables en Modo Cuestionario.
+     */
+    function getActiveQuestionIds() {
+      if (Array.isArray(state.subsetIds) && state.subsetIds.length > 0) {
+        return state.subsetIds;
+      }
+      if (state.quizBlockFilter !== "all") {
+        return QUESTIONS.filter(q => String(q.block) === String(state.quizBlockFilter)).map(q => q.id);
+      }
+      return QUESTIONS.map(q => q.id);
+    }
+
+    /* =========================================================================
+       5. CAMBIO DE MODO (CUESTIONARIO vs GUÍA COMPLETA)
+       ========================================================================= */
+    function switchMode(newMode) {
+      state.mode = newMode;
+      const quizWrap = document.getElementById("quiz-mode-wrapper");
+      const guideWrap = document.getElementById("guide-mode-wrapper");
+      const drawerBtn = document.getElementById("mobile-drawer-open");
+
+      if (newMode === "quiz") {
+        quizWrap.classList.remove("hidden");
+        guideWrap.classList.add("hidden");
+        drawerBtn.classList.remove("invisible");
+        renderSidebar();
+        if (state.view === "dashboard") {
+          renderDashboard();
+        } else {
+          renderCurrentQuestion();
+        }
+      } else {
+        quizWrap.classList.add("hidden");
+        guideWrap.classList.remove("hidden");
+        drawerBtn.classList.add("invisible");
+        closeMobileDrawer();
+        renderGuideMode();
+      }
+
+      document.querySelectorAll(".mode-tab").forEach(tab => {
+        const active = tab.dataset.mode === newMode;
+        tab.setAttribute("aria-selected", active ? "true" : "false");
+        if (active) {
+          tab.style.backgroundColor = "var(--accent-primary)";
+          tab.style.color = "#ffffff";
+        } else {
+          tab.style.backgroundColor = "transparent";
+          tab.style.color = "var(--text-secondary)";
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* =========================================================================
+       6. RENDERIZADO DE SIDEBAR (MODO CUESTIONARIO)
+       ========================================================================= */
+    function renderSidebar() {
+      const stats = computeStats();
+      const pct = Math.round((stats.answered / stats.total) * 100);
+
+      document.getElementById("sb-progress-text").textContent = `${stats.answered} / ${stats.total} (${pct}%)`;
+      document.getElementById("sb-progress-bar").style.width = `${pct}%`;
+      document.getElementById("sb-score-val").textContent = stats.correct;
+      document.getElementById("sb-wrong-val").textContent = stats.wrong;
+      document.getElementById("sb-streak-val").textContent = `${state.streak}${state.streak > 0 ? "🔥" : ""}`;
+      document.getElementById("sb-flagged-count").textContent = `${state.flagged.size} ${state.flagged.size === 1 ? "marcada" : "marcadas"}`;
+
+      // Filtros de bloque en sidebar
+      const filterContainer = document.getElementById("sb-block-filters");
+      filterContainer.innerHTML = "";
+
+      const allBtn = document.createElement("button");
+      const isAllActive = state.quizBlockFilter === "all" && !state.subsetIds;
+      allBtn.className = "w-full px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between border transition";
+      allBtn.style.borderColor = isAllActive ? "var(--accent-primary)" : "var(--border-subtle)";
+      allBtn.style.backgroundColor = isAllActive ? "var(--accent-soft)" : "var(--bg-card)";
+      allBtn.style.color = isAllActive ? "var(--text-primary)" : "var(--text-secondary)";
+      allBtn.innerHTML = `<span>Todos los bloques</span><span class="font-code text-[11px] opacity-80">20</span>`;
+      allBtn.addEventListener("click", () => {
+        state.quizBlockFilter = "all";
+        state.subsetIds = null;
+        state.subsetLabel = "";
+        state.view = "question";
+        renderSidebar();
+        renderCurrentQuestion();
+        closeMobileDrawer();
+      });
+      filterContainer.appendChild(allBtn);
+
+      BLOCKS.forEach(blk => {
+        const blkQs = QUESTIONS.filter(q => q.block === blk.id);
+        const blkCorrect = blkQs.filter(q => state.answers[q.id] === q.correctIndex).length;
+        const active = String(state.quizBlockFilter) === String(blk.id) && !state.subsetIds;
+
+        const btn = document.createElement("button");
+        btn.className = `blk-${blk.id} w-full px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 border transition text-left`;
+        btn.style.borderColor = active ? "var(--blk-c)" : "var(--border-subtle)";
+        btn.style.backgroundColor = active ? "var(--blk-s)" : "var(--bg-card)";
+        btn.style.color = active ? "var(--text-primary)" : "var(--text-secondary)";
+        btn.innerHTML = `
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="w-2 h-2 rounded-full shrink-0" style="background: var(--blk-c);"></span>
+            <span class="truncate">${blk.id}. ${blk.name}</span>
+          </span>
+          <span class="font-code text-[10px] shrink-0 opacity-80">${blkCorrect}/${blkQs.length}</span>
+        `;
+        btn.addEventListener("click", () => {
+          state.quizBlockFilter = String(blk.id);
+          state.subsetIds = null;
+          state.subsetLabel = "";
+          state.currentId = blkQs[0].id;
+          state.hintVisible = false;
+          state.view = "question";
+          renderSidebar();
+          renderCurrentQuestion();
+          closeMobileDrawer();
+        });
+        filterContainer.appendChild(btn);
+      });
+
+      // Mapa de las 20 preguntas
+      const grid = document.getElementById("question-map-grid");
+      grid.innerHTML = "";
+      const activeIds = new Set(getActiveQuestionIds());
+
+      QUESTIONS.forEach(q => {
+        const ans = state.answers[q.id];
+        const isCurrent = state.view === "question" && state.currentId === q.id;
+        const isFlagged = state.flagged.has(q.id);
+        const inFilter = activeIds.has(q.id);
+
+        let bg = "var(--bg-card)";
+        let border = "var(--border-subtle)";
+        let color = "var(--text-secondary)";
+
+        if (ans !== undefined) {
+          if (ans === q.correctIndex) {
+            bg = "var(--ok-soft)";
+            border = "var(--ok-color)";
+            color = "var(--ok-color)";
+          } else {
+            bg = "var(--err-soft)";
+            border = "var(--err-color)";
+            color = "var(--err-color)";
+          }
+        }
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `relative h-10 rounded-xl font-code text-xs font-bold border transition flex items-center justify-center ${inFilter ? "" : "opacity-35"}`;
+        btn.style.backgroundColor = bg;
+        btn.style.borderColor = isCurrent ? "var(--accent-primary)" : border;
+        btn.style.color = isCurrent && ans === undefined ? "var(--accent-primary)" : color;
+        if (isCurrent) {
+          btn.style.boxShadow = "0 0 0 2px var(--accent-primary)";
+        }
+        btn.title = `Pregunta ${q.id} (Bloque ${q.block})${isFlagged ? " • Marcada para repaso" : ""}`;
+        btn.innerHTML = `
+          <span>${String(q.id).padStart(2, "0")}</span>
+          ${isFlagged ? `<span class="w-2 h-2 rounded-full absolute -top-0.5 -right-0.5 ring-2" style="background: var(--warn-color); --tw-ring-color: var(--bg-sidebar);"></span>` : ""}
+        `;
+        btn.addEventListener("click", () => {
+          if (!inFilter) {
+            state.quizBlockFilter = "all";
+            state.subsetIds = null;
+            state.subsetLabel = "";
+          }
+          state.currentId = q.id;
+          state.hintVisible = false;
+          state.view = "question";
+          saveQuizState();
+          renderSidebar();
+          renderCurrentQuestion();
+          closeMobileDrawer();
+        });
+        grid.appendChild(btn);
+      });
+
+      // Banner de subconjunto activo
+      const banner = document.getElementById("active-subset-banner");
+      const bannerText = document.getElementById("active-subset-text");
+      if (state.subsetIds && state.subsetIds.length > 0) {
+        banner.classList.remove("hidden");
+        bannerText.textContent = `${state.subsetLabel} (${state.subsetIds.length} ${state.subsetIds.length === 1 ? "pregunta" : "preguntas"})`;
+      } else if (state.quizBlockFilter !== "all") {
+        const blk = BLOCKS.find(b => String(b.id) === String(state.quizBlockFilter));
+        banner.classList.remove("hidden");
+        bannerText.textContent = `Filtrado por ${blk.short}: ${blk.name}`;
+      } else {
+        banner.classList.add("hidden");
+      }
+    }
+
+    /* =========================================================================
+       7. RENDERIZADO DE LA PREGUNTA ACTIVA Y FEEDBACK ULTRA-DESARROLLADO
+       ========================================================================= */
+    function renderCurrentQuestion() {
+      const qView = document.getElementById("quiz-question-view");
+      const dView = document.getElementById("quiz-dashboard-view");
+      qView.classList.remove("hidden");
+      dView.classList.add("hidden");
+
+      const activeIds = getActiveQuestionIds();
+      if (!activeIds.includes(state.currentId) && activeIds.length > 0) {
+        state.currentId = activeIds[0];
+      }
+
+      const q = QUESTIONS.find(item => item.id === state.currentId);
+      const blk = BLOCKS.find(b => b.id === q.block);
+      const posInList = activeIds.indexOf(q.id);
+      const hasPrev = posInList > 0;
+      const hasNext = posInList < activeIds.length - 1;
+
+      const selectedIdx = state.answers[q.id];
+      const isAnswered = selectedIdx !== undefined;
+      const isCorrect = isAnswered && selectedIdx === q.correctIndex;
+      const isFlagged = state.flagged.has(q.id);
+
+      const diffColors = {
+        "Fundamental": "color: var(--ok-color); background: var(--ok-soft);",
+        "Intermedio": "color: var(--accent-secondary); background: var(--accent-soft);",
+        "Avanzado": "color: var(--warn-color); background: var(--warn-soft);",
+        "Experto": "color: var(--err-color); background: var(--err-soft);"
+      };
+
+      // Opciones HTML
+      const optionsHtml = q.options.map((opt, idx) => {
+        let extraClass = "";
+        let badgeStyle = "background: var(--bg-elevated); color: var(--text-primary);";
+        let statusIcon = "";
+
+        if (isAnswered) {
+          if (idx === q.correctIndex) {
+            extraClass = "opt-correct";
+            badgeStyle = "background: var(--ok-color); color: #ffffff;";
+            statusIcon = `<span class="shrink-0 inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-lg" style="background: var(--ok-soft); color: var(--ok-color);">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> Correcta
+            </span>`;
+          } else if (idx === selectedIdx) {
+            extraClass = "opt-wrong";
+            badgeStyle = "background: var(--err-color); color: #ffffff;";
+            statusIcon = `<span class="shrink-0 inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-lg" style="background: var(--err-soft); color: var(--err-color);">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg> Tu elección
+            </span>`;
+          } else {
+            extraClass = "opt-dimmed";
+          }
+        }
+
+        return `
+          <button
+            type="button"
+            class="option-btn ${extraClass} w-full text-left p-4 rounded-2xl flex items-start justify-between gap-3 cursor-pointer disabled:cursor-default"
+            data-option-idx="${idx}"
+            ${isAnswered ? "disabled" : ""}
+          >
+            <div class="flex items-start gap-3.5 min-w-0 flex-1">
+              <span class="w-8 h-8 rounded-xl font-code text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 transition" style="${badgeStyle}">
+                ${opt.letter}
+              </span>
+              <div class="text-sm sm:text-[15px] text-primary leading-relaxed pt-1 min-w-0 break-words">
+                ${opt.text}
+              </div>
+            </div>
+            ${statusIcon}
+          </button>
+        `;
+      }).join("");
+
+      // Feedback ultra-desarrollado (visible solo tras responder)
+      let feedbackHtml = "";
+      if (isAnswered) {
+        const distractorsHtml = q.distractors.map(d => `
+          <div class="p-3.5 rounded-xl border border-subtle bg-elevated/45 flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg font-code text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5" style="background: var(--err-soft); color: var(--err-color);">
+              ${d.letter}
+            </span>
+            <div class="text-xs sm:text-sm text-secondary leading-relaxed min-w-0">
+              <strong class="text-primary">${d.label}:</strong> ${d.reason}
+            </div>
+          </div>
+        `).join("");
+
+        feedbackHtml = `
+          <div id="feedback-panel" class="mt-6 space-y-5 animate-in">
+            <!-- Banner de resultado -->
+            <div class="rounded-2xl p-4 sm:p-5 border flex flex-wrap items-center justify-between gap-3" style="background: ${isCorrect ? "var(--ok-soft)" : "var(--err-soft)"}; border-color: ${isCorrect ? "var(--ok-color)" : "var(--err-color)"};">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white" style="background: ${isCorrect ? "var(--ok-color)" : "var(--err-color)"};">
+                  ${isCorrect
+                    ? `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>`
+                    : `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>`}
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-base" style="color: ${isCorrect ? "var(--ok-color)" : "var(--err-color)"};">
+                    ${isCorrect ? "¡Respuesta Correcta!" : `Respuesta Incorrecta — La opción correcta es ${q.options[q.correctIndex].letter}`}
+                  </h4>
+                  <p class="text-xs sm:text-sm text-secondary mt-0.5">
+                    ${isCorrect ? "Excelente dominio conceptual. Revisa la síntesis teórica inferior para fijar los detalles formales." : "Estudia el desarrollo matemático y el análisis de distractores antes de pasar a la siguiente pregunta."}
+                  </p>
+                </div>
+              </div>
+              <button type="button" id="btn-retry-this" class="px-3 py-1.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs font-semibold text-secondary hover:text-primary transition">
+                Reintentar esta
+              </button>
+            </div>
+
+            <!-- 1) Desarrollo Teórico Completo (Guía de Estudio) -->
+            <div class="app-card blk-${q.block} blk-left-accent rounded-2xl p-5 sm:p-6">
+              <div class="flex items-center gap-2.5 mb-3">
+                <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold blk-badge">1</span>
+                <div>
+                  <h4 class="font-display font-bold text-sm sm:text-base text-primary">Desarrollo Teórico Completo (Guía de Estudio)</h4>
+                  <p class="text-[11px] text-muted">Fundamento algebraico, intuición geométrica/económica y demostración concisa</p>
+                </div>
+              </div>
+              <div class="theory-body text-sm sm:text-[15px] text-secondary leading-7 space-y-2.5">
+                ${q.development}
+              </div>
+            </div>
+
+            <!-- 2) Análisis de Distractores -->
+            <div class="app-card rounded-2xl p-5 sm:p-6">
+              <div class="flex items-center gap-2.5 mb-3.5">
+                <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background: var(--err-soft); color: var(--err-color);">2</span>
+                <div>
+                  <h4 class="font-display font-bold text-sm sm:text-base text-primary">Análisis de Distractores (Por qué fallan las demás opciones)</h4>
+                  <p class="text-[11px] text-muted">Identificación precisa de los errores conceptuales más frecuentes</p>
+                </div>
+              </div>
+              <div class="space-y-2.5">
+                ${distractorsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      qView.innerHTML = `
+        <article class="app-card blk-${q.block} blk-left-accent rounded-3xl p-5 sm:p-8 animate-in">
+          <!-- Cabecera de la Tarjeta -->
+          <div class="flex flex-wrap items-center justify-between gap-2.5 pb-4 mb-5 border-b border-subtle">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-code text-xs font-bold px-2.5 py-1 rounded-lg bg-elevated text-primary">
+                Pregunta ${String(q.id).padStart(2, "0")} / ${QUESTIONS.length}
+              </span>
+              <span class="blk-badge px-3 py-1 rounded-full text-xs font-semibold">
+                ${blk.short}: ${blk.name}
+              </span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold" style="${diffColors[q.difficulty]}">
+                ${q.difficulty}
+              </span>
+            </div>
+
+            <!-- Botones de Pista y Marcar para Repaso -->
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-toggle-hint" class="px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition" style="${state.hintVisible ? "border-color: var(--accent-secondary); background: var(--accent-soft); color: var(--text-primary);" : "border-color: var(--border-subtle); color: var(--text-secondary);"}">
+                <svg class="w-4 h-4" style="color: var(--accent-secondary);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                <span>Pista teórica</span>
+              </button>
+
+              <button type="button" id="btn-toggle-flag" class="px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition" style="${isFlagged ? "border-color: var(--warn-color); background: var(--warn-soft); color: var(--warn-color);" : "border-color: var(--border-subtle); color: var(--text-secondary);"}">
+                <svg class="w-4 h-4" fill="${isFlagged ? "currentColor" : "none"}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+                <span class="hidden sm:inline">${isFlagged ? "Marcada" : "Marcar repaso"}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pista Teórica Desplegable -->
+          <div id="hint-box" class="${state.hintVisible ? "" : "hidden"} mb-5 p-4 rounded-2xl border animate-in" style="background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent-secondary) 40%, transparent);">
+            <div class="flex items-start gap-2.5 text-xs sm:text-sm text-primary leading-relaxed">
+              <span class="font-bold shrink-0" style="color: var(--accent-secondary);">Pista:</span>
+              <span>${q.hint}</span>
+            </div>
+          </div>
+
+          <!-- Enunciado de la Pregunta -->
+          <h2 class="font-display text-lg sm:text-xl font-bold text-primary leading-relaxed mb-6">
+            ${q.statement}
+          </h2>
+
+          <!-- Opciones A-D -->
+          <div class="space-y-3" id="options-list">
+            ${optionsHtml}
+          </div>
+
+          <!-- Panel de Feedback (si ya fue respondida) -->
+          ${feedbackHtml}
+
+          <!-- Navegación Inferior + Atajos -->
+          <div class="mt-7 pt-5 border-t border-subtle flex flex-wrap items-center justify-between gap-3">
+            <button type="button" id="btn-prev-q" ${hasPrev ? "" : "disabled"} class="px-4 py-2.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs sm:text-sm font-semibold text-primary disabled:opacity-35 disabled:cursor-not-allowed flex items-center gap-1.5 transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span>Anterior</span>
+            </button>
+
+            <span class="hidden md:inline-flex items-center gap-1.5 text-[11px] font-code text-muted">
+              Atajos: <kbd class="px-1.5 py-0.5 rounded bg-elevated text-primary">1-4</kbd> responder • <kbd class="px-1.5 py-0.5 rounded bg-elevated text-primary">←/→</kbd> navegar • <kbd class="px-1.5 py-0.5 rounded bg-elevated text-primary">H</kbd> pista
+            </span>
+
+            ${hasNext ? `
+              <button type="button" id="btn-next-q" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white shadow-sm hover:opacity-95 active:scale-[0.99] flex items-center gap-1.5 transition" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+                <span>Siguiente</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            ` : `
+              <button type="button" id="btn-finish-q" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white shadow-sm hover:opacity-95 active:scale-[0.99] flex items-center gap-1.5 transition" style="background: linear-gradient(135deg, var(--ok-color), var(--accent-secondary));">
+                <span>Ver Diagnóstico Final</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10"/></svg>
+              </button>
+            `}
+          </div>
+        </article>
+      `;
+
+      // Enlazar eventos de la tarjeta
+      qView.querySelectorAll("[data-option-idx]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectAnswer(q.id, Number(btn.dataset.optionIdx));
+        });
+      });
+
+      document.getElementById("btn-toggle-hint").addEventListener("click", () => {
+        state.hintVisible = !state.hintVisible;
+        const box = document.getElementById("hint-box");
+        box.classList.toggle("hidden", !state.hintVisible);
+        renderCurrentQuestion();
+      });
+
+      document.getElementById("btn-toggle-flag").addEventListener("click", () => {
+        if (state.flagged.has(q.id)) {
+          state.flagged.delete(q.id);
+          showToast(`Pregunta ${q.id} quitada de repaso.`);
+        } else {
+          state.flagged.add(q.id);
+          showToast(`Pregunta ${q.id} marcada para repaso.`);
+        }
+        saveQuizState();
+        renderSidebar();
+        renderCurrentQuestion();
+      });
+
+      const retryBtn = document.getElementById("btn-retry-this");
+      if (retryBtn) {
+        retryBtn.addEventListener("click", () => {
+          delete state.answers[q.id];
+          saveQuizState();
+          renderSidebar();
+          renderCurrentQuestion();
+        });
+      }
+
+      document.getElementById("btn-prev-q").addEventListener("click", () => navigateQuestion(-1));
+      const nextBtn = document.getElementById("btn-next-q");
+      if (nextBtn) nextBtn.addEventListener("click", () => navigateQuestion(1));
+      const finishBtn = document.getElementById("btn-finish-q");
+      if (finishBtn) finishBtn.addEventListener("click", () => openDashboard());
+
+      // Renderizar KaTeX dinámicamente en toda la tarjeta y feedback
+      renderMath(qView);
+    }
+
+    function selectAnswer(questionId, optionIdx) {
+      if (state.answers[questionId] !== undefined) return;
+      const q = QUESTIONS.find(item => item.id === questionId);
+      state.answers[questionId] = optionIdx;
+
+      if (optionIdx === q.correctIndex) {
+        state.streak++;
+        if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+      } else {
+        state.streak = 0;
+      }
+
+      saveQuizState();
+      renderSidebar();
+      renderCurrentQuestion();
+
+      // Desplazar suavemente hacia el feedback si está fuera de vista en pantallas pequeñas
+      setTimeout(() => {
+        const fb = document.getElementById("feedback-panel");
+        if (fb && window.innerWidth < 768) {
+          fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }, 120);
+    }
+
+    function navigateQuestion(delta) {
+      const ids = getActiveQuestionIds();
+      const idx = ids.indexOf(state.currentId);
+      const nextIdx = idx + delta;
+      if (nextIdx >= 0 && nextIdx < ids.length) {
+        state.currentId = ids[nextIdx];
+        state.hintVisible = false;
+        saveQuizState();
+        renderSidebar();
+        renderCurrentQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    /* =========================================================================
+       8. DASHBOARD DE RESULTADOS Y DIAGNÓSTICO POR BLOQUE
+       ========================================================================= */
+    function openDashboard() {
+      state.view = "dashboard";
+      renderSidebar();
+      renderDashboard();
+      closeMobileDrawer();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderDashboard() {
+      const qView = document.getElementById("quiz-question-view");
+      const dView = document.getElementById("quiz-dashboard-view");
+      qView.classList.add("hidden");
+      dView.classList.remove("hidden");
+
+      const stats = computeStats();
+      const accuracyGlobal = Math.round((stats.correct / stats.total) * 100);
+      const accuracyAnswered = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
+
+      // Nivel de diagnóstico general
+      let diagTitle = "Diagnóstico Inicial";
+      let diagMsg = "Aún quedan varias preguntas por responder. Completa el cuestionario para obtener una evaluación integral de tu dominio.";
+      if (stats.answered === stats.total) {
+        if (accuracyGlobal >= 90) {
+          diagTitle = "Dominio Sobresaliente (Nivel Posgrado / Investigación)";
+          diagMsg = "Demuestras solidez excepcional en estructura algebraica, geometría poliédrica, algoritmos modernos, dualidad y métodos de gran escala.";
+        } else if (accuracyGlobal >= 75) {
+          diagTitle = "Dominio Sólido en Programación Lineal";
+          diagMsg = "Comprendes muy bien los pilares teóricos y algorítmicos. Revisa las preguntas falladas para pulir matices de degeneración, sensibilidad o descomposición.";
+        } else if (accuracyGlobal >= 50) {
+          diagTitle = "Nivel Intermedio en Consolidación";
+          diagMsg = "Tienes una buena base intuitiva, pero conviene reforzar los teoremas formales y el análisis de sensibilidad usando el Modo Guía Completa.";
+        } else {
+          diagTitle = "Etapa de Estudio Recomendada";
+          diagMsg = "Te sugerimos recorrer primero el Modo Guía de Estudio Completa por bloque y luego reintentar el cuestionario para afianzar cada demostración.";
+        }
+      } else if (stats.answered > 0) {
+        diagTitle = `Evaluación Parcial (${stats.answered} de ${stats.total} respondidas)`;
+        diagMsg = `Llevas un ${accuracyAnswered}% de precisión sobre las preguntas respondidas. Puedes continuar donde lo dejaste o repasar las falladas.`;
+      }
+
+      // Desglose por bloque
+      const blocksHtml = BLOCKS.map(blk => {
+        const blkQs = QUESTIONS.filter(q => q.block === blk.id);
+        const blkCorrect = blkQs.filter(q => state.answers[q.id] === q.correctIndex).length;
+        const blkAnswered = blkQs.filter(q => state.answers[q.id] !== undefined).length;
+        const blkPct = Math.round((blkCorrect / blkQs.length) * 100);
+
+        let tip = "Pendiente de evaluación.";
+        if (blkAnswered > 0) {
+          if (blkPct === 100) tip = "Dominio completo del bloque.";
+          else if (blkPct >= 70) tip = "Muy buen desempeño; revisa los detalles puntuales.";
+          else if (blkPct >= 40) tip = "Conviene repasar los desarrollos teóricos de este bloque.";
+          else tip = "Bloque prioritario para repasar en la Guía de Estudio.";
+        }
+
+        return `
+          <div class="blk-${blk.id} p-4 rounded-2xl bg-elevated/45 border border-subtle space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <span class="blk-badge px-2.5 py-0.5 rounded-full text-[11px] font-bold inline-block mb-1">${blk.short}</span>
+                <h4 class="font-display font-bold text-sm text-primary">${blk.name}</h4>
+              </div>
+              <span class="font-code text-sm font-bold shrink-0" style="color: var(--blk-c);">${blkCorrect}/${blkQs.length} (${blkPct}%)</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full bg-card overflow-hidden border border-subtle">
+              <div class="h-full rounded-full transition-all duration-700" style="width: ${blkPct}%; background-color: var(--blk-c);"></div>
+            </div>
+            <p class="text-xs text-muted">${tip}</p>
+          </div>
+        `;
+      }).join("");
+
+      const radius = 56;
+      const circumference = 2 * Math.PI * radius;
+      const dashOffset = circumference * (1 - accuracyGlobal / 100);
+
+      dView.innerHTML = `
+        <!-- Tarjeta Hero del Dashboard -->
+        <div class="app-card rounded-3xl p-6 sm:p-8">
+          <div class="flex flex-col md:flex-row items-center gap-7">
+            <!-- Anillo SVG Animado -->
+            <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+              <svg class="w-full h-full" viewBox="0 0 132 132">
+                <circle cx="66" cy="66" r="${radius}" fill="none" stroke="var(--bg-elevated)" stroke-width="11"/>
+                <circle id="dashboard-ring-arc" class="ring-progress" cx="66" cy="66" r="${radius}" fill="none" stroke="url(#scoreGrad)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"/>
+                <defs>
+                  <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="var(--accent-primary)"/>
+                    <stop offset="100%" stop-color="var(--ok-color)"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span class="font-code text-3xl font-extrabold text-primary">${accuracyGlobal}%</span>
+                <span class="text-[11px] font-semibold text-muted">${stats.correct} / ${stats.total}</span>
+              </div>
+            </div>
+
+            <!-- Diagnóstico Personalizado -->
+            <div class="flex-1 text-center md:text-left space-y-2.5">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold" style="background: var(--accent-soft); color: var(--accent-primary);">
+                Diagnóstico de Desempeño
+              </span>
+              <h2 class="font-display text-xl sm:text-2xl font-extrabold text-primary">${diagTitle}</h2>
+              <p class="text-sm text-secondary leading-relaxed">${diagMsg}</p>
+
+              <div class="flex flex-wrap justify-center md:justify-start gap-2.5 pt-2">
+                <span class="px-3 py-1.5 rounded-xl bg-elevated text-xs font-code font-semibold text-primary">Respondidas: ${stats.answered}/20</span>
+                <span class="px-3 py-1.5 rounded-xl text-xs font-code font-semibold" style="background: var(--ok-soft); color: var(--ok-color);">Correctas: ${stats.correct}</span>
+                <span class="px-3 py-1.5 rounded-xl text-xs font-code font-semibold" style="background: var(--err-soft); color: var(--err-color);">Incorrectas: ${stats.wrong}</span>
+                <span class="px-3 py-1.5 rounded-xl text-xs font-code font-semibold" style="background: var(--warn-soft); color: var(--warn-color);">Mejor racha: ${state.bestStreak}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de Acción del Dashboard -->
+          <div class="mt-7 pt-5 border-t border-subtle flex flex-wrap items-center gap-3">
+            ${stats.wrong > 0 ? `
+              <button id="dash-retry-wrong" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white shadow-sm hover:opacity-95 transition flex items-center gap-2" style="background: linear-gradient(135deg, var(--err-color), var(--accent-primary));">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Reintentar solo las incorrectas (${stats.wrong})</span>
+              </button>
+            ` : ""}
+            <button id="dash-open-guide" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white shadow-sm hover:opacity-95 transition flex items-center gap-2" style="background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <span>Cambiar a Modo Guía Completa</span>
+            </button>
+            <button id="dash-back-quiz" class="px-4 py-2.5 rounded-xl bg-card border border-subtle hover:border-strong text-xs sm:text-sm font-semibold text-primary transition">
+              Volver al cuestionario
+            </button>
+          </div>
+        </div>
+
+        <!-- Desglose Detallado por los 4 Bloques -->
+        <div class="app-card rounded-3xl p-6 sm:p-7">
+          <h3 class="font-display text-lg font-bold text-primary mb-4">Desglose por Bloque Temático</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${blocksHtml}
+          </div>
+        </div>
+      `;
+
+      // Animar el anillo SVG en el siguiente frame
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const arc = document.getElementById("dashboard-ring-arc");
+          if (arc) arc.style.strokeDashoffset = String(dashOffset);
+        }, 60);
+      });
+
+      const retryWrongBtn = document.getElementById("dash-retry-wrong");
+      if (retryWrongBtn) {
+        retryWrongBtn.addEventListener("click", () => startRetryWrongSession(true));
+      }
+      document.getElementById("dash-open-guide").addEventListener("click", () => switchMode("guide"));
+      document.getElementById("dash-back-quiz").addEventListener("click", () => {
+        state.view = "question";
+        renderSidebar();
+        renderCurrentQuestion();
+      });
+    }
+
+    /**
+     * Inicia una sesión enfocada en preguntas falladas.
+     * Si clearAnswers=true, borra esas respuestas para volver a responderlas.
+     */
+    function startRetryWrongSession(clearAnswers = false) {
+      const stats = computeStats();
+      if (stats.wrongIds.length === 0) {
+        showToast("No tienes preguntas falladas para repasar.");
+        return;
+      }
+
+      if (clearAnswers) {
+        stats.wrongIds.forEach(id => {
+          delete state.answers[id];
+        });
+        state.streak = 0;
+        saveQuizState();
+      }
+
+      state.quizBlockFilter = "all";
+      state.subsetIds = [...stats.wrongIds];
+      state.subsetLabel = clearAnswers ? "Reintento de preguntas incorrectas" : "Repaso de preguntas falladas";
+      state.currentId = stats.wrongIds[0];
+      state.hintVisible = false;
+      state.view = "question";
+
+      renderSidebar();
+      renderCurrentQuestion();
+      closeMobileDrawer();
+      showToast(clearAnswers
+        ? `Reintentando ${stats.wrongIds.length} ${stats.wrongIds.length === 1 ? "pregunta incorrecta" : "preguntas incorrectas"}.`
+        : `Mostrando ${stats.wrongIds.length} ${stats.wrongIds.length === 1 ? "pregunta fallada" : "preguntas falladas"} para repaso.`
+      );
+    }
+
+    /* =========================================================================
+       9. MODO 2: GUÍA DE ESTUDIO COMPLETA (VISTA LECTURA / REPASO INTEGRAL)
+       ========================================================================= */
+    function renderGuideMode() {
+      // Filtros de bloque
+      const filterBar = document.getElementById("guide-block-filters");
+      filterBar.innerHTML = "";
+
+      const addFilterPill = (val, label, dotColor = null) => {
+        const active = String(state.guideBlockFilter) === String(val);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold border transition flex items-center gap-1.5";
+        btn.style.borderColor = active ? "var(--accent-primary)" : "var(--border-subtle)";
+        btn.style.backgroundColor = active ? "var(--accent-soft)" : "var(--bg-card)";
+        btn.style.color = active ? "var(--text-primary)" : "var(--text-secondary)";
+        btn.innerHTML = `${dotColor ? `<span class="w-2 h-2 rounded-full" style="background: ${dotColor};"></span>` : ""}<span>${label}</span>`;
+        btn.addEventListener("click", () => {
+          state.guideBlockFilter = String(val);
+          renderGuideMode();
+        });
+        filterBar.appendChild(btn);
+      };
+
+      addFilterPill("all", "Todos los bloques (20)");
+      BLOCKS.forEach(b => addFilterPill(b.id, `${b.id}. ${b.name}`, `var(--blk-${b.id})`));
+
+      // Filtrado por bloque y búsqueda en tiempo real
+      const qNorm = normalizeText(state.guideSearch.trim());
+      const filtered = QUESTIONS.filter(q => {
+        if (state.guideBlockFilter !== "all" && String(q.block) !== String(state.guideBlockFilter)) {
+          return false;
+        }
+        if (qNorm) {
+          const allText = normalizeText([
+            q.id,
+            q.difficulty,
+            q.statement,
+            q.hint,
+            q.development,
+            stripHtml(q.development),
+            ...q.options.map(o => o.text),
+            ...q.distractors.map(d => `${d.label} ${d.reason}`)
+          ].join(" "));
+          if (!allText.includes(qNorm)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("guide-count-badge").textContent = `${filtered.length} / ${QUESTIONS.length}`;
+
+      const container = document.getElementById("guide-content-container");
+      const empty = document.getElementById("guide-empty-state");
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        empty.classList.remove("hidden");
+        return;
+      }
+      empty.classList.add("hidden");
+
+      BLOCKS.forEach(blk => {
+        const blkItems = filtered.filter(q => q.block === blk.id);
+        if (blkItems.length === 0) return;
+
+        const sec = document.createElement("section");
+        sec.className = `blk-${blk.id} space-y-5`;
+        sec.innerHTML = `
+          <div class="pb-3 border-b border-subtle">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="blk-badge px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">${blk.short}</span>
+              <span class="font-code text-xs text-muted">${blk.range}</span>
+            </div>
+            <h3 class="font-display text-xl sm:text-2xl font-extrabold text-primary">${blk.name}</h3>
+            <p class="text-xs sm:text-sm text-muted mt-0.5">${blk.desc}</p>
+          </div>
+        `;
+
+        const cardsWrap = document.createElement("div");
+        cardsWrap.className = "space-y-5";
+
+        blkItems.forEach(q => {
+          const isOpen = state.guideRevealed.has(q.id);
+          const correctOpt = q.options[q.correctIndex];
+
+          const optsSummaryHtml = q.options.map((opt, idx) => {
+            const isRight = idx === q.correctIndex && isOpen;
+            return `
+              <div class="px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm flex items-start gap-2.5" style="${isRight ? "border-color: var(--ok-color); background: var(--ok-soft); color: var(--text-primary);" : "border-color: var(--border-subtle); background: var(--bg-page); color: var(--text-secondary);"}">
+                <span class="font-code font-bold text-xs px-1.5 py-0.5 rounded-md shrink-0" style="${isRight ? "background: var(--ok-color); color: #ffffff;" : "background: var(--bg-elevated); color: var(--text-primary);"}">${opt.letter}</span>
+                <span class="leading-relaxed">${opt.text}</span>
+              </div>
+            `;
+          }).join("");
+
+          const distractorsHtml = q.distractors.map(d => `
+            <li class="text-xs sm:text-sm text-secondary leading-relaxed">
+              <strong class="text-primary">Opción ${d.letter} (${d.label}):</strong> ${d.reason}
+            </li>
+          `).join("");
+
+          const card = document.createElement("article");
+          card.className = `app-card blk-${q.block} blk-left-accent rounded-2xl p-5 sm:p-6 print-break-avoid`;
+          card.innerHTML = `
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="blk-badge font-code text-xs font-bold px-2.5 py-1 rounded-lg">Pregunta ${String(q.id).padStart(2, "0")}</span>
+                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-elevated text-secondary">${q.difficulty}</span>
+              </div>
+              <button type="button" data-guide-toggle="${q.id}" class="no-print px-3 py-1.5 rounded-xl border border-subtle hover:border-strong text-xs font-semibold text-primary bg-elevated/60 transition flex items-center gap-1.5">
+                <span>${isOpen ? "Ocultar respuesta" : "Ver respuesta y desarrollo"}</span>
+                <svg class="w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+            </div>
+
+            <h4 class="font-display text-base sm:text-lg font-bold text-primary leading-relaxed mb-4">
+              ${q.statement}
+            </h4>
+
+            <!-- Opciones compactas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-4">
+              ${optsSummaryHtml}
+            </div>
+
+            <!-- Panel desplegable de Respuesta, Desarrollo y Errores Frecuentes -->
+            <div class="guide-answer-panel ${isOpen ? "" : "hidden"} pt-4 mt-4 border-t border-subtle space-y-4">
+              <div class="px-4 py-3 rounded-xl border flex flex-wrap items-center gap-2 text-xs sm:text-sm" style="background: var(--ok-soft); border-color: var(--ok-color);">
+                <span class="font-bold" style="color: var(--ok-color);">✓ Respuesta Correcta (${correctOpt.letter}):</span>
+                <span class="font-semibold text-primary">${correctOpt.text}</span>
+              </div>
+
+              <div>
+                <h5 class="font-display font-bold text-xs sm:text-sm uppercase tracking-wider text-primary mb-2">Desarrollo Teórico Completo</h5>
+                <div class="theory-body text-sm text-secondary leading-7 space-y-2">
+                  ${q.development}
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-elevated/45 border border-subtle">
+                <h5 class="font-display font-bold text-xs uppercase tracking-wider mb-2" style="color: var(--err-color);">Análisis de Errores Frecuentes (Distractores)</h5>
+                <ul class="space-y-2 pl-0 list-none">
+                  ${distractorsHtml}
+                </ul>
+              </div>
+            </div>
+          `;
+
+          cardsWrap.appendChild(card);
+        });
+
+        sec.appendChild(cardsWrap);
+        container.appendChild(sec);
+      });
+
+      // Eventos individuales de expandir/ocultar en la guía
+      container.querySelectorAll("[data-guide-toggle]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = Number(btn.dataset.guideToggle);
+          if (state.guideRevealed.has(id)) {
+            state.guideRevealed.delete(id);
+          } else {
+            state.guideRevealed.add(id);
+          }
+          renderGuideMode();
+        });
+      });
+
+      // Renderizar KaTeX en todo el contenido de la guía
+      renderMath(container);
+    }
+
+    /* =========================================================================
+       10. DRAWER MÓVIL, ATAJOS DE TECLADO Y ENLACE DE EVENTOS GLOBALES
+       ========================================================================= */
+    function openMobileDrawer() {
+      document.getElementById("quiz-sidebar").classList.remove("-translate-x-full");
+      document.getElementById("mobile-overlay").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileDrawer() {
+      document.getElementById("quiz-sidebar").classList.add("-translate-x-full");
+      document.getElementById("mobile-overlay").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function bindGlobalEvents() {
+      // Cambio de tema
+      document.querySelectorAll("[data-theme-select]").forEach(btn => {
+        btn.addEventListener("click", () => applyTheme(btn.dataset.themeSelect, true));
+      });
+
+      // Tabs principales de modo
+      document.getElementById("tab-quiz-btn").addEventListener("click", () => switchMode("quiz"));
+      document.getElementById("tab-guide-btn").addEventListener("click", () => switchMode("guide"));
+
+      // Drawer móvil
+      document.getElementById("mobile-drawer-open").addEventListener("click", openMobileDrawer);
+      document.getElementById("mobile-drawer-close").addEventListener("click", closeMobileDrawer);
+      document.getElementById("mobile-overlay").addEventListener("click", closeMobileDrawer);
+
+      // Botones del Sidebar del Cuestionario
+      document.getElementById("btn-show-dashboard").addEventListener("click", openDashboard);
+      document.getElementById("btn-review-wrong").addEventListener("click", () => startRetryWrongSession(false));
+
+      // Reiniciar cuestionario con confirmación segura de doble clic (sin confirm())
+      let resetArmed = false;
+      let resetTimer = null;
+      document.getElementById("btn-reset-quiz").addEventListener("click", () => {
+        const label = document.getElementById("btn-reset-label");
+        if (!resetArmed) {
+          resetArmed = true;
+          label.textContent = "¿Confirmar?";
+          showToast("Haz clic nuevamente en «¿Confirmar?» para reiniciar todo el cuestionario.");
+          resetTimer = setTimeout(() => {
+            resetArmed = false;
+            label.textContent = "Reiniciar";
+          }, 3500);
+        } else {
+          clearTimeout(resetTimer);
+          resetArmed = false;
+          label.textContent = "Reiniciar";
+          state.answers = {};
+          state.flagged.clear();
+          state.streak = 0;
+          state.bestStreak = 0;
+          state.currentId = 1;
+          state.hintVisible = false;
+          state.quizBlockFilter = "all";
+          state.subsetIds = null;
+          state.subsetLabel = "";
+          state.view = "question";
+          saveQuizState();
+          renderSidebar();
+          renderCurrentQuestion();
+          showToast("Cuestionario reiniciado correctamente.");
+        }
+      });
+
+      // Quitar filtro / subconjunto activo
+      document.getElementById("btn-clear-subset").addEventListener("click", () => {
+        state.quizBlockFilter = "all";
+        state.subsetIds = null;
+        state.subsetLabel = "";
+        renderSidebar();
+        renderCurrentQuestion();
+      });
+
+      // Controles del Modo Guía de Estudio
+      document.getElementById("guide-search-input").addEventListener("input", (e) => {
+        state.guideSearch = e.target.value;
+        renderGuideMode();
+      });
+
+      document.getElementById("guide-expand-all").addEventListener("click", () => {
+        QUESTIONS.forEach(q => state.guideRevealed.add(q.id));
+        renderGuideMode();
+        showToast("Todas las respuestas y desarrollos expandidos.");
+      });
+
+      document.getElementById("guide-collapse-all").addEventListener("click", () => {
+        state.guideRevealed.clear();
+        renderGuideMode();
+        showToast("Respuestas ocultas para modo autoevaluación.");
+      });
+
+      document.getElementById("guide-reset-filters").addEventListener("click", () => {
+        state.guideSearch = "";
+        state.guideBlockFilter = "all";
+        document.getElementById("guide-search-input").value = "";
+        renderGuideMode();
+      });
+
+      document.getElementById("btn-print-guide").addEventListener("click", () => {
+        // Asegura que todas las respuestas estén renderizadas con KaTeX antes de imprimir
+        QUESTIONS.forEach(q => state.guideRevealed.add(q.id));
+        renderGuideMode();
+        setTimeout(() => window.print(), 180);
+      });
+
+      // Atajos de teclado en Modo Cuestionario (1-4, Flechas, Enter/Espacio, H)
+      document.addEventListener("keydown", (e) => {
+        if (state.mode !== "quiz" || state.view !== "question") return;
+        const tag = document.activeElement?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+        if (["1", "2", "3", "4"].includes(e.key)) {
+          const idx = Number(e.key) - 1;
+          if (state.answers[state.currentId] === undefined) {
+            e.preventDefault();
+            selectAnswer(state.currentId, idx);
+          }
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          navigateQuestion(1);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          navigateQuestion(-1);
+        } else if (e.key.toLowerCase() === "h") {
+          e.preventDefault();
+          state.hintVisible = !state.hintVisible;
+          renderCurrentQuestion();
+        } else if (e.key === "Enter" || e.code === "Space") {
+          // Si ya respondió la pregunta actual, Enter/Espacio avanza a la siguiente (o al diagnóstico)
+          if (state.answers[state.currentId] !== undefined && tag !== "BUTTON") {
+            e.preventDefault();
+            const ids = getActiveQuestionIds();
+            if (ids.indexOf(state.currentId) < ids.length - 1) {
+              navigateQuestion(1);
+            } else {
+              openDashboard();
+            }
+          }
+        }
+      });
+    }
+
+    /* =========================================================================
+       11. INICIALIZACIÓN
+       ========================================================================= */
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPersistedState();
+      applyTheme(state.theme, false);
+      bindGlobalEvents();
+      switchMode("quiz");
+    });
+
+    // Garantiza el renderizado KaTeX cuando termina de cargar el script diferido
+    window.addEventListener("load", () => {
+      if (state.mode === "quiz") {
+        renderMath(document.getElementById("quiz-question-view"));
+      } else {
+        renderMath(document.getElementById("guide-content-container"));
+      }
+    });
+  </script>
+</body>
+</html>
