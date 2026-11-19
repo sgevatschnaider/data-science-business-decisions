@@ -19,7 +19,7 @@ Convertir pronósticos y costos en decisiones óptimas bajo restricciones de cap
 | Cuestionario | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/cuestionario.html) |
 | Guía y glosario de alto nivel | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/glosario.html) |
 | Atlas conceptual · Glosario completo y guía de estudio | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/atlas-glosario.html) · [HTML completo](../../docs/modulos/12-optimizacion/atlas-glosario.html) |
-| Videoteca de programación lineal | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/videos.html) · [PDF](../../docs/modulos/12-optimizacion/videoteca.pdf) |
+| Videoteca · 10 videos con acceso directo y reproductor integrado | [Abrir](https://sgevatschnaider.github.io/data-science-business-decisions/modulos/12-optimizacion/videos.html) · [Bibliografía audiovisual original en PDF](../../docs/modulos/12-optimizacion/videoteca.pdf) |
 | Notebook en Colab | [Abrir](https://colab.research.google.com/github/sgevatschnaider/data-science-business-decisions/blob/main/notebooks/12-optimizacion.ipynb) |
 
 Las presentaciones corresponden a las versiones corregidas finales. El Atlas y el simulador guiado conservan sus controles interactivos y se pueden descargar como HTML para estudiar sin conexión.

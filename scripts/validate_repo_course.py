@@ -68,6 +68,7 @@ def validate_visible_content_with_original_m08() -> None:
         "docs/modulos/12-optimizacion/simulador-guiado.html",
         "docs/modulos/12-optimizacion/glosario.html",
         "docs/modulos/12-optimizacion/atlas-glosario.html",
+        "docs/modulos/12-optimizacion/videos.html",
         "docs/modulos/12-optimizacion/cuestionario.html",
         "docs/modulos/10-clustering/simuladores/",
         "docs/modulos/10-clustering/visor-integrado.html",
