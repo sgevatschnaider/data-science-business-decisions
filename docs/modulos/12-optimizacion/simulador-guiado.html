@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio interactivo de Programación Lineal</title>
+<style>
+:root{
+ --navy:#14243a;--navy2:#1f354e;--teal:#008589;--teal2:#dff3f1;
+ --orange:#e69132;--orange2:#fff1dc;--green:#278653;--green2:#e5f3e9;
+ --red:#bd4b4b;--red2:#fae8e8;--ink:#263548;--muted:#68798b;
+ --line:#dce4eb;--paper:#f4f7fa;--white:#fff;--blue:#4779b8;--blue2:#e8f0fa;
+ --shadow:0 10px 30px rgba(20,36,58,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.45}
+button,input{font:inherit}
+button{cursor:pointer}
+.hero{background:linear-gradient(115deg,#12243a 0%,#203f5c 65%,#087f83 100%);color:white;padding:28px max(22px,calc((100vw - 1280px)/2)) 25px}
+.hero-inner{max-width:1280px;margin:auto}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.15em;color:#a8e2dd;text-transform:uppercase}
+.hero h1{font-size:clamp(27px,4vw,42px);line-height:1.08;margin:8px 0 9px;letter-spacing:-.03em}
+.hero p{margin:0;color:#d5e0e9;max-width:800px;font-size:15px}
+.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:20px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);padding:7px 11px;border-radius:999px;font-size:12px;color:#eef7fb}
+.chip-dot{width:7px;height:7px;border-radius:50%;background:#7ee0b0}
+.hero-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:750;font-size:13px;transition:.15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(.98)}
+.btn-primary{background:var(--teal);color:white}
+.btn-light{background:white;color:var(--navy)}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--navy)}
+.btn-warm{background:var(--orange);color:#231b10}
+.btn-small{padding:7px 10px;font-size:12px}
+.shell{max-width:1280px;margin:22px auto 50px;padding:0 20px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.metric{background:white;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.metric .k{font-size:11px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.06em}
+.metric .v{font-size:25px;font-weight:850;color:var(--navy);margin-top:4px;letter-spacing:-.03em}
+.metric .s{font-size:11px;color:var(--muted);margin-top:2px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 292px;gap:16px;align-items:start}
+.main{min-width:0}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:3px 2px 12px;scrollbar-width:thin}
+.tab{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:10px 13px;font-size:12px;font-weight:800}
+.tab.active{background:var(--navy);color:white;border-color:var(--navy);box-shadow:0 5px 15px rgba(20,36,58,.15)}
+.panel{display:none;background:white;border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:var(--shadow);min-height:480px}
+.panel.active{display:block}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:18px}
+.panel-head h2{font-size:22px;line-height:1.15;color:var(--navy);margin:0 0 6px;letter-spacing:-.02em}
+.panel-head p{margin:0;color:var(--muted);font-size:13px;max-width:760px}
+.step{font-size:10px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.badge{border-radius:999px;padding:6px 10px;font-size:11px;font-weight:850;white-space:nowrap;background:var(--teal2);color:var(--teal)}
+.badge.good{background:var(--green2);color:var(--green)}
+.badge.warn{background:var(--orange2);color:#9a5a0d}
+.badge.bad{background:var(--red2);color:var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:13px;padding:15px;background:#fff}
+.card.soft{background:#f8fafc}
+.card h3{font-size:14px;color:var(--navy);margin:0 0 8px}
+.card p{font-size:12px;color:var(--muted);margin:0}
+.formula{background:var(--navy);color:white;border-radius:14px;padding:19px 20px}
+.formula .label{font-size:10px;color:#9ddbd5;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+.formula .eq{font-size:clamp(19px,2.3vw,26px);font-weight:800;letter-spacing:.01em;margin:9px 0 4px}
+.formula .sub{font-size:12px;color:#d1dce6}
+.equations{display:grid;gap:8px;margin-top:12px}
+.eqline{background:#f5f8fb;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:15px;font-weight:750;color:var(--navy)}
+.note{border-left:4px solid var(--teal);background:#eef7f7;padding:12px 14px;border-radius:0 10px 10px 0;font-size:12px;color:#31565a;margin-top:14px}
+.note.orange{border-color:var(--orange);background:#fff7eb;color:#79501e}
+.note.green{border-color:var(--green);background:#f0f8f2;color:#315c40}
+.controls{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:16px}
+.controls h3{margin:0 0 13px;color:var(--navy);font-size:14px}
+.control{margin-bottom:14px}
+.control:last-child{margin-bottom:0}
+.control-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.control label{font-size:12px;color:#425469;font-weight:750}
+.control output{font-size:13px;color:var(--navy);font-weight:850;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--teal)}
+input[type=number]{width:78px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;color:var(--navy);font-weight:750;background:white}
+.small-help{font-size:10px;color:var(--muted);margin-top:4px}
+.side{display:grid;gap:13px;position:sticky;top:12px}
+.side .controls{box-shadow:var(--shadow)}
+.side-foot{font-size:11px;color:var(--muted);padding:0 3px}
+.product-slider{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.product-slider .value{font-size:20px;font-weight:850;color:var(--navy);min-width:75px;text-align:right}
+.product-slider input{grid-column:1 / -1}
+.resource{margin:12px 0}
+.resource-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.bar{height:9px;background:#e8edf2;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:99px;background:var(--green);width:0;transition:width .2s}
+.bar>span.over{background:var(--red)}
+.result-box{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:14px}
+.result-box .big{font-size:26px;font-weight:900;color:var(--navy);letter-spacing:-.03em}
+.result-box .caption{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}
+.pill-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.pill{background:#edf2f6;color:#506176;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:750}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px}
+table{border-collapse:collapse;width:100%;font-size:12px;min-width:470px}
+th{background:var(--navy);color:white;text-align:left;padding:10px;font-size:11px}
+td{padding:10px;border-top:1px solid var(--line);color:#405166}
+tr:nth-child(even) td{background:#f8fafc}
+td strong{color:var(--navy)}
+.graph-wrap{border:1px solid var(--line);border-radius:13px;background:#fcfdff;padding:8px;overflow:hidden}
+#graph{display:block;width:100%;height:auto;min-height:280px}
+.graph-legend{display:flex;gap:14px;flex-wrap:wrap;padding:9px 5px 2px;font-size:11px;color:var(--muted)}
+.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.mission{display:flex;gap:12px;align-items:flex-start;padding:13px;border:1px solid var(--line);border-radius:12px;margin-top:10px}
+.mission-num{width:28px;height:28px;border-radius:8px;background:var(--navy);color:white;display:grid;place-items:center;font-size:12px;font-weight:850;flex:none}
+.mission strong{display:block;color:var(--navy);font-size:12px;margin-bottom:3px}
+.mission span{font-size:11px;color:var(--muted)}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.kpi{padding:12px;border-radius:11px;background:#f6f9fb;border:1px solid var(--line)}
+.kpi .n{font-size:21px;font-weight:900;color:var(--navy)}
+.kpi .t{font-size:10px;color:var(--muted);font-weight:750;text-transform:uppercase}
+.tree{display:grid;gap:8px;margin-top:14px}
+.node{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:9px;padding:10px 12px;background:#fbfcfe}
+.node.integer{border-left-color:var(--green)}
+.node.pruned{border-left-color:var(--orange)}
+.node.infeasible{border-left-color:var(--red)}
+.node .node-title{font-weight:850;color:var(--navy);font-size:12px}
+.node .node-desc{font-size:11px;color:var(--muted);margin-top:3px}
+.footer{max-width:1280px;margin:0 auto;padding:0 20px 28px;color:#8794a2;font-size:10px}
+.hidden{display:none!important}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.side{position:static;grid-template-columns:1fr 1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.shell{padding:0 12px}.hero{padding:23px 16px}.panel{padding:16px}.grid2,.grid3{grid-template-columns:1fr}.side{grid-template-columns:1fr}.metrics{gap:8px}.metric{padding:11px}.metric .v{font-size:21px}.panel-head{display:block}.panel-head .badge{display:inline-block;margin-top:9px}.kpi-row{grid-template-columns:1fr}.hero-actions{width:100%}}
+
+/* Tema oscuro: se activa desde el botón superior. */
+body[data-theme="dark"]{
+ --paper:#101a27;--ink:#e5edf5;--muted:#a9b8c8;--line:#35475b;
+ --teal2:#183f43;--orange2:#49351d;--green2:#1d3d2b;--red2:#4a262a;
+ --blue2:#243a54;--shadow:0 10px 30px rgba(0,0,0,.24);
+}
+body[data-theme="dark"] .metric,
+body[data-theme="dark"] .panel,
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .controls,
+body[data-theme="dark"] .result-box{
+ background:#1b2939;color:#e5edf5;border-color:#35475b;
+}
+body[data-theme="dark"] .card.soft,
+body[data-theme="dark"] .controls,
+body[data-theme="dark"] .mission,
+body[data-theme="dark"] .node,
+body[data-theme="dark"] .eqline{
+ background:#162435;color:#e5edf5;border-color:#35475b;
+}
+body[data-theme="dark"] .metric .k,
+body[data-theme="dark"] .metric .s,
+body[data-theme="dark"] .panel-head p,
+body[data-theme="dark"] .card p,
+body[data-theme="dark"] .small-help,
+body[data-theme="dark"] .side-foot,
+body[data-theme="dark"] .footer,
+body[data-theme="dark"] .result-box .caption,
+body[data-theme="dark"] .node .node-desc{color:#a9b8c8}
+body[data-theme="dark"] .metric .v,
+body[data-theme="dark"] .panel-head h2,
+body[data-theme="dark"] .card h3,
+body[data-theme="dark"] .controls h3,
+body[data-theme="dark"] .control label,
+body[data-theme="dark"] .control output,
+body[data-theme="dark"] .product-slider .value,
+body[data-theme="dark"] .result-box .big,
+body[data-theme="dark"] .eqline,
+body[data-theme="dark"] .node .node-title,
+body[data-theme="dark"] td,
+body[data-theme="dark"] td strong{color:#e5edf5}
+body[data-theme="dark"] .tab{background:#1b2939;color:#b9c7d5;border-color:#35475b}
+body[data-theme="dark"] .tab.active{background:#29445f;color:#fff;border-color:#42627f}
+body[data-theme="dark"] .btn-outline{color:#e5edf5;border-color:#52677d}
+body[data-theme="dark"] .eqline{background:#162435}
+body[data-theme="dark"] .note{background:#17363a;color:#c6e8e5}
+body[data-theme="dark"] .note.orange{background:#3d301e;color:#f1d6a9}
+body[data-theme="dark"] .note.green{background:#1b3828;color:#c9e8d2}
+body[data-theme="dark"] .pill{background:#2a3b4f;color:#d5e0ea}
+body[data-theme="dark"] .bar{background:#34465a}
+body[data-theme="dark"] .table-wrap{border-color:#35475b}
+body[data-theme="dark"] td{background:#1b2939;border-color:#35475b}
+body[data-theme="dark"] tr:nth-child(even) td{background:#162435}
+body[data-theme="dark"] .mission{border-color:#35475b}
+body[data-theme="dark"] .graph-wrap{background:#162435;border-color:#35475b}
+body[data-theme="dark"] .graph-legend{color:#b4c2d0}
+body[data-theme="dark"] input[type="number"]{background:#162435;color:#e5edf5;border-color:#52677d}
+body[data-theme="dark"] .attribution-dialog{background:#1b2939;color:#e5edf5;border-color:#52677d}
+body[data-theme="dark"] .attribution-dialog p,
+body[data-theme="dark"] .attribution-dialog li{color:#c3d0dd}
+body[data-theme="dark"] .attribution-dialog .dialog-close{background:#2a3b4f;color:#e5edf5}
+.attribution-dialog{width:min(560px,calc(100vw - 28px));border:1px solid #dce4eb;border-radius:18px;padding:0;color:#263548;background:#fff;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.attribution-dialog::backdrop{background:rgba(8,18,30,.62);backdrop-filter:blur(3px)}
+.dialog-content{padding:23px}
+.dialog-content h2{margin:0 0 7px;color:inherit;font-size:22px}
+.dialog-content p,.dialog-content li{font-size:13px;line-height:1.6;color:#536477}
+.dialog-content ul{padding-left:19px;margin:10px 0 15px}
+.dialog-author{font-weight:850;font-size:16px;color:var(--teal);margin:12px 0}
+.dialog-actions{display:flex;justify-content:flex-end;margin-top:17px}
+.dialog-close{border:0;border-radius:9px;background:#edf2f6;color:#14243a;padding:9px 14px;font-weight:800}
+
+</style>
+</head>
+<body><nav aria-label="Navegación del módulo" style="position:relative;z-index:100;background:#082f49;color:white;padding:10px 18px;display:flex;gap:18px;flex-wrap:wrap;font:600 14px system-ui"><a style="color:white" href="index.html">← Módulo</a><a style="color:white" href="guia.html">Guía de clases</a><a style="color:white" href="simulacion.html">Laboratorio</a><a style="color:white" href="glosario.html">Glosario</a><a style="color:white" href="cuestionario.html">Cuestionario</a><a style="color:white" href="videos.html">Videos</a><a style="color:white" href="atlas-glosario.html">Atlas conceptual</a><a style="color:white" href="simulador-guiado.html">Simulador guiado</a></nav>
+<header class="hero">
+ <div class="hero-inner">
+  <div class="eyebrow">Laboratorio didáctico · Matemática aplicada</div>
+  <h1>Programación Lineal<br>La fábrica inteligente</h1>
+  <p>Un simulador para experimentar decisiones productivas, restricciones, región factible, óptimo, sensibilidad y programación entera.</p>
+  <div class="hero-bottom">
+   <span class="chip"><span class="chip-dot"></span> Simulación interactiva · Funciona sin conexión</span>
+   <div class="hero-actions">
+    <button class="btn btn-light" id="themeToggle" type="button" aria-pressed="false">☾ Tema oscuro</button>
+    <button class="btn btn-light" id="attributionOpen" type="button">ⓘ Atribución</button>
+    <button class="btn btn-light" id="resetAll">Restablecer escenario base</button>
+    <button class="btn btn-warm" id="jumpInteger">Probar caso con producción entera</button>
+   </div>
+  </div>
+ </div>
+</header>
+
+<div class="shell">
+ <section class="metrics">
+  <div class="metric"><div class="k">Beneficio de la decisión actual</div><div class="v" id="metricProfit">$1.800</div><div class="s" id="metricStatus">Combinación factible</div></div>
+  <div class="metric"><div class="k">Óptimo continuo</div><div class="v" id="metricOpt">$2.200</div><div class="s" id="metricOptPoint">A = 40 · B = 20</div></div>
+  <div class="metric"><div class="k">Uso de máquina</div><div class="v" id="metricMachine">80 / 100</div><div class="s" id="metricMachineSlack">20 horas disponibles</div></div>
+  <div class="metric"><div class="k">Uso de mano de obra</div><div class="v" id="metricLabor">70 / 80</div><div class="s" id="metricLaborSlack">10 horas disponibles</div></div>
+ </section>
+
+ <div class="layout">
+  <main class="main">
+   <nav class="tabs" aria-label="Etapas del laboratorio">
+    <button class="tab active" data-tab="model">1 · Modelo</button>
+    <button class="tab" data-tab="feasible">2 · Factibilidad</button>
+    <button class="tab" data-tab="simplex">3 · Simplex</button>
+    <button class="tab" data-tab="sensitivity">4 · Sensibilidad</button>
+    <button class="tab" data-tab="integer">5 · Entera</button>
+    <button class="tab" data-tab="bnb">6 · Branch &amp; Bound</button>
+   </nav>
+
+   <section class="panel active" id="tab-model">
+    <div class="panel-head"><div><div class="step">Etapa 1 · Formular</div><h2>La decisión económica</h2><p>La fábrica produce dos artículos. Elegí cuánto fabricar y observá cómo se relaciona la decisión con los recursos y el beneficio.</p></div><span class="badge">Exploración libre</span></div>
+    <div class="grid2">
+     <div>
+      <div class="formula">
+       <div class="label">Función objetivo</div>
+       <div class="eq" id="objectiveEquation">Max Z = 40 A + 30 B</div>
+       <div class="sub">Maximizar la contribución total de la producción.</div>
+      </div>
+      <div class="equations">
+       <div class="eqline" id="machineEquation">2 A + B ≤ 100 &nbsp; (máquina)</div>
+       <div class="eqline" id="laborEquation">A + 2 B ≤ 80 &nbsp; (mano de obra)</div>
+       <div class="eqline">A ≥ 0 &nbsp; y &nbsp; B ≥ 0</div>
+      </div>
+      <div class="note"><strong>Variables de decisión.</strong> A representa las unidades del producto A; B, las del producto B. Las restricciones expresan las horas disponibles de cada recurso.</div>
+     </div>
+     <div class="card soft">
+      <h3>Probá una decisión productiva</h3>
+      <div class="control">
+       <div class="product-slider"><label for="prodA">Producto A</label><span class="value" id="prodAValue">30 unidades</span><input id="prodA" type="range" min="0" max="80" step="1" value="30"></div>
+      </div>
+      <div class="control">
+       <div class="product-slider"><label for="prodB">Producto B</label><span class="value" id="prodBValue">20 unidades</span><input id="prodB" type="range" min="0" max="80" step="1" value="20"></div>
+      </div>
+      <div class="result-box">
+       <div class="caption">Beneficio de tu decisión</div>
+       <div class="big" id="currentProfit">$1.800</div>
+       <div id="feasibilityStatus" class="pill-row"><span class="badge good">Factible</span></div>
+      </div>
+      <div class="resource">
+       <div class="resource-top"><strong>Máquina</strong><span id="machineUsage">80 / 100 horas</span></div>
+       <div class="bar"><span id="machineBar" style="width:80%"></span></div>
+      </div>
+      <div class="resource">
+       <div class="resource-top"><strong>Mano de obra</strong><span id="laborUsage">70 / 80 horas</span></div>
+       <div class="bar"><span id="laborBar" style="width:87.5%"></span></div>
+      </div>
+      <div class="small-help">Si una barra supera el límite, la decisión deja de ser factible aunque su beneficio sea alto.</div>
+     </div>
+    </div>
+    <div class="mission"><div class="mission-num">?</div><div><strong>Pregunta para pensar</strong><span>¿Por qué no conviene producir únicamente el artículo que deja mayor contribución por unidad? Considerá también el consumo de recursos.</span></div></div>
+   </section>
+
+   <section class="panel" id="tab-feasible">
+    <div class="panel-head"><div><div class="step">Etapa 2 · Región factible</div><h2>¿Qué combinaciones están permitidas?</h2><p>El gráfico muestra las restricciones, la región factible, tu decisión actual y la solución óptima continua.</p></div><span class="badge">Plano A–B</span></div>
+    <div class="graph-wrap"><svg id="graph" viewBox="0 0 720 430" role="img" aria-label="Gráfico de restricciones y región factible"></svg><div class="graph-legend"><span><i class="legend-dot" style="background:#008589"></i>Región factible</span><span><i class="legend-dot" style="background:#e69132"></i>Restricción de máquina</span><span><i class="legend-dot" style="background:#4779b8"></i>Restricción de mano de obra</span><span><i class="legend-dot" style="background:#278653"></i>Óptimo continuo</span><span><i class="legend-dot" style="background:#bd4b4b"></i>Tu decisión</span></div></div>
+    <div class="grid3" style="margin-top:13px">
+     <div class="card soft"><h3>Región factible</h3><p>Conjunto de puntos que satisfacen todas las restricciones simultáneamente.</p></div>
+     <div class="card soft"><h3>Vértices</h3><p>Esquinas de la región. En un problema lineal acotado, basta evaluar vértices para encontrar un óptimo.</p></div>
+     <div class="card soft"><h3>Óptimo</h3><p>El vértice factible con mayor valor de la función objetivo.</p></div>
+    </div>
+    <div class="note orange">Mové A y B en la etapa 1. Si el punto rojo queda fuera del área coloreada, alguna restricción se está incumpliendo.</div>
+   </section>
+
+   <section class="panel" id="tab-simplex">
+    <div class="panel-head"><div><div class="step">Etapa 3 · Método Simplex</div><h2>Del origen al vértice óptimo</h2><p>En este escenario base, el Simplex mejora el objetivo avanzando entre soluciones básicas factibles adyacentes.</p></div><span class="badge">Recorrido ilustrativo</span></div>
+    <div class="grid2">
+     <div class="card soft">
+      <h3>Recorrido de las iteraciones</h3>
+      <div class="table-wrap"><table><thead><tr><th>Iteración</th><th>A</th><th>B</th><th>Z</th></tr></thead><tbody>
+       <tr><td>Inicial</td><td>0</td><td>0</td><td>$0</td></tr>
+       <tr><td>1 · Entra A</td><td>50</td><td>0</td><td>$2.000</td></tr>
+       <tr><td>2 · Entra B</td><td>40</td><td>20</td><td>$2.200</td></tr>
+      </tbody></table></div>
+      <div class="note green">En la primera iteración entra A porque su coeficiente de mejora es mayor. La prueba de la razón mínima determina qué holgura sale. Luego entra B y se alcanza el óptimo.</div>
+     </div>
+     <div class="formula">
+      <div class="label">Forma estándar</div>
+      <div class="eq">2 A + B + S₁ = 100</div>
+      <div class="eq">A + 2 B + S₂ = 80</div>
+      <div class="sub" style="margin-top:12px">S₁ y S₂ son variables de holgura: miden los recursos no utilizados.</div>
+      <hr style="border:0;border-top:1px solid #496078;margin:17px 0">
+      <div class="label">Criterio de optimalidad</div>
+      <p style="font-size:13px;color:#e0e9f0;margin:8px 0 0">En maximización, con la convención Cj − Zj, la solución es óptima cuando no quedan coeficientes positivos que permitan mejorar Z.</p>
+     </div>
+    </div>
+    <div class="mission"><div class="mission-num">1</div><div><strong>Interpretá el primer movimiento</strong><span>Desde (0,0), ¿por qué el primer vértice alcanzado es (50,0) y no (0,40)? Compará las razones de las restricciones para la variable A entrante.</span></div></div>
+    <div class="mission"><div class="mission-num">2</div><div><strong>Interpretá el segundo movimiento</strong><span>En (50,0), ¿por qué puede seguir aumentando el beneficio si B todavía vale cero? El coeficiente reducido de B es positivo.</span></div></div>
+    <div class="note orange">Este recorrido corresponde al escenario base (A: $40, B: $30; máquina: 100 h; mano de obra: 80 h). Si cambiás los parámetros, el recorrido de pivoteo puede ser diferente.</div>
+   </section>
+
+   <section class="panel" id="tab-sensitivity">
+    <div class="panel-head"><div><div class="step">Etapa 4 · Sensibilidad</div><h2>¿Qué pasa si cambia la disponibilidad?</h2><p>El análisis de sensibilidad estudia cómo se modifica el óptimo cuando cambian los recursos o las contribuciones unitarias.</p></div><span class="badge">Decisiones gerenciales</span></div>
+    <div class="grid2">
+     <div class="card soft">
+      <h3>Óptimo con los parámetros actuales</h3>
+      <div class="kpi-row">
+       <div class="kpi"><div class="t">A óptimo</div><div class="n" id="sensA">40</div></div>
+       <div class="kpi"><div class="t">B óptimo</div><div class="n" id="sensB">20</div></div>
+       <div class="kpi"><div class="t">Beneficio</div><div class="n" id="sensZ">$2.200</div></div>
+      </div>
+      <div class="note">Los resultados se recalculan cuando modificás las horas o las contribuciones en el panel de parámetros.</div>
+     </div>
+     <div class="card">
+      <h3>Valor marginal de una hora adicional</h3>
+      <div class="resource-top"><strong>Una hora más de máquina</strong><strong id="shadowMachine">$16,67</strong></div>
+      <p id="shadowMachineText">Cambio en el beneficio óptimo al aumentar máquina en una hora.</p>
+      <hr style="border:0;border-top:1px solid var(--line);margin:13px 0">
+      <div class="resource-top"><strong>Una hora más de mano de obra</strong><strong id="shadowLabor">$6,67</strong></div>
+      <p id="shadowLaborText">Cambio en el beneficio óptimo al aumentar mano de obra en una hora.</p>
+     </div>
+    </div>
+    <div class="note orange"><strong>Importante:</strong> el valor marginal se calcula aquí como diferencia entre el óptimo actual y el óptimo al agregar una hora. Es una aproximación local al precio sombra; puede cambiar si cambia la base óptima.</div>
+    <div class="mission"><div class="mission-num">?</div><div><strong>Decisión económica</strong><span>Si contratar una hora adicional de máquina cuesta $12, ¿conviene hacerlo en el escenario base? Compará el costo con el beneficio marginal estimado.</span></div></div>
+   </section>
+
+   <section class="panel" id="tab-integer">
+    <div class="panel-head"><div><div class="step">Etapa 5 · Programación entera</div><h2>¿Y si no se pueden fabricar fracciones?</h2><p>La solución continua puede ser fraccionaria. Cuando los productos deben ser unidades completas, necesitamos imponer A y B enteros.</p></div><span class="badge warn">Caso especial</span></div>
+    <div class="note orange" style="margin-top:0;margin-bottom:14px">Para observar la diferencia, usamos un escenario modificado: la capacidad de máquina baja de 100 a 99 horas. Así, la solución continua deja de ser entera.</div>
+    <div class="grid2">
+     <div class="card soft">
+      <h3>Comparación de soluciones</h3>
+      <div class="table-wrap"><table><thead><tr><th>Modelo</th><th>A</th><th>B</th><th>Beneficio</th></tr></thead><tbody id="integerTable">
+       <tr><td>Continuo</td><td>39,33</td><td>20,33</td><td>$2.183,33</td></tr>
+       <tr><td>Entero</td><td>40</td><td>19</td><td>$2.170</td></tr>
+      </tbody></table></div>
+      <div class="kpi-row">
+       <div class="kpi"><div class="t">Brecha absoluta</div><div class="n" id="gapAbs">$13,33</div></div>
+       <div class="kpi"><div class="t">Brecha relativa</div><div class="n" id="gapPct">0,61%</div></div>
+       <div class="kpi"><div class="t">Capacidad máquina</div><div class="n" id="integerCap">99 h</div></div>
+      </div>
+     </div>
+     <div class="card">
+      <h3>Por qué no alcanza con redondear</h3>
+      <p>Redondear cada variable por separado puede violar una restricción o producir una solución inferior a la mejor combinación entera.</p>
+      <div class="note green">En este ejemplo, la mejor solución entera se obtiene comparando combinaciones permitidas, no redondeando automáticamente el óptimo continuo.</div>
+      <button class="btn btn-primary" id="setFractional" style="margin-top:13px">Cargar escenario fraccionario (99 h)</button>
+      <button class="btn btn-outline" id="solveInteger" style="margin:13px 0 0 7px">Calcular solución entera</button>
+     </div>
+    </div>
+   </section>
+
+   <section class="panel" id="tab-bnb">
+    <div class="panel-head"><div><div class="step">Etapa 6 · Branch &amp; Bound</div><h2>Ramificar y acotar</h2><p>El método divide el problema entero en subproblemas, resuelve relajaciones lineales y descarta ramas que no pueden mejorar la mejor solución entera conocida.</p></div><span class="badge">Árbol de búsqueda</span></div>
+    <div class="grid2">
+     <div class="card soft">
+      <h3>Escenario de trabajo</h3>
+      <p>Usá el botón para cargar la capacidad de máquina de 99 horas. La relajación lineal tiene solución fraccionaria y permite observar la ramificación.</p>
+      <div class="result-box"><div class="caption">Relajación lineal en la raíz</div><div class="big" id="bnbRoot">$2.183,33</div><div id="bnbRootPoint" class="small-help">A = 39,33 · B = 20,33</div></div>
+      <button class="btn btn-primary" id="runBnb" style="margin-top:13px">Ejecutar Branch &amp; Bound</button>
+     </div>
+     <div class="card">
+      <h3>Reglas de decisión</h3>
+      <div class="mission"><div class="mission-num">1</div><div><strong>Ramificar</strong><span>Elegir una variable fraccionaria y crear dos ramas: A ≤ piso(A*) y A ≥ techo(A*).</span></div></div>
+      <div class="mission"><div class="mission-num">2</div><div><strong>Acotar</strong><span>Resolver la relajación lineal de cada subproblema. Su óptimo es una cota superior para maximización.</span></div></div>
+      <div class="mission"><div class="mission-num">3</div><div><strong>Podar</strong><span>Descartar ramas infactibles, enteras ya resueltas o que no superen la mejor solución entera.</span></div></div>
+     </div>
+    </div>
+    <div id="bnbSummary" class="note" style="margin-top:14px">Ejecutá el algoritmo para construir el árbol de búsqueda y ver cómo se comparan las cotas.</div>
+    <div id="bnbTree" class="tree"></div>
+   </section>
+  </main>
+
+  <aside class="side">
+   <div class="controls">
+    <h3>Parámetros del escenario</h3>
+    <div class="control"><div class="control-top"><label for="capMachine">Horas de máquina disponibles</label><output id="capMachineOut">100 h</output></div><input id="capMachine" type="range" min="20" max="160" step="1" value="100"></div>
+    <div class="control"><div class="control-top"><label for="capLabor">Horas de mano de obra</label><output id="capLaborOut">80 h</output></div><input id="capLabor" type="range" min="20" max="160" step="1" value="80"></div>
+    <hr style="border:0;border-top:1px solid var(--line);margin:15px 0">
+    <div class="control"><div class="control-top"><label for="profitA">Contribución por A</label><output id="profitAOut">$40</output></div><input id="profitA" type="range" min="5" max="100" step="1" value="40"></div>
+    <div class="control"><div class="control-top"><label for="profitB">Contribución por B</label><output id="profitBOut">$30</output></div><input id="profitB" type="range" min="5" max="100" step="1" value="30"></div>
+    <div class="small-help">Modificá los parámetros para provocar cambios en la región factible y en la solución óptima.</div>
+   </div>
+   <div class="controls">
+    <h3>Solución óptima calculada</h3>
+    <div class="resource-top"><span>Producto A</span><strong id="optA">40</strong></div>
+    <div class="resource-top"><span>Producto B</span><strong id="optB">20</strong></div>
+    <div class="resource-top"><span>Beneficio máximo</span><strong id="optZ">$2.200</strong></div>
+    <div class="pill-row" id="bindingPills"><span class="pill">Máquina activa</span><span class="pill">Mano de obra activa</span></div>
+    <button class="btn btn-primary" id="applyOptimum" style="width:100%;margin-top:13px">Aplicar óptimo a mi decisión</button>
+   </div>
+   <div class="side-foot">Material elaborado por el profesor Sergio Gevatschnaider.<br>Modelo didáctico con datos hipotéticos.</div>
+  </aside>
+ </div>
+</div>
+
+<dialog class="attribution-dialog" id="attributionDialog" aria-labelledby="attributionTitle">
+ <div class="dialog-content">
+  <div class="step">Créditos del material</div>
+  <h2 id="attributionTitle">Atribución</h2>
+  <div class="dialog-author">Material elaborado por el profesor Sergio Gevatschnaider</div>
+  <p>Este laboratorio interactivo fue preparado con fines educativos para enseñar y experimentar conceptos de Programación Lineal y Optimización.</p>
+  <ul>
+   <li><strong>Autoría del material didáctico:</strong> Sergio Gevatschnaider.</li>
+   <li><strong>Contenido:</strong> modelo de producción hipotético, restricciones, región factible, método Simplex, sensibilidad, programación entera y Branch &amp; Bound.</li>
+   <li><strong>Datos:</strong> todos los valores económicos y productivos son ficticios y se utilizan exclusivamente con fines pedagógicos.</li>
+   <li><strong>Implementación:</strong> aplicación HTML autónoma, sin bibliotecas externas.</li>
+  </ul>
+  <p><strong>Forma sugerida de cita:</strong><br>Gevatschnaider, Sergio. <em>Laboratorio interactivo de Programación Lineal: La fábrica inteligente</em>. Material didáctico.</p>
+  <p>La atribución identifica la autoría del material; no implica por sí sola la concesión de una licencia abierta específica.</p>
+  <div class="dialog-actions"><button class="dialog-close" id="attributionClose" type="button">Cerrar</button></div>
+ </div>
+</dialog>
+
+<footer class="footer">Laboratorio de Programación Lineal · Modelo de maximización con dos productos y dos recursos. Los valores monetarios son unidades didácticas, no datos de una empresa real.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const state = {a:30,b:20,capM:100,capL:80,pA:40,pB:30};
+const base = {a:30,b:20,capM:100,capL:80,pA:40,pB:30};
+const money = n => '$' + Number(n).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2});
+const num = n => Number(n).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2});
+const eps = 1e-7;
+function constraints(extra=[]){
+ return [
+  {a:2,b:1,c:state.capM,label:'Máquina'},
+  {a:1,b:2,c:state.capL,label:'Mano de obra'},
+  ...extra
+ ];
+}
+function solveLP(capM=state.capM,capL=state.capL,pA=state.pA,pB=state.pB,extra=[]){
+ const cs=[
+  {a:2,b:1,c:capM,label:'Máquina'},
+  {a:1,b:2,c:capL,label:'Mano de obra'},
+  {a:-1,b:0,c:0,label:'A ≥ 0'},
+  {a:0,b:-1,c:0,label:'B ≥ 0'},
+  ...extra
+ ];
+ const pts=[];
+ for(let i=0;i<cs.length;i++) for(let j=i+1;j<cs.length;j++){
+  const u=cs[i],v=cs[j],det=u.a*v.b-v.a*u.b;
+  if(Math.abs(det)<eps) continue;
+  const x=(u.c*v.b-v.c*u.b)/det;
+  const y=(u.a*v.c-v.a*u.c)/det;
+  if(!Number.isFinite(x)||!Number.isFinite(y)) continue;
+  if(cs.every(c=>c.a*x+c.b*y<=c.c+1e-6)){
+   if(!pts.some(p=>Math.abs(p.x-x)<1e-6&&Math.abs(p.y-y)<1e-6)) pts.push({x,y,z:pA*x+pB*y});
+  }
+ }
+ if(!pts.length) return null;
+ pts.sort((p,q)=>p.z-q.z);
+ return {best:pts[pts.length-1],vertices:pts,constraints:cs};
+}
+function findIntegerOptimum(capM=state.capM,capL=state.capL,pA=state.pA,pB=state.pB,extra=[]){
+ let maxX=Math.max(0,Math.floor(Math.min(capM/2,capL)+eps));
+ let maxY=Math.max(0,Math.floor(Math.min(capM,capL/2)+eps));
+ let best=null;
+ for(let x=0;x<=maxX;x++) for(let y=0;y<=maxY;y++){
+  const all=[{a:2,b:1,c:capM},{a:1,b:2,c:capL},...extra];
+  if(all.every(c=>c.a*x+c.b*y<=c.c+eps)){
+   const z=pA*x+pB*y;
+   if(!best||z>best.z+eps) best={x,y,z};
+  }
+ }
+ return best;
+}
+function branchAndBound(){
+ let incumbent=null,records=[],counter=0;
+ function visit(extra,depth,label,branchText){
+  if(records.length>45)return;
+  const id=++counter;
+  const lp=solveLP(state.capM,state.capL,state.pA,state.pB,extra);
+  if(!lp){records.push({id,depth,label,branchText,status:'infeasible',desc:'Subproblema infactible: no hay puntos que satisfagan todas las restricciones.'});return;}
+  const p=lp.best,fx=Math.abs(p.x-Math.round(p.x))<1e-6,fy=Math.abs(p.y-Math.round(p.y))<1e-6;
+  if(incumbent && p.z<=incumbent.z+1e-6){
+   records.push({id,depth,label,branchText,status:'pruned',p,desc:`Cota ${money(p.z)} ≤ mejor solución entera ${money(incumbent.z)}. Se poda.`});return;
+  }
+  if(fx&&fy){
+   if(!incumbent||p.z>incumbent.z) incumbent={x:Math.round(p.x),y:Math.round(p.y),z:p.z};
+   records.push({id,depth,label,branchText,status:'integer',p,desc:`Solución entera: A = ${Math.round(p.x)}, B = ${Math.round(p.y)}, Z = ${money(p.z)}.`});return;
+  }
+  records.push({id,depth,label,branchText,status:'branch',p,desc:`Relajación: A = ${num(p.x)}, B = ${num(p.y)}, cota = ${money(p.z)}.`});
+  const fracX=!fx?Math.abs(p.x-Math.round(p.x)):0;
+  const fracY=!fy?Math.abs(p.y-Math.round(p.y)):0;
+  const chooseX=!fx&&(fy||fracX>=fracY);
+  const v=chooseX?p.x:p.y,variable=chooseX?'A':'B';
+  const lo=Math.floor(v+eps),hi=Math.ceil(v-eps);
+  const left={a:chooseX?1:0,b:chooseX?0:1,c:lo,label:`${variable} ≤ ${lo}`};
+  const right={a:chooseX?-1:0,b:chooseX?0:-1,c:-hi,label:`${variable} ≥ ${hi}`};
+  visit([...extra,left],depth+1,label+'L',`${variable} ≤ ${lo}`);
+  visit([...extra,right],depth+1,label+'R',`${variable} ≥ ${hi}`);
+ }
+ visit([],0,'Raíz','Relajación lineal');
+ return {records,incumbent};
+}
+function setTab(name){
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));
+ if(name==='feasible') drawGraph();
+ if(name==='sensitivity') updateSensitivity();
+ if(name==='integer') updateInteger();
+ if(name==='bnb') updateBnbRoot();
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+function readInputs(){
+ state.capM=+$('capMachine').value;state.capL=+$('capLabor').value;
+ state.pA=+$('profitA').value;state.pB=+$('profitB').value;
+ state.a=+$('prodA').value;state.b=+$('prodB').value;
+}
+function writeInputs(){
+ $('capMachine').value=state.capM;$('capLabor').value=state.capL;
+ $('profitA').value=state.pA;$('profitB').value=state.pB;
+ $('prodA').value=state.a;$('prodB').value=state.b;
+}
+function update(){
+ readInputs();
+ const usedM=2*state.a+state.b,usedL=state.a+2*state.b;
+ const feasible=usedM<=state.capM+eps&&usedL<=state.capL+eps;
+ const z=state.pA*state.a+state.pB*state.b;
+ const lp=solveLP();
+ $('capMachineOut').textContent=state.capM+' h';$('capLaborOut').textContent=state.capL+' h';
+ $('profitAOut').textContent=money(state.pA);$('profitBOut').textContent=money(state.pB);
+ $('prodAValue').textContent=state.a+' unidades';$('prodBValue').textContent=state.b+' unidades';
+ $('objectiveEquation').textContent=`Max Z = ${state.pA} A + ${state.pB} B`;
+ $('machineEquation').textContent=`2 A + B ≤ ${state.capM}  (máquina)`;
+ $('laborEquation').textContent=`A + 2 B ≤ ${state.capL}  (mano de obra)`;
+ $('currentProfit').textContent=money(z);
+ $('feasibilityStatus').innerHTML=feasible?'<span class="badge good">Producción factible</span>':'<span class="badge bad">No factible: excede recursos</span>';
+ $('machineUsage').textContent=`${num(usedM)} / ${state.capM} horas`;
+ $('laborUsage').textContent=`${num(usedL)} / ${state.capL} horas`;
+ $('machineBar').style.width=Math.min(100,usedM/state.capM*100)+'%';$('machineBar').classList.toggle('over',usedM>state.capM);
+ $('laborBar').style.width=Math.min(100,usedL/state.capL*100)+'%';$('laborBar').classList.toggle('over',usedL>state.capL);
+ $('metricProfit').textContent=money(z);$('metricStatus').textContent=feasible?'Combinación factible':'Se excede al menos un recurso';
+ $('metricMachine').textContent=`${num(usedM)} / ${state.capM}`;$('metricMachineSlack').textContent=usedM<=state.capM?`${num(state.capM-usedM)} horas libres`:`Exceso de ${num(usedM-state.capM)} horas`;
+ $('metricLabor').textContent=`${num(usedL)} / ${state.capL}`;$('metricLaborSlack').textContent=usedL<=state.capL?`${num(state.capL-usedL)} horas libres`:`Exceso de ${num(usedL-state.capL)} horas`;
+ if(lp){
+  $('metricOpt').textContent=money(lp.best.z);$('metricOptPoint').textContent=`A = ${num(lp.best.x)} · B = ${num(lp.best.y)}`;
+  $('optA').textContent=num(lp.best.x);$('optB').textContent=num(lp.best.y);$('optZ').textContent=money(lp.best.z);
+  $('bindingPills').innerHTML='';
+  const m=Math.abs(2*lp.best.x+lp.best.y-state.capM)<1e-5;
+  const l=Math.abs(lp.best.x+2*lp.best.y-state.capL)<1e-5;
+  $('bindingPills').innerHTML=`<span class="pill">${m?'Máquina activa':'Holgura de máquina'}</span><span class="pill">${l?'Mano de obra activa':'Holgura de mano de obra'}</span>`;
+ }else{
+  $('metricOpt').textContent='—';$('metricOptPoint').textContent='Sin solución factible';
+  $('optA').textContent='—';$('optB').textContent='—';$('optZ').textContent='—';
+ }
+ if(document.querySelector('#tab-feasible').classList.contains('active'))drawGraph();
+ if(document.querySelector('#tab-sensitivity').classList.contains('active'))updateSensitivity();
+ if(document.querySelector('#tab-integer').classList.contains('active'))updateInteger();
+ if(document.querySelector('#tab-bnb').classList.contains('active'))updateBnbRoot();
+}
+['capMachine','capLabor','profitA','profitB','prodA','prodB'].forEach(id=>$(id).addEventListener('input',update));
+$('applyOptimum').addEventListener('click',()=>{
+ const lp=solveLP();if(!lp)return;
+ state.a=Math.round(lp.best.x*100)/100;state.b=Math.round(lp.best.y*100)/100;
+ writeInputs();update();
+});
+function svgEl(tag,attrs={},text=''){
+ const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+ Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+ if(text)e.textContent=text;return e;
+}
+function drawGraph(){
+ const svg=$('graph');while(svg.firstChild)svg.removeChild(svg.firstChild);
+ const lp=solveLP();if(!lp){svg.appendChild(svgEl('text',{x:360,y:210,'text-anchor':'middle',fill:'#bd4b4b'},'No hay región factible'));return;}
+ const W=720,H=430,L=62,R=22,T=24,B=54,pw=W-L-R,ph=H-T-B;
+ const maxX=Math.max(10,...lp.vertices.map(p=>p.x),state.a, state.capM/2,state.capL)*1.15;
+ const maxY=Math.max(10,...lp.vertices.map(p=>p.y),state.b,state.capM,state.capL/2)*1.15;
+ const sx=x=>L+x/maxX*pw,sy=y=>T+ph-y/maxY*ph;
+ svg.appendChild(svgEl('rect',{x:L,y:T,width:pw,height:ph,fill:'#fff'}));
+ for(let i=0;i<=5;i++){
+  const x=maxX*i/5,y=maxY*i/5;
+  svg.appendChild(svgEl('line',{x1:sx(x),y1:T,x2:sx(x),y2:T+ph,stroke:'#e8edf2','stroke-width':1}));
+  svg.appendChild(svgEl('line',{x1:L,y1:sy(y),x2:L+pw,y2:sy(y),stroke:'#e8edf2','stroke-width':1}));
+  svg.appendChild(svgEl('text',{x:sx(x),y:T+ph+20,'text-anchor':'middle','font-size':11,fill:'#718096'},num(x)));
+  svg.appendChild(svgEl('text',{x:L-12,y:sy(y)+4,'text-anchor':'end','font-size':11,fill:'#718096'},num(y)));
+ }
+ const poly=lp.vertices.slice().sort((a,b)=>Math.atan2(a.y-lp.vertices.reduce((s,p)=>s+p.y,0)/lp.vertices.length,a.x-lp.vertices.reduce((s,p)=>s+p.x,0)/lp.vertices.length)-Math.atan2(b.y-lp.vertices.reduce((s,p)=>s+p.y,0)/lp.vertices.length,b.x-lp.vertices.reduce((s,p)=>s+p.x,0)/lp.vertices.length));
+ svg.appendChild(svgEl('polygon',{points:poly.map(p=>`${sx(p.x)},${sy(p.y)}`).join(' '),fill:'#008589', 'fill-opacity':.14,stroke:'#008589','stroke-width':2}));
+ function drawConstraint(a,b,c,color,label){
+  let p1=null,p2=null;
+  if(Math.abs(b)>eps){const y=c/b;if(y>=0){p1={x:0,y};}}
+  if(Math.abs(a)>eps){const x=c/a;if(x>=0){const p={x,y:0};if(!p1)p1=p;else p2=p;}}
+  if(Math.abs(a)>eps&&Math.abs(b)>eps){
+   const y0=c/b,x0=c/a;
+   const candidates=[{x:0,y:y0},{x:x0,y:0}].filter(p=>p.x>=0&&p.y>=0);
+   if(candidates.length===2){p1=candidates[0];p2=candidates[1];}
+  }
+  if(p1&&p2)svg.appendChild(svgEl('line',{x1:sx(p1.x),y1:sy(p1.y),x2:sx(p2.x),y2:sy(p2.y),stroke:color,'stroke-width':2.4}));
+  else if(p1)svg.appendChild(svgEl('line',{x1:sx(p1.x),y1:sy(p1.y),x2:sx(Math.min(maxX,c/a||maxX)),y2:sy(0),stroke:color,'stroke-width':2.4}));
+ }
+ drawConstraint(2,1,state.capM,'#e69132','Máquina');
+ drawConstraint(1,2,state.capL,'#4779b8','Mano de obra');
+ const opt=lp.best;
+ const z=opt.z;
+ if(state.pA>0&&state.pB>0){
+  const p1={x:0,y:z/state.pB},p2={x:z/state.pA,y:0};
+  svg.appendChild(svgEl('line',{x1:sx(p1.x),y1:sy(p1.y),x2:sx(p2.x),y2:sy(p2.y),stroke:'#278653','stroke-width':2,'stroke-dasharray':'7 5'}));
+ }
+ svg.appendChild(svgEl('circle',{cx:sx(opt.x),cy:sy(opt.y),r:7,fill:'#278653',stroke:'#fff','stroke-width':2}));
+ svg.appendChild(svgEl('text',{x:sx(opt.x)+10,y:sy(opt.y)-11,fill:'#216e45','font-size':12,'font-weight':800},`Óptimo (${num(opt.x)}, ${num(opt.y)})`));
+ const cuM=2*state.a+state.b,cuL=state.a+2*state.b;
+ const curFeas=cuM<=state.capM+eps&&cuL<=state.capL+eps;
+ svg.appendChild(svgEl('circle',{cx:sx(state.a),cy:sy(state.b),r:6,fill:curFeas?'#bd4b4b':'#bd4b4b',stroke:'#fff','stroke-width':2}));
+ svg.appendChild(svgEl('text',{x:sx(state.a)+9,y:sy(state.b)+17,fill:'#a63e3e','font-size':11,'font-weight':800},'Tu decisión'));
+ svg.appendChild(svgEl('line',{x1:L,y1:T+ph,x2:L+pw,y2:T+ph,stroke:'#31465c','stroke-width':1.5}));
+ svg.appendChild(svgEl('line',{x1:L,y1:T,x2:L,y2:T+ph,stroke:'#31465c','stroke-width':1.5}));
+ svg.appendChild(svgEl('text',{x:L+pw/2,y:H-8,'text-anchor':'middle','font-size':13,fill:'#31465c','font-weight':700},'Producto A · unidades'));
+ svg.appendChild(svgEl('text',{x:17,y:T+ph/2,transform:`rotate(-90 17 ${T+ph/2})`,'text-anchor':'middle','font-size':13,fill:'#31465c','font-weight':700},'Producto B · unidades'));
+}
+function updateSensitivity(){
+ const lp=solveLP();if(!lp)return;
+ $('sensA').textContent=num(lp.best.x);$('sensB').textContent=num(lp.best.y);$('sensZ').textContent=money(lp.best.z);
+ const m=solveLP(state.capM+1,state.capL,state.pA,state.pB);
+ const l=solveLP(state.capM,state.capL+1,state.pA,state.pB);
+ const dm=m?m.best.z-lp.best.z:NaN,dl=l?l.best.z-lp.best.z:NaN;
+ $('shadowMachine').textContent=Number.isFinite(dm)?money(dm):'—';
+ $('shadowLabor').textContent=Number.isFinite(dl)?money(dl):'—';
+ $('shadowMachineText').textContent=`Con una hora adicional, el óptimo cambia en ${Number.isFinite(dm)?money(dm):'un valor no calculable'}.`;
+ $('shadowLaborText').textContent=`Con una hora adicional, el óptimo cambia en ${Number.isFinite(dl)?money(dl):'un valor no calculable'}.`;
+}
+function updateInteger(){
+ const lp=solveLP(),ip=solveInteger();
+ if(!lp||!ip)return;
+ $('integerTable').innerHTML=`<tr><td>Continuo</td><td>${num(lp.best.x)}</td><td>${num(lp.best.y)}</td><td>${money(lp.best.z)}</td></tr><tr><td>Entero</td><td>${ip.x}</td><td>${ip.y}</td><td>${money(ip.z)}</td></tr>`;
+ const gap=lp.best.z-ip.z;
+ $('gapAbs').textContent=money(gap);$('gapPct').textContent=(lp.best.z?num(gap/lp.best.z*100):'0')+'%';
+ $('integerCap').textContent=state.capM+' h';
+}
+function updateBnbRoot(){
+ const lp=solveLP();
+ if(lp){$('bnbRoot').textContent=money(lp.best.z);$('bnbRootPoint').textContent=`A = ${num(lp.best.x)} · B = ${num(lp.best.y)}`;}
+ else{$('bnbRoot').textContent='—';$('bnbRootPoint').textContent='Sin solución factible';}
+}
+function runBnb(){
+ const result=branchAndBound();
+ $('bnbTree').innerHTML='';
+ result.records.forEach(r=>{
+  const div=document.createElement('div');div.className='node '+(r.status==='integer'?'integer':r.status==='pruned'?'pruned':r.status==='infeasible'?'infeasible':'');
+  const indent=Math.min(28*r.depth,112);
+  div.style.marginLeft=indent+'px';
+  const status={branch:'Se ramifica',integer:'Solución entera',pruned:'Rama podada',infeasible:'Infactible'}[r.status];
+  div.innerHTML=`<div class="node-title">${r.label} · ${status}</div><div class="node-desc">${r.branchText} · ${r.desc}</div>`;
+  $('bnbTree').appendChild(div);
+ });
+ if(result.incumbent){
+  $('bnbSummary').innerHTML=`<strong>Mejor solución entera encontrada:</strong> A = ${result.incumbent.x}, B = ${result.incumbent.y}, beneficio = ${money(result.incumbent.z)}. Las ramas se comparan usando las cotas de sus relajaciones lineales.`;
+ }else{$('bnbSummary').textContent='No se encontró una solución entera factible en el árbol explorado.';}
+}
+$('runBnb').addEventListener('click',runBnb);
+$('setFractional').addEventListener('click',()=>{
+ state.capM=99;state.capL=80;state.pA=40;state.pB=30;state.a=30;state.b=20;
+ writeInputs();update();setTab('integer');
+});
+$('solveInteger').addEventListener('click',()=>{
+ updateInteger();
+ const ip=findIntegerOptimum();if(ip){state.a=ip.x;state.b=ip.y;writeInputs();update();}
+});
+function updateSimplexMessage(){
+ const same=state.capM===100&&state.capL===80&&state.pA===40&&state.pB===30;
+ document.querySelector('#tab-simplex .badge').textContent=same?'Escenario base':'Recorrido del escenario base';
+}
+const oldUpdate=update;
+function updateWithSimplex(){oldUpdate();updateSimplexMessage();}
+['capMachine','capLabor','profitA','profitB','prodA','prodB'].forEach(id=>$(id).removeEventListener('input',update));
+['capMachine','capLabor','profitA','profitB','prodA','prodB'].forEach(id=>$(id).addEventListener('input',updateWithSimplex));
+$('resetAll').addEventListener('click',()=>{Object.assign(state,base);writeInputs();updateWithSimplex();setTab('model');});
+$('jumpInteger').addEventListener('click',()=>{state.capM=99;state.capL=80;state.pA=40;state.pB=30;state.a=30;state.b=20;writeInputs();updateWithSimplex();setTab('integer');});
+updateWithSimplex();
+
+
+// Preferencia visual: se conserva en este navegador cuando el almacenamiento está disponible.
+(function setupThemeAndAttribution(){
+ const toggle = document.getElementById('themeToggle');
+ const dialog = document.getElementById('attributionDialog');
+ const openAttribution = document.getElementById('attributionOpen');
+ const closeAttribution = document.getElementById('attributionClose');
+ function applyTheme(theme){
+  const dark = theme === 'dark';
+  document.body.dataset.theme = dark ? 'dark' : 'light';
+  toggle.textContent = dark ? '☀ Tema claro' : '☾ Tema oscuro';
+  toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  toggle.setAttribute('aria-label', dark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+ }
+ let savedTheme = 'light';
+ try { savedTheme = localStorage.getItem('lp-lab-theme') || 'light'; } catch(e) {}
+ applyTheme(savedTheme);
+ toggle.addEventListener('click', function(){
+  const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem('lp-lab-theme', next); } catch(e) {}
+ });
+ openAttribution.addEventListener('click', function(){
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+  else dialog.setAttribute('open','');
+ });
+ closeAttribution.addEventListener('click', function(){
+  if (typeof dialog.close === 'function') dialog.close();
+  else dialog.removeAttribute('open');
+ });
+ dialog.addEventListener('click', function(event){
+  if (event.target === dialog && typeof dialog.close === 'function') dialog.close();
+ });
+})();
+
+</script>
+</body>
+</html>
